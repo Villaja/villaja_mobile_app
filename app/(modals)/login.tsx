@@ -2,6 +2,7 @@ import { View, StyleSheet, TextInput, Text, TouchableOpacity } from 'react-nativ
 import { useWarmUpBrowser } from '../../hooks/useWarmUpBrowser';
 
 
+
 const Page = () => {
   useWarmUpBrowser();
 
