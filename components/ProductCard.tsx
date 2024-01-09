@@ -14,7 +14,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <Link href={`/product/${product._id}`} asChild>
         <TouchableOpacity>
         <Image style={styles.image} source={{ uri: product.images[0]?.url }} />
-        <Text style={styles.title}>{product.name}</Text>
+        <Text style={styles.title}>{product.name.length < 30 ? product.name : product.name.slice(0,30) + '...' }</Text>
         <Text style={styles.price}>₦{product.originalPrice.toFixed(2)}</Text>
         <Text style={styles.shopName}>{product.shop?.name}</Text>
         </TouchableOpacity>
@@ -40,13 +40,14 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     aspectRatio: 16 / 9, // Maintain a 16:9 aspect ratio
-    resizeMode: 'cover',
+    resizeMode: 'contain',
     borderRadius: 8,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
     marginVertical: 8,
+    minHeight:40
   },
   price: {
     fontSize: 14,
