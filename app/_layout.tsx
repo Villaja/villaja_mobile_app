@@ -63,10 +63,14 @@ function RootLayoutNav() {
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
-        name="(modals)/login"
+        name="(modals)/landing"
         options={{
-          presentation: 'modal',
-          title: 'Log in',
+          // presentation: 'modal',
+          title: '',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
           headerTitleStyle: {
             fontFamily: 'roboto-condensed-sb',
           },
@@ -77,32 +81,44 @@ function RootLayoutNav() {
           ),
         }}
       />
-      <Stack.Screen name="listing/[id]" options={{ headerTitle: '' }} />
-      {/* <Stack.Screen
-        name="(modals)/booking"
+        <Stack.Screen
+        name="(modals)/login"
         options={{
-          presentation: 'transparentModal',
-          animation: 'fade',
-          headerTransparent: true,
-          headerTitle: (props) => <ModalHeaderText />,
+          // presentation: 'modal',
+          title: '',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
           headerLeft: () => (
-            <TouchableOpacity
-              onPress={() => router.back()}
-              style={{
-                backgroundColor: '#fff',
-                borderColor: Colors.grey,
-                borderRadius: 20,
-                borderWidth: 1,
-                padding: 4,
-              }}>
-              <Ionicons name="close-outline" size={22} />
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="close-outline" size={28} />
             </TouchableOpacity>
           ),
         }}
-      /> */}
-
-      
-
+      />
+        <Stack.Screen
+        name="(modals)/register"
+        options={{
+          // presentation: 'modal',
+          title: '',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="close-outline" size={28} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       </Stack>
    
   );

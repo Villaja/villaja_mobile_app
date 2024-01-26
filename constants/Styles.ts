@@ -7,28 +7,56 @@ export const defaultStyles = StyleSheet.create({
     backgroundColor: '#FDFFFF',
   },
   inputField: {
-    height: 44,
+    height: 45,
     borderWidth: 1,
     borderColor: '#ABABAB',
-    borderRadius: 8,
-    padding: 10,
-    backgroundColor: '#fff',
+    borderRadius: 5,
+    paddingVertical:15,
+    paddingHorizontal:13,
+    backgroundColor: 'rgba(0,0,0,0.02)',
+    color: '#000',
   },
   btn: {
     backgroundColor: Colors.primary,
     height: 50,
-    borderRadius: 8,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   btnText: {
     color: '#fff',
     fontSize: 16,
-    fontFamily: 'roboto-condensed-',
+    fontFamily: 'roboto-condensed-sb',
   },
   btnIcon: {
     position: 'absolute',
     left: 16,
+  },
+
+  btnStyleBorder:{
+    backgroundColor:'#fff',
+    height: 50,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth:2,
+    borderColor:Colors.primary,
+    flexGrow:1,
+    
+  },
+  btnTextBorder:{
+    color:Colors.primary,
+    fontSize: 16,
+    fontFamily: 'roboto-condensed-sb',
+  },
+  ThirdPartyBtn:{
+    backgroundColor:'rgba(0,0,0,0.03)',
+    height: 50,
+    borderRadius: 10,
+    flexDirection:'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap:8
   },
   footer: {
     position: 'absolute',

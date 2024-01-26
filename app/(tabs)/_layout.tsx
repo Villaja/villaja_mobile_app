@@ -54,7 +54,7 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="help"
+        name="more"
         options={{
           tabBarLabel: 'More',
 

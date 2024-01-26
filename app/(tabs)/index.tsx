@@ -97,7 +97,7 @@ const Home: React.FC = () => {
   const renderCategoryCards = () => {
     return <View>
       {
-        Categories.map((cat) => <ProductCategory category={cat.name} picture={cat.image} /> )
+        Categories.map((cat,index) => <ProductCategory key={index} category={cat.name} picture={cat.image} /> )
       }
       
     </View>
@@ -133,7 +133,7 @@ const Home: React.FC = () => {
 
                 }
             }>
-            {Tags.map((tag) => <TouchableOpacity style={{paddingHorizontal:12,paddingVertical:8,backgroundColor:Colors.primaryTransparent,borderRadius:2}}>
+            {Tags.map((tag,key) => <TouchableOpacity key={key} style={{paddingHorizontal:12,paddingVertical:8,backgroundColor:Colors.primaryTransparent,borderRadius:2}}>
               <Text style={{fontFamily:'roboto-condensed-sb',color:Colors.primary}}>{tag}</Text>
             </TouchableOpacity>)}
           </ScrollView>
@@ -153,7 +153,7 @@ const Home: React.FC = () => {
 const ProductCategory = ({category,picture}:{category:string,picture:ImageProps}):JSX.Element => {
   
   return <TouchableOpacity style={styles.categoryContainer}>
-    <Text style={{fontFamily:'roboto-condensed-sb'}}>{category}</Text>
+    <Text style={{fontFamily:'roboto-condensed-sb',fontSize:16}}>{category}</Text>
     <Image source={picture} style={styles.productPicture} resizeMode='contain'/>
   </TouchableOpacity>
 }
