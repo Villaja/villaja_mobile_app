@@ -60,7 +60,7 @@ const Page = () => {
         <Text style={{color:Colors.grey,textDecorationLine:'underline',fontSize:10,fontFamily:'roboto-condensed'}}>Forgot Your Password?</Text>
       </View>
 
-      <View style={{flexDirection:'row',alignItems:'center',gap:2,marginVertical:26}}>
+      <View style={{flexDirection:'row',alignItems:'center',gap:2,marginVertical:16}}>
         <View style={{borderBottomColor:Colors.grey,borderBottomWidth:StyleSheet.hairlineWidth,flexGrow:1}}></View>
         <Text style={{fontFamily:'roboto-condensed',fontSize:13,color:Colors.grey}}>OR</Text>
         <View style={{borderBottomColor:Colors.grey,borderBottomWidth:StyleSheet.hairlineWidth,flexGrow:1}}></View>
