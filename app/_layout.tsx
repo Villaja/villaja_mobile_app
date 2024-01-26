@@ -26,9 +26,12 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    mon: require('../assets/fonts/Montserrat-Regular.ttf'),
-    'mon-sb': require('../assets/fonts/Montserrat-SemiBold.ttf'),
-    'mon-b': require('../assets/fonts/Montserrat-Bold.ttf'),
+    'roboto-condensed': require('../assets/fonts/RobotoCondensed-Regular.ttf'),
+    'roboto-condensed-sb': require('../assets/fonts/RobotoCondensed-SemiBold.ttf'),
+    'roboto-condensed-b': require('../assets/fonts/RobotoCondensed-Bold.ttf'),
+    'roboto-condensed-thin': require('../assets/fonts/RobotoCondensed-Thin.ttf'),
+    'roboto-condensed-sb-i': require('../assets/fonts/RobotoCondensed-SemiBoldItalic.ttf'),
+    'roboto-condensed-i': require('../assets/fonts/RobotoCondensed-Italic.ttf'),
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -65,7 +68,7 @@ function RootLayoutNav() {
           presentation: 'modal',
           title: 'Log in',
           headerTitleStyle: {
-            fontFamily: 'mon-sb',
+            fontFamily: 'roboto-condensed-sb',
           },
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.back()}>

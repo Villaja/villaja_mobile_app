@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -11,49 +11,56 @@ const Layout = () => {
       screenOptions={{
         tabBarActiveTintColor: Colors.primary,
         tabBarLabelStyle: {
-          fontFamily: 'mon-sb',
+          fontFamily: 'roboto-condensed',
         },
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ size, color }) => <AntDesign name="home" size={size} color={color} />,
+          
+          tabBarLabel: 'Explore',
+          headerTitle:'Explore',
+          headerShadowVisible:false,
+          headerTitleStyle:{
+            fontFamily:'roboto-condensed-sb-i',
+            fontSize:20
+          },
+          tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="compass-outline" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="cart"
         options={{
-          tabBarLabel: 'Cart',
+          tabBarLabel: 'Search',
           tabBarIcon: ({ size, color }) => (
-            <AntDesign name="shoppingcart" size={size} color={color} />
+            <MaterialIcons name="search" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="saved"
         options={{
-          tabBarLabel: 'Saved Items',
-          tabBarIcon: ({ size, color }) => <AntDesign name="hearto" size={size} color={color} />,
+          tabBarLabel: 'Quick Sell',
+          tabBarIcon: ({ size, color }) => <AntDesign name="plussquareo" size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="account"
         options={{
-          tabBarLabel: 'Account',
+          tabBarLabel: 'Notifications',
           tabBarIcon: ({ size, color }) => (
-            <AntDesign name="user" size={size} color={color} />
+            <Ionicons name="notifications-outline" size={size} color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="help"
         options={{
-          tabBarLabel: 'Help',
+          tabBarLabel: 'More',
 
           headerShown: false,
           tabBarIcon: ({ size, color }) => (
-            <Ionicons name="help-circle-outline" size={size} color={color} />
+            <MaterialCommunityIcons name="view-grid-plus-outline" size={size} color={color} />
           ),
         }}
       />
