@@ -45,7 +45,9 @@ const Page = () => {
           onPress={(isChecked: boolean) => {setToggleCheckBox(isChecked)}}
         />
 
+        <Link href={'/(modals)/forgotPassword'}> 
         <Text style={{color:Colors.grey,textDecorationLine:'underline',fontSize:10,fontFamily:'roboto-condensed'}}>Forgot Your Password?</Text>
+        </Link>
       </View>
 
       <View style={{flexDirection:'row',alignItems:'center',gap:2,marginVertical:26}}>

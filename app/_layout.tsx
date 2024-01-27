@@ -119,6 +119,68 @@ function RootLayoutNav() {
           ),
         }}
       />
+        <Stack.Screen
+        name="(modals)/recovery"
+        options={{
+          // presentation: 'modal',
+          title: '',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
+          
+        }}
+      />
+        <Stack.Screen
+        name="(modals)/forgotPassword"
+        options={{
+          // presentation: 'modal',
+          title: '',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
+          
+        }}
+      />
+        <Stack.Screen
+        name="(modals)/changePassword"
+        options={{
+          // presentation: 'modal',
+          title: '',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
+          
+          
+        }}
+        />
+        <Stack.Screen
+        name="(modals)/otp"
+        options={{
+          // presentation: 'modal',
+          title: '',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
+          
+          
+        }}
+      />
       </Stack>
    
   );
