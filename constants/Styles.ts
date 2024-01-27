@@ -7,9 +7,9 @@ export const defaultStyles = StyleSheet.create({
     backgroundColor: '#FDFFFF',
   },
   inputField: {
-    height: 45,
+    height: 50,
     borderWidth: 1,
-    borderColor: '#ABABAB',
+    borderColor: 'rgba(0,0,0,0.10)',
     borderRadius: 5,
     paddingVertical:15,
     paddingHorizontal:13,
@@ -18,7 +18,7 @@ export const defaultStyles = StyleSheet.create({
   },
   btn: {
     backgroundColor: Colors.primary,
-    height: 50,
+    height: 55,
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
