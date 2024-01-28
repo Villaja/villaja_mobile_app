@@ -6,6 +6,7 @@ import Colors from '../../constants/Colors';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { Link } from 'expo-router';
 import { useState } from 'react';
+import React from 'react';
 
 
 const Page = () => {

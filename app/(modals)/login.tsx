@@ -7,6 +7,7 @@ import Colors from '../../constants/Colors';
 import { useState } from 'react';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import React from 'react';
 
 
 const Page = () => {

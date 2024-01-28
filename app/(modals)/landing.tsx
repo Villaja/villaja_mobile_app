@@ -2,7 +2,7 @@ import { View, StyleSheet, TextInput, Text, TouchableOpacity,Image } from 'react
 import { useWarmUpBrowser } from '../../hooks/useWarmUpBrowser';
 import { defaultStyles} from '../../constants/Styles'
 import { Link, useRouter } from 'expo-router';
-
+import React from 'react';
 
 const Page = () => {
   useWarmUpBrowser();
@@ -16,8 +16,6 @@ const Page = () => {
       <Image style={{position:'absolute',left:0,top:488}} source={require('../../assets/images/LoginRectangle2.png')} />
     
       <Image style={{alignSelf:'center',marginBottom:20}} source={require('../../assets/images/shoppingCart.png')} />
-      <Image source={require('../../assets/images/logo.png')} />
-
       <Text style={{fontFamily:'roboto-condensed-sb-i',fontSize:44}}>The Best Online Shopping Has To Offer</Text>
 
       <TouchableOpacity style={defaultStyles.btn}>
