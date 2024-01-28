@@ -10,6 +10,7 @@ import { TouchableOpacity } from 'react-native';
 import ModalHeaderText from '../components/ModalHeaderText';
 import { StatusBar } from 'react-native';
 import React from 'react';
+import { AuthProvider } from '../context/AuthContext';
 
 
 export {
@@ -60,7 +61,7 @@ function RootLayoutNav() {
   const router = useRouter();
  
   return (
-   
+    <AuthProvider>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
@@ -183,6 +184,7 @@ function RootLayoutNav() {
         }}
       />
       </Stack>
+      </AuthProvider>
    
   );
 }

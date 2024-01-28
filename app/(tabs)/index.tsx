@@ -10,6 +10,8 @@ import { Product } from '../../types/Product'
 import { base_url } from '../../constants/server'
 import ProductCard from '../../components/ProductCard'
 // import InsetShadow from "react-native-inset-shadow";
+import { useAuth } from '../../context/AuthContext'
+import { Link } from 'expo-router'
 
 
 const {width} = Dimensions.get('window')
@@ -76,8 +78,13 @@ const categoryData = [
 
 const index = () => {
 
-  const [data,setData] = useState<Array<Product>>([])
-  const [loading,setLoading] = useState<boolean>(true)
+  const { user } = useAuth();
+  
+  
+  const [data, setData] = useState<Array<Product>>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -134,10 +141,37 @@ const index = () => {
         <View style={{flexDirection:'row',alignItems:'center',gap:9      }}>
             <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:40,height:40,borderRadius:40}} />
           <View style={{flexDirection:'row',alignItems:'center',gap:15}}>
-            <View style={{}}>
-              <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.30)',fontSize:12}}>Welcome To Villaja</Text>
-              <Text style={{fontFamily:'roboto-condensed',color:Colors.primary,fontSize:18}}>{testUser.name}</Text>
-            </View>
+          <View style={{}}>
+            {user ? (
+            
+              <>
+                <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.30)', fontSize: 12 }}>Welcome To Villaja</Text>
+                <Text style={{ fontFamily: 'roboto-condensed', color: Colors.primary, fontSize: 18 }}>
+                  {user?.user.firstname} {user?.user.lastname}
+                </Text>
+              </>
+            ) : (
+            
+              <>
+               <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.30)', fontSize: 12}}>Welcome To Villaja</Text>
+            <Link
+              href="/(modals)/login"  
+              style={{
+                backgroundColor: Colors.primary,
+                padding: 7,
+                borderRadius: 5, 
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: 10,
+                color: 'white'
+              }}
+            >
+                Login
+            </Link>
+              </>
+            
+            )}
+          </View>
             <Entypo name="chevron-thin-down" size={16} color={Colors.grey} />
           </View>
 

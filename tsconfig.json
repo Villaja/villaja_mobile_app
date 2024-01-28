@@ -9,5 +9,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "context/AuthContext.js", "context/ProductContext.js"  ]
 }

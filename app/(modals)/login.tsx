@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, TouchableOpacity,Image } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Image, Alert } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useWarmUpBrowser } from '../../hooks/useWarmUpBrowser';
@@ -6,14 +6,39 @@ import { defaultStyles} from '../../constants/Styles'
 import Colors from '../../constants/Colors';
 import { useState } from 'react';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React from 'react';
+import { useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
+
 
 
 const Page = () => {
   useWarmUpBrowser();
   const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(false)
   const [passwordVisible,setPasswordVisisble] = useState<boolean>(true)
+
+  const { login, isLoading, error, user } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      await login(email, password);
+      // Navigate to the home screen or handle it based on your navigation structure
+    } catch (error) {
+      Alert.alert('Login Failed', 'Invalid credentials. Please try again.', [{ text: 'OK' }]);
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if(user){
+      router.replace('/')
+      console.log("successs")
+    }
+    
+  })
 
   return (
     <View style={styles.container}>
@@ -23,11 +48,14 @@ const Page = () => {
       <View style={{marginTop:30,gap:12}}>
         <View style={{gap:4}}>
           <Text style={{fontFamily:'roboto-condensed',fontSize:15,color:'rgba(0,0,0,0.70)'}}>Email</Text>
-          <TextInput style={defaultStyles.inputField} placeholder='Enter Your Name' placeholderTextColor={'rgba(0,0,0,0.20)'} />
+          <TextInput style={defaultStyles.inputField}  returnKeyType="done" placeholder='Enter Your Email' value={email}
+            onChangeText={(text) => setEmail(text)} placeholderTextColor={'rgba(0,0,0,0.20)'} />
         </View>
         <View style={{gap:4}}>
           <Text style={{fontFamily:'roboto-condensed',fontSize:15,color:'rgba(0,0,0,0.70)'}}>Password</Text>
-          <TextInput style={defaultStyles.inputField} secureTextEntry={passwordVisible} placeholder='Enter Your Password' placeholderTextColor={'rgba(0,0,0,0.20)'} />
+          <TextInput style={defaultStyles.inputField} secureTextEntry={passwordVisible} value={password}
+            onChangeText={(text) => setPassword(text)} placeholder='Enter Your Password' returnKeyType="done" placeholderTextColor={'rgba(0,0,0,0.20)'} />
+             {error && <Text style={{ color: 'red', marginTop: 10, marginBottom: 10}}>{error}</Text>}
           <TouchableOpacity style={{position:'absolute',right:6,top:36}} onPress={() => setPasswordVisisble(oldvalue => !oldvalue)}> 
             <AntDesign name="eye" size={18} color={Colors.grey}  />
           </TouchableOpacity>
@@ -69,8 +97,8 @@ const Page = () => {
       </View>
 
       <View style={{marginTop:165,gap:13}}>
-        <TouchableOpacity style={defaultStyles.btn}>
-          <Text style={defaultStyles.btnText}>Login</Text>
+        <TouchableOpacity style={defaultStyles.btn} onPress={handleLogin}>
+          <Text style={defaultStyles.btnText}>{isLoading ? 'Loading...' : 'Login'}</Text>
         </TouchableOpacity>
         <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
           <Text style={{fontFamily:'roboto-condensed'}}>Dont have and account?</Text>
