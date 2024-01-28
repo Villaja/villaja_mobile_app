@@ -4,6 +4,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
+import React from 'react';
 
 const Layout = () => {
   return (
