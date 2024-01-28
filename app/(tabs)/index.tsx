@@ -1,6 +1,6 @@
-import { View, Text,StyleSheet, Image, Dimensions,ScrollView, ActivityIndicator } from 'react-native'
+import { View, Text,StyleSheet, Image, Dimensions,ScrollView, ActivityIndicator, SafeAreaView, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import {  } from 'react-native-safe-area-context'
 import { AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons'
 import Colors from '../../constants/Colors'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -87,7 +87,7 @@ const index = () => {
         );
   
         // Get the first 10 products
-        const first10Products = response.data.products.slice(0, 10);
+        const first10Products = response.data.products.filter((pd) => pd.discountPrice < pd.originalPrice && pd.discountPrice > 0 ).slice(0,10);
   
         setData(first10Products);
       } catch (error) {
@@ -129,10 +129,8 @@ const index = () => {
 
 
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:'#fff'}}>
-      <ScrollView showsVerticalScrollIndicator={false} >
-
-      <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8}} >
+    <SafeAreaView style={{flex:1,backgroundColor:'#fff',paddingTop:Platform.OS === 'android'?30:0}}>
+      <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
         <View style={{flexDirection:'row',alignItems:'center',gap:9      }}>
             <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:40,height:40,borderRadius:40}} />
           <View style={{flexDirection:'row',alignItems:'center',gap:15}}>
@@ -148,6 +146,8 @@ const index = () => {
           <AntDesign name="shoppingcart" size={24} color={Colors.primary} />
         </TouchableOpacity>
       </View>
+      <ScrollView showsVerticalScrollIndicator={false} >
+
 
       <View>
         <Carousel 
@@ -169,7 +169,7 @@ const index = () => {
         />
       </View>
 
-      <Text style={{fontFamily:'roboto-condensed',fontSize:16,color:'#000',paddingHorizontal:20,marginBottom:6}}>Top Categories</Text>
+      <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000',paddingHorizontal:20,marginBottom:6}}>Top Categories</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{height:100}}  contentContainerStyle={
                 {
                     alignItems:'center',
@@ -189,8 +189,8 @@ const index = () => {
         }
       </ScrollView>
 
-      <View style={{paddingHorizontal:20}}>
-        <Text>Popular</Text>
+      <View style={{paddingHorizontal:20,backgroundColor:Colors.primaryTransparent}}>
+        <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000',marginVertical:9}}>Popular</Text>
         <View>
           {loading ? (
           <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 8,
   },
   productCard: {
-    flexBasis: '48%', // Adjust as needed based on your styling preference
+    flexBasis: '48%',
     marginBottom: 16,
   },
   lastCardInRow: {

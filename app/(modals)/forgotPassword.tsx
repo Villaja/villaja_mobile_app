@@ -18,6 +18,11 @@ const Page = () => {
         <Image source={require('../../assets/images/ViaEmailBtn.png')} />
       </TouchableOpacity>
     </Link>
+    {/* <Link href={'/(modals)/PhoneNumber'} style={{marginVertical:30,alignSelf:'center',flexGrow:1}}>
+      <TouchableOpacity >
+        <Image source={require('../../assets/images/ViaEmailBtn.png')} />
+      </TouchableOpacity>
+    </Link> */}
 
       
 

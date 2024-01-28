@@ -9,7 +9,7 @@ import { router, useRouter } from 'expo-router';
 export default function PhoneNumber() {
 
   return (
-    <view>
+    <View>
       <View style={defaultStyles.frame11}>
         <TouchableOpacity style={defaultStyles.ionchevronback}>
           <Svg style={defaultStyles.vector} width="8" height="14" viewBox="0 0 8 14" fill="none" >
@@ -47,11 +47,11 @@ export default function PhoneNumber() {
         </View>
         <View style={defaultStyles.frame3}>
           <TouchableOpacity style={defaultStyles.getstarted} onPress={() => router.push(`/(modals)/otp`) }>
-            {`send`}
+            <Text style={defaultStyles.btnText}>{`send`}</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </view>
+    </View>
   )
 }
 

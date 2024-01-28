@@ -9,6 +9,7 @@ import Colors from '../constants/Colors';
 import { TouchableOpacity } from 'react-native';
 import ModalHeaderText from '../components/ModalHeaderText';
 import { StatusBar } from 'react-native';
+import React from 'react';
 
 
 export {
