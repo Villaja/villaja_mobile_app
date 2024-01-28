@@ -2,7 +2,7 @@ import { View, StyleSheet, TextInput, Text, TouchableOpacity,Image } from 'react
 import { useWarmUpBrowser } from '../../hooks/useWarmUpBrowser';
 import { defaultStyles} from '../../constants/Styles'
 import { Link, useRouter } from 'expo-router';
-
+import React from 'react';
 
 const Page = () => {
   useWarmUpBrowser();
