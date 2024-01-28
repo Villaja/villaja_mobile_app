@@ -19,7 +19,8 @@ const Layout = () => {
         options={{
           
           tabBarLabel: 'Explore',
-          headerTitle:'Explore',
+          headerTitle:'',
+          headerTransparent:true,
           headerShadowVisible:false,
           headerTitleStyle:{
             fontFamily:'roboto-condensed-sb-i',
