@@ -43,7 +43,7 @@ const Page: React.FC = () => {
 
 
   return (
-    <ScrollView style={{backgroundColor:'#fff'}} ref={scrollRef} >
+    <ScrollView style={{backgroundColor:Colors.primaryTransparent}} ref={scrollRef} >
       <View style={styles.container}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
@@ -73,6 +73,9 @@ const Page: React.FC = () => {
                 /> */}
                 <View style={{padding:20}}>
 
+                  <View style={{backgroundColor:"#fff"}}>
+
+
                   <Text style={styles.title}>{productDetails?.name}</Text>
                   <Text style={styles.price}>₦{productDetails?.originalPrice.toLocaleString()}</Text>
                   <View style={{flexDirection:'row',alignItems:'center',gap:3}}>
@@ -95,10 +98,13 @@ const Page: React.FC = () => {
                       ))
                     }
                   </View>
+
                   <View style={{flexDirection:'row',gap:8,paddingVertical:16}}>
                     <TouchableOpacity style={[defaultStyles.btn,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed'}]}>Add To Cart</Text></TouchableOpacity>
                     <TouchableOpacity style={[defaultStyles.btnStyleBorder,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed',color:Colors.primary}]}>Request For Swap</Text></TouchableOpacity>
                   </View>
+                  </View>
+
 
                   <View style={{paddingVertical:30}}>
                     <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:"rgba(0,0,0,0.70)",marginBottom:12}}>Specs</Text>
@@ -313,7 +319,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
-    backgroundColor:"#fff"
+    // backgroundColor:"#fff"
     // backgroundColor:'red',
     
   },

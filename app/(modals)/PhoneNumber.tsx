@@ -52,9 +52,9 @@ export default function PhoneNumber() {
   const [selectedCountryCode, setSelectedCountryCode] = useState(countryCodes[0]);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const renderCountryCodeItem = ({ item }) => (
+  const renderCountryCodeItem = (item:any) => (
     <TouchableOpacity
-      style={defaultStyles.countryCodeItem}
+      // style={defaultStyles.countryCodeItem}
       onPress={() => {
         setSelectedCountryCode(item);
         setModalVisible(false);
@@ -85,11 +85,13 @@ export default function PhoneNumber() {
 
           {/* Country Code Button */}
           <TouchableOpacity
-            style={defaultStyles.countryCodeButton}
+            // style={defaultStyles.countryCodeButton}
             onPress={() => setModalVisible(true)}
           >
             <Text>{selectedCountryCode.code}</Text>
-            <Svg style={defaultStyles.dropdownIcon} width="13" height="9" viewBox="0 0 13 9" fill="none">
+            <Svg
+            //  style={defaultStyles.dropdownIcon} 
+            width="13" height="9" viewBox="0 0 13 9" fill="none">
               <Path d="M6.8503 8.65851C6.5305 9.04921 5.93118 9.04336 5.61906 8.6465L0.206065 1.76394C-0.203425 1.24327 0.171836 0.480212 0.834203 0.486673L11.7934 0.593584C12.4558 0.600046 12.8161 1.37028 12.3965 1.88286L6.8503 8.65851Z" fill="black" fillOpacity="0.15" />
             </Svg>
           </TouchableOpacity>
@@ -101,11 +103,13 @@ export default function PhoneNumber() {
             visible={modalVisible}
             onRequestClose={() => setModalVisible(false)}
           >
-            <View style={defaultStyles.modalContainer}>
+            <View 
+            // style={defaultStyles.modalContainer}
+            >
               <FlatList
                 data={countryCodes}
                 keyExtractor={(item) => item.id}
-                renderItem={renderCountryCodeItem}
+                renderItem={({item}) => renderCountryCodeItem(item)}
               />
             </View>
           </Modal>
@@ -132,7 +136,7 @@ export default function PhoneNumber() {
         </View>
         <View style={defaultStyles.frame3}>
           <TouchableOpacity style={defaultStyles.getstarted} onPress={() => router.push(`/(modals)/otp`)}>
-            {`Send`}
+            <Text>{`Send`}</Text>
           </TouchableOpacity>
         </View>
       </View>
