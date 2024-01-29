@@ -400,5 +400,48 @@ export const defaultStyles = StyleSheet.create({
     height: 139,
     left: 119,
     width: 136
-    }
+    },
+    rectangle1: {
+      flexShrink: 0,
+      width: 306,
+      height: 646,
+      transform: [
+        {
+          rotateZ: "12.70deg"
+        }
+      ],
+      backgroundColor: "rgba(255, 255, 255, 0.02)"
+    },
+  
+    rectangletwo: {
+      flexShrink: 0,
+      width: 196,
+      height: 802,
+      position: "fixed",
+      transform: [
+        {
+          rotateZ: "12.70deg"
+        }
+      ],
+      backgroundColor: "rgba(255, 255, 255, 0.02)"
+    },
+    rectanglethree: {
+      flexShrink: 0,
+      width: 196,
+      height: 354,
+      position: "fixed",
+      transform: [
+        {
+          rotateZ: "12.70deg"
+        }
+      ],
+      backgroundColor: "rgba(255, 255, 255, 0.02)"
+    },
+    landingpagelogo: {
+      flexShrink: 0,
+      height: 74,
+      width: 144,
+      alignItems: "flex-start",
+      rowGap: 0
+    },
 });
