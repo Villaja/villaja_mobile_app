@@ -40,7 +40,7 @@ const Page = () => {
 
   useEffect(() => {
     if(user){
-      router.replace('/home')
+      router.replace('/(tabs)')
     }
   })
 
@@ -96,15 +96,25 @@ const Page = () => {
           size={25}
           fillColor={Colors.primary}
           unfillColor="#FFFFFF"
-          text="I Agree with the Terms and Condition and Privacy Policy"
+          text="I Agree with the Terms and Conditions"
           
           iconStyle={{ borderColor:Colors.primary }}
           innerIconStyle={{ borderWidth: 2 }}
-          textStyle={{ fontFamily: "roboto-condensed",fontSize:10}}
+          textStyle={{ fontFamily: "roboto-condensed",fontSize:9,}}
           onPress={(isChecked: boolean) => {setToggleCheckBox(isChecked)}}
         />
 
         <Text style={{color:Colors.grey,textDecorationLine:'underline',fontSize:10,fontFamily:'roboto-condensed'}}>Forgot Your Password?</Text>
+      </View>
+
+      <View style={{marginTop:15,gap:13}}>
+        <TouchableOpacity style={defaultStyles.btn} onPress={handleRegister}>
+          <Text style={defaultStyles.btnText}>{isLoading ? 'Loading...' : 'Contnue'}</Text>
+        </TouchableOpacity>
+        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+          <Text style={{fontFamily:'roboto-condensed'}}>Already have and account?</Text>
+          <Link href='/(modals)/login'> <Text style={{fontFamily:'roboto-condensed-sb',color:Colors.primary}}>Sign In</Text></Link>
+        </View>
       </View>
 
       <View style={{flexDirection:'row',alignItems:'center',gap:2,marginVertical:16}}>
@@ -124,15 +134,7 @@ const Page = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={{marginTop:15,gap:13}}>
-        <TouchableOpacity style={defaultStyles.btn} onPress={handleRegister}>
-          <Text style={defaultStyles.btnText}>{isLoading ? 'Loading...' : 'Contnue'}</Text>
-        </TouchableOpacity>
-        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontFamily:'roboto-condensed'}}>Already have and account?</Text>
-          <Link href='/(modals)/login'> <Text style={{fontFamily:'roboto-condensed-sb',color:Colors.primary}}>Sign In</Text></Link>
-        </View>
-      </View>
+      
       
     </View>
     </ScrollView>

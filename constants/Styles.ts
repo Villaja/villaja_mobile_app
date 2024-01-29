@@ -15,6 +15,7 @@ export const defaultStyles = StyleSheet.create({
     paddingHorizontal: 13,
     backgroundColor: "rgba(0,0,0,0.02)",
     color: "#000",
+    fontFamily:'roboto-condensed'
   },
   btn: {
     backgroundColor: Colors.primary,
@@ -22,6 +23,7 @@ export const defaultStyles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
+    
   },
   btnText: {
     color: "#fff",
@@ -41,7 +43,7 @@ export const defaultStyles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 2,
     borderColor: Colors.primary,
-    flexGrow: 1,
+    flexBasis: '49%',
   },
   btnTextBorder: {
     color: Colors.primary,

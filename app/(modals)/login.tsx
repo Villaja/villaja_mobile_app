@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useWarmUpBrowser } from '../../hooks/useWarmUpBrowser';
@@ -41,6 +41,8 @@ const Page = () => {
   })
 
   return (
+    <ScrollView style={{flex:1,backgroundColor:'#fff'}}>
+      
     <View style={styles.container}>
       <Text style={styles.headerText}>Welcome Back</Text>
       <Text style={styles.headerInfo}>You Are Welcome Back To Villaja. Please Fill In Your Details</Text>
@@ -79,6 +81,16 @@ const Page = () => {
         </Link>
       </View>
 
+      <View style={{marginTop:15,gap:13}}>
+        <TouchableOpacity style={defaultStyles.btn} onPress={handleLogin}>
+          <Text style={defaultStyles.btnText}>{isLoading ? 'Loading...' : 'Login'}</Text>
+        </TouchableOpacity>
+        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+          <Text style={{fontFamily:'roboto-condensed'}}>Dont have and account?</Text>
+          <Link href='/(modals)/register'> <Text style={{fontFamily:'roboto-condensed-sb',color:Colors.primary}}>Sign Up</Text></Link>
+        </View>
+      </View>
+
       <View style={{flexDirection:'row',alignItems:'center',gap:2,marginVertical:26}}>
         <View style={{borderBottomColor:Colors.grey,borderBottomWidth:StyleSheet.hairlineWidth,flexGrow:1}}></View>
         <Text style={{fontFamily:'roboto-condensed',fontSize:13,color:Colors.grey}}>OR</Text>
@@ -96,17 +108,11 @@ const Page = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={{marginTop:165,gap:13}}>
-        <TouchableOpacity style={defaultStyles.btn} onPress={handleLogin}>
-          <Text style={defaultStyles.btnText}>{isLoading ? 'Loading...' : 'Login'}</Text>
-        </TouchableOpacity>
-        <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-          <Text style={{fontFamily:'roboto-condensed'}}>Dont have and account?</Text>
-          <Link href='/(modals)/register'> <Text style={{fontFamily:'roboto-condensed-sb',color:Colors.primary}}>Sign Up</Text></Link>
-        </View>
-      </View>
+      
       
     </View>
+    </ScrollView>
+
   );
 };
 

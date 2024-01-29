@@ -4,7 +4,7 @@ import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 import { TouchableOpacity } from 'react-native';
 import ModalHeaderText from '../components/ModalHeaderText';
@@ -181,6 +181,25 @@ function RootLayoutNav() {
           },
           
           
+        }}
+      />
+
+      <Stack.Screen 
+        name='product/[id]'
+        options={{
+          headerTitle:'',
+          headerShadowVisible:false,
+          headerLeft:() => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={24} color={"#000"} />
+            </TouchableOpacity>
+          ),
+          headerRight:() => (
+            <TouchableOpacity>
+              <FontAwesome5 name="bookmark" size={24} color="rgba(0,0,0,0.40)" />
+            </TouchableOpacity>
+          )
+
         }}
       />
       </Stack>

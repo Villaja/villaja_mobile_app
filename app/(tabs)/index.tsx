@@ -94,7 +94,7 @@ const index = () => {
         );
   
         // Get the first 10 products
-        const first10Products = response.data.products.filter((pd) => pd.discountPrice < pd.originalPrice && pd.discountPrice > 0 ).slice(0,10);
+        const first10Products = response.data.products.slice(0,20);
   
         setData(first10Products);
       } catch (error) {
