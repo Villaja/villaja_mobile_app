@@ -15,7 +15,7 @@ export const defaultStyles = StyleSheet.create({
     paddingHorizontal: 13,
     backgroundColor: "rgba(0,0,0,0.02)",
     color: "#000",
-    fontFamily:'roboto-condensed'
+    fontFamily: 'roboto-condensed'
   },
   btn: {
     backgroundColor: Colors.primary,
@@ -23,7 +23,7 @@ export const defaultStyles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    
+
   },
   btnText: {
     color: "#fff",
@@ -257,7 +257,7 @@ export const defaultStyles = StyleSheet.create({
     fontWeight: "500",
     letterSpacing: 0,
   },
-  
+
   frame11: {
     position: "absolute",
     flexShrink: 0,
@@ -268,180 +268,57 @@ export const defaultStyles = StyleSheet.create({
     rowGap: 292,
     paddingVertical: 8,
     paddingHorizontal: 20
-    },
-    ionchevronback: {
-    flexShrink: 0,
-    height: 20,
-    width: 20,
-    alignItems: "flex-start",
-    rowGap: 0
-    },
-    vector: {
-    position: "absolute",
-    flexShrink: 0,
-    top: 4,
-    right: 7,
-    bottom: 4,
-    left: 7,
-    overflow: "visible"
-    },
-    enteryourphonenumber: {
-    position: "absolute",
-    flexShrink: 0,
-    top: 80,
-    right: 59,
-    left: 60,
-    height: 29,
-    textAlign: "left",
-    color: "rgba(2, 84, 146, 1)",
-    fontFamily: "Roboto",
-    fontSize: 25,
-    fontWeight: "500",
-    letterSpacing: 0
-    },
-    frame129: {
-    position: "absolute",
-    flexShrink: 0,
-    top: 313,
-    bottom: 361,
-    left: 20,
-    alignItems: "flex-start",
-    rowGap: 15
-    },
-    frame10: {
-    flexShrink: 0,
-    alignItems: "flex-start",
-    rowGap: 4
-    },
-    wewillsendyoua5digitOTPcodetoverify: {
-    flexShrink: 0,
-    width: 325,
-    textAlign: "left",
-    color: "rgba(0, 0, 0, 0.5)",
-    fontFamily: "Roboto",
-    fontSize: 15,
-    fontWeight: "400",
-    letterSpacing: 0
-    },
-    frame9: {
-    flexShrink: 0,
-    width: 335,
-    backgroundColor: "rgba(0, 0, 0, 0.02)",
-    flexDirection: "row",
-    alignItems: "center",
-    columnGap: 10,
-    paddingVertical: 15,
-    paddingHorizontal: 13,
-    borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.1)",
-    borderRadius: 5
-    },
-    frame99: {
-    flexShrink: 0,
-    flexDirection: "row",
-    alignItems: "center",
-    columnGap: 6
-    },
-    frame100: {
-    flexShrink: 0,
-    height: 21,
-    width: 39,
-    alignItems: "flex-start",
-    rowGap: 0,
-    borderRadius: 5
-    },
-    group69: {
-    position: "absolute",
-    flexShrink: 0,
-    height: 21,
-    width: 39
-    },
-    polygon1: {
-    flexShrink: 0,
-    width: 16,
-    height: 12,
-    overflow: "visible"
-    },
-    enteryourphonenumer: {
-    flexShrink: 0,
-    textAlign: "left",
-    color: "rgba(0, 0, 0, 0.2)",
-    fontFamily: "Roboto",
-    fontSize: 13,
-    fontWeight: "400",
-    letterSpacing: 0
-    },
-    frame3: {
-    flexShrink: 0,
-    height: 50,
-    width: 335,
-    backgroundColor: "rgba(2, 84, 146, 1)",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    columnGap: 10,
-    paddingVertical: 16,
-    paddingHorizontal: 20,
-    borderRadius: 10
-    },
-    getstarted: {
-    flexShrink: 0,
-    textAlign: "left",
-    color: "rgba(255, 255, 255, 1)",
-    fontFamily: "Roboto",
-    fontSize: 15,
-    fontWeight: "500",
-    letterSpacing: 0
-    },
-    mobileencryptionPana: {
+  },
+  mobileencryptionPana: {
     position: "absolute",
     flexShrink: 0,
     top: 137,
     height: 139,
     left: 119,
     width: 136
-    },
-    rectangle1: {
-      flexShrink: 0,
-      width: 306,
-      height: 646,
-      transform: [
-        {
-          rotateZ: "12.70deg"
-        }
-      ],
-      backgroundColor: "rgba(255, 255, 255, 0.02)"
-    },
-  
-    rectangletwo: {
-      flexShrink: 0,
-      width: 196,
-      height: 802,
-      position: "fixed",
-      transform: [
-        {
-          rotateZ: "12.70deg"
-        }
-      ],
-      backgroundColor: "rgba(255, 255, 255, 0.02)"
-    },
-    rectanglethree: {
-      flexShrink: 0,
-      width: 196,
-      height: 354,
-      position: "fixed",
-      transform: [
-        {
-          rotateZ: "12.70deg"
-        }
-      ],
-      backgroundColor: "rgba(255, 255, 255, 0.02)"
-    },
-    landingpagelogo: {
-      flexShrink: 0,
-      height: 74,
-      width: 144,
-      alignItems: "flex-start",
-      rowGap: 0
-    },
+  },
+  rectangle1: {
+    flexShrink: 0,
+    width: 306,
+    height: 646,
+    transform: [
+      {
+        rotateZ: "12.70deg"
+      }
+    ],
+    backgroundColor: "rgba(255, 255, 255, 0.02)"
+  },
+
+  rectangletwo: {
+    flexShrink: 0,
+    width: 196,
+    height: 802,
+    position: "fixed",
+    transform: [
+      {
+        rotateZ: "12.70deg"
+      }
+    ],
+    backgroundColor: "rgba(255, 255, 255, 0.02)"
+  },
+  rectanglethree: {
+    flexShrink: 0,
+    width: 196,
+    height: 354,
+    position: "fixed",
+    transform: [
+      {
+        rotateZ: "12.70deg"
+      }
+    ],
+    backgroundColor: "rgba(255, 255, 255, 0.02)"
+  },
+  landingpagelogo: {
+    flexShrink: 0,
+    height: 74,
+    width: 144,
+    alignItems: "flex-start",
+    rowGap: 0
+  },
+
 });
