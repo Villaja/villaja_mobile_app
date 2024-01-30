@@ -196,9 +196,23 @@ function RootLayoutNav() {
           ),
           headerRight:() => (
             <TouchableOpacity>
-              <FontAwesome5 name="bookmark" size={24} color="rgba(0,0,0,0.40)" />
+              <FontAwesome5 name="bookmark" size={20} color="rgba(0,0,0,0.40)" />
             </TouchableOpacity>
           )
+
+        }}
+      />
+      <Stack.Screen 
+        name='cartScreen/cart'
+        options={{
+          headerTitle:'',
+          headerShadowVisible:false,
+          headerLeft:() => (
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={24} color={"#000"} />
+            </TouchableOpacity>
+          ),
+          
 
         }}
       />

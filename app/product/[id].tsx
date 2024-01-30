@@ -43,7 +43,7 @@ const Page: React.FC = () => {
 
 
   return (
-    <ScrollView style={{backgroundColor:Colors.primaryTransparent}} ref={scrollRef} >
+    <ScrollView style={{backgroundColor:Colors.primaryUltraTransparent}} ref={scrollRef} >
       <View style={styles.container}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
@@ -71,42 +71,42 @@ const Page: React.FC = () => {
                   showsHorizontalScrollIndicator={false}
                   contentContainerStyle={styles.smallImagesContainer}
                 /> */}
-                <View style={{padding:20}}>
+                <View style={{}}>
 
-                  <View style={{backgroundColor:"#fff"}}>
+                  <View style={{backgroundColor:"#fff",padding:20}}>
 
+                    <Text style={{flexDirection:'row',alignItems:'center',fontFamily:'roboto-condensed',fontSize:12,color:'rgba(0,0,0,0.50)',marginBottom:8}}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> {timeAgo(productDetails?.shop.createdAt)} on Villaja</Text>           
+                    <Text style={styles.title}>{productDetails?.name}</Text>
+                    <Text style={styles.price}>₦{productDetails?.originalPrice.toLocaleString()}</Text>
+                    <View style={{flexDirection:'row',alignItems:'center',gap:3}}>
+                      {
+                        productDetails?.ratings ?
+                          Array(5).fill(0).map((val,index) => {
+                            if(index < productDetails.ratings)
+                            {
+                              return(<FontAwesome name='star' size={16} color={'#fc8b00'} />)
 
-                  <Text style={styles.title}>{productDetails?.name}</Text>
-                  <Text style={styles.price}>₦{productDetails?.originalPrice.toLocaleString()}</Text>
-                  <View style={{flexDirection:'row',alignItems:'center',gap:3}}>
-                    {
-                      productDetails?.ratings ?
-                        Array(5).fill(0).map((val,index) => {
-                          if(index < productDetails.ratings)
-                          {
-                            return(<FontAwesome name='star' size={16} color={'#fc8b00'} />)
+                            }
+                            return (<FontAwesome name='star' size={16} color={'rgba(0,0,0,0.10)'} />)
 
                           }
-                          return (<FontAwesome name='star' size={16} color={'rgba(0,0,0,0.10)'} />)
+                        )
+                        :
 
-                        }
-                      )
-                      :
+                        Array(5).fill(0).map((val) => (
+                          <FontAwesome name='star' size={16} color={'rgba(0,0,0,0.10)'} />
+                        ))
+                      }
+                    </View>
 
-                      Array(5).fill(0).map((val) => (
-                        <FontAwesome name='star' size={16} color={'rgba(0,0,0,0.10)'} />
-                      ))
-                    }
-                  </View>
-
-                  <View style={{flexDirection:'row',gap:8,paddingVertical:16}}>
-                    <TouchableOpacity style={[defaultStyles.btn,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed'}]}>Add To Cart</Text></TouchableOpacity>
-                    <TouchableOpacity style={[defaultStyles.btnStyleBorder,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed',color:Colors.primary}]}>Request For Swap</Text></TouchableOpacity>
-                  </View>
+                    <View style={{flexDirection:'row',gap:8,paddingVertical:16}}>
+                      <TouchableOpacity style={[defaultStyles.btn,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed'}]}>Add To Cart</Text></TouchableOpacity>
+                      <TouchableOpacity style={[defaultStyles.btnStyleBorder,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed',color:Colors.primary}]}>Request For Swap</Text></TouchableOpacity>
+                    </View>
                   </View>
 
 
-                  <View style={{paddingVertical:30}}>
+                  <View style={{marginTop:10,paddingVertical:20,paddingHorizontal:20,backgroundColor:'#fff'}}>
                     <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:"rgba(0,0,0,0.70)",marginBottom:12}}>Specs</Text>
                     <View style={{gap:12}}>
                       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
@@ -184,7 +184,7 @@ const Page: React.FC = () => {
                   
                   </View>
 
-                  <View style={{paddingVertical:15,gap:8}}>
+                  <View style={{marginTop:8,paddingHorizontal:20,paddingVertical:15,gap:8,backgroundColor:'#fff'}}>
                     <Text style={{fontSize:18,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}>Description</Text>
                     <Text numberOfLines={descriptionLength} style={{fontSize:15,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}} >{productDetails.description}</Text>
                     {
@@ -203,7 +203,7 @@ const Page: React.FC = () => {
                     }
                   </View>
 
-                  <View style={{paddingVertical:30,gap:15}}>
+                  <View style={{marginTop:8,paddingHorizontal:20,paddingVertical:30,gap:15,backgroundColor:'#fff'}}>
                     <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                       <Text style={{fontSize:18,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}>Profile</Text>
                       <TouchableOpacity onPress={() => {}} style={{flexDirection:'row',alignItems:'center',gap:4,}}>
@@ -222,7 +222,7 @@ const Page: React.FC = () => {
                   </View>
 
 
-                  <View style={{paddingVertical:30,gap:15}}>
+                  <View style={{marginTop:8,paddingHorizontal:20,paddingVertical:30,gap:15,backgroundColor:'#fff'}}>
                     <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                       <View>
                         <Text style={{fontSize:18,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}>Product Rating & Review</Text>
@@ -242,8 +242,8 @@ const Page: React.FC = () => {
                     
                   </View>
 
-                  <View>
-                    <Text>Similar</Text>
+                  <View style={{marginTop:8,paddingHorizontal:20,paddingVertical:30,gap:15}}>
+                    <Text style={{fontSize:18,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}>Similar</Text>
                     <View>
                       <SimilarSection category={productDetails?.category} />
                     </View>
@@ -330,9 +330,10 @@ const styles = StyleSheet.create({
     width: '100%',
     height:321,
     resizeMode: 'contain',
+    backgroundColor:'#fff'
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
     fontFamily:'roboto-condensed',
     textTransform:'capitalize',
     color:'#000'
@@ -342,7 +343,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   price: {
-    fontSize: 30,
+    fontSize: 35,
     color: Colors.primary,
     fontFamily:'roboto-condensed-sb',
     letterSpacing:1,

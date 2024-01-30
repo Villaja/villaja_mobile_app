@@ -1,9 +1,7 @@
-import { View, Text,StyleSheet, Image, Dimensions,ScrollView, ActivityIndicator, SafeAreaView, Platform } from 'react-native'
+import { View, Text,StyleSheet, Image, Dimensions,ScrollView,TouchableOpacity, ActivityIndicator, SafeAreaView, Platform, Pressable } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import {  } from 'react-native-safe-area-context'
 import { AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons'
 import Colors from '../../constants/Colors'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Carousel } from 'react-native-basic-carousel'
 import axios, { AxiosResponse } from 'axios'
 import { Product } from '../../types/Product'
@@ -11,7 +9,7 @@ import { base_url } from '../../constants/server'
 import ProductCard from '../../components/ProductCard'
 // import InsetShadow from "react-native-inset-shadow";
 import { useAuth } from '../../context/AuthContext'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 
 
 const {width} = Dimensions.get('window')
@@ -79,7 +77,7 @@ const categoryData = [
 const index = () => {
 
   const { user } = useAuth();
-  
+  const router = useRouter()
   
   const [data, setData] = useState<Array<Product>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -137,7 +135,7 @@ const index = () => {
 
   return (
     <SafeAreaView style={{flex:1,backgroundColor:'#fff',paddingTop:Platform.OS === 'android'?30:0}}>
-      <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
+      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
         <View style={{flexDirection:'row',alignItems:'center',gap:9      }}>
             <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:40,height:40,borderRadius:40}} />
           <View style={{flexDirection:'row',alignItems:'center',gap:15}}>
@@ -176,7 +174,7 @@ const index = () => {
           </View>
 
         </View>
-        <TouchableOpacity style={{width:40,height:40,backgroundColor:Colors.primaryTransparent,borderRadius:40,justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity style={{width:40,height:40,backgroundColor:Colors.primaryTransparent,borderRadius:40,justifyContent:'center',alignItems:'center'}} onPress={() => router.push("/cartScreen/cart")}>
           <AntDesign name="shoppingcart" size={24} color={Colors.primary} />
         </TouchableOpacity>
       </View>
@@ -223,7 +221,7 @@ const index = () => {
         }
       </ScrollView>
 
-      <View style={{paddingHorizontal:20,backgroundColor:Colors.primaryTransparent}}>
+      <View style={{paddingHorizontal:20,backgroundColor:Colors.primaryUltraTransparent}}>
         <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000',marginVertical:9}}>Popular</Text>
         <View>
           {loading ? (

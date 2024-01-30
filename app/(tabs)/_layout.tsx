@@ -21,6 +21,7 @@ const Layout = () => {
           
           tabBarLabel: 'Explore',
           headerTitle:'',
+          headerShown:false,
           headerTransparent:true,
           headerShadowVisible:false,
           headerTitleStyle:{
