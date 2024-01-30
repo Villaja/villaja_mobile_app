@@ -26,7 +26,10 @@ const CartCard = (item:Props) => {
       </View>
       
         <TouchableOpacity style={[defaultStyles.btn,{backgroundColor:Colors.primaryTransparent}]}>
-            <Text style={[defaultStyles.btnText,{color:Colors.primary}]}>Remove</Text>
+            <Text style={[defaultStyles.btnText,{color:Colors.primary}]}>Track Order</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[defaultStyles.btn,{backgroundColor:Colors.redTransparent}]}>
+            <Text style={[defaultStyles.btnText,{color:Colors.red}]}>Cancel</Text>
         </TouchableOpacity>
       
     </View>
@@ -45,6 +48,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.5,
         shadowRadius: 8,
         marginBottom:16
+
 
     },
     topSection:{

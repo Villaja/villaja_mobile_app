@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import Colors from '../../constants/Colors'
 import CartCard from '../../components/CartCard'
 import { defaultStyles } from '../../constants/Styles'
+import OrdersCard from '../../components/OrdersCard'
+import OrderHistoryCard from '../../components/OrderHistoryCard'
 
 const sampleCartItems = [
   {
@@ -36,7 +38,8 @@ const cart = () => {
           <Text style={activeTab === "History" ? styles.activeTextHeader:styles.textHeader}>History</Text>
         </TouchableOpacity>
       </View>
-
+      {
+        activeTab==='Cart'?
       <ScrollView style={{padding:20,gap:16}}>
         {
           sampleCartItems && sampleCartItems.map((item) => (
@@ -44,14 +47,38 @@ const cart = () => {
           ))
         }
       </ScrollView>
+      :activeTab === 'Orders'?
+      <ScrollView style={{padding:20}}>
+        {
+          sampleCartItems && sampleCartItems.map((item) => (
+            <OrdersCard key={item.id}  {...item} />
+          ))
+        }
+      </ScrollView>
+      :
+      <ScrollView style={{padding:0,gap:16}}>
+        <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:20,paddingVertical:7}}>
+          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.35)'}}>History</Text>
+          <TouchableOpacity><Text style={{fontFamily:'roboto-condensed',color:Colors.primary}}>Clear History</Text></TouchableOpacity>
+        </View>
+        {
+          sampleCartItems && sampleCartItems.map((item) => (
+            <OrderHistoryCard key={item.id}  {...item} />
+          ))
+        }
+      </ScrollView>
+      }
 
-      <View style={{position:'absolute',bottom:10,left:0,right:0,padding:20}}>
+      
+      {
 
-
-      <TouchableOpacity style={defaultStyles.btn}>
-        <Text style={defaultStyles.btnText}>Place Order</Text>
-      </TouchableOpacity>
-      </View>
+        activeTab === 'Cart' &&
+        <View style={{position:'absolute',bottom:10,left:0,right:0,padding:20}}>
+          <TouchableOpacity style={defaultStyles.btn}>
+            <Text style={defaultStyles.btnText}>Place Order</Text>
+          </TouchableOpacity>
+        </View>
+      }
     </View>
   )
 }
