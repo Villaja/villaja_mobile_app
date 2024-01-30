@@ -150,42 +150,41 @@ const PhoneNumber = () => {
       <Text style={styles.enteryourphonenumber}>
         {`Enter Your Phone Number`}
       </Text>
-      <View style={styles.pic1} >
+      <View style={styles.pic1}>
         <Image
           source={require("../../assets/images/pana.jpg")}
-          resizeMode='contain' style={{alignSelf:'center',marginVertical:48}}
+          resizeMode="contain"
+          style={{ alignSelf: "center", marginVertical: 48 }}
         />
       </View>
-      <View style={styles.textcont} >
+      <View style={styles.textcont}>
         <Text style={styles.wewillsendyoua5digitOTPcodetoverify}>
           {`We Will Send You A 5 Digit OTP Code To Verify`}
         </Text>
       </View>
 
       {/* Phone Number Input */}
-   
 
       <View style={styles.frame99}>
-  <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.countrySelectorContainer}>
-    <View style={styles.countrySelector}>
-      <Text style={styles.flag}>{selectedCountry.flag}</Text>
-      <Text style={styles.countryCode}>{selectedCountry.code}</Text>
-    </View>
-    <View style={styles.phoneNumberInputContainer}>
-      <TextInput 
-        style={styles.textinput}
-        placeholder={`Enter your phone number`}
-        keyboardType="phone-pad"
-        onChangeText={(text) => setPhoneNumber(text)}
-        onBlur={validatePhoneNumber}
-      />
-    </View>
-  </TouchableOpacity>
-</View>
-
-     
-
-   
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.countrySelectorContainer}
+        >
+          <View style={styles.countrySelector}>
+            <Text style={styles.flag}>{selectedCountry.flag}</Text>
+            <Text style={styles.countryCode}>{selectedCountry.code}</Text>
+          </View>
+          <View style={styles.phoneNumberInputContainer}>
+            <TextInput
+              style={styles.textinput}
+              placeholder={`Enter your phone number`}
+              keyboardType="phone-pad"
+              onChangeText={(text) => setPhoneNumber(text)}
+              onBlur={validatePhoneNumber}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
 
       {/* Country Code Selector Modal */}
       <Modal
@@ -214,7 +213,7 @@ const PhoneNumber = () => {
       </Modal>
       <View style={styles.frame3}>
         <TouchableOpacity
-          style={[defaultStyles.btn,{marginHorizontal:20,marginVertical:20}]}
+          style={[styles.btn, { marginHorizontal: 20, marginVertical: 20 }]}
           onPress={() => router.push(`/(modals)/otp`)}
         >
           <Text>{`Send`}</Text>
@@ -245,19 +244,18 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto",
   },
   pic1: {
-    top: 20
+    top: 20,
   },
-  
+
   wewillsendyoua5digitOTPcodetoverify: {
     lineHeight: 17.58,
     left: 20,
-    
     fontSize: 15,
     fontWeight: "400",
     fontFamily: "Roboto",
     color: "#00000080",
     height: 20,
-    bottom: 0
+    bottom: 0,
   },
   textinput: {
     width: 269,
@@ -265,15 +263,12 @@ const styles = StyleSheet.create({
     top: 3,
     flex: 1,
     paddingHorizontal: 10,
-  
-    
   },
   phoneNumberInputContainer: {
     width: 259,
     right: 30,
-    position: 'absolute',
+    position: "absolute",
     left: 70,
-    
   },
   frame99: {
     borderWidth: 1,
@@ -281,19 +276,18 @@ const styles = StyleSheet.create({
     height: 51,
     left: 20,
     top: 0,
-    borderColor: '#0000001A',
-    borderRadius: 5
+    borderColor: "#0000001A",
+    borderRadius: 5,
   },
 
   countrySelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     padding: 10,
     width: 60,
     left: 1,
-    top: 3
+    top: 3,
   },
-
 
   flag: {
     marginRight: 5,
@@ -316,7 +310,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 5,
     height: 500,
-    width: 320
+    width: 320,
   },
   countryOption: {
     flexDirection: "row",
@@ -324,14 +318,21 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   countrycodeselector: {
-    width:200,
-    borderWidth: 0
+    width: 200,
+    borderWidth: 0,
   },
   countrySelectorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  }
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  btn: {
+    backgroundColor: "#0254922",
+    height: 50,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    color: "#ffffff",
+  },
 });
-
 
 export default PhoneNumber;

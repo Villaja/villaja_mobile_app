@@ -11,7 +11,7 @@ import { base_url } from '../../constants/server'
 import ProductCard from '../../components/ProductCard'
 // import InsetShadow from "react-native-inset-shadow";
 import { useAuth } from '../../context/AuthContext'
-import { Link } from 'expo-router'
+import { useRouter } from 'expo-router'
 
 
 const {width} = Dimensions.get('window')
@@ -79,6 +79,7 @@ const categoryData = [
 const index = () => {
 
   const { user } = useAuth();
+  const router = useRouter();
   
   
   const [data, setData] = useState<Array<Product>>([]);
@@ -146,7 +147,7 @@ const index = () => {
             
               <>
                 <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.30)', fontSize: 12 }}>Welcome To Villaja</Text>
-                <Text style={{ fontFamily: 'roboto-condensed', color: Colors.primary, fontSize: 18 }}>
+                <Text style={styles.userName}>
                   {user?.user.firstname} {user?.user.lastname}
                 </Text>
               </>
@@ -154,20 +155,12 @@ const index = () => {
             
               <>
                <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.30)', fontSize: 12}}>Welcome To Villaja</Text>
-            <Link
-              href="/(modals)/login"  
-              style={{
-                backgroundColor: Colors.primary,
-                padding: 7,
-                borderRadius: 5, 
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 10,
-                color: 'white'
-              }}
+            <TouchableOpacity
+              onPress={() => router.push(`/(modals)/login`)} 
+              style={styles.Login}
             >
-                Login
-            </Link>
+            <Text style={styles.Logintext}>Log in</Text>
+            </TouchableOpacity>
               </>
             
             )}
@@ -269,6 +262,27 @@ const styles = StyleSheet.create({
   lastCardInRow: {
     marginRight: 0,
   },
+  userName: {
+    fontFamily: 'roboto-condensed',
+    color: Colors.primary,
+    fontSize: 18,
+    fontWeight: '400'
+  },
+  Login: {
+    backgroundColor: '#025492',
+    padding: 7,
+    borderRadius: 5, 
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    textAlign: 'center',
+    width: 80,
+    fontWeight: '400'
+  },
+  Logintext: {
+    color: '#ffffff',
+    fontWeight: '500'
+  }
 })
 
 export default index
