@@ -11,11 +11,7 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <View style={styles.container} key={product._id}>
-      <Text style={styles.discountPercentage}>
-              {
-                product.discountPrice && (((product.originalPrice - product.discountPrice )/product.originalPrice) * 100).toFixed()
-              }%
-              </Text>
+      
       
       <Link href={`/product/${product._id}`} asChild>
         <TouchableOpacity>
@@ -29,6 +25,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* <Text style={styles.shopName}>{product.shop?.name}</Text> */}
         </TouchableOpacity>
       </Link>
+
+      <Text style={styles.discountPercentage}>
+              {
+                product.discountPrice && (((product.originalPrice - product.discountPrice )/product.originalPrice) * 100).toFixed()
+              }%
+              </Text>
 
     </View>
   );
