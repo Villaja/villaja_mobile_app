@@ -11,20 +11,21 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <View style={styles.container} key={product._id}>
+      <Text style={styles.discountPercentage}>
+              {
+                product.discountPrice && (((product.originalPrice - product.discountPrice )/product.originalPrice) * 100).toFixed()
+              }%
+              </Text>
       
       <Link href={`/product/${product._id}`} asChild>
         <TouchableOpacity>
           <View style={styles.imgContainer}>
             <Image style={styles.image} source={{ uri: product.images[0]?.url }} />
-            <View style={styles.discountPercentage}><Text style={{fontFamily:'roboto-condensed',color:'#fff'}}>
-              {
-                product.discountPrice && (((product.originalPrice - product.discountPrice )/product.originalPrice) * 100).toFixed()
-              }%
-              </Text></View>
+     
           </View>
         <Text style={styles.title}>{product.name.length < 30 ? product.name : product.name.slice(0,30) + '...' }</Text>
-        <Text style={styles.price}>₦{product.originalPrice.toFixed(2)}</Text>
-        <Text style={styles.discountPrice}>{product.discountPrice === 0? null : "₦" + product.discountPrice.toFixed(2)}</Text>
+        <Text style={styles.price}>{'₦' + (product.discountPrice === 0 ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
+        <Text style={styles.discountPrice}>{product.discountPrice !== 0 ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
         {/* <Text style={styles.shopName}>{product.shop?.name}</Text> */}
         </TouchableOpacity>
       </Link>
@@ -39,11 +40,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 16,
     marginVertical: 8,
-    elevation: 4,
-    shadowColor: 'rgba(2, 84, 146, 0.10)',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
+    elevation: 2,
+    shadowColor: 'rgba(2,84,146,0.10)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
     height:250,
    
   },
@@ -57,14 +58,15 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 12,
     fontFamily:'roboto-condensed-sb',
-    color: 'rgba(0,0,0,0.50)',
+    color: '#00000080',
     marginTop: 7,
     marginBottom: 9,
     minHeight:30
   },
   price: {
-    fontSize: 20,
-    color:Colors.primary, // or any other color you prefer
+    fontSize: 17,
+    fontWeight: '500',
+    color: '#025492', // or any other color you prefer
     fontFamily:'roboto-condensed-sb',
   },
   discountPrice: {
@@ -83,14 +85,25 @@ const styles = StyleSheet.create({
     height:130,
     borderRadius:5,
     // backgroundColor:Colors.primaryTransparent,
-    overflow:'hidden'
+    overflow:'hidden',
+    
   },
   discountPercentage:{
-    position:'absolute',
+    position: 'absolute',
     top:0,
     right:0,
     backgroundColor:Colors.primary,
-    paddingHorizontal:10
+    paddingHorizontal:10,
+    paddingVertical: 3,
+    color: '#ffffff',
+    fontSize: 10,
+    fontWeight:'500',
+    borderTopRightRadius: 5,
+    width: 39,
+    height: 20,
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

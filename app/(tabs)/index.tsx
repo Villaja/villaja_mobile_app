@@ -1,7 +1,9 @@
-import { View, Text,StyleSheet, Image, Dimensions,ScrollView,TouchableOpacity, ActivityIndicator, SafeAreaView, Platform, Pressable } from 'react-native'
+import { View, Text,StyleSheet, Image, Dimensions,ScrollView, ActivityIndicator, SafeAreaView, Platform, ImageBackground } from 'react-native'
 import React, { useEffect, useState } from 'react'
+import {  } from 'react-native-safe-area-context'
 import { AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons'
 import Colors from '../../constants/Colors'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Carousel } from 'react-native-basic-carousel'
 import axios, { AxiosResponse } from 'axios'
 import { Product } from '../../types/Product'
@@ -10,6 +12,7 @@ import ProductCard from '../../components/ProductCard'
 // import InsetShadow from "react-native-inset-shadow";
 import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'expo-router'
+
 
 
 const {width} = Dimensions.get('window')
@@ -136,7 +139,7 @@ const index = () => {
 
   return (
     <SafeAreaView style={{flex:1,backgroundColor:'#fff',paddingTop:Platform.OS === 'android'?30:0}}>
-      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
+      <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
         <View style={{flexDirection:'row',alignItems:'center',gap:9      }}>
             <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:50, top:1, height:50,borderRadius:40}} />
           <View style={{flexDirection:'row',alignItems:'center',gap:15}}>
@@ -167,34 +170,35 @@ const index = () => {
           </View>
 
         </View>
-        <TouchableOpacity style={{width:40,height:40,backgroundColor:Colors.primaryTransparent,borderRadius:40,justifyContent:'center',alignItems:'center'}} onPress={() => router.push("/cartScreen/cart")}>
+        <TouchableOpacity style={{width:40,height:40,backgroundColor:Colors.primaryTransparent,borderRadius:40,justifyContent:'center',alignItems:'center'}}>
           <AntDesign name="shoppingcart" size={24} color={Colors.primary} />
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
 
 
-      <View>
-        <Carousel 
-          data={carouselData} 
-          renderItem={({item, index}) => <View key={index}>
-            
-            <Image source={{uri:item.image}} style={{height:230}} />
-            <Text style={{fontFamily:'roboto-condensed',position:'absolute',left:20,top:10,color:'rgba(255, 255, 255, 0.50)',zIndex:100}}>{item.store}</Text>
-            <Text style={{fontSize:20,fontFamily:'roboto-condensed',position:'absolute',left:20,top:30,color:'#fff',zIndex:100}}>{item.device}</Text>
-            <TouchableOpacity style={styles.buyNowBtn}>
-              <Text style={{fontFamily:'roboto-condensed',color:'#fff',fontSize:12}}>BUY NOW</Text>
-              <AntDesign name="arrowright" size={12} color={"#fff"} />
-            </TouchableOpacity>
-          </View>}
-          itemWidth={width}
-          // onSnapItem={(item) => console.log(item)}
-          pagination
-          autoplay
-        />
-      </View>
+        <View>
+          <Carousel
+            data={carouselData}
 
-      <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000',paddingHorizontal:20,marginBottom:6}}>Top Categories</Text>
+            renderItem={({ item, index }) => <View >
+
+              <ImageBackground source={{ uri: item.image }} style={{ height: 230}}  />
+              <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{item.store}</Text>
+              <Text style={{ fontSize: 20, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '400', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{item.device}</Text>
+              <TouchableOpacity style={styles.buyNowBtn}>
+                <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 12 }}>BUY NOW</Text>
+                <AntDesign name="arrowright" size={12} color={"#fff"} />
+              </TouchableOpacity>
+            </View>}
+            itemWidth={width}
+            // onSnapItem={(item) => console.log(item)}
+            pagination
+            autoplay
+          />
+        </View>
+
+      <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000000B2',paddingHorizontal:20,marginBottom:6}}>Top Categories</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{height:100}}  contentContainerStyle={
                 {
                     alignItems:'center',
@@ -205,17 +209,17 @@ const index = () => {
                 }} >
 
         {
-          categoryData.map((cat,index) => (
-            <View key={index} style={{alignItems:'center'}}>
+          categoryData.map((cat) => (
+            <View style={{alignItems:'center'}}>
               <Image source={{uri:cat.image}} style={{width:47,height:47,borderRadius:40}} />
-              <Text style={{fontFamily:'roboto-condensed',color:"#000"}}>{cat.name}</Text>
+              <Text style={{fontFamily:'roboto-condensed',color:"#00000099"}}>{cat.name}</Text>
             </View>
           ))
         }
       </ScrollView>
 
-      <View style={{paddingHorizontal:20,backgroundColor:Colors.primaryUltraTransparent}}>
-        <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000',marginVertical:9}}>Popular</Text>
+      <View style={{paddingHorizontal:20,backgroundColor:Colors.primaryTransparent}}>
+        <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000000B2',marginVertical:9}}>Popular</Text>
         <View>
           {loading ? (
           <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
@@ -264,7 +268,8 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto-condensed',
     color: Colors.primary,
     fontSize: 14,
-    fontWeight: '400'
+    fontWeight: '400',
+    left: 8
   },
   Login: {
     backgroundColor: '#025492',
