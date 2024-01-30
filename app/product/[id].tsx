@@ -84,17 +84,17 @@ const Page: React.FC = () => {
                           Array(5).fill(0).map((val,index) => {
                             if(index < productDetails.ratings)
                             {
-                              return(<FontAwesome name='star' size={16} color={'#fc8b00'} />)
+                              return(<FontAwesome key={index} name='star' size={16} color={'#fc8b00'} />)
 
                             }
-                            return (<FontAwesome name='star' size={16} color={'rgba(0,0,0,0.10)'} />)
+                            return (<FontAwesome key={index} name='star' size={16} color={'rgba(0,0,0,0.10)'} />)
 
                           }
                         )
                         :
 
-                        Array(5).fill(0).map((val) => (
-                          <FontAwesome name='star' size={16} color={'rgba(0,0,0,0.10)'} />
+                        Array(5).fill(0).map((val,index) => (
+                          <FontAwesome key={index} name='star' size={16} color={'rgba(0,0,0,0.10)'} />
                         ))
                       }
                     </View>
@@ -280,17 +280,17 @@ const Reviews = ({rating,comment,createdAt,author}:reviewProps) => {
                         Array(5).fill(0).map((val,index) => {
                           if(index < rating)
                           {
-                            return(<FontAwesome name='star' size={16} color={'#fc8b00'} />)
+                            return(<FontAwesome key={index} name='star' size={16} color={'#fc8b00'} />)
 
                           }
-                          return (<FontAwesome name='star' size={16} color={'rgba(0,0,0,0.10)'} />)
+                          return (<FontAwesome key={index} name='star' size={16} color={'rgba(0,0,0,0.10)'} />)
 
                         }
                       )
                       :
 
-                      Array(5).fill(0).map((val) => (
-                        <FontAwesome name='star' size={16} color={'rgba(0,0,0,0.10)'} />
+                      Array(5).fill(0).map((val,index) => (
+                        <FontAwesome key={index} name='star' size={16} color={'rgba(0,0,0,0.10)'} />
                       ))
                     }
       </View>

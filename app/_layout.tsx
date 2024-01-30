@@ -220,6 +220,24 @@ function RootLayoutNav() {
 
         }}
       />
+      <Stack.Screen 
+        name='checkoutPage/checkout'
+        options={{
+          headerTitle:'',
+          headerShadowVisible:false,
+          headerLeft:() => (
+            <View style={{flexDirection:'row',alignItems:'center',gap:20}}>
+              
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="arrow-back" size={24} color={"#000"} />
+              </TouchableOpacity>
+              <Text style={{fontFamily:'roboto-condensed-sb',color:'#000',fontSize:22}}>Checkout</Text>
+            </View>
+          ),
+          
+
+        }}
+      />
       </Stack>
       </AuthProvider>
    

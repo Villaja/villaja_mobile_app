@@ -170,7 +170,7 @@ const index = () => {
           </View>
 
         </View>
-        <TouchableOpacity style={{width:40,height:40,backgroundColor:Colors.primaryTransparent,borderRadius:40,justifyContent:'center',alignItems:'center'}}>
+        <TouchableOpacity style={{width:40,height:40,backgroundColor:Colors.primaryTransparent,borderRadius:40,justifyContent:'center',alignItems:'center'}} onPress={() => router.push('/cartScreen/cart')}>
           <AntDesign name="shoppingcart" size={24} color={Colors.primary} />
         </TouchableOpacity>
       </View>
@@ -209,8 +209,8 @@ const index = () => {
                 }} >
 
         {
-          categoryData.map((cat) => (
-            <View style={{alignItems:'center'}}>
+          categoryData.map((cat,index) => (
+            <View key={index} style={{alignItems:'center'}}>
               <Image source={{uri:cat.image}} style={{width:47,height:47,borderRadius:40}} />
               <Text style={{fontFamily:'roboto-condensed',color:"#00000099"}}>{cat.name}</Text>
             </View>
@@ -218,7 +218,7 @@ const index = () => {
         }
       </ScrollView>
 
-      <View style={{paddingHorizontal:20,backgroundColor:Colors.primaryTransparent}}>
+      <View style={{paddingHorizontal:20,backgroundColor:Colors.primaryUltraTransparent}}>
         <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000000B2',marginVertical:9}}>Popular</Text>
         <View>
           {loading ? (

@@ -1,4 +1,5 @@
 import { View, Text, TouchableOpacity,StyleSheet, ScrollView } from 'react-native'
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
 import Colors from '../../constants/Colors'
 import CartCard from '../../components/CartCard'
@@ -24,7 +25,11 @@ const sampleCartItems = [
 ]
 
 const cart = () => {
+  const router = useRouter()
   const [activeTab,setActiveTab] = useState<string>('Cart')
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -74,7 +79,7 @@ const cart = () => {
 
         activeTab === 'Cart' &&
         <View style={{position:'absolute',bottom:10,left:0,right:0,padding:20}}>
-          <TouchableOpacity style={defaultStyles.btn}>
+          <TouchableOpacity style={defaultStyles.btn} onPress={() => router.push('/checkoutPage/checkout')}>
             <Text style={defaultStyles.btnText}>Place Order</Text>
           </TouchableOpacity>
         </View>
