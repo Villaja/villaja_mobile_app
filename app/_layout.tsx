@@ -2,7 +2,7 @@ import { useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
+import { View, useColorScheme, StyleSheet, Text } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -208,9 +208,13 @@ function RootLayoutNav() {
           headerTitle:'',
           headerShadowVisible:false,
           headerLeft:() => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Ionicons name="arrow-back" size={24} color={"#000"} />
-            </TouchableOpacity>
+            <View style={{flexDirection:'row',alignItems:'center',gap:20}}>
+              
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="arrow-back" size={24} color={"#000"} />
+              </TouchableOpacity>
+              <Text style={{fontFamily:'roboto-condensed-sb',color:'#000',fontSize:22}}>My Orders</Text>
+            </View>
           ),
           
 

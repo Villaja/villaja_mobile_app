@@ -177,7 +177,7 @@ const index = () => {
       <View>
         <Carousel 
           data={carouselData} 
-          renderItem={({item, index}) => <View>
+          renderItem={({item, index}) => <View key={index}>
             
             <Image source={{uri:item.image}} style={{height:230}} />
             <Text style={{fontFamily:'roboto-condensed',position:'absolute',left:20,top:10,color:'rgba(255, 255, 255, 0.50)',zIndex:100}}>{item.store}</Text>
@@ -205,8 +205,8 @@ const index = () => {
                 }} >
 
         {
-          categoryData.map((cat) => (
-            <View style={{alignItems:'center'}}>
+          categoryData.map((cat,index) => (
+            <View key={index} style={{alignItems:'center'}}>
               <Image source={{uri:cat.image}} style={{width:47,height:47,borderRadius:40}} />
               <Text style={{fontFamily:'roboto-condensed',color:"#000"}}>{cat.name}</Text>
             </View>
