@@ -9,7 +9,7 @@ import { base_url } from '../../constants/server'
 import ProductCard from '../../components/ProductCard'
 // import InsetShadow from "react-native-inset-shadow";
 import { useAuth } from '../../context/AuthContext'
-import { Link, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 
 
 const {width} = Dimensions.get('window')
@@ -77,7 +77,8 @@ const categoryData = [
 const index = () => {
 
   const { user } = useAuth();
-  const router = useRouter()
+  const router = useRouter();
+  
   
   const [data, setData] = useState<Array<Product>>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -137,14 +138,14 @@ const index = () => {
     <SafeAreaView style={{flex:1,backgroundColor:'#fff',paddingTop:Platform.OS === 'android'?30:0}}>
       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
         <View style={{flexDirection:'row',alignItems:'center',gap:9      }}>
-            <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:40,height:40,borderRadius:40}} />
+            <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:50, top:1, height:50,borderRadius:40}} />
           <View style={{flexDirection:'row',alignItems:'center',gap:15}}>
           <View style={{}}>
             {user ? (
             
               <>
                 <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.30)', fontSize: 12 }}>Welcome To Villaja</Text>
-                <Text style={{ fontFamily: 'roboto-condensed', color: Colors.primary, fontSize: 18 }}>
+                <Text style={styles.userName}>
                   {user?.user.firstname} {user?.user.lastname}
                 </Text>
               </>
@@ -152,20 +153,12 @@ const index = () => {
             
               <>
                <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.30)', fontSize: 12}}>Welcome To Villaja</Text>
-            <Link
-              href="/(modals)/login"  
-              style={{
-                backgroundColor: Colors.primary,
-                padding: 7,
-                borderRadius: 5, 
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginTop: 10,
-                color: 'white'
-              }}
+            <TouchableOpacity
+              onPress={() => router.push(`/(modals)/login`)} 
+              style={styles.Login}
             >
-                Login
-            </Link>
+            <Text style={styles.Logintext}>Log in</Text>
+            </TouchableOpacity>
               </>
             
             )}
@@ -267,6 +260,29 @@ const styles = StyleSheet.create({
   lastCardInRow: {
     marginRight: 0,
   },
+  userName: {
+    fontFamily: 'roboto-condensed',
+    color: Colors.primary,
+    fontSize: 14,
+    fontWeight: '400'
+  },
+  Login: {
+    backgroundColor: '#025492',
+    padding: 7,
+    borderRadius: 5, 
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
+    textAlign: 'center',
+    width: 60,
+    fontWeight: '400',
+    bottom: 5
+  },
+  Logintext: {
+    color: '#ffffff',
+    fontWeight: '500',
+    fontSize: 10
+  }
 })
 
 export default index
