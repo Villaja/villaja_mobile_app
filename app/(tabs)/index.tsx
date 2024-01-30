@@ -140,7 +140,7 @@ const index = () => {
     <SafeAreaView style={{flex:1,backgroundColor:'#fff',paddingTop:Platform.OS === 'android'?30:0}}>
       <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
         <View style={{flexDirection:'row',alignItems:'center',gap:9      }}>
-            <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:40,height:40,borderRadius:40}} />
+            <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:50, top:1, height:50,borderRadius:40}} />
           <View style={{flexDirection:'row',alignItems:'center',gap:15}}>
           <View style={{}}>
             {user ? (
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   userName: {
     fontFamily: 'roboto-condensed',
     color: Colors.primary,
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '400'
   },
   Login: {
@@ -276,12 +276,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
     textAlign: 'center',
-    width: 80,
-    fontWeight: '400'
+    width: 60,
+    fontWeight: '400',
+    bottom: 5
   },
   Logintext: {
     color: '#ffffff',
-    fontWeight: '500'
+    fontWeight: '500',
+    fontSize: 10
   }
 })
 
