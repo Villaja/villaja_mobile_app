@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity } from 'react-native';
+import {View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable } from 'react-native';
 import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
 import { base_url } from '../../constants/server';
@@ -11,18 +11,71 @@ import { defaultStyles } from '../../constants/Styles';
 import { timeAgo } from '../../utils/timeAgo';
 import Svg, { Path } from 'react-native-svg';
 import SimilarSection from '../../components/SimilarSection';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import PopUpModal from '../../components/popUpModal';
+
+
 
 const {width} = Dimensions.get('window')
 
 const Page: React.FC = () => {
 
 
+
   const scrollRef = useRef<ScrollView>(null)
   const { id } = useLocalSearchParams<{ id: string }>();
   const [productDetails, setProductDetails] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [triggerCartModal,setTriggerCartModal] = useState(false)
+  const [modalInfo,setModalInfo] = useState<{icon:string,message:string,iconColor:string} | undefined>()
 
   const [descriptionLength,setDescriptionLength] = useState(3)
+
+  const handleAddToCart = async() => {
+
+    var cart = [] as Product[]
+
+    try
+    { 
+      await AsyncStorage.getItem('cart',(err,result) => {
+        cart = JSON.parse(result!) 
+      })
+
+      const itemExists  = cart && cart?.length > 0 && cart.find((item:Product) => item._id === productDetails?._id)
+      
+      if(itemExists)
+      {
+        // alert("This item is already in your cart")
+        setModalInfo({icon:'exclamationcircle',message:'This Item is Already In Your Cart',iconColor:'red'})
+        setTriggerCartModal(true)
+
+        
+      }
+      else if (cart && cart.length> 0 && !itemExists)
+      {
+        await AsyncStorage.setItem('cart',JSON.stringify([...cart,productDetails]))
+        setModalInfo({icon:'shoppingcart',message:'Item Added To The Shopping Cart',iconColor:Colors.primary})
+        setTriggerCartModal(true)
+      }
+      else
+      {
+        await AsyncStorage.setItem('cart',JSON.stringify([productDetails]))
+        setModalInfo({icon:'shoppingcart',message:'Item Added To The Shopping Cart',iconColor:Colors.primary})
+        setTriggerCartModal(true)
+      }
+
+    }
+    catch(err){
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    if(triggerCartModal)
+    {
+      setTimeout(() => setTriggerCartModal(false) , 2000)
+    }
+  },[triggerCartModal])
 
   useEffect(() => {
     // scrollRef.current?.scrollTo({x:0,y:0})
@@ -44,6 +97,11 @@ const Page: React.FC = () => {
 
   return (
     <ScrollView style={{backgroundColor:Colors.primaryUltraTransparent}} ref={scrollRef} >
+
+      <View>
+        <PopUpModal icon={modalInfo?.icon!} message={modalInfo?.message!} iconColor={modalInfo?.iconColor!} triggerCartModal={triggerCartModal} setTriggerCartModal={setTriggerCartModal}/>
+      </View>
+      
       <View style={styles.container}>
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
@@ -100,7 +158,7 @@ const Page: React.FC = () => {
                     </View>
 
                     <View style={{flexDirection:'row',gap:8,paddingVertical:16}}>
-                      <TouchableOpacity style={[defaultStyles.btn,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed'}]}>Add To Cart</Text></TouchableOpacity>
+                      <TouchableOpacity style={[defaultStyles.btn,{flexBasis:'49%'}]} onPress={() => handleAddToCart()}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed'}]}>Add To Cart</Text></TouchableOpacity>
                       <TouchableOpacity style={[defaultStyles.btnStyleBorder,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed',color:Colors.primary}]}>Request For Swap</Text></TouchableOpacity>
                     </View>
                   </View>
@@ -363,6 +421,47 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     borderRadius: 8,
     marginRight: 8,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
   },
 });
 

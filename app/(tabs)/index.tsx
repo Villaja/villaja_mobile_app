@@ -1,9 +1,7 @@
-import { View, Text,StyleSheet, Image, Dimensions,ScrollView, ActivityIndicator, SafeAreaView, Platform, ImageBackground } from 'react-native'
+import { View, Text,StyleSheet, Image, Dimensions,ScrollView, ActivityIndicator, SafeAreaView, Platform, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import {  } from 'react-native-safe-area-context'
 import { AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons'
 import Colors from '../../constants/Colors'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Carousel } from 'react-native-basic-carousel'
 import axios, { AxiosResponse } from 'axios'
 import { Product } from '../../types/Product'
@@ -20,7 +18,7 @@ const {width} = Dimensions.get('window')
 const testUser = {
   id:1,
   name:"Tony Danza",
-  image:"https://cdn.prod.www.spiegel.de/images/d2caafb1-70da-47e2-ba48-efd66565cde1_w1024_r0.9975262832405689_fpx44.98_fpy48.86.jpg"
+  image:"https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
 }
 
 const carouselData = [
@@ -32,17 +30,33 @@ const carouselData = [
   },
   {
     id:2,
-    device:"Apple Watch Gen2",
-    store:'Apple Store',
-    image:"https://s3-alpha-sig.figma.com/img/cf44/84c4/67231f7c05350cd2531b35ca90159215?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=H9zHwJTQk5LEz1p2jJlWKZX3DnPaY6cY01E89qDntJjOOr3SrG271c3vR8rEtbXhPcN2oqu4nI5qyucfyWPvF1SP19YM5ZoB7Zl5a2u6F0AowGGMW2uRRXGSqrc4E618dubTOnTBjbErZbaQ9OTGvoJuCwZ5Hal90oAmtBiwLppEQWv~UdFFM4rZ-zZEfWDjFP2t1te7j5x6NQXRJ3pVi4ZghXts2sW~vQJG8pz866QlaQUvd2U5uJsDXGSBn~elNkzmtICM4pCVzn6Tpv8IKrN1GgKZm5tYKfQJeIKBM1b4SZp5xpMHrkAIUPbc1ByIy6XoyDRAf68dSC4bdkfdXw__",
+    device:"XBOX Series X",
+    store:'Microsoft Store',
+    image:"https://s3-alpha-sig.figma.com/img/ee8d/6e9c/57e60530c207b324c3bee0ce8dd3f5e5?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=EJjLL~JHRLTCYsDFSm~kbxZZXDLaFPxAXeR3YSW3sC6Pcg45gd81FdJgBP14WTraWBZvWnhsLJqOyMGU~UsWb5TeFWAhh6VyU~bdAticdjmdUAdMdmym2VBfs5uo6c06zGHffKJKYPZZMF7ppgqhvc0YtL9ti4oPQSb~7EKb0sez4qIlyp~e7O5FEEw6ktCIgz3nC8c5-cLc6ObfMLeQUav-mo~AesMVQGDpNZfLwKXWBrpuftjtZk4Z6wXoEBwxOI5wOHDP9kcjpDld3EGq2DdIcUcgJ6WzqzGLK56-5oUc9DUkazMrz~MkqWTWBUtnXGghEDU1P1zWsRwkVF2iaA__",
 
 
   },
   {
     id:3,
-    device:"Apple Watch Gen2",
+    device:"PS5 Controllers",
+    store:'Play Station Store',
+    image:"https://s3-alpha-sig.figma.com/img/6ced/489b/209bd616948f0fe0f23dd36c9bb9c2b2?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=VPjvKGmZ1Jbiv0RdVV04793R8g6A~STGsP~eo8mEvOFF4eE7ug4ZzaNVNelIEQJzjIua7gK~smhGzxmxRxBavm7B6ihDNABmnm3nfhtg0gTS3hGl~PAR6ZHGyfQOKz6plpWWybGLnVVyd--QFHV5DdZHuPldTBT2WGqzESLM7fMu0Qwg7rLkfDMKjwg4V-NdOMcwHhts3W7kTupuJ0fq0jVsvSnN~R43884~smqk7XBZ4GtU1t6q05gv31Xw5LR0eUi4TVHNzXjgyQAkGGTBl5zwW8iDGCqv5n4hig8wOrh79yFY4N9CkXUSUZcMpPTued4XbIMTTmeC1sEzE2AIJw__",
+
+
+  },
+  {
+    id:4,
+    device:"Airpods Max",
     store:'Apple Store',
-    image:"https://s3-alpha-sig.figma.com/img/cf44/84c4/67231f7c05350cd2531b35ca90159215?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=H9zHwJTQk5LEz1p2jJlWKZX3DnPaY6cY01E89qDntJjOOr3SrG271c3vR8rEtbXhPcN2oqu4nI5qyucfyWPvF1SP19YM5ZoB7Zl5a2u6F0AowGGMW2uRRXGSqrc4E618dubTOnTBjbErZbaQ9OTGvoJuCwZ5Hal90oAmtBiwLppEQWv~UdFFM4rZ-zZEfWDjFP2t1te7j5x6NQXRJ3pVi4ZghXts2sW~vQJG8pz866QlaQUvd2U5uJsDXGSBn~elNkzmtICM4pCVzn6Tpv8IKrN1GgKZm5tYKfQJeIKBM1b4SZp5xpMHrkAIUPbc1ByIy6XoyDRAf68dSC4bdkfdXw__",
+    image:"https://s3-alpha-sig.figma.com/img/4ba6/d06b/2d8443c5ddabe1d6c8f1a83f532d4e94?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=lwDfH0Q968GcDryX3piBy1xastGeMoaNbbJSVU2zgQDyFrb6kBhplYHGTAf8HWXnIkk1WJTBjmU47NqrZtaRKwa2lZLhD8FeXY85Y28hJUnT2FmI-cCUWhs0o9ZBksm8wVdB93Iu1RS2p-6wIlw7qcxVfkpCMQADT0~tQ6Cb5arCEds-REtm5AzuSznKzkSWNUrCtK6hQSpCkUnBslnKUkBxuApCP9jJy5MOywAspDDQtZGfnuM0A9OGWk4X5ClFGB-tMYH8Xbf3QX4cd4chzT81z2eh81S8U5yfQsLsJUVjAYwnAIt41FUaHhQreFT93mOb9V8cwaeKJ6~oNosxpg__",
+
+
+  },
+  {
+    id:5,
+    device:"Apple Watch Series 8",
+    store:'Apple Store',
+    image:"https://s3-alpha-sig.figma.com/img/0224/3585/80ad73065ed751c28ac0579cae3d8d74?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=JFSCm5RxMrClttF6kj9HMtIhCzyGXpHdqVnaITFzxmah-Uq8fRriz0As7CQrxX0~PKER~oD6cG42NglLR59r1RPeWAer5cv5nlNPZnhS07l1m-SoiOg826VfHusNMGyp8Ej8sqXlMOaLdUj~qmupAf5L~1ygjSrGakxZj5itLfRWPhaiLLBTc2c80cPE4~fzJAVMa5g6Y4sNXA1TsOycqn7Qil-~Md4i2RvT9Ycb9Zr7yqoTbd9Ya0Hp4Kl~a1pqdZ~yR-mSpIsU5walRTX7KOAeAM50os0s6B3Pke7S1440tylOzuZ1MfKD7lucxw1YEebMkr5wdENEnSx8FHgBrA__",
 
 
   }
@@ -139,7 +153,7 @@ const index = () => {
 
   return (
     <SafeAreaView style={{flex:1,backgroundColor:'#fff',paddingTop:Platform.OS === 'android'?30:0}}>
-      <View style={{flexDirection:'row',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
+      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
         <View style={{flexDirection:'row',alignItems:'center',gap:9      }}>
             <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:50, top:1, height:50,borderRadius:40}} />
           <View style={{flexDirection:'row',alignItems:'center',gap:15}}>
@@ -183,7 +197,7 @@ const index = () => {
 
             renderItem={({ item, index }) => <View >
 
-              <ImageBackground source={{ uri: item.image }} style={{ height: 230}}  />
+              <Image source={{ uri: item.image }} style={{ height: 230}}  />
               <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{item.store}</Text>
               <Text style={{ fontSize: 20, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '400', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{item.device}</Text>
               <TouchableOpacity style={styles.buyNowBtn}>
@@ -246,7 +260,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     position:'absolute',
     right:30,
-    bottom:15
+    bottom:15,
   },
   loadingIndicator: {
     marginTop: 16,

@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { defaultStyles } from '../../constants/Styles'
 import Colors from '../../constants/Colors'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -7,6 +7,8 @@ import Svg, { Path } from 'react-native-svg'
 import { AntDesign, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import OrderHistoryCard from '../../components/OrderHistoryCard'
 import CheckoutProductCard from '../../components/CheckoutProductCard'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Product } from '../../types/Product'
 
 const sampleCartItems = [
   {
@@ -27,7 +29,24 @@ const sampleCartItems = [
 
 const checkout = () => {
 
-    const total = sampleCartItems.reduce((a,b) => {return(a + b.discountPrice)},0)
+    const [total,setTotal] = useState<number>(0)
+    const [cart,setCart] = useState<Product[]>([])
+
+    const handleGetCart = async() => {
+        await AsyncStorage.getItem('cart',(err,result) => {
+            const cart = (JSON.parse(result!))
+            const total = cart.reduce((a:number,b:Product) => {return(a + (b.discountPrice > 0?b.discountPrice:b.originalPrice))},0)
+            setCart(cart)
+            setTotal(total)
+        })
+    }
+
+    useEffect(()=>{
+        handleGetCart()
+
+    },[])
+
+
   return (
     <View style={{flex:1,backgroundColor:Colors.primaryUltraTransparent,paddingBottom:100}}>
 
@@ -40,7 +59,7 @@ const checkout = () => {
         >Order Summary</Text>
         <View style={styles.orderSummarySection}>
             <Text style={styles.orderSummaryText}>Total</Text>
-            <Text style={styles.orderSummaryPrice}>{total}</Text>
+            <Text style={styles.orderSummaryPrice}>{total.toLocaleString()}</Text>
         </View>
         <View style={styles.orderSummarySection}>
             <Text style={styles.orderSummaryText}>Delivery Fee</Text>
@@ -83,8 +102,8 @@ const checkout = () => {
 
       <View>
          {
-          sampleCartItems && sampleCartItems.map((item) => (
-            <CheckoutProductCard key={item.id}  {...item} />
+          cart && cart.length > 0 && cart.map((item) => (
+            <CheckoutProductCard key={item._id}  {...item} />
           ))
         }
       </View>

@@ -3,6 +3,7 @@ import React from 'react'
 import { defaultStyles } from '../constants/Styles';
 import Colors from '../constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
+import { Product } from '../types/Product';
 
 interface Props {
   id: number;
@@ -14,13 +15,13 @@ interface Props {
 
 
 
-const CheckoutProductCard = (item:Props) => {
+const CheckoutProductCard = (item:Product) => {
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
         <View style={styles.imageContainer}>
 
-            <Image source={{uri:item.image}} style={styles.image}  />
+            <Image source={{uri:item.images[0].url}} style={styles.image}  />
         </View>
         <View style={{paddingVertical:12.5}}>
             <Text style={styles.name}>{item.name}</Text>

@@ -1,11 +1,15 @@
 import { View, Text, TouchableOpacity,StyleSheet, ScrollView } from 'react-native'
 import { useRouter } from 'expo-router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Colors from '../../constants/Colors'
 import CartCard from '../../components/CartCard'
 import { defaultStyles } from '../../constants/Styles'
 import OrdersCard from '../../components/OrdersCard'
 import OrderHistoryCard from '../../components/OrderHistoryCard'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Product } from '../../types/Product'
+import { AntDesign } from '@expo/vector-icons'
+import { useAuth } from '../../context/AuthContext'
 
 const sampleCartItems = [
   {
@@ -24,9 +28,41 @@ const sampleCartItems = [
   },
 ]
 
+
 const cart = () => {
+  const { user } = useAuth();
   const router = useRouter()
   const [activeTab,setActiveTab] = useState<string>('Cart')
+  const [cart,setCart] = useState<Array<Product>>([])
+
+  const handleRemoveFromCart = async (id:string) => {
+    var cart = [] as Product[]
+    await AsyncStorage.getItem('cart',(err,result) => {
+      cart = JSON.parse(result!)
+    })
+
+    const newCart = cart.filter((it) => it._id !== id)
+
+    await AsyncStorage.setItem('cart',JSON.stringify(newCart))
+    setCart(newCart)
+  }
+
+
+  useEffect(() => {
+    handleGetCart()
+  },[])
+
+  const handleGetCart = async () => {
+    await AsyncStorage.getItem('cart',(err,result) => {
+      if(err)
+      {
+        return console.log(err);        
+      }
+      setCart(JSON.parse(result!))
+    })
+  }
+
+
 
 
 
@@ -47,9 +83,19 @@ const cart = () => {
         activeTab==='Cart'?
       <ScrollView style={{padding:20,gap:16}}>
         {
-          sampleCartItems && sampleCartItems.map((item) => (
-            <CartCard key={item.id}  {...item} />
+          cart && cart.length > 0? cart.map((item) => (
+            <CartCard item={item} key={item._id}  handleRemoveCart={handleRemoveFromCart} />
+            
           ))
+
+          :
+          <View style={{paddingVertical:50,justifyContent:'center',alignItems:'center',gap:20}}>
+            <AntDesign name="shoppingcart" size={60} color={Colors.primary} />
+            <Text style={[styles.textHeader,{color:'#000'}]}>Your Cart is Empty</Text>
+            <TouchableOpacity style={[defaultStyles.btn,{paddingHorizontal:20}]} onPress={() => router.push('/')}>
+              <Text style={defaultStyles.btnText}>Continue Shopping</Text>
+            </TouchableOpacity>
+          </View>
         }
       </ScrollView>
       :activeTab === 'Orders'?
@@ -77,10 +123,17 @@ const cart = () => {
       
       {
 
-        activeTab === 'Cart' &&
+        user ? activeTab === 'Cart' && cart && cart.length > 0 && 
         <View style={{position:'absolute',bottom:10,left:0,right:0,padding:20}}>
           <TouchableOpacity style={defaultStyles.btn} onPress={() => router.push('/checkoutPage/checkout')}>
             <Text style={defaultStyles.btnText}>Place Order</Text>
+          </TouchableOpacity>
+        </View>
+
+        :
+        <View style={{position:'absolute',bottom:10,left:0,right:0,padding:20}}>
+          <TouchableOpacity style={defaultStyles.btn} onPress={() => router.push('/(modals)/login')}>
+            <Text style={defaultStyles.btnText}>Sign In To Place Order</Text>
           </TouchableOpacity>
         </View>
       }

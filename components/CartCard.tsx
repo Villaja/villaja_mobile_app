@@ -2,6 +2,9 @@ import { View, Text, TouchableOpacity , Image, StyleSheet} from 'react-native'
 import React from 'react'
 import { defaultStyles } from '../constants/Styles';
 import Colors from '../constants/Colors';
+import { Product } from '../types/Product';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 
 interface Props {
   id: number;
@@ -13,19 +16,22 @@ interface Props {
 
 
 
-const CartCard = (item:Props) => {
+const CartCard = ({item,handleRemoveCart}:{item:Product,handleRemoveCart:(id:string) => void}) => {
+  const router = useRouter()
+
+  
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
-        <Image source={{uri:item.image}} style={styles.image}  />
+        <Image source={{uri:item.images[0]?.url}} style={styles.image}  />
         <View style={{paddingVertical:12.5}}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>N{item.originalPrice.toLocaleString()}</Text>
-            <Text style={styles.discount}>N{item.discountPrice}</Text>
+            <Text style={styles.discount}>{item.discountPrice === 0?null:'N'+item.discountPrice.toLocaleString()}</Text>
         </View>
       </View>
       
-        <TouchableOpacity style={[defaultStyles.btn,{backgroundColor:Colors.primaryTransparent}]}>
+        <TouchableOpacity style={[defaultStyles.btn,{backgroundColor:Colors.primaryTransparent}]} onPress={() => handleRemoveCart(item._id)}>
             <Text style={[defaultStyles.btnText,{color:Colors.primary}]}>Remove</Text>
         </TouchableOpacity>
       
