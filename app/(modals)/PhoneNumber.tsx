@@ -213,7 +213,7 @@ const PhoneNumber = () => {
       </Modal>
       <View style={styles.frame3}>
         <TouchableOpacity
-          style={[styles.btn, { marginHorizontal: 20, marginVertical: 20 }]}
+          style={[defaultStyles.btn,{marginHorizontal:20,marginVertical:15}]}
           onPress={() => router.push(`/(modals)/otp`)}
         >
           <Text>{`Send`}</Text>

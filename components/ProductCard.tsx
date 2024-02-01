@@ -88,7 +88,6 @@ const styles = StyleSheet.create({
     borderRadius:5,
     // backgroundColor:Colors.primaryTransparent,
     overflow:'hidden',
-    
   },
   discountPercentage:{
     position: 'absolute',
