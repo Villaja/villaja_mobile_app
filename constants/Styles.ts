@@ -9,13 +9,14 @@ export const defaultStyles = StyleSheet.create({
   inputField: {
     height: 45,
     borderWidth: 1,
-    borderColor: "#ABABAB",
+    borderColor: "rgba(0,0,0,0.10)",
     borderRadius: 5,
-    paddingVertical: 15,
+    paddingVertical: 10,
     paddingHorizontal: 13,
     backgroundColor: "rgba(0,0,0,0.02)",
     color: "#000",
-    fontFamily: 'roboto-condensed'
+    fontFamily: 'roboto-condensed',
+    
   },
   btn: {
     backgroundColor: Colors.primary,

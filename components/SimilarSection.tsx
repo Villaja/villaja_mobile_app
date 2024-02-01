@@ -22,7 +22,7 @@ const SimilarSection = ({category}:{category:string}) => {
         );
   
         // Get the first 10 products
-        const first6Products = response.data.products.slice(0,6);
+        const first6Products = response.data.products.filter((item) => item.category === category).slice(0,6);
   
         setData(first6Products);
       } catch (error) {

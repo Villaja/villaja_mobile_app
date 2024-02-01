@@ -10,6 +10,7 @@ import ProductCard from '../../components/ProductCard'
 // import InsetShadow from "react-native-inset-shadow";
 import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'expo-router'
+import { Skeleton } from '@rneui/themed'
 
 
 
@@ -91,6 +92,15 @@ const categoryData = [
 
 ]
 
+const adsData = [
+  {
+    id:1,
+    device:"IPhone 15 Pro Max",
+    store:'Apple Store',
+    image:"https://s3-alpha-sig.figma.com/img/cf44/84c4/67231f7c05350cd2531b35ca90159215?Expires=1707091200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=H9zHwJTQk5LEz1p2jJlWKZX3DnPaY6cY01E89qDntJjOOr3SrG271c3vR8rEtbXhPcN2oqu4nI5qyucfyWPvF1SP19YM5ZoB7Zl5a2u6F0AowGGMW2uRRXGSqrc4E618dubTOnTBjbErZbaQ9OTGvoJuCwZ5Hal90oAmtBiwLppEQWv~UdFFM4rZ-zZEfWDjFP2t1te7j5x6NQXRJ3pVi4ZghXts2sW~vQJG8pz866QlaQUvd2U5uJsDXGSBn~elNkzmtICM4pCVzn6Tpv8IKrN1GgKZm5tYKfQJeIKBM1b4SZp5xpMHrkAIUPbc1ByIy6XoyDRAf68dSC4bdkfdXw__",
+  },
+]
+
 const index = () => {
 
   const { user } = useAuth();
@@ -110,7 +120,7 @@ const index = () => {
         );
   
         // Get the first 10 products
-        const first10Products = response.data.products.slice(0,20);
+        const first10Products = response.data.products.slice(0,40);
   
         setData(first10Products);
       } catch (error) {
@@ -124,7 +134,7 @@ const index = () => {
   }, []);
 
 
-  const renderProductCards = () => {
+  const renderSkeletonLoader = (start:number,end:number) => {
     const cardsPerRow = 2;
 
     return (
@@ -133,7 +143,41 @@ const index = () => {
         
         
         <View style={styles.gridContainer}>
-          {data.map((product, index) => (
+          {Array(40).fill(0).slice(start,end).map((_, index) => (
+
+            <View
+              key={index}
+              style={[
+                styles.productCard,
+                index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+              ]}
+            >
+            
+            <Skeleton  skeletonStyle={{ 
+              backgroundColor:'rgba(0,0,0,0.10)',
+              borderRadius:5,
+              
+            }} animation="pulse" width={(Dimensions.get('window').width - 40)/2 - 5} height={250} />
+            
+            </View>
+          ))}
+        </View>
+      </View>
+
+    );
+  }
+
+
+  const renderProductCards = (start:number,end:number) => {
+    const cardsPerRow = 2;
+
+    return (
+      <View>
+
+        
+        
+        <View style={styles.gridContainer}>
+          {data.slice(start,end).map((product, index) => (
             <View
               key={product._id}
               style={[
@@ -152,7 +196,7 @@ const index = () => {
 
 
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:'#fff',paddingTop:Platform.OS === 'android'?30:0}}>
+    <SafeAreaView style={{flex:1,backgroundColor:Colors.primaryUltraTransparent,paddingTop:Platform.OS === 'android'?30:0}}>
       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',paddingHorizontal:20,paddingVertical:8,}} >
         <View style={{flexDirection:'row',alignItems:'center',gap:9      }}>
             <Image source={{uri:testUser.image}} resizeMode='contain' style={{width:50, top:1, height:50,borderRadius:40}} />
@@ -194,7 +238,7 @@ const index = () => {
         <View>
           <Carousel
             data={carouselData}
-
+            style={{backgroundColor:'#fff'}}
             renderItem={({ item, index }) => <View >
 
               <Image source={{ uri: item.image }} style={{ height: 230}}  />
@@ -212,13 +256,14 @@ const index = () => {
           />
         </View>
 
-      <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000000B2',paddingHorizontal:20,marginBottom:6}}>Top Categories</Text>
+      <Text style={{backgroundColor:'#fff',fontFamily:'roboto-condensed',fontSize:18,color:'#000000B2',paddingHorizontal:20,paddingVertical:6}}>Top Categories</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{height:100}}  contentContainerStyle={
                 {
                     alignItems:'center',
                     gap:20,
                     paddingHorizontal:20,
-                    height:100
+                    height:100,
+                    backgroundColor:'#fff'
 
                 }} >
 
@@ -232,16 +277,63 @@ const index = () => {
         }
       </ScrollView>
 
-      <View style={{paddingHorizontal:20,backgroundColor:Colors.primaryUltraTransparent}}>
+      <View style={{paddingHorizontal:20}}>
         <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:'#000000B2',marginVertical:9}}>Popular</Text>
         <View>
           {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" style={styles.loadingIndicator} />
+            renderSkeletonLoader(0,4)
+          // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
           ) : (
-            renderProductCards()
+            renderProductCards(0,4)
             )}
         </View>
       </View>
+      
+
+      <View style={styles.imgContainer}>
+                        <Image style={styles.image} source={require("../../assets/images/More.png")} />
+                        <View style={styles.imageText} >
+                        <Text style={styles.text1}> BECOME A</Text>
+                        <Text style={styles.text2}>Merchant For Villaja</Text>
+                        <TouchableOpacity style={styles.getStarted} >
+                            <Text style={styles.gtText} >Get Started</Text>
+                        </TouchableOpacity>
+                    </View>
+      </View>
+
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{marginVertical:20,height:400}}  contentContainerStyle={
+                {
+                    alignItems:'center',
+                    gap:4,
+                    paddingHorizontal:20,
+                    borderRadius:5,
+                    overflow:'hidden'
+
+                }} >
+
+        {
+          carouselData.map((cat,index) => (
+            <View key={index} style={{alignItems:'center',borderRadius:5,overflow:'hidden'}}>
+              <Image source={{uri:cat.image}} style={{width:300,height:400,borderRadius:5}} />
+              <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
+              <Text style={{ fontSize: 25, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '400', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
+              
+            </View>
+          ))
+        }
+      </ScrollView>
+
+      <View style={{paddingHorizontal:20}}>
+        <View>
+          {loading ? (
+          // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
+          renderSkeletonLoader(0,4)
+          ) : (
+            renderProductCards(4,40)
+            )}
+        </View>
+      </View>
+
       </ScrollView>
 
     </SafeAreaView>
@@ -263,7 +355,7 @@ const styles = StyleSheet.create({
     bottom:15,
   },
   loadingIndicator: {
-    marginTop: 16,
+    marginVertical: 16,
   },
   gridContainer: {
     flexDirection: 'row',
@@ -301,7 +393,58 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontWeight: '500',
     fontSize: 10
-  }
+  },
+  imgContainer: {
+        // width: 335,
+        marginVertical: 24,
+        height: 102,
+        alignItems: 'center',
+        justifyContent: 'center',
+        // backgroundColor: 'red',
+        padding:20
+        // left:14,
+    },
+    image: {
+        position: "absolute",
+        width:'100%',
+        resizeMode:'cover'
+        // width: 340
+    },
+    imageText: {
+        
+        color: '#FFFFFF99',
+        height: 87,
+        // width: 307,
+        left: 33,
+        position: 'absolute'
+    },
+    text1: {
+        color: "#FFFFFF99",
+        fontSize: 10,
+        fontWeight: '500',
+        lineHeight: 11.72,
+    },
+    text2: {
+        fontSize: 20,
+        color: "#FFFFFF",
+        fontWeight: '500',
+        lineHeight: 29.3,
+    },
+    getStarted: {
+        borderWidth: 1,
+        borderColor: '#ffffff',
+        width: 91,
+        height: 34,
+        top: 10,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    gtText: {
+        color: '#FFFFFF',
+        fontSize: 12,
+        fontWeight: '500',
+        lineHeight: 14.06
+    },
 })
 
 export default index

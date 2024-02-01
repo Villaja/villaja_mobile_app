@@ -246,8 +246,8 @@ function RootLayoutNav() {
           headerTitle:'More',
           headerTitleAlign:'center',
           headerTitleStyle:{
-            fontFamily:'roboto-condensed-sb',
-            fontSize:24
+            fontFamily:'roboto-condensed-sb-i',
+            fontSize:20
           },
           headerShadowVisible:false,
           headerLeft:() => (

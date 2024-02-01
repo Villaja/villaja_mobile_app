@@ -32,11 +32,13 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="cart"
+        name="search"
+        
         options={{
           tabBarLabel: 'Search',
+          headerShown:false,
           tabBarIcon: ({ size, color }) => (
-            <MaterialIcons name="search" size={size} color={color} />
+            <AntDesign name="search1" size={size} color={color} />
           ),
         }}
       />
