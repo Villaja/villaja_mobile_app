@@ -9,7 +9,7 @@ const OrderSuccess = () => {
 
   const handleSeeAllOrders = () => {
     // Navigate to the screen where you display all orders
-    router.replace('/checkoutPage/checkout')
+    router.replace('/cartScreen/cart')
   };
 
   return (

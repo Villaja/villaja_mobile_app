@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet, Alert } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Alert, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'expo-router'
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const Page = () => {
@@ -46,11 +47,15 @@ const Page = () => {
   }, [id]);
 
   return (
+
     <View style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" color="#3498db" />
       ) : (
+        
         <View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+
           <Text style={styles.header}>Order Details for Order ID: {id}</Text>
           {orderDetails ? (
             <View>
@@ -68,9 +73,12 @@ const Page = () => {
           ) : (
             <Text>No order details found</Text>
           )}
+          </ScrollView>
+
         </View>
       )}
     </View>
+
   );
 };
 

@@ -101,7 +101,7 @@ const cart = () => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container,{paddingBottom:100}]}>
       <View style={styles.headerContainer}>
         <TouchableOpacity style={styles.headerBtn} onPress={() => setActiveTab('Cart')}>
           <Text style={activeTab === "Cart" ? styles.activeTextHeader:styles.textHeader}>Cart</Text>

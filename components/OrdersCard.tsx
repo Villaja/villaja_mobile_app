@@ -1,15 +1,16 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
 import { defaultStyles } from '../constants/Styles';
 import Colors from '../constants/Colors';
 import { Order } from '../types/Order';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 interface OrderCardProps {
   order: Order;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
+  const router = useRouter()
   return (
     
     <View style={styles.container}>
@@ -22,9 +23,10 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
         </View>
       </View>
 
-     <Link style={[defaultStyles.btn, { backgroundColor: Colors.primaryTransparent }]} href={`/order/${order._id}`}>
+        <TouchableOpacity style={[defaultStyles.btn,{width:'100%',flexGrow:1,flexBasis:'100%',backgroundColor:Colors.primaryTransparent}]} onPress={() => router.push(`/order/${order._id}`)}>
+
         <Text style={[defaultStyles.btnText, { color: Colors.primary }]}>Track Order</Text>
-     </Link>
+        </TouchableOpacity>
       <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.redTransparent }]}>
         <Text style={[defaultStyles.btnText, { color: Colors.red }]}>Cancel</Text>
       </TouchableOpacity>
