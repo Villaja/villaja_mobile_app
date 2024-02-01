@@ -11,6 +11,7 @@ import ModalHeaderText from '../components/ModalHeaderText';
 import { StatusBar } from 'react-native';
 import React from 'react';
 import { AuthProvider } from '../context/AuthContext';
+import { OrdersProvider } from '../context/OrderContext';
 
 
 export {
@@ -62,6 +63,7 @@ function RootLayoutNav() {
  
   return (
     <AuthProvider>
+      <OrdersProvider>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen
@@ -239,6 +241,7 @@ function RootLayoutNav() {
         }}
       />
       </Stack>
+      </OrdersProvider>
       </AuthProvider>
    
   );

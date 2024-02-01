@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity,StyleSheet, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity,StyleSheet, ScrollView, FlatList, ActivityIndicator,  } from 'react-native'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import Colors from '../../constants/Colors'
@@ -10,6 +10,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Product } from '../../types/Product'
 import { AntDesign } from '@expo/vector-icons'
 import { useAuth } from '../../context/AuthContext'
+import { useOrders } from '../../context/OrderContext';
+import { Order, CartItem } from '../../types/Order'
+
+import axios from 'axios'
 
 const sampleCartItems = [
   {
@@ -32,8 +36,38 @@ const sampleCartItems = [
 const cart = () => {
   const { user } = useAuth();
   const router = useRouter()
+  const [orders, setOrders] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [activeTab,setActiveTab] = useState<string>('Cart')
   const [cart,setCart] = useState<Array<Product>>([])
+
+  const id = user?.user._id
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (user) {
+          const response = await axios.get(`https://api-villaja.cyclic.app/api/order/get-all-orders/${id}`);
+          if (response.data.success) {
+            setOrders(response.data.orders);
+          } else {
+            console.error('Failed to fetch orders');
+          }
+        } else {
+          router.replace('/(modals)/login')
+        }
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, user, router]);
+
+  console.log(id)
+
 
   const handleRemoveFromCart = async (id:string) => {
     var cart = [] as Product[]
@@ -99,13 +133,18 @@ const cart = () => {
         }
       </ScrollView>
       :activeTab === 'Orders'?
-      <ScrollView style={{padding:20}}>
-        {
-          sampleCartItems && sampleCartItems.map((item) => (
-            <OrdersCard key={item.id}  {...item} />
-          ))
-        }
-      </ScrollView>
+      <ScrollView style={{ padding: 20 }}>
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <FlatList
+          data={orders}
+          keyExtractor={(item) => item._id}
+          ListEmptyComponent={() => <Text>No orders available</Text>}
+          renderItem={({ item }) => <OrdersCard key={item._id} order={item} />}
+        />
+      )}
+    </ScrollView>
       :
       <ScrollView style={{padding:0,gap:16}}>
         <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:20,paddingVertical:7}}>

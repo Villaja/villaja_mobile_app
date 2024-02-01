@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { defaultStyles } from '../../constants/Styles'
 import Colors from '../../constants/Colors'
@@ -9,42 +9,95 @@ import OrderHistoryCard from '../../components/OrderHistoryCard'
 import CheckoutProductCard from '../../components/CheckoutProductCard'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Product } from '../../types/Product'
+import PaystackWebView from 'react-native-paystack-webview';
+import { useAuth } from '../../context/AuthContext'
+import axios from 'axios'
+import  { Paystack }  from 'react-native-paystack-webview';
+import { useRouter } from 'expo-router'
 
-const sampleCartItems = [
-  {
-    id:1,
-    name:'Soundcore Space Q45, 2022 Vision',
-    originalPrice:234000,
-    discountPrice:199000,
-    image:'https://s3-alpha-sig.figma.com/img/d741/058d/03f244cdf5ece1cea44eeee2751fbaca?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=LaourMMgrWTY6aVMjYiteL5MqgRzjDHrinqz6Nj57UzRovBXz7BLjm8sUUVlnEOY1-b~TfLLmiGzamNPtfAXxfBnVxgLUvXYG8PA~YOpADQSS3AMz2C7dTMMozdTSuWRJ-Wfp80UQYH1rgYfQbBCyNCc1amAsWmKBghrQn7wxoCz4PB1HA1hR2liTQX5vTE07girINUPdkKn5E4jAnE0fMp4Hw4r8u4hSZSKfp5eiB636iRhXY8LsKHFgRnkuv0DHlUIjE6af4pAy44~Wr9LsDE~dgwsAuK6Cl6wD4nDI-GTuw5~~uBE5F~iv9iOqk9CcFk41h9SaX7Yux-Y~22I~g__'
-  },
-  {
-    id:2,
-    name:'Soundcore Space A45, 2022 Vision',
-    originalPrice:226500,
-    discountPrice:179000,
-    image:'https://s3-alpha-sig.figma.com/img/a000/158a/e391fe89bb97d2e6089708e8be878a43?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=oMqKbmkexD7H1VIiEVL2UB9L0jUPi89DO4c7sMgIa6uxWSIm6cQqqUTC2vSzCdM3fPieuFFo3C9XgR028dKhb-AUC9EPinkth33FySyWJ6YURzsNkvk~FAsIWjWlYCTTvWLEqNiXpUUZCC4cv48k0A7kxUR2Pd7i8sRCBZbPwxTZjSwOS6aGUQNqDrf7zCRc4lBFCZqIB~Ym9Cv8FdZSTHrUP64Bh6OwYlx7kO8uqhrKGMy-LQ-JO6ZfRObTzU7t3W8GlwaoluJzB-MAii1xK~tS2uh0aWb779iZ6A8UrsBMgoM4yxJh0fclGp~zdoGxm5JLQfvlvgM0fpWxSXPHPQ__'
-  },
-]
+
 
 const checkout = () => {
 
     const [total,setTotal] = useState<number>(0)
     const [cart,setCart] = useState<Product[]>([])
+    const [showPaystack, setShowPaystack] = useState(false);
+    const router = useRouter()
+    const { user } = useAuth();
 
-    const handleGetCart = async() => {
-        await AsyncStorage.getItem('cart',(err,result) => {
-            const cart = (JSON.parse(result!))
-            const total = cart.reduce((a:number,b:Product) => {return(a + (b.discountPrice > 0?b.discountPrice:b.originalPrice))},0)
-            setCart(cart)
-            setTotal(total)
-        })
-    }
+    const handleGetCart = async () => {
+        await AsyncStorage.getItem('cart', (err, result) => {
+          const cart = JSON.parse(result!);
+          const total = cart.reduce((a: number, b: Product) => {
+            return a + (b.discountPrice > 0 ? b.discountPrice : b.originalPrice);
+          }, 0);
+          setCart(cart);
+          setTotal(total);
+        });
+      };
+    
+      useEffect(() => {
+        handleGetCart();
+      }, []);
 
-    useEffect(()=>{
-        handleGetCart()
 
-    },[])
+      const proceedToPayment = () => {
+        setShowPaystack(true);
+      };
+
+      console.log(user?.user.firstname)
+      console.log(total)
+
+      const onPaystackSuccess = async (response:any) => {
+        // Handle successful payment
+        setShowPaystack(false);
+    
+        const order = {
+          cart: cart,
+          shippingAddress: '28, soluyi estate, gbagada phase 1, Lagos nigeria', // Replace with actual address
+          user: user && user?.user,
+          totalPrice: total + 650, // Add delivery fee
+        };
+    
+        // Add paymentInfo dynamically
+        (order as any)['paymentInfo'] = {
+            id: response.reference,
+            status: 'succeeded',
+            type: 'Paystack',
+          };
+    
+        // Make a POST request to create the order
+        try {
+          const config = {
+            headers: {
+              'Content-Type': 'application/json',
+              
+            },
+          };
+    
+          // Make a POST request to create the order
+          const createOrderResponse = await axios.post(`https://api-villaja.cyclic.app/api/order/create-order`, order, config);
+    
+          if (createOrderResponse.data.success) {
+            // Order created successfully
+            router.replace('/orderSuccess/orderSuccess');
+            // toast.success('Order successful!');
+            console.log("order succedd")
+            AsyncStorage.removeItem('cart');
+          } else {
+            console.error('Failed to create order');
+          }
+        } catch (error) {
+          console.error('Error creating order:', error);
+        }
+      };
+    
+      const onPaystackClose = () => {
+        // Handle when Paystack modal is closed
+        setShowPaystack(false);
+        Alert.alert('Payment Cancelled', 'Your progress would be lost.');
+      };
+    
 
 
   return (
@@ -109,11 +162,26 @@ const checkout = () => {
       </View>
     </ScrollView>
 
-     <View style={{position:'absolute',bottom:0,right:0,left:0,padding:20,backgroundColor:'#fff'}}>
-        <TouchableOpacity style={defaultStyles.btn}>
+    <View style={{ position: 'absolute', bottom: 0, right: 0, left: 0, padding: 20, backgroundColor: '#fff' }}>
+          <TouchableOpacity style={defaultStyles.btn} onPress={proceedToPayment}>
             <Text style={defaultStyles.btnText}>Proceed To Payment</Text>
-        </TouchableOpacity>
-    </View> 
+          </TouchableOpacity>
+     </View>
+
+
+     {showPaystack && (
+        <Paystack  
+        paystackKey="pk_test_ba3974730a50a8f120783a5c097a2b9603129aa7"
+        // amount={total} 
+        amount={100}
+        billingEmail={user?.user.email}
+        billingName={`${user?.user.firstname} ${user?.user.lastname}`}
+        onSuccess={onPaystackSuccess}
+        onCancel={onPaystackClose}
+        activityIndicatorColor="green"
+        autoStart={true}
+      />
+      )}
     </View>
 
   )
