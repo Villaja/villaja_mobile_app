@@ -240,6 +240,28 @@ function RootLayoutNav() {
 
         }}
       />
+      <Stack.Screen 
+        name='moreScreen/More'
+        options={{
+          headerTitle:'More',
+          headerTitleAlign:'center',
+          headerTitleStyle:{
+            fontFamily:'roboto-condensed-sb',
+            fontSize:24
+          },
+          headerShadowVisible:false,
+          headerLeft:() => (
+            <View style={{flexDirection:'row',alignItems:'center',gap:20,marginRight:20}}>
+              
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="arrow-back" size={24} color={"#000"} />
+              </TouchableOpacity>
+            </View>
+          ),
+          
+
+        }}
+      />
       </Stack>
       </OrdersProvider>
       </AuthProvider>
