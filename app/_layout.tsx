@@ -293,6 +293,36 @@ function RootLayoutNav() {
           ),
         }}
       />
+      <Stack.Screen
+        name="(modals)/PhoneNumber"
+        options={{
+          // presentation: 'modal',
+          title: '',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
+          
+        }}
+      />
+      <Stack.Screen
+        name="accountScreen/account"
+        options={{
+          // presentation: 'modal',
+          title: 'Account',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
+          
+        }}
+      />
       </Stack>
       </OrdersProvider>
       </AuthProvider>

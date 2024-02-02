@@ -64,7 +64,7 @@ const PhoneNumber = () => {
     const countryCode = selectedCountry.code;
     const enteredNumber = phoneNumber.trim();
 
-    // Simple validation examples for some countries, customize as needed
+    // validation for countries
     switch (countryCode) {
       case "+1": // United States
         if (!/^[2-9]\d{9}$/.test(enteredNumber)) {
