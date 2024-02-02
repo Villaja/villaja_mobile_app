@@ -35,12 +35,12 @@ const search = () => {
 
     }) 
 
-    searchTerm && await AsyncStorage.setItem('recentSearches',JSON.stringify([...searches,searchTerm]))
+    searchTerm && !searches.includes(searchTerm) && await AsyncStorage.setItem('recentSearches',JSON.stringify([...searches,searchTerm]))
     // console.log(searches); 
     
   }
 
-  const handleDeleteRecentSearch = async(searchTerm:string) => {
+  const handleDeleteRecentSearch = async(searchTerm:string) => { 
     var searches = [] as any
 
     await AsyncStorage.getItem('recentSearches',(err,result) => {
@@ -63,7 +63,7 @@ const search = () => {
     // if((e.nativeEvent.key ===  "Enter") || e.type == 'ended'){
       setSearchValue(searchValue)
       handleRecentSearch(searchValue)
-      console.log(searchValue)
+      searchValue && router.push({pathname:`/catalog/${searchValue}`,params:{minPrice:"1",maxPrice:"5000000"}})
     // }
   }
 
@@ -132,7 +132,7 @@ const search = () => {
             <View>
               {
               recentSearch && recentSearch.length > 0 && recentSearch.filter((value) => value.toLowerCase().slice(0,searchValue.length) === searchValue.toLowerCase()).slice(0,4).map((value,index) => 
-                  <View style={[styles.recentSearchOutput,{paddingHorizontal:20,gap:20,marginTop:20}]}>
+                  <View key={index} style={[styles.recentSearchOutput,{paddingHorizontal:20,gap:20,marginTop:20}]}>
                     <View style={{flexDirection:'row',gap:4,alignItems:'center'}}>
                       <Octicons name='history' size={18} color={Colors.primary} />
                       <Text style={styles.text}>{value}</Text>
@@ -173,7 +173,7 @@ const search = () => {
               <Text style={styles.headerText}>Recent Search</Text>
               {
                 recentSearch && recentSearch.length > 0 && recentSearch.slice(0,4).map((value,index) => 
-                  <View style={styles.recentSearchOutput}>
+                  <View key={index} style={styles.recentSearchOutput}>
                     <View style={{flexDirection:'row',gap:4,alignItems:'center'}}>
                       <Octicons name='history' size={18} color={Colors.primary} />
                       <Text style={styles.text}>{value}</Text>

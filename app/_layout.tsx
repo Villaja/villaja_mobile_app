@@ -12,6 +12,7 @@ import { StatusBar } from 'react-native';
 import React from 'react';
 import { AuthProvider } from '../context/AuthContext';
 import { OrdersProvider } from '../context/OrderContext';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 export {
@@ -62,6 +63,8 @@ function RootLayoutNav() {
   const router = useRouter();
  
   return (
+    <GestureHandlerRootView style={{flex:1}}>
+
     <AuthProvider>
       <OrdersProvider>
       <Stack>
@@ -205,6 +208,16 @@ function RootLayoutNav() {
         }}
       />
       <Stack.Screen 
+        name='catalog/[id]'
+        options={{
+          headerTitle:'',
+          headerShadowVisible:false,
+          headerShown:false,
+          
+
+        }}
+      />
+      <Stack.Screen 
         name='cartScreen/cart'
         options={{
           headerTitle:'',
@@ -260,9 +273,31 @@ function RootLayoutNav() {
           ),
         }}
       />
+      <Stack.Screen 
+        name='filter/filter'
+        options={{
+          headerTitle:'Filter',
+          headerTitleAlign:'left',
+          headerTitleStyle:{
+            fontFamily:'roboto-condensed-sb',
+            fontSize:20
+          },
+          headerShadowVisible:false,
+          headerLeft:() => (
+            <View style={{flexDirection:'row',alignItems:'center',gap:20,marginRight:20}}>
+              
+              <TouchableOpacity onPress={() => router.back()}>
+                <Ionicons name="arrow-back" size={24} color={"#000"} />
+              </TouchableOpacity>
+            </View>
+          ),
+        }}
+      />
       </Stack>
       </OrdersProvider>
       </AuthProvider>
+    </GestureHandlerRootView>
+
    
   );
 }

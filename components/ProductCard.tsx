@@ -10,10 +10,10 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <View style={styles.container} key={product._id}>
+    <View style={[styles.container]} key={product._id}>
       
       
-      <Link href={`/product/${product._id}`} asChild>
+      <Link href={`/product/${product._id}`} asChild >
         <TouchableOpacity>
           <View style={styles.imgContainer}>
             <Image style={styles.image} source={{ uri: product.images[0]?.url }} />
@@ -23,14 +23,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Text style={styles.price}>{'₦' + (product.discountPrice === 0 ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
         <Text style={styles.discountPrice}>{product.discountPrice !== 0 ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
         {/* <Text style={styles.shopName}>{product.shop?.name}</Text> */}
+        
         </TouchableOpacity>
       </Link>
-
       <Text style={styles.discountPercentage}>
               {
                 product.discountPrice && (((product.originalPrice - product.discountPrice )/product.originalPrice) * 100).toFixed()
               }%
               </Text>
+
 
     </View>
   );
