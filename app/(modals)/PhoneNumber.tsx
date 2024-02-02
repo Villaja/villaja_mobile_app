@@ -134,22 +134,11 @@ const PhoneNumber = () => {
 
   return (
     <ScrollView style={styles.pagecontainer}>
-      <View>
-        <TouchableOpacity style={styles.arrow}>
-          <Svg width="8" height="14" viewBox="0 0 8 14" fill="none">
-            <Path
-              d="M6.8125 1.375L1.1875 7L6.8125 12.625"
-              stroke="black"
-              strokeWidth="1.875"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </Svg>
-        </TouchableOpacity>
+      <View style={styles.textContainer}>
+        <Text style={styles.enteryourphonenumber}>
+          {`Enter Your Phone Number`}
+        </Text>
       </View>
-      <Text style={styles.enteryourphonenumber}>
-        {`Enter Your Phone Number`}
-      </Text>
       <View style={styles.pic1}>
         <Image
           source={require("../../assets/images/pana.jpg")}
@@ -213,10 +202,10 @@ const PhoneNumber = () => {
       </Modal>
       <View style={styles.frame3}>
         <TouchableOpacity
-          style={[defaultStyles.btn,{marginHorizontal:20,marginVertical:15}]}
+          style={[defaultStyles.btn,{marginHorizontal:20,marginVertical:15,}]}
           onPress={() => router.push(`/(modals)/otp`)}
         >
-          <Text>{`Send`}</Text>
+          <Text style={defaultStyles.btnText}>Send</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -228,23 +217,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FDFFFF",
   },
-  arrow: {
-    top: 11,
-    left: 20,
-    width: 20,
-    height: 20,
+  textContainer: {
+    flex: 1,
+    paddingHorizontal: 50,
+    left: 10,
+    top: 0
   },
   enteryourphonenumber: {
     fontSize: 22,
-    top: 20,
-    left: 53,
+    top: 0,
+    
     color: "#025492",
     fontWeight: "700",
     lineHeight: 29.3,
     fontFamily: "Roboto",
+    
   },
   pic1: {
-    top: 20,
+    top: 10,
   },
 
   wewillsendyoua5digitOTPcodetoverify: {
@@ -333,6 +323,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: "#ffffff",
   },
+  send: {
+    color: "ffffff"
+  }
 });
 
 export default PhoneNumber;

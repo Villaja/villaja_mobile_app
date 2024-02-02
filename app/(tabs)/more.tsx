@@ -18,7 +18,7 @@ const more = () => {
         <Button title='Login' onPress={() => router.push('/(modals)/landing')} />
 
         <Button title='Logout' onPress={handleLogout} />
-        <Button title='more screen' onPress={() => router.push('/moreScreen/More')} />
+        <Button title='more screen' onPress={() => router.push('/moreScreen/More')}/>
     </View>
   )
 }

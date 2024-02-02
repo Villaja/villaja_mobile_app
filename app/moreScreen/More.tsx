@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Switch } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import { defaultStyles } from "../../constants/Styles";
 import { useRouter } from "expo-router";
 import { Link } from "expo-router";
 
 function More() {
+    const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
+    const handleToggleSwitch = () => {
+        // logic to handle enabling/disabling notifications here, an API call or update a state in Redux or however you want to do it bolu
+        setIsNotificationEnabled(!isNotificationEnabled);
+      };
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.topContainer}>
-                {/* <Text style={styles.more}>More</Text> */}
                 <View style={styles.imgContainer}>
                     
                         <Image style={styles.image} source={require("../../assets/images/More.png")} />
@@ -81,8 +85,16 @@ function More() {
                         <Path d="M8 3.33366C8.46023 3.33366 8.83333 2.96056 8.83333 2.50033C8.83333 2.04009 8.46023 1.66699 8 1.66699C7.53976 1.66699 7.16666 2.04009 7.16666 2.50033C7.16666 2.96056 7.53976 3.33366 8 3.33366Z" stroke="black" strokeOpacity="0.6" strokeWidth="1.66667" />
                     </Svg>
                     <Text style={styles.contentText} >Notification</Text>
+                    <Switch
+                            trackColor={{ false: '#87cefa', true: '#87CEEB' }}
+                            thumbColor={isNotificationEnabled ? '#025492' : '#f4f3f4'}
+                            ios_backgroundColor="#3e3e3e"
+                            onValueChange={handleToggleSwitch}
+                            value={isNotificationEnabled}
+                            style={styles.switch}
+                        />
                     </View>
-                    {/* slidable button functionality tbwo */}
+                   
                 </TouchableOpacity>
                 <View style={styles.headers}>
                     <Text style={styles.headerText}>Settings</Text>
@@ -244,6 +256,15 @@ const styles = StyleSheet.create({
         justifyContent:'space-between',
         paddingLeft:30
     },
+    switch: {
+        flex: 1,
+        alignItems: "center",
+        //backgroundColor: "red",
+        paddingVertical: 12,
+        top: 8,
+        marginHorizontal: 8
+    }, 
+
     contentOut: {
         flexDirection: "row",
         top: 20,
