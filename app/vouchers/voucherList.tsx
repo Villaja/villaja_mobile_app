@@ -5,9 +5,10 @@ import { defaultStyles } from "../../constants/Styles";
 import { useRouter } from "expo-router";
 
 function voucherList () {
+    const router = useRouter()
     return(
         <ScrollView style={styles.mainContainer}>
-            <TouchableOpacity style={styles.voucherContainer} >
+            <TouchableOpacity style={styles.voucherContainer} onPress={() => router.push(`/vouchers/voucherDetails`)}>
             <View style={styles.imageContainer}>
                 <Image source={require("../../assets/images/Group344.png")} style={styles.image1}/>
                 <Image source={require("../../assets/images/Rectangle99.png")} style={styles.image2}/>
@@ -17,7 +18,7 @@ function voucherList () {
                 <Text style={styles.text2}>Valid for 24 hours after sign up</Text>
             </View>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.voucherContainer} >
+            <TouchableOpacity style={styles.voucherContainer} onPress={() => router.push(`/vouchers/voucherDetails2`)} >
             <View style={styles.imageContainer}>
                 <Image source={require("../../assets/images/Group344.png")} style={styles.image1}/>
                 <Image source={require("../../assets/images/Rectangle99.png")} style={styles.image2}/>
