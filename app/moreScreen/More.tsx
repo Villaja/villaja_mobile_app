@@ -3,7 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet,
 import { Svg, Path } from "react-native-svg";
 import { defaultStyles } from "../../constants/Styles";
 import { useRouter } from "expo-router";
-import { Link } from "expo-router";
+
 
 function More() {
     const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);

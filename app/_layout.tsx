@@ -207,7 +207,7 @@ function RootLayoutNav() {
 
         }}
       />
-      <Stack.Screen 
+      {/*<Stack.Screen 
         name='catalog/[id]'
         options={{
           headerTitle:'',
@@ -216,7 +216,7 @@ function RootLayoutNav() {
           
 
         }}
-      />
+      />*/}
       <Stack.Screen 
         name='cartScreen/cart'
         options={{
@@ -313,6 +313,21 @@ function RootLayoutNav() {
         options={{
           // presentation: 'modal',
           title: 'Account',
+          headerShadowVisible:false,
+          headerStyle:{
+            backgroundColor:'transparent'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+          },
+          
+        }}
+      />
+            <Stack.Screen
+        name="vouchers/voucherList"
+        options={{
+          // presentation: 'modal',
+          title: 'Vouchers',
           headerShadowVisible:false,
           headerStyle:{
             backgroundColor:'transparent'

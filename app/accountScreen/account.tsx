@@ -19,7 +19,7 @@ function account() {
     }
     const { user } = useAuth();
     //User Name
-    const [loggedIn, setLoggedIn] = useState(false) // Set to false when the user is not logged in to test or set login authentication
+    const [loggedIn, setLoggedIn] = useState(true) // Set to false when the user is not logged in to test or set login authentication
 
     const [userName, setUserName] = useState(`${user?.user.firstname || ''} ${user?.user.lastname || ''}`);
     const [nameEditing, setNameEditing] = useState(false);
@@ -304,7 +304,7 @@ function account() {
                             location ? (
                                 <TextInput
                                     style={{ top: 15, left: 13, }}
-                                    value={location}
+                                    
                                     onChangeText={(text) => setLocation(text)}
                                     onBlur={handleLocationSaveClick}
                                 />
@@ -385,7 +385,8 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     text: {
-        fontSize: 16
+        fontSize: 16,
+        
     },
     textInput: {
         borderWidth: 1,
@@ -394,9 +395,12 @@ const styles = StyleSheet.create({
         top: 5,
         borderColor: "#0000001A",
         borderRadius: 5,
+        backgroundColor: "#00000005"
     },
     textInput2: {
-        top: 2
+        top: 3.5,
+        flex: 1,
+        paddingHorizontal: 15
     },
     frame99: {
         borderWidth: 1,
