@@ -165,76 +165,76 @@ const Page: React.FC = () => {
 
 
                   <View style={{marginTop:10,paddingVertical:20,paddingHorizontal:20,backgroundColor:'#fff'}}>
-                    <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:"rgba(0,0,0,0.70)",marginBottom:12}}>Specs</Text>
+                    <Text style={{fontFamily:'roboto-condensed',fontSize:15,color:"rgba(0,0,0,0.70)",marginBottom:12, fontWeight: "700"}}>Specs</Text>
                     <View style={{gap:12}}>
                       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>BRAND</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.brand || 'N/A'}</Text>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>BRAND</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.brand || 'N/A'}</Text>
                         </View>
                         <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>MODEL</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.model || 'N/A'}</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                        <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>CONDITION</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.condition || 'N/A'}</Text>
-                        </View>
-                        <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>INTERNAL MEMORY</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.internalMemory || 'N/A'}</Text>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>MODEL</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.model || 'N/A'}</Text>
                         </View>
                       </View>
                       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>WEIGHT</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.weight || 'N/A'}</Text>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>CONDITION</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.condition || 'N/A'}</Text>
                         </View>
                         <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>CELLULAR TECHNOLOGY</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.cellularTechnology || 'N/A'}</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                        <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>CONNECTIVITY TECHNOLOGY</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.os || 'N/A'}</Text>
-                        </View>
-                        <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>SIM CARD</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.connectivityTechnology || 'N/A'}</Text>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>INTERNAL MEMORY</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.internalMemory || 'N/A'}</Text>
                         </View>
                       </View>
                       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>COLOR</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.color || 'N/A'}</Text>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>WEIGHT</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.weight || 'N/A'}</Text>
                         </View>
                         <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>IN THE BOX</Text>
-                          <Text numberOfLines={1} style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.inTheBox || 'N/A'}</Text>
-                        </View>
-                      </View>
-                      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                        <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>DISPLAY SIZE</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.displaySize || 'N/A'}</Text>
-                        </View>
-                        <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>DIMENSION</Text>
-                          <Text numberOfLines={1} style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.dimensions || 'N/A'}</Text>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>CELLULAR TECHNOLOGY</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.cellularTechnology || 'N/A'}</Text>
                         </View>
                       </View>
                       <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>MEMORY SIZE</Text>
-                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.memorySize || 'N/A'}</Text>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>CONNECTIVITY TECHNOLOGY</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.os || 'N/A'}</Text>
                         </View>
                         <View style={{gap:4,flexBasis:'49%'}}>
-                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)'}}>SERIAL NUMBER</Text>
-                          <Text  style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:18}}>{productDetails?.serialNumber || 'N/A'}</Text>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>SIM CARD</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.connectivityTechnology || 'N/A'}</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                        <View style={{gap:4,flexBasis:'49%'}}>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>COLOR</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.color || 'N/A'}</Text>
+                        </View>
+                        <View style={{gap:4,flexBasis:'49%'}}>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>IN THE BOX</Text>
+                          <Text numberOfLines={1} style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.inTheBox || 'N/A'}</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                        <View style={{gap:4,flexBasis:'49%'}}>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>DISPLAY SIZE</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.displaySize || 'N/A'}</Text>
+                        </View>
+                        <View style={{gap:4,flexBasis:'49%'}}>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>DIMENSION</Text>
+                          <Text numberOfLines={1} style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.dimensions || 'N/A'}</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                        <View style={{gap:4,flexBasis:'49%'}}>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>MEMORY SIZE</Text>
+                          <Text style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.memorySize || 'N/A'}</Text>
+                        </View>
+                        <View style={{gap:4,flexBasis:'49%'}}>
+                          <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2}}>SERIAL NUMBER</Text>
+                          <Text  style={{fontFamily:'roboto-condensed',textTransform:'capitalize',fontSize:15}}>{productDetails?.serialNumber || 'N/A'}</Text>
                         </View>
                       </View>
                     </View>
@@ -243,19 +243,19 @@ const Page: React.FC = () => {
                   </View>
 
                   <View style={{marginTop:8,paddingHorizontal:20,paddingVertical:15,gap:8,backgroundColor:'#fff'}}>
-                    <Text style={{fontSize:18,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}>Description</Text>
-                    <Text numberOfLines={descriptionLength} style={{fontSize:15,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}} >{productDetails.description}</Text>
+                    <Text style={{fontSize:15,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)", fontWeight: "700"}}>Description</Text>
+                    <Text numberOfLines={descriptionLength} style={{fontSize:13,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}} >{productDetails.description}</Text>
                     {
                       descriptionLength === 100 ?
                       
                       <TouchableOpacity onPress={() => setDescriptionLength(3)} style={{flexDirection:'row',alignItems:'center',gap:4,alignSelf:'flex-end'}}>
-                        <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:Colors.primary}}>Show Less</Text>
+                        <Text style={{fontFamily:'roboto-condensed',fontSize:12,color:Colors.primary}}>Show Less</Text>
                         <MaterialIcons name='keyboard-arrow-up' color={Colors.primary} size={16} />
                       </TouchableOpacity>
                       
                       :
                       <TouchableOpacity onPress={() => setDescriptionLength(100)} style={{flexDirection:'row',alignItems:'center',gap:4,alignSelf:'flex-end'}}>
-                        <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:Colors.primary}}>Show More</Text>
+                        <Text style={{fontFamily:'roboto-condensed',fontSize:12,color:Colors.primary}}>Show More</Text>
                         <MaterialIcons name='keyboard-arrow-down' color={Colors.primary} size={16} />
                       </TouchableOpacity>
                     }
@@ -263,9 +263,9 @@ const Page: React.FC = () => {
 
                   <View style={{marginTop:8,paddingHorizontal:20,paddingVertical:30,gap:15,backgroundColor:'#fff'}}>
                     <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                      <Text style={{fontSize:18,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}>Profile</Text>
+                      <Text style={{fontSize:15,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)", fontWeight: "700"}}>Profile</Text>
                       <TouchableOpacity onPress={() => {}} style={{flexDirection:'row',alignItems:'center',gap:4,}}>
-                        <Text style={{fontFamily:'roboto-condensed',fontSize:18,color:Colors.primary}}>View Profile</Text>
+                        <Text style={{fontFamily:'roboto-condensed',fontSize:12,color:Colors.primary}}>View Profile</Text>
                         <MaterialIcons name='keyboard-arrow-right' color={Colors.primary} size={16} />
                       </TouchableOpacity>
                     </View>
@@ -274,7 +274,7 @@ const Page: React.FC = () => {
                       <Image source={{uri:productDetails?.shop.avatar.url}} style={{width:60,height:60,borderRadius:58,resizeMode:'contain'}} />
                       <View style={{gap:8}}>
                         <Text style={{flexDirection:'row',alignItems:'center',fontFamily:'roboto-condensed',fontSize:12,color:'rgba(0,0,0,0.50)'}}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> {timeAgo(productDetails?.shop.createdAt)} on Villaja</Text>
-                        <Text style={{fontFamily:'roboto-condensed-sb',fontSize:16}}>{productDetails?.shop.name}</Text>                            
+                        <Text style={{fontFamily:'roboto-condensed-sb',fontSize:14}}>{productDetails?.shop.name}</Text>                            
                       </View>
                     </View>
                   </View>
@@ -283,7 +283,7 @@ const Page: React.FC = () => {
                   <View style={{marginTop:8,paddingHorizontal:20,paddingVertical:30,gap:15,backgroundColor:'#fff'}}>
                     <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                       <View>
-                        <Text style={{fontSize:18,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}>Product Rating & Review</Text>
+                        <Text style={{fontSize:12,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)", fontWeight: "700"}}>Product Rating & Review</Text>
                         <Text style={{fontSize:12,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}> <Text style={{color:'#fc8b00'}}>{productDetails?.ratings} </Text> ({productDetails?.reviews?.length} Review ) </Text>
                       </View>
                       <TouchableOpacity onPress={() => {}} style={{flexDirection:'row',alignItems:'center',gap:4,}}>
@@ -301,7 +301,7 @@ const Page: React.FC = () => {
                   </View>
 
                   <View style={{marginTop:8,paddingHorizontal:20,paddingVertical:30,gap:15}}>
-                    <Text style={{fontSize:18,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)"}}>Similar</Text>
+                    <Text style={{fontSize:15,fontFamily:'roboto-condensed',color:"rgba(0,0,0,0.70)", fontWeight: "700"}}>Similar</Text>
                     <View>
                       <SimilarSection category={productDetails?.category} />
                     </View>
@@ -391,7 +391,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#fff'
   },
   title: {
-    fontSize: 20,
+    fontSize: 15,
     fontFamily:'roboto-condensed',
     textTransform:'capitalize',
     color:'#000'
@@ -401,7 +401,7 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   price: {
-    fontSize: 35,
+    fontSize: 30,
     color: Colors.primary,
     fontFamily:'roboto-condensed-sb',
     letterSpacing:1,

@@ -28,7 +28,7 @@ export const defaultStyles = StyleSheet.create({
   },
   btnText: {
     color: "#fff",
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "roboto-condensed-sb",
   },
   btnIcon: {

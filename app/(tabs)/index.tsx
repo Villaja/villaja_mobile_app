@@ -61,6 +61,14 @@ const carouselData = [
     image:"https://s3-alpha-sig.figma.com/img/0224/3585/80ad73065ed751c28ac0579cae3d8d74?Expires=1707696000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=JFSCm5RxMrClttF6kj9HMtIhCzyGXpHdqVnaITFzxmah-Uq8fRriz0As7CQrxX0~PKER~oD6cG42NglLR59r1RPeWAer5cv5nlNPZnhS07l1m-SoiOg826VfHusNMGyp8Ej8sqXlMOaLdUj~qmupAf5L~1ygjSrGakxZj5itLfRWPhaiLLBTc2c80cPE4~fzJAVMa5g6Y4sNXA1TsOycqn7Qil-~Md4i2RvT9Ycb9Zr7yqoTbd9Ya0Hp4Kl~a1pqdZ~yR-mSpIsU5walRTX7KOAeAM50os0s6B3Pke7S1440tylOzuZ1MfKD7lucxw1YEebMkr5wdENEnSx8FHgBrA__",
 
 
+  },
+  {
+    id:6,
+    device:"Apple Vision Pro",
+    store:'Apple Store',
+    image:"https://www.apple.com/v/apple-vision-pro/c/images/overview/hero/portrait_base__bwsgtdddcl7m_large.jpg",
+
+
   }
 ]
 
