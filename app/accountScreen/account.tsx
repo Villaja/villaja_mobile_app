@@ -47,9 +47,9 @@ function account() {
     //Phone Number
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedCountry, setSelectedCountry] = useState({
-        code: "+1",
-        name: "United States",
-        flag: "🇺🇸",
+        code: "+234",
+        name: "Nigeria",
+        flag: "🇳🇬",
     });
     const [phoneNumber, setPhoneNumber] = useState("");
     const [phoneNumberEditing, setPhoneNumberEditing] = useState(false)
@@ -259,8 +259,9 @@ function account() {
                                 {loggedIn ? (
                                     <TextInput
                                         style={styles.textInput2}
-                                        placeholder={`Enter your phone number`}
+                                        placeholder={`Enter new phone number`}
                                         keyboardType="phone-pad"
+                                        value={phoneNumber}
                                         onChangeText={(text) => setPhoneNumber(text)}
                                         onBlur={validatePhoneNumber}
                                     />

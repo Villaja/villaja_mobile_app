@@ -11,6 +11,7 @@ function More() {
         // logic to handle enabling/disabling notifications here, an API call or update a state in Redux or however you want to do it bolu
         setIsNotificationEnabled(!isNotificationEnabled);
       };
+      const router = useRouter()
     return (
         <ScrollView style={styles.mainContainer}>
             <View style={styles.topContainer}>
@@ -45,14 +46,14 @@ function More() {
                 <View style={styles.headers}>
                     <Text style={styles.headerText}>Manage</Text>
                 </View>
-                <TouchableOpacity style={styles.contentOut}>
+                <TouchableOpacity style={styles.contentOut} onPress={() => router.push(`/accountScreen/account`)} >
                     <View style={{flexDirection:'row',alignItems:'center'}}>
 
                     <Svg style={styles.Icon}>
                         <Path d="M1.33332 13.0003C1.33332 12.1163 1.68451 11.2684 2.30963 10.6433C2.93476 10.0182 3.7826 9.66699 4.66666 9.66699H11.3333C12.2174 9.66699 13.0652 10.0182 13.6903 10.6433C14.3155 11.2684 14.6667 12.1163 14.6667 13.0003C14.6667 13.4424 14.4911 13.8663 14.1785 14.1788C13.8659 14.4914 13.442 14.667 13 14.667H2.99999C2.55796 14.667 2.13404 14.4914 1.82148 14.1788C1.50892 13.8663 1.33332 13.4424 1.33332 13.0003Z" stroke="black" strokeOpacity="0.7" strokeWidth="1.25" strokeLinejoin="round" />
                         <Path d="M7.99999 6.33398C9.3807 6.33398 10.5 5.2147 10.5 3.83398C10.5 2.45327 9.3807 1.33398 7.99999 1.33398C6.61928 1.33398 5.49999 2.45327 5.49999 3.83398C5.49999 5.2147 6.61928 6.33398 7.99999 6.33398Z" stroke="black" strokeOpacity="0.7" strokeWidth="1.25" />
                     </Svg>
-                    <Text style={styles.contentText} >Account</Text>
+                    <Text style={styles.contentText} >Profile</Text>
                     </View>
                     <Svg style={styles.arrowIcon1}>
                         <Path fillRule="evenodd" clipRule="evenodd" d="M15.707 11.2932C15.8945 11.4807 15.9998 11.735 15.9998 12.0002C15.9998 12.2653 15.8945 12.5197 15.707 12.7072L10.05 18.3642C9.95776 18.4597 9.84742 18.5359 9.72541 18.5883C9.60341 18.6407 9.47219 18.6683 9.33941 18.6694C9.20663 18.6706 9.07495 18.6453 8.95205 18.595C8.82916 18.5447 8.7175 18.4705 8.62361 18.3766C8.52972 18.2827 8.45547 18.171 8.40519 18.0481C8.3549 17.9252 8.3296 17.7936 8.33076 17.6608C8.33191 17.528 8.3595 17.3968 8.41191 17.2748C8.46431 17.1528 8.5405 17.0424 8.63601 16.9502L13.586 12.0002L8.63601 7.05018C8.45385 6.86158 8.35305 6.60898 8.35533 6.34678C8.35761 6.08458 8.46278 5.83377 8.64819 5.64836C8.8336 5.46295 9.08441 5.35778 9.34661 5.35551C9.6088 5.35323 9.86141 5.45402 10.05 5.63618L15.707 11.2932Z" fill="black" fillOpacity="0.3" />
@@ -82,7 +83,7 @@ function More() {
                         <Path fillRule="evenodd" clipRule="evenodd" d="M15.707 11.2932C15.8945 11.4807 15.9998 11.735 15.9998 12.0002C15.9998 12.2653 15.8945 12.5197 15.707 12.7072L10.05 18.3642C9.95776 18.4597 9.84742 18.5359 9.72541 18.5883C9.60341 18.6407 9.47219 18.6683 9.33941 18.6694C9.20663 18.6706 9.07495 18.6453 8.95205 18.595C8.82916 18.5447 8.7175 18.4705 8.62361 18.3766C8.52972 18.2827 8.45547 18.171 8.40519 18.0481C8.3549 17.9252 8.3296 17.7936 8.33076 17.6608C8.33191 17.528 8.3595 17.3968 8.41191 17.2748C8.46431 17.1528 8.5405 17.0424 8.63601 16.9502L13.586 12.0002L8.63601 7.05018C8.45385 6.86158 8.35305 6.60898 8.35533 6.34678C8.35761 6.08458 8.46278 5.83377 8.64819 5.64836C8.8336 5.46295 9.08441 5.35778 9.34661 5.35551C9.6088 5.35323 9.86141 5.45402 10.05 5.63618L15.707 11.2932Z" fill="black" fillOpacity="0.3" />
                     </Svg>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.content}>
+                <TouchableOpacity style={styles.content} onPress={() => router.push(`/vouchers/voucherList`)} >
                     <View style={{flexDirection:'row',alignItems:'center'}}>
 
                     <Svg style={styles.Icon}>
