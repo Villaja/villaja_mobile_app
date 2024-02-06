@@ -353,6 +353,21 @@ function RootLayoutNav() {
 
               }}
             />
+                        <Stack.Screen
+              name="vouchers/voucherDetails2"
+              options={{
+                // presentation: 'modal',
+                title: 'Voucher Details',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+
+              }}
+            />
           </Stack>
         </OrdersProvider>
       </AuthProvider>

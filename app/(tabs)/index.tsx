@@ -11,6 +11,7 @@ import ProductCard from '../../components/ProductCard'
 import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'expo-router'
 import { Skeleton } from '@rneui/themed'
+import { Svg, SvgXml, Path } from "react-native-svg";
 
 
 
@@ -291,7 +292,25 @@ const index = () => {
       
 
       <View style={styles.imgContainer}>
-                        <Image style={styles.image} source={require("../../assets/images/More.png")} />
+      <SvgXml xml={`
+                        <svg width="335" height="129" viewBox="0 0 335 129" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <g clip-path="url(#clip0_203_3138)">
+                        <rect width="335" height="129" fill="black"/>
+                        <rect x="184.592" y="169.885" width="77.1442" height="178.689" transform="rotate(-117.475 184.592 169.885)" fill="white"/>
+                        <rect x="221" y="21.5303" width="115.138" height="178.689" transform="rotate(-49.4832 221 21.5303)" fill="#025492"/>
+                        </g>
+                        <defs>
+                        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                        <use xlink:href="#image0_203_3138" transform="matrix(0.00265957 0 0 0.00218826 0 0.0010773)"/>
+                        </pattern>
+                        <clipPath id="clip0_203_3138">
+                        <rect width="335" height="129" fill="white"/>
+                        </clipPath>
+                        </defs>
+                        </svg>
+                        
+                    `} style={styles.image} />
+                    <Image source={require("../../assets/images/onlineshoppingdelivery.png")} style={{resizeMode: "contain", width: 130, height: 130, left: 105 }}/>
                         <View style={styles.imageText} >
                         <Text style={styles.text1}> BECOME A</Text>
                         <Text style={styles.text2}>Merchant For Villaja</Text>
@@ -406,9 +425,10 @@ const styles = StyleSheet.create({
     },
     image: {
         position: "absolute",
-        width:'100%',
-        resizeMode:'cover'
+        width: 210,
+        resizeMode:'cover',
         // width: 340
+        backgroundColor: "red"
     },
     imageText: {
         
