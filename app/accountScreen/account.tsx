@@ -72,9 +72,11 @@ function account() {
             <View style={styles.imageContainer}>
                 {/*user image*/}
                 <Image source={{uri:testUser.image}} resizeMode='contain' style={styles.userIcon} />
+                <View style={styles.camera}>
                 <TouchableOpacity style={styles.cameraContainer} >
                     <Ionicons name="camera-outline" size={23} color={"#ffffff"} style={styles.cameraIcon} />
                 </TouchableOpacity>
+                </View>
 
                 <Text style={styles.accountName}>{user?.user.firstname} {user?.user.lastname}</Text>
 
@@ -195,16 +197,23 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 180,
     },
+    camera: {
+        width: 100,
+        backgroundColor: "red",
+        marginHorizontal: 200,
+        position: 'absolute'
+    },
     cameraContainer: {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#025491",
         width: 35,
-        left: 210,
+        marginHorizontal: 20,
         position: "absolute",
         top: 150,
-        borderRadius: 5
+        borderRadius: 5,
+        
     },
     cameraIcon: {
         width: 95,
@@ -218,9 +227,10 @@ const styles = StyleSheet.create({
         fontSize: 25,
         position: "relative",
         top: 40,
-        paddingHorizontal: 49,
-        left: 60,
-        fontWeight: "500"
+        width: 200,
+        marginHorizontal: 125,
+        fontWeight: "500",
+        
     },
     accountNameContainer: {
         height: 90
