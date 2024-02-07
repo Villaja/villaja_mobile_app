@@ -13,17 +13,17 @@ export function timeAgo(date: string) {
   if (diffInSecs < 60) {
     return diffInSecs + "s";
   } else if (diffInMins < 60) {
-    return diffInMins + " min " + diffInSecs%60 + "s";
+    return diffInMins + " min " + (diffInSecs%60?diffInSecs%60 + "s":"");
   } else if (diffInHours < 24) {
-    return diffInHours + "h " +  diffInMins%60 + " min ";
+    return diffInHours + "h " +  (diffInMins%60?diffInMins%60 + " min ":"");
   
   } else if (diffInDays < 7) {
-    return diffInDays+"days " + diffInHours%24 + "h ";
+    return diffInDays+"days " + (diffInHours%24?diffInHours%24 + "h ":"");
   } else if (diffInWeeks <4) {
-    return diffInWeeks + "Weeks " + diffInDays%7 +"days " ;
+    return diffInWeeks + "Weeks " + (diffInDays%7?diffInDays%7 +"days ":"") ;
   } else if (diffInMonths<12) {
-    return diffInMonths + "Months " + diffInWeeks%4 + "Weeks " ;
+    return diffInMonths + "Months " + (diffInWeeks%4?diffInWeeks%4 + "Weeks ":"") ;
   } else {
-    return diffInYears + " Yrs " + diffInMonths%12 + "Months ";
+    return diffInYears + " Yrs " + (diffInMonths%12?diffInMonths%12 + "Months ":"");
   }
 }
