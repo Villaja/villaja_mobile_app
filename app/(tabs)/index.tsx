@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF99',
         height: 87,
         // width: 307,
-        left: 33,
+        left: 53,
         position: 'absolute'
     },
     text1: {

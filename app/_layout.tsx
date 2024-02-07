@@ -36,6 +36,7 @@ export default function RootLayout() {
     'roboto-condensed-thin': require('../assets/fonts/RobotoCondensed-Thin.ttf'),
     'roboto-condensed-sb-i': require('../assets/fonts/RobotoCondensed-SemiBoldItalic.ttf'),
     'roboto-condensed-i': require('../assets/fonts/RobotoCondensed-Italic.ttf'),
+    
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.

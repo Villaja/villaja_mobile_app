@@ -6,7 +6,7 @@ import { base_url } from '../../constants/server';
 import { Product } from '../../types/Product';
 import { Carousel } from 'react-native-basic-carousel';
 import Colors from '../../constants/Colors';
-import { FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { defaultStyles } from '../../constants/Styles';
 import { timeAgo } from '../../utils/timeAgo';
 import Svg, { Path } from 'react-native-svg';
@@ -132,8 +132,15 @@ const Page: React.FC = () => {
                 <View style={{}}>
 
                   <View style={{backgroundColor:"#fff",padding:20}}>
-
-                    <Text style={{flexDirection:'row',alignItems:'center',fontFamily:'roboto-condensed',fontSize:12,color:'rgba(0,0,0,0.50)',marginBottom:8}}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> {timeAgo(productDetails?.shop.createdAt)} on Villaja</Text>           
+                    <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between',marginBottom:8}}>
+                      <Text style={{flexDirection:'row',alignItems:'center',fontFamily:'roboto-condensed',fontSize:12,color:'rgba(0,0,0,0.50)',marginBottom:8}}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> {timeAgo(productDetails?.shop.createdAt)} on Villaja</Text>           
+                      <View style={{flexDirection:'row',alignItems:'center',gap:4}}>
+                        <View style={{padding:3,borderRadius:12,backgroundColor:productDetails?.stock > 5?'rgba(0,255,0,0.10)':'rgba(255,0,0,0.10)'}}>
+                          <AntDesign name='exclamationcircleo' size={9} color={productDetails?.stock > 5?'green':'red'} />
+                        </View>
+                        <Text style={{fontFamily:'roboto-condensed',fontSize:12,color:productDetails?.stock > 5?'green':'red'}}>{productDetails?.stock} units left</Text>
+                      </View>
+                    </View>
                     <Text style={styles.title}>{productDetails?.name}</Text>
                     <Text style={styles.price}>₦{productDetails?.originalPrice.toLocaleString()}</Text>
                     <View style={{flexDirection:'row',alignItems:'center',gap:3}}>
@@ -155,6 +162,7 @@ const Page: React.FC = () => {
                           <FontAwesome key={index} name='star' size={16} color={'rgba(0,0,0,0.10)'} />
                         ))
                       }
+                      <Text>({productDetails?.ratings} ratings)</Text>
                     </View>
 
                     <View style={{flexDirection:'row',gap:8,paddingVertical:16}}>
