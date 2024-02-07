@@ -45,12 +45,10 @@ export default voucherList
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: "#FDFFFF",
     },
     voucherContainer: {
-        flex: 1,
         top: 15,
-        paddingHorizontal: 15,
+        marginHorizontal: 15,
         paddingVertical: 35,
         width: 455,
     },

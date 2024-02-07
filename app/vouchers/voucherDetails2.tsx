@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     voucherContainer: {
         flex: 1,
         top: 15,
-        paddingHorizontal: 15,
+        marginHorizontal: 15,
         paddingVertical: 35,
         width: 455,
     },
@@ -129,9 +129,12 @@ const styles = StyleSheet.create({
     section2: {
         top: 27,
         width: 300,
+        paddingHorizontal: 20,
+        marginHorizontal: 0,
         height: 390,
         left: 32,
-        position: "relative"
+        position: "relative",
+       
     },
     textLine: {
       flexDirection: "row",
@@ -148,9 +151,9 @@ const styles = StyleSheet.create({
     }, 
     lineText2: {
         fontFamily: "roboto-condensed-sb",
-        fontSize: 15,
+        fontSize: 12,
         color: "#000000",
-        fontWeight: "700"
+        fontWeight: "500"
     },
     btn: {
         backgroundColor: "#025492",
