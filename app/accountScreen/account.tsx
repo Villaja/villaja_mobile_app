@@ -93,7 +93,7 @@ function account() {
         { id: "357", code: "+357", name: "Cyprus", flag: "🇨🇾" },
     ];
 
-    const handleCountrySelect = (country) => {
+    const handleCountrySelect = (country:any) => {
         setSelectedCountry(country);
         setModalVisible(false);
     };
@@ -167,7 +167,7 @@ function account() {
     };
 
 
-    const showAlert = (message) => {
+    const showAlert = (message:any) => {
         Alert.alert("Validation Error", message, [{ text: "OK" }]);
     };
 
