@@ -207,7 +207,7 @@ function RootLayoutNav() {
 
               }}
             />
-            {/*<Stack.Screen 
+            <Stack.Screen 
         name='catalog/[id]'
         options={{
           headerTitle:'',
@@ -216,7 +216,7 @@ function RootLayoutNav() {
           
 
         }}
-      />*/}
+      />
             <Stack.Screen
               name='cartScreen/cart'
               options={{
