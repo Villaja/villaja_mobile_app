@@ -46,7 +46,7 @@ function More() {
                 <View style={styles.headers}>
                     <Text style={styles.headerText}>Manage</Text>
                 </View>
-                <TouchableOpacity style={styles.contentOut} onPress={() => router.push(`/accountScreen/account`)} >
+                <TouchableOpacity style={styles.contentOut} onPress={() => router.push(`/accountScreen/profile`)} >
                     <View style={{flexDirection:'row',alignItems:'center'}}>
 
                     <Svg style={styles.Icon}>
