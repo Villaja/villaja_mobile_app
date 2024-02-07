@@ -45,12 +45,6 @@ function account() {
     }
 
     //Phone Number
-    const [modalVisible, setModalVisible] = useState(false);
-    const [selectedCountry, setSelectedCountry] = useState({
-        code: "+234",
-        name: "Nigeria",
-        flag: "🇳🇬",
-    });
     const [phoneNumber, setPhoneNumber] = useState("");
     const [phoneNumberEditing, setPhoneNumberEditing] = useState(false)
     const handlePhoneNumberEditClick = () => {
@@ -60,117 +54,6 @@ function account() {
         setPhoneNumberEditing(false)
         //Logic to save uploaded phone number
     }
-
-
-    const countryCodes = [
-        { id: "1", code: "+1", name: "United States", flag: "🇺🇸" },
-        { id: "44", code: "+44", name: "United Kingdom", flag: "🇬🇧" },
-        { id: "81", code: "+81", name: "Japan", flag: "🇯🇵" },
-        { id: "49", code: "+49", name: "Germany", flag: "🇩🇪" },
-        { id: "86", code: "+86", name: "China", flag: "🇨🇳" },
-        { id: "91", code: "+91", name: "India", flag: "🇮🇳" },
-        { id: "7", code: "+7", name: "Russia", flag: "🇷🇺" },
-        { id: "33", code: "+33", name: "France", flag: "🇫🇷" },
-        { id: "55", code: "+55", name: "Brazil", flag: "🇧🇷" },
-        { id: "39", code: "+39", name: "Italy", flag: "🇮🇹" },
-        { id: "82", code: "+82", name: "South Korea", flag: "🇰🇷" },
-        { id: "34", code: "+34", name: "Spain", flag: "🇪🇸" },
-        { id: "52", code: "+52", name: "Mexico", flag: "🇲🇽" },
-        { id: "61", code: "+61", name: "Australia", flag: "🇦🇺" },
-        { id: "46", code: "+46", name: "Sweden", flag: "🇸🇪" },
-        { id: "31", code: "+31", name: "Netherlands", flag: "🇳🇱" },
-        { id: "62", code: "+62", name: "Indonesia", flag: "🇮🇩" },
-        { id: "54", code: "+54", name: "Argentina", flag: "🇦🇷" },
-        { id: "27", code: "+27", name: "South Africa", flag: "🇿🇦" },
-        { id: "92", code: "+92", name: "Pakistan", flag: "🇵🇰" },
-        { id: "880", code: "+880", name: "Bangladesh", flag: "🇧🇩" },
-        { id: "234", code: "+234", name: "Nigeria", flag: "🇳🇬" },
-        { id: "966", code: "+966", name: "Saudi Arabia", flag: "🇸🇦" },
-        { id: "90", code: "+90", name: "Turkey", flag: "🇹🇷" },
-        { id: "63", code: "+63", name: "Philippines", flag: "🇵🇭" },
-        { id: "84", code: "+84", name: "Vietnam", flag: "🇻🇳" },
-        { id: "351", code: "+351", name: "Portugal", flag: "🇵🇹" },
-        { id: "357", code: "+357", name: "Cyprus", flag: "🇨🇾" },
-    ];
-
-    const handleCountrySelect = (country) => {
-        setSelectedCountry(country);
-        setModalVisible(false);
-    };
-
-    const validatePhoneNumber = () => {
-        const countryCode = selectedCountry.code;
-        const enteredNumber = phoneNumber.trim();
-
-        // validation for countries
-        switch (countryCode) {
-            case "+1": // United States
-                if (!/^[2-9]\d{9}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for the United States");
-                }
-                break;
-            case "+44": // United Kingdom
-                if (!/^\d{10,14}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for the United Kingdom");
-                }
-                break;
-            case "+234": // Nigeria
-                if (!/^\d{10}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for Nigeria");
-                }
-                break;
-            case "+1": // United States
-                if (!/^[2-9]\d{9}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for the United States");
-                }
-                break;
-            case "+44": // United Kingdom
-                if (!/^\d{10,14}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for the United Kingdom");
-                }
-                break;
-            case "+81": // Japan
-                if (!/^\d{10,11}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for Japan");
-                }
-                break;
-            case "+49": // Germany
-                if (!/^\d{10,11}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for Germany");
-                }
-                break;
-            case "+86": // China
-                if (!/^\d{11}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for China");
-                }
-                break;
-            case "+91": // India
-                if (!/^[6789]\d{9}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for India");
-                }
-                break;
-            case "+7": // Russia
-                if (!/^[789]\d{9}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for Russia");
-                }
-                break;
-            case "+33": // France
-                if (!/^[67]\d{8}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format for France");
-                }
-                break;
-            default:
-                if (!/^\d{1,15}$/.test(enteredNumber)) {
-                    showAlert("Invalid phone number format");
-                }
-        }
-    };
-
-
-    const showAlert = (message) => {
-        Alert.alert("Validation Error", message, [{ text: "OK" }]);
-    };
-
 
     //Location
     const [location, setLocation] = useState(`${user?.user.address}`)
@@ -246,58 +129,26 @@ function account() {
                 <View style={styles.inputContainer}>
                     {/*Phone Number Input*/}
                     <Text style={styles.text}>Phone Number</Text>
-                    <View style={styles.frame99}>
-                        <TouchableOpacity
-                            onPress={() => setModalVisible(true)}
-                            style={styles.countrySelectorContainer}
-                        >
-                            <View style={styles.countrySelector}>
-                                <Text style={styles.flag}>{selectedCountry.flag}</Text>
-                                <Text style={styles.countryCode}>{selectedCountry.code}</Text>
-                            </View>
-                            <View style={styles.phoneNumberInputContainer}>
-                                {loggedIn ? (
-                                    <TextInput
-                                        style={styles.textInput2}
-                                        placeholder={`Enter new phone number`}
-                                        keyboardType="phone-pad"
-                                        value={phoneNumber}
-                                        onChangeText={(text) => setPhoneNumber(text)}
-                                        onBlur={validatePhoneNumber}
-                                    />
-                                ) : (
-                                    <Text style={{ top: 2, left: 13, color: "#00000080" }}>Please Log in To Change Your Email</Text>
-                                )}
-                            </View>
-                        </TouchableOpacity>
+                    <View style={styles.textInput}>
+                        {loggedIn ? (
+                            phoneNumberEditing ? (
+                                <TextInput
+                                    style={{ top: 15, left: 13 }}
+                                    value={phoneNumber}
+                                    onChangeText={(text) => setPhoneNumber(text)}
+                                    onBlur={handlePhoneNumberSaveClick}
+                                    autoFocus
+                                />
+                            ) : (
+                                <TouchableOpacity onPress={handlePhoneNumberEditClick} style={{ top: 15, left: 13 }}>
+                                    <Text style={{ color: "#00000080" }}>{phoneNumber}</Text>
+                                </TouchableOpacity>
+                            )
+                        ) : (
+                            <Text style={{ top: 15, left: 13, color: "#00000080" }}>Please Log in To Change Your Phone Number</Text>
+                        )}
                     </View>
                 </View>
-
-                {/* Country Code Selector Modal */}
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => setModalVisible(false)}
-                >
-                    <View style={styles.modalContainer}>
-                        <View style={styles.modalContent}>
-                            <ScrollView>
-                                {countryCodes.map((country) => (
-                                    <TouchableOpacity
-                                        key={country.id}
-                                        style={styles.countryOption}
-                                        onPress={() => handleCountrySelect(country)}
-                                    >
-                                        <Text style={styles.flag}>{country.flag}</Text>
-                                        <Text style={styles.countryCode}>{country.code}</Text>
-                                        <Text style={styles.countryName}>{country.name}</Text>
-                                    </TouchableOpacity>
-                                ))}
-                            </ScrollView>
-                        </View>
-                    </View>
-                </Modal>
                 <View style={styles.inputContainer}>
                     <Text style={styles.text}>Location</Text>
                     <View style={styles.textInput}>
