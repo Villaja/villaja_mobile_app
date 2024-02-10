@@ -9,10 +9,13 @@ import React from 'react';
 const Layout = () => {
   return (
     <Tabs
+      
       screenOptions={{
+        
         tabBarActiveTintColor: Colors.primary,
         tabBarLabelStyle: {
           fontFamily: 'roboto-condensed',
+          // marginBottom:20
         },
       }}>
       <Tabs.Screen

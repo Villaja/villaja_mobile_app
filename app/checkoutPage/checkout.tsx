@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, StyleSheet, Alert } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Alert, Modal, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { defaultStyles } from '../../constants/Styles'
 import Colors from '../../constants/Colors'
@@ -21,13 +21,16 @@ const checkout = () => {
 
     const [total,setTotal] = useState<number>(0)
     const [cart,setCart] = useState<Product[]>([])
+    const [savedCart,setSavedCart] = useState<Product[]>([])
     const [showPaystack, setShowPaystack] = useState(false);
+    const [checkoutModal,setCheckoutModal] = useState(false)
     const router = useRouter()
     const { user } = useAuth();
 
     const handleGetCart = async () => {
         await AsyncStorage.getItem('cart', (err, result) => {
           const cart = JSON.parse(result!).filter((item:any) => !item.isSavedForLater);
+          setSavedCart(JSON.parse(result!).filter((item:any) => item.isSavedForLater))
           const total = cart.reduce((a: number, b: Product) => {
             return a + (b.discountPrice > 0 ? b.discountPrice : b.originalPrice);
           }, 0);
@@ -74,16 +77,19 @@ const checkout = () => {
               
             },
           };
+
+          setCheckoutModal(true)
     
           // Make a POST request to create the order
           const createOrderResponse = await axios.post(`https://api-villaja.cyclic.app/api/order/create-order`, order, config);
     
           if (createOrderResponse.data.success) {
             // Order created successfully
+            setCheckoutModal(false)
             router.replace('/orderSuccess/orderSuccess');
             // toast.success('Order successful!');
             console.log("order succedd")
-            AsyncStorage.removeItem('cart');
+            await AsyncStorage.setItem('cart',JSON.stringify(savedCart));
           } else {
             console.error('Failed to create order');
           }
@@ -102,6 +108,19 @@ const checkout = () => {
 
   return (
     <View style={{flex:1,backgroundColor:Colors.primaryUltraTransparent,paddingBottom:100}}>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={checkoutModal}
+        presentationStyle='overFullScreen'
+        >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ActivityIndicator size={'small'} color={Colors.primary} />
+          </View>
+        </View>
+      </Modal>
 
     <ScrollView style={{flex:1,backgroundColor:Colors.primaryUltraTransparent,paddingVertical:4,}}>
       <View style={styles.orderSummaryContainer}>
@@ -137,7 +156,7 @@ const checkout = () => {
       <View style={styles.addressContainer}>
         <View style={styles.addressHeader}>
             <Text style={styles.addressHeaderText}>Address</Text>
-            <TouchableOpacity style={styles.changeLocationBtn}>
+            <TouchableOpacity style={styles.changeLocationBtn} onPress={() => router.replace('/accountScreen/profile')}>
                 <Text style={styles.changeLocationText}>Change Location</Text>
                 <MaterialIcons name='keyboard-arrow-down' color={Colors.primary} size={15} />
             </TouchableOpacity>
@@ -145,7 +164,9 @@ const checkout = () => {
 
         <View style={styles.addressContentSection}>
             <Ionicons name="location-outline" size={24} color={"#68e349"} />
-            <Text style={styles.addressContentText} numberOfLines={1}>28, soluyi estate, gbagada phase 1, Lagos nigeria</Text>
+            <Text style={styles.addressContentText} numberOfLines={1}>
+              {user?.user.addresses[0]?.address1}
+              </Text>
         </View>
       </View>
 
@@ -188,6 +209,28 @@ const checkout = () => {
 }
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginTop: 22,
+    backgroundColor:'rgba(0,0,0,0.20)'
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
 
     addressContainer:{
         padding:20,

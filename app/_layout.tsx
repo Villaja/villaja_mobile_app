@@ -226,7 +226,7 @@ function RootLayoutNav() {
                 headerLeft: () => (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
+                    <TouchableOpacity onPress={() => router.push('/')}>
                       <Ionicons name="arrow-back" size={24} color={"#000"} />
                     </TouchableOpacity>
                     <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 22 }}>My Orders</Text>

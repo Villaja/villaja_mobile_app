@@ -26,7 +26,7 @@ const CheckoutProductCard = (item:Product) => {
         <View style={{paddingVertical:12.5}}>
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>N{item.originalPrice.toLocaleString()}</Text>
-            <Text style={styles.discount}>N{item.discountPrice}</Text>
+            {item.discountPrice > 0 && <Text style={styles.discount}>N{item.discountPrice}</Text>}
         </View>
       </View>
 
