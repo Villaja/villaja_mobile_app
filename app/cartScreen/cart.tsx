@@ -66,7 +66,7 @@ const cart = () => {
     fetchData();
   }, [id, user, router]);
 
-  console.log(id)
+  // console.log(id)
 
 
   const handleRemoveFromCart = async (id:string) => {
@@ -84,16 +84,23 @@ const cart = () => {
 
   useEffect(() => {
     handleGetCart()
+    
   },[])
 
   const handleGetCart = async () => {
-    await AsyncStorage.getItem('cart',(err,result) => {
-      if(err)
-      {
-        return console.log(err);        
-      }
+
+    try
+    {
+      await AsyncStorage.getItem('cart',(err,result) => {      
       setCart(JSON.parse(result!))
     })
+    }
+    catch(err)
+    {
+      console.log(err);
+      
+    }
+    
   }
 
 

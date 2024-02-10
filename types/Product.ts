@@ -33,6 +33,7 @@ export interface Product {
     sold_out: number;
     createdAt: string;
     reviews: Review[];
+    isSavedForLater: boolean;
     __v: number;
   }
   

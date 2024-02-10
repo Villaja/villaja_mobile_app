@@ -1,10 +1,12 @@
 import { View, Text, TouchableOpacity , Image, StyleSheet} from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { defaultStyles } from '../constants/Styles';
 import Colors from '../constants/Colors';
 import { Product } from '../types/Product';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
+
 
 interface Props {
   id: number;
@@ -18,6 +20,38 @@ interface Props {
 
 const CartCard = ({item,handleRemoveCart}:{item:Product,handleRemoveCart:(id:string) => void}) => {
   const router = useRouter()
+  const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(item.isSavedForLater! || false)
+
+
+  const handleSaveForLater = async() => {
+    var cart = [] as Product[]
+    try{
+      await AsyncStorage.getItem('cart',(err,result) => {
+        cart = JSON.parse(result!)
+        cart = cart.filter((it) => it._id !== item._id)
+      })
+      if(toggleCheckBox)
+      {
+        await AsyncStorage.setItem('cart',JSON.stringify([...cart , {...item, isSavedForLater : true}]))
+      }
+      else
+      {
+        await AsyncStorage.setItem('cart',JSON.stringify([...cart , {...item, isSavedForLater : false}]))
+      } 
+      // console.log("Successfully updated Cart");
+      
+    }
+    catch(err)
+    {
+      console.log(err);
+      
+    }
+  }
+
+
+  useEffect(() => {
+    handleSaveForLater()
+  },[toggleCheckBox])
 
   
   return (
@@ -30,6 +64,18 @@ const CartCard = ({item,handleRemoveCart}:{item:Product,handleRemoveCart:(id:str
             <Text style={styles.discount}>{item.discountPrice === 0?null:'N'+item.discountPrice.toLocaleString()}</Text>
         </View>
       </View>
+
+      <BouncyCheckbox
+          size={20}
+          fillColor={Colors.primary}
+          unfillColor="#FFFFFF"
+          text="Save For Later"
+          iconStyle={{ borderColor:Colors.primary }}
+          innerIconStyle={{ borderWidth: 2 }}
+          textStyle={{ fontFamily: "roboto-condensed",fontSize:13 }}
+          onPress={(isChecked: boolean) => {setToggleCheckBox(isChecked)}}
+          isChecked={toggleCheckBox}
+        />
       
         <TouchableOpacity style={[defaultStyles.btn,{backgroundColor:Colors.primaryTransparent}]} onPress={() => handleRemoveCart(item._id)}>
             <Text style={[defaultStyles.btnText,{color:Colors.primary}]}>Remove</Text>

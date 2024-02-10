@@ -27,7 +27,7 @@ const checkout = () => {
 
     const handleGetCart = async () => {
         await AsyncStorage.getItem('cart', (err, result) => {
-          const cart = JSON.parse(result!);
+          const cart = JSON.parse(result!).filter((item:any) => !item.isSavedForLater);
           const total = cart.reduce((a: number, b: Product) => {
             return a + (b.discountPrice > 0 ? b.discountPrice : b.originalPrice);
           }, 0);

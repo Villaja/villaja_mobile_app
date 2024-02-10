@@ -38,6 +38,11 @@ const Page: React.FC = () => {
     try
     { 
       await AsyncStorage.getItem('cart',(err,result) => {
+        if(err)
+        {
+          console.log("err");
+          
+        }
         cart = JSON.parse(result!) 
       })
 
@@ -66,7 +71,7 @@ const Page: React.FC = () => {
 
     }
     catch(err){
-      console.log(err)
+      console.log("")
     }
   }
 
