@@ -122,10 +122,10 @@ const catalog = () => {
     const cardsPerRow = 1;
 
     return (
-      <View>
-
-        
-        
+      <>
+      {
+        sortedData?.length > 0 ?
+        <View>
         <View style={styles.gridContainer}>
           {sortedData.map((product, index) => (
             <View
@@ -140,6 +140,16 @@ const catalog = () => {
           ))}
         </View>
       </View> 
+
+      :
+      <View>
+        <Text style={{fontFamily:'roboto-condensed-sb',fontSize:20,textAlign:'center'}}>No Products Found</Text>
+      </View>
+        
+      }
+      </>
+
+      
 
     );
             }

@@ -132,7 +132,7 @@ const search = () => {
             <View>
               {
               recentSearch && recentSearch.length > 0 && recentSearch.filter((value) => value.toLowerCase().slice(0,searchValue.length) === searchValue.toLowerCase()).slice(0,4).map((value,index) => 
-                  <View key={index} style={[styles.recentSearchOutput,{paddingHorizontal:20,gap:20,marginTop:20}]}>
+                  <TouchableOpacity key={index} style={[styles.recentSearchOutput,{paddingHorizontal:20,gap:20,marginTop:20}]} onPress={() => router.push({pathname:`/catalog/${value}`,params:{minPrice:"1",maxPrice:"5000000"}})}>
                     <View style={{flexDirection:'row',gap:4,alignItems:'center'}}>
                       <Octicons name='history' size={18} color={Colors.primary} />
                       <Text style={styles.text}>{value}</Text>
@@ -140,7 +140,7 @@ const search = () => {
                     <TouchableOpacity onPress={()=> handleDeleteRecentSearch(value)} >  
                       <AntDesign name='close' size={16} color={Colors.grey} />
                     </TouchableOpacity>
-                  </View>)
+                  </TouchableOpacity>)
             }
             
             <FlatList 
@@ -173,7 +173,7 @@ const search = () => {
               <Text style={styles.headerText}>Recent Search</Text>
               {
                 recentSearch && recentSearch.length > 0 && recentSearch.slice(0,4).map((value,index) => 
-                  <View key={index} style={styles.recentSearchOutput}>
+                  <TouchableOpacity key={index} style={styles.recentSearchOutput} onPress={() => router.push({pathname:`/catalog/${value}`,params:{minPrice:"1",maxPrice:"5000000"}})}>
                     <View style={{flexDirection:'row',gap:4,alignItems:'center'}}>
                       <Octicons name='history' size={18} color={Colors.primary} />
                       <Text style={styles.text}>{value}</Text>
@@ -181,7 +181,7 @@ const search = () => {
                     <TouchableOpacity onPress={()=> handleDeleteRecentSearch(value)} >  
                       <AntDesign name='close' size={16} color={Colors.grey} />
                     </TouchableOpacity>
-                  </View>
+                  </TouchableOpacity>
                 
                 )
               }
