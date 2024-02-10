@@ -37,6 +37,7 @@
     "react-native-basic-carousel": "^1.1.1",
     "react-native-bouncy-checkbox": "^3.0.7",
     "react-native-color-matrix-image-filters": "^6.0.7",
+    "react-native-dropdown-picker": "^5.4.6",
     "react-native-gesture-handler": "~2.12.0",
     "react-native-inset-shadow": "^1.0.3",
     "react-native-paystack": "^3.4.0",

@@ -1,184 +1,393 @@
-import React from 'react'
-import { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Switch, Modal, Alert } from "react-native";
-import { Svg, Path } from "react-native-svg";
-import { defaultStyles } from "../../constants/Styles";
-import { useRouter } from "expo-router";
-import { Link } from "expo-router";
-import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import PickerSelect from 'react-native-picker-select';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../../context/AuthContext';
-import { Input } from '@rneui/base';
+import { ScrollView } from 'react-native-gesture-handler';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 
 
-function account() {
+
+
+interface Address {
+    _id?: string;
+    country: string;
+    state: string;
+    city: string;
+    address1: string;
+    address2: string;
+    zipCode: string;
+    addressType: string;
+}
+
+const account = () => {
+    const { user } = useAuth();
     const router = useRouter()
+    const [loading, setLoading] = useState(true);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [password, setPassword] = useState('');
+    const [token, setToken] = useState('');
+    const [address, setAddress] = useState<Address | null>(null);
+    const [addressModalVisible, setAddressModalVisible] = useState(false);
+    const [addressTypeModalVisible, setAddressTypeModalVisible] = useState(false)
+    const openAddressTypeModalVisible = () => {
+        setAddressTypeModalVisible(true)
+    }
+
+    const [addressForm, setAddressForm] = useState<Address>({
+        country: '',
+        state: '',
+        city: '',
+        address1: '',
+        address2: '',
+        zipCode: '',
+        addressType: 'Home',
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const storedToken = await AsyncStorage.getItem('token');
+            setToken(storedToken);
+
+            if (user) {
+                // Fetch user details
+                axios.get('https://api-villaja.cyclic.app/api/user/getuser', {
+                    headers: {
+                        Authorization: storedToken
+                    }
+                })
+                    .then(response => {
+                        const userData = response.data.user;
+                        setFirstName(userData.firstname);
+                        setLastName(userData.lastname);
+                        setPhoneNumber(userData.phoneNumber.toString());
+                        setAddress(userData.addresses.length > 0 ? userData.addresses[0] : null);
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user details:', error);
+                        setLoading(false);
+                    });
+            }
+        };
+
+        fetchData();
+    }, [user]);
+
+    const handleUpdate = () => {
+        if (!user) {
+            Alert.alert('Login required', 'Please login to update your profile');
+            return;
+        }
+
+        const updatedUser = {
+            firstname: firstName,
+            lastname: lastName,
+            email: user?.user.email,
+            password: password,
+            phoneNumber: phoneNumber
+        };
+
+        // Update user information
+        axios.put('https://api-villaja.cyclic.app/api/user/update-user-info', updatedUser, {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then(response => {
+
+                Alert.alert('Success', 'Details updated');
+                console.log('User information updated successfully:');
+            })
+            .catch(error => {
+
+                Alert.alert('Error', 'Failed to update profile');
+                console.error('Error updating user information:', error.message);
+            });
+    };
     const testUser = {
         id: 1,
         name: "Tony Danza",
         image: "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
     }
-    const { user } = useAuth();
-    //User Name
-    const [loggedIn, setLoggedIn] = useState(true) // Set to false when the user is not logged in to test or set login authentication
 
-    const [userName, setUserName] = useState(`${user?.user.firstname || ''} ${user?.user.lastname || ''}`);
-    const [nameEditing, setNameEditing] = useState(false);
 
-    const handleNameEditClick = () => {
-        setNameEditing(true);
+
+
+    const handleSaveAddress = () => {
+        if (!user) {
+            Alert.alert('Login required', 'Please login to update your address');
+            return;
+        }
+
+
+        const newAddress = {
+            ...addressForm
+        };
+
+        // Logic to save/update address
+        axios.put('https://api-villaja.cyclic.app/api/user/update-user-addresses', newAddress, {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then(response => {
+                // Handle success
+                console.log('Address saved/updated successfully:', response.data);
+                Alert.alert('success', 'address added, refresh please');
+                setAddressModalVisible(false);
+                // You may want to update the address state here if needed
+            })
+            .catch(error => {
+                // Handle error
+                console.error('Error saving/updating address:', error);
+                Alert.alert('Error', 'Failed to save/update address');
+            });
     };
-    const handleNameSaveClick = () => {
-        // logic to save the updated user name
-        setNameEditing(false);
+
+    const handleDeleteAddress = () => {
+        if (!user) {
+            Alert.alert('Login required', 'Please login to delete your address');
+            return;
+        }
+
+        if (!address) {
+            Alert.alert('No Address', 'There is no address to delete');
+            return;
+        }
+
+        // Make a DELETE request to delete the address
+        axios.delete(`https://api-villaja.cyclic.app/api/user/delete-user-address/${address._id}`, {
+            headers: {
+                Authorization: token
+            }
+        })
+            .then(response => {
+                // Handle success
+                console.log('Address deleted successfully:', response.data);
+                Alert.alert('deleted', 'address deleted');
+                setAddress(null); // Clear the address state
+            })
+            .catch(error => {
+                console.error('Error deleting address:', error);
+                Alert.alert('Error', 'Failed to delete address');
+            });
     };
 
-    //User Email
-    const [userEmail, setUserEmail] = useState(`${user?.user.email}`)
-    const [mailEditing, setMailEditing] = useState(false)
 
-    const handleMailEditClick = () => {
-        setMailEditing(true);
-    }
-    const handleMailSaveClick = () => {
-        setMailEditing(false)
-        // Logic to save the uploaded user email
-    }
-
-    //Phone Number
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [phoneNumberEditing, setPhoneNumberEditing] = useState(false)
-    const handlePhoneNumberEditClick = () => {
-        setPhoneNumberEditing(true)
-    }
-    const handlePhoneNumberSaveClick = () => {
-        setPhoneNumberEditing(false)
-        //Logic to save uploaded phone number
-    }
-
-    //Location
-    const [location, setLocation] = useState(`${user?.user.address}`)
-    const [locationEditing, setLocationEditing] = useState(false)
-
-    const handleLocationEditClick = () => {
-        setLocationEditing(true)
-    }
-    const handleLocationSaveClick = () => {
-        setLocationEditing(false)
-        //Logic to save uploaded phone number
-    }
+    const openAddressModal = () => {
+        setAddressForm(address || { country: '', state: '', city: '', address1: '', address2: '', zipCode: '', addressType: 'Home' });
+        setAddressModalVisible(true);
+    };
 
     return (
         <ScrollView style={styles.pageContainer}>
             <View style={styles.imageContainer}>
                 {/*user image*/}
-                <Image source={{uri:testUser.image}} resizeMode='contain' style={styles.userIcon} />
+                <Image source={{ uri: testUser.image }} resizeMode='contain' style={styles.userIcon} />
                 <View style={styles.camera}>
-                <TouchableOpacity style={styles.cameraContainer} >
-                    <Ionicons name="camera-outline" size={23} color={"#ffffff"} style={styles.cameraIcon} />
-                </TouchableOpacity>
+                    <TouchableOpacity style={styles.cameraContainer} >
+                        <Ionicons name="camera-outline" size={23} color={"#ffffff"} style={styles.cameraIcon} />
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.accountNameContainer} >
+                    <Text style={styles.accountName}>{firstName} {lastName}</Text>
                 </View>
 
-                <Text style={styles.accountName}>{user?.user.firstname} {user?.user.lastname}</Text>
 
             </View>
             <View style={styles.section2}>
                 <View style={styles.inputContainer}>
-                    {/*name input*/}
-                    <Text style={styles.text}>Name</Text>
+                    {/*First name input*/}
+                    <Text style={styles.text}>First Name</Text>
                     <View style={styles.textInput}>
-                        {loggedIn ? (
-                            nameEditing ? (
-                                <TextInput
-                                    style={{ top: 15, left: 13, }}
-                                    value={userName}
-                                    onChangeText={(text) => setUserName(text)}
-                                    onBlur={handleNameSaveClick}
-                                    autoFocus
-                                />
-                            ) : (
-                                <TouchableOpacity onPress={handleNameEditClick} style={{ top: 15, left: 13 }}>
-                                    <Text style={{ color: "#00000080" }}>{userName}</Text>
-                                </TouchableOpacity>
-                            )
-                        ) : (
-                            <Text style={{ top: 15, left: 13, color: "#00000080" }}>Please Log in To Change Your Name</Text>
-                        )}
+                        <TextInput
+                            style={{ top: 8, left: 13, }}
+                            value={firstName}
+                            onChangeText={text => setFirstName(text)}
+                            autoFocus
+                            placeholder="First Name"
+                        />
                     </View>
                 </View>
                 <View style={styles.inputContainer}>
-                    {/*Email Input*/}
-                    <Text style={styles.text}>Email</Text>
+                    {/*Last name name input*/}
+                    <Text style={styles.text}>Last Name</Text>
                     <View style={styles.textInput}>
-                        {loggedIn ? (
-                            mailEditing ? (
-                                <TextInput
-                                    style={{ top: 15, left: 13 }}
-                                    value={userEmail}
-                                    onChangeText={(text) => setUserEmail(text)}
-                                    onBlur={handleMailSaveClick}
-                                    autoFocus
-                                />
-                            ) : (
-                                <TouchableOpacity onPress={handleMailEditClick} style={{ top: 15, left: 13 }}>
-                                    <Text style={{ color: "#00000080" }}>{userEmail}</Text>
-                                </TouchableOpacity>
-                            )
-                        ) : (
-                            <Text style={{ top: 15, left: 13, color: "#00000080" }}>Please Log in To Change Your Email</Text>
-                        )}
+                        <TextInput
+                            style={{ top: 8, left: 13, }}
+                            value={lastName}
+                            onChangeText={text => setLastName(text)}
+                            autoFocus
+                            placeholder="Last Name"
+                        />
                     </View>
                 </View>
                 <View style={styles.inputContainer}>
                     {/*Phone Number Input*/}
                     <Text style={styles.text}>Phone Number</Text>
                     <View style={styles.textInput}>
-                        {loggedIn ? (
-                            phoneNumberEditing ? (
-                                <TextInput
-                                    style={{ top: 15, left: 13 }}
-                                    value={phoneNumber}
-                                    onChangeText={(text) => setPhoneNumber(text)}
-                                    onBlur={handlePhoneNumberSaveClick}
-                                    autoFocus
-                                />
-                            ) : (
-                                <TouchableOpacity onPress={handlePhoneNumberEditClick} style={{ top: 15, left: 13 }}>
-                                    <Text style={{ color: "#00000080" }}>{phoneNumber}</Text>
-                                </TouchableOpacity>
-                            )
-                        ) : (
-                            <Text style={{ top: 15, left: 13, color: "#00000080" }}>Please Log in To Change Your Phone Number</Text>
-                        )}
+                        <TextInput
+                            style={{ top: 8, left: 13 }}
+                            value={phoneNumber}
+                            onChangeText={text => setPhoneNumber(text)}
+                            placeholder='Phone Number'
+                            keyboardType="phone-pad"
+                            autoFocus
+                        />
                     </View>
                 </View>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.text}>Location</Text>
+                    <Text style={styles.text}>Password</Text>
                     <View style={styles.textInput}>
-                        {loggedIn ? (
-                            location ? (
-                                <TextInput
-                                    style={{ top: 15, left: 13, }}
-                                    
-                                    onChangeText={(text) => setLocation(text)}
-                                    onBlur={handleLocationSaveClick}
-                                />
-                            ) : (
-                                <TouchableOpacity onPress={handleLocationEditClick} style={{ top: 15, left: 13, }}>
-                                    <Text style={{ color: "#00000080" }}>{location}</Text>
-                                </TouchableOpacity>
-                            )
-                        ) : (
-                            <Text style={{ top: 15, left: 13, color: "#00000080" }}>Please Log in To Change Your Address</Text>
-                        )}
+                        <TextInput
+                            style={{ top: 8, left: 13, }}
+                            placeholder='Password'
+                            value={password}
+                            onChangeText={text => setPassword(text)}
+                            secureTextEntry
+                        />
                     </View>
                 </View>
+                {address ? (
+                    <View>
+                        <Text>Address:</Text>
+                        <Text>{`${address.address1}, ${address.city}, ${address.country}`}</Text>
+                        <Text>{`Address Type: ${address.addressType}`}</Text>
+                        {/* <Button title="Update Address" onPress={openAddressModal} /> */}
+                        <Button title="Delete Address" onPress={handleDeleteAddress} />
+                    </View>
+                ) : (
+                    <View style={styles.addressInputContainer}>
+                        <Text style={styles.text}>Address</Text>
+                        <View style={styles.addressComponent}>
+                            <View style={styles.addressTextInput}>
+                                <TextInput
+                                    style={{ top: 8, left: 13, }}
+                                    placeholder='Address'
+                                    value={address}
+                                    secureTextEntry
+                                />
+                            </View>
+                            <TouchableOpacity onPress={openAddressModal} style={styles.editButton}>
+                                <Text style={{ color: "#000000", fontSize: 12, fontWeight: 400 }}>Edit</Text>
+                            </TouchableOpacity>
+                        </View>
+
+                    </View>
+                )}
+
             </View>
             <TouchableOpacity
-                style={[styles.btn, { marginHorizontal: 20, marginVertical: 15, }]}
-                onPress={() => router.push(`/(modals)/otp`)}
+                style={[styles.btn, { marginHorizontal: 20, marginVertical: 30, }]}
+                onPress={handleUpdate}
             >
                 <Text style={styles.btnText}>Confirm Change</Text>
             </TouchableOpacity>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={addressModalVisible}
+                onRequestClose={() => setAddressModalVisible(false)}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalHeading}>{address ? 'Update Address' : 'Add Address'}</Text>
+                        <TextInput
+                            placeholder="Country"
+                            value={addressForm.country}
+                            onChangeText={text => setAddressForm({ ...addressForm, country: text })}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            placeholder="State"
+                            value={addressForm.state}
+                            onChangeText={text => setAddressForm({ ...addressForm, state: text })}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            placeholder="City"
+                            value={addressForm.city}
+                            onChangeText={text => setAddressForm({ ...addressForm, city: text })}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            placeholder="Address Line 1"
+                            value={addressForm.address1}
+                            onChangeText={text => setAddressForm({ ...addressForm, address1: text })}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            placeholder="Address Line 2"
+                            value={addressForm.address2}
+                            onChangeText={text => setAddressForm({ ...addressForm, address2: text })}
+                            style={styles.input}
+                        />
+                        <TextInput
+                            placeholder="Zip Code"
+                            value={addressForm.zipCode}
+                            onChangeText={text => setAddressForm({ ...addressForm, zipCode: text })}
+                            style={styles.input}
+                        />
+                     
+                            <View style={styles.addressTypeContainer} >
+                                <Text style={styles.txte}>Address Type</Text>
+                            <TouchableOpacity style={styles.addressTypeButton} onPress={openAddressTypeModalVisible}>
+                                <Text style={styles.txt}>{addressForm.addressType}</Text>
+                                <Ionicons name="caret-down-outline"></Ionicons>
+                            </TouchableOpacity>
+                            </View>
+                        <Modal 
+                        animationType='slide'
+                        transparent={true}
+                        visible={addressTypeModalVisible}
+                        onRequestClose={() => setAddressTypeModalVisible(false)} 
+                        >
+                            <View style={styles.addressModalContainer}>
+                                <View style={styles.addressModalContent}>
+                                    <TouchableOpacity style={styles.modalTextContainer} onPress={(value) =>
+                                setAddressForm({ ...addressForm, addressType: value })} >
+                                        <Text style={styles.modalText}>Home</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.modalTextContainer}>
+                                        <Text style={styles.modalText}>Office</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity style={styles.modalTextContainer}>
+                                        <Text style={styles.modalText}>Others</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => setAddressTypeModalVisible(false)} style={styles.cancelButton}>
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                                </View>
+                            </View>
+                        </Modal>
+                        {/*<PickerSelect
+                            style={{ inputIOS: styles.input, inputAndroid: styles.input }}
+                            value={addressForm.addressType}
+                            onValueChange={(value) =>
+                                setAddressForm({ ...addressForm, addressType: value })
+                            }
+                            items={[
+                                { label: 'Home', value: 'home' },
+                                { label: 'Work', value: 'work' },
+                                { label: 'Other', value: 'other' },
+                            ]}
+                        />*/}
+                        <View style={styles.buttonContainer}>
+                            <TouchableOpacity onPress={handleSaveAddress} style={styles.button}>
+                                <Text style={styles.buttonText}>Save Address</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setAddressModalVisible(false)} style={styles.button}>
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </ScrollView>
     )
 }
@@ -213,7 +422,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 150,
         borderRadius: 5,
-        
+
     },
     cameraIcon: {
         width: 95,
@@ -225,15 +434,17 @@ const styles = StyleSheet.create({
     accountName: {
         color: "#242124",
         fontSize: 25,
+        fontWeight: "500",
+    },
+    accountNameContainer: {
+        height: 50,
         position: "relative",
         top: 40,
         width: 200,
-        marginHorizontal: 125,
-        fontWeight: "500",
-        
-    },
-    accountNameContainer: {
-        height: 90
+        flex: 1,
+        marginHorizontal: 84,
+        justifyContent: "center",
+        alignItems: "center"
     },
     section2: {
         height: 500,
@@ -247,74 +458,72 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     text: {
-        fontSize: 16,
-        
+        fontSize: 15,
+
     },
     textInput: {
         borderWidth: 1,
         width: 320,
-        height: 51,
+        height: 50,
         top: 5,
         borderColor: "#0000001A",
         borderRadius: 5,
         backgroundColor: "#00000005"
     },
+    addressInputContainer: {
+        top: 30,
+        left: 20,
+        height: 80,
+        position: "relative",
+    },
+    addressComponent: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: 320,
+
+    },
+    addressTextInput: {
+        borderWidth: 1,
+        width: 260,
+        height: 50,
+        top: 5,
+        borderColor: "#0000001A",
+        borderRadius: 5,
+        backgroundColor: "#00000005",
+    },
+    modalTextContainer: {
+        marginBottom: 20,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: "#0000001A",
+        height: 35,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    modalText: {
+        fontFamily: "Roboto",
+        color: "#00000090"
+    },
+    editAddress: {
+        fontSize: 5
+    },
+    editButton: {
+        backgroundColor: "#ffffff",
+        borderWidth: 0.5,
+        borderColor: "#025492",
+        height: 50,
+        width: 50,
+        top: 5,
+        borderRadius: 5,
+        justifyContent: "center",
+        alignItems: "center",
+        position: "absolute",
+        marginHorizontal: 270
+    },
     textInput2: {
         top: 3.5,
         flex: 1,
         paddingHorizontal: 15
-    },
-    frame99: {
-        borderWidth: 1,
-        width: 320,
-        height: 51,
-        top: 5,
-        borderColor: "#0000001A",
-        borderRadius: 5,
-    },
-    countrySelector: {
-        flexDirection: "row",
-        alignItems: "center",
-        padding: 10,
-        width: 60,
-        left: 1,
-        top: 3,
-    },
-    flag: {
-        marginRight: 5,
-    },
-    countryCode: {
-        fontWeight: "bold",
-    },
-    countryName: {
-        marginLeft: 10,
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-    },
-    modalContent: {
-        backgroundColor: "#fff",
-        padding: 20,
-        borderRadius: 10,
-        elevation: 5,
-        height: 500,
-        width: 320,
-    },
-    countryOption: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingVertical: 10,
-    },
-    countrycodeselector: {
-        width: 200,
-        borderWidth: 0,
-    },
-    countrySelectorContainer: {
-        flexDirection: "row",
-        alignItems: "center",
     },
     btn: {
         backgroundColor: "#025492",
@@ -328,5 +537,89 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 16,
         fontFamily: "roboto-condensed-sb",
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: '#fff',
+        width: '90%',
+        padding: 20,
+        borderRadius: 10,
+    },
+    addressModalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    addressModalContent: {
+        backgroundColor: '#fff',
+        width: '70%',
+        padding: 20,
+        borderRadius: 10,
+    },
+    modalHeading: {
+        fontSize: 20,
+        marginBottom: 20,
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginTop: 20,
+    },
+    button: {
+        backgroundColor: '#025492',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+    },
+    buttonText: {
+        color: '#fff',
+        fontSize: 14,
+    },
+    input: {
+        width: '100%',
+        height: 50,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        padding: 10,
+        marginBottom: 10,
+    },
+    addressTypeContainer: {
+        flexDirection: "row",
+        left: 10,
+        alignItems: "center"
+    },
+    addressTypeButton: {
+        flexDirection: "row",
+        left: 10,
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        width: 90,
+        height: 40,
+        justifyContent: "space-around"
+    },
+    txte: {
+        fontWeight: "400"  
+    },
+    txt: {
+        color:"#00000090"
+    },
+
+    cancelButton: {
+        backgroundColor: '#025492',
+       width: 90,
+       height: 40,
+       justifyContent: "center",
+       alignItems: "center",
+       borderRadius: 5,
+       alignSelf: "center"
     }
 })

@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 45,
         width: 500,
-        paddingHorizontal: 40
+        paddingHorizontal: 20
     },
     text1: {
         color: "#ffffff",

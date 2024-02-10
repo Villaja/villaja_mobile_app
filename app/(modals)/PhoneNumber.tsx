@@ -143,7 +143,7 @@ const PhoneNumber = () => {
         <Image
           source={require("../../assets/images/pana.jpg")}
           resizeMode="contain"
-          style={{ alignSelf: "center", marginVertical: 48 }}
+          style={{ alignSelf: "center", marginVertical: 48, width: 136, height: 139 }}
         />
       </View>
       <View style={styles.textcont}>
