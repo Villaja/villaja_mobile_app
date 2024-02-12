@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image, Form } from 'react-native';
 import PickerSelect from 'react-native-picker-select';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,10 +34,14 @@ const account = () => {
     const [address, setAddress] = useState<Address | null>(null);
     const [addressModalVisible, setAddressModalVisible] = useState(false);
     const [addressTypeModalVisible, setAddressTypeModalVisible] = useState(false)
+    const [passwordModalVisible, setPasswordModalVisible] = useState(false)
+    
     const openAddressTypeModalVisible = () => {
         setAddressTypeModalVisible(true)
     }
-
+    const openPasswordModalVisible = () => {
+        setPasswordModalVisible(true)
+    }
     const [addressForm, setAddressForm] = useState<Address>({
         country: '',
         state: '',
@@ -184,6 +188,12 @@ const account = () => {
         setAddressModalVisible(true);
     };
 
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false); // State to manage password visibility
+    const oldPasswordVisible = "bighead"; // just for testing input real logic from backend for user old password
+
     return (
         <ScrollView style={styles.pageContainer}>
             <View style={styles.imageContainer}>
@@ -215,7 +225,7 @@ const account = () => {
                     </View>
                 </View>
                 <View style={styles.inputContainer}>
-                    {/*Last name name input*/}
+                    {/*Last name input*/}
                     <Text style={styles.text}>Last Name</Text>
                     <View style={styles.textInput}>
                         <TextInput
@@ -241,18 +251,21 @@ const account = () => {
                         />
                     </View>
                 </View>
-                <View style={styles.inputContainer}>
+
+                {/*password input/Edit Button*/}
+                <View style={styles.addressInputContainer}>
                     <Text style={styles.text}>Password</Text>
-                    <View style={styles.textInput}>
-                        <TextInput
-                            style={{ top: 8, left: 13, }}
-                            placeholder='Password'
-                            value={password}
-                            onChangeText={text => setPassword(text)}
-                            secureTextEntry
-                        />
+                    <View style={styles.addressComponent}>
+                        <View style={styles.addressTextInput}>
+                            <Text  style={{ top: 15, left: 13, }}>{oldPasswordVisible && '*'.repeat(oldPasswordVisible.length)}</Text>
+                        </View>
+                        <TouchableOpacity onPress={openPasswordModalVisible} style={styles.editButton}>
+                            <Text style={{ color: "#025492", fontSize: 12, fontWeight: 400 }}>Edit</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
+
+                {/*address input/edit button*/}
                 {address ? (
                     <View>
                         <Text>Address:</Text>
@@ -266,28 +279,82 @@ const account = () => {
                         <Text style={styles.text}>Address</Text>
                         <View style={styles.addressComponent}>
                             <View style={styles.addressTextInput}>
-                                <TextInput
-                                    style={{ top: 8, left: 13, }}
-                                    placeholder='Address'
-                                    value={address}
-                                    secureTextEntry
-                                />
+                            <Text  style={{ top: 8, left: 13, }}> {/** to display users address before editing */} {addressForm.address1}</Text>
                             </View>
                             <TouchableOpacity onPress={openAddressModal} style={styles.editButton}>
-                                <Text style={{ color: "#000000", fontSize: 12, fontWeight: 400 }}>Edit</Text>
+                                <Text style={{ color: "#025492", fontSize: 12, fontWeight: 400 }}>Edit</Text>
                             </TouchableOpacity>
                         </View>
-
                     </View>
                 )}
 
             </View>
+
+            {/**confirm change button */}
             <TouchableOpacity
                 style={[styles.btn, { marginHorizontal: 20, marginVertical: 30, }]}
                 onPress={handleUpdate}
             >
                 <Text style={styles.btnText}>Confirm Change</Text>
             </TouchableOpacity>
+
+            {/**edit password button modal  */}
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={passwordModalVisible}
+                onRequestClose={() => setPasswordModalVisible(false)}>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <View style={styles.modalHeader}>
+                            <View style={styles.modalIconContainer}>
+                                <Image source={require('../../assets/images/Padlock.png')} style={styles.modalIcon} />
+                            </View>
+                            <Text style={styles.modalHeaderText}>Change Password</Text>
+                        </View>
+                        <Text style={styles.p}>To change your password, please fill in the details below. Your new password must contain at least 8 characters, and must have one upper case letter.</Text>
+                        <View style={styles.container3}>
+                            <View>
+                                <Text>Current Password</Text>
+                                <TextInput
+                                    style={styles.input3}
+                                    secureTextEntry={true}
+                                    value={oldPassword}
+                                    onChangeText={(text) => setOldPassword(text)}
+                                />
+                            </View>
+                            <View>
+                                <Text>New Password</Text>
+                                <TextInput
+                                    style={styles.input3}
+                                    secureTextEntry={true}
+                                    value={newPassword}
+                                    onChangeText={(text) => setNewPassword(text)}
+                                />
+                            </View>
+                            <View>
+                                <Text>Confirm Password</Text>
+                                <TextInput
+                                    style={styles.input3}
+                                    secureTextEntry={true}
+                                    value={confirmPassword}
+                                    onChangeText={(text) => setConfirmPassword(text)}
+                                />
+                            </View>
+                            <View style={styles.buttonContainer}>
+                            <TouchableOpacity style={styles.button3}>
+                                <Text style={styles.buttonText}>Update</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setPasswordModalVisible(false)} style={styles.button3}>
+                                <Text style={styles.buttonText}>Cancel</Text>
+                            </TouchableOpacity>
+                        </View>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {/**edit address button modal */}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -333,24 +400,26 @@ const account = () => {
                             onChangeText={text => setAddressForm({ ...addressForm, zipCode: text })}
                             style={styles.input}
                         />
-                     
-                            <View style={styles.addressTypeContainer} >
-                                <Text style={styles.txte}>Address Type</Text>
+
+                        <View style={styles.addressTypeContainer} >
+                            <Text style={styles.txte}>Address Type</Text>
                             <TouchableOpacity style={styles.addressTypeButton} onPress={openAddressTypeModalVisible}>
                                 <Text style={styles.txt}>{addressForm.addressType}</Text>
                                 <Ionicons name="caret-down-outline"></Ionicons>
                             </TouchableOpacity>
-                            </View>
-                        <Modal 
-                        animationType='slide'
-                        transparent={true}
-                        visible={addressTypeModalVisible}
-                        onRequestClose={() => setAddressTypeModalVisible(false)} 
+                        </View>
+
+                        {/**address type modal selection inside edit address modal */}
+                        <Modal
+                            animationType='slide'
+                            transparent={true}
+                            visible={addressTypeModalVisible}
+                            onRequestClose={() => setAddressTypeModalVisible(false)}
                         >
                             <View style={styles.addressModalContainer}>
                                 <View style={styles.addressModalContent}>
                                     <TouchableOpacity style={styles.modalTextContainer} onPress={(value) =>
-                                setAddressForm({ ...addressForm, addressType: value })} >
+                                        setAddressForm({ ...addressForm, addressType: value })} >
                                         <Text style={styles.modalText}>Home</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity style={styles.modalTextContainer}>
@@ -360,11 +429,14 @@ const account = () => {
                                         <Text style={styles.modalText}>Others</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity onPress={() => setAddressTypeModalVisible(false)} style={styles.cancelButton}>
-                                <Text style={styles.buttonText}>Cancel</Text>
-                            </TouchableOpacity>
+                                        <Text style={styles.buttonText}>Cancel</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
                         </Modal>
+
+                        {/**continuation of edit address modal */}
+
                         {/*<PickerSelect
                             style={{ inputIOS: styles.input, inputAndroid: styles.input }}
                             value={addressForm.addressType}
@@ -607,19 +679,72 @@ const styles = StyleSheet.create({
         justifyContent: "space-around"
     },
     txte: {
-        fontWeight: "400"  
+        fontWeight: "400"
     },
     txt: {
-        color:"#00000090"
+        color: "#00000090"
     },
+    modalHeader: {
+        flexDirection: "row",
+        alignItems: "center"
+    },
+    modalHeaderText: {
+        fontSize: 22,
+        fontWeight: "700",
+        color: "#00000090",
+        fontFamily: "Roboto",
+        marginHorizontal: 30
+    },
+    modalIconContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: 50,
+        height: 50,
+        backgroundColor: "#88c7dc",
+        borderRadius: 50,
+    },
+    modalIcon: {
+        width: 30,
+        height: 30,
+    },
+    p: {
+        color: "#00000030",
+        fontWeight: "500",
+        maxWidth: 300,
+        marginTop: 20,
+        textAlign: "justify",
 
+    },
     cancelButton: {
         backgroundColor: '#025492',
-       width: 90,
-       height: 40,
-       justifyContent: "center",
-       alignItems: "center",
-       borderRadius: 5,
-       alignSelf: "center"
+        width: 90,
+        height: 40,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 5,
+        alignSelf: "center"
+    },
+    container3: {
+        marginTop: 40
+    },
+    input3: {
+        borderWidth: 1,
+        width: 280,
+        height: 50,
+        top: 5,
+        borderColor: "#0000001A",
+        borderRadius: 5,
+        backgroundColor: "#00000005",
+        marginBottom: 30
+    },
+    button3: {
+        backgroundColor: '#025492',
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+        width: 120,
+        height: 50,
+        justifyContent: "center",
+        alignItems: 'center',
     }
 })

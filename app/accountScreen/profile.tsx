@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+{/*import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import PickerSelect from 'react-native-picker-select';
 import axios from 'axios';
@@ -203,7 +203,7 @@ const Profile = () => {
           <Text>Address:</Text>
           <Text>{`${address.address1}, ${address.city}, ${address.country}`}</Text>
           <Text>{`Address Type: ${address.addressType}`}</Text>
-          {/* <Button title="Update Address" onPress={openAddressModal} /> */}
+          {/* <Button title="Update Address" onPress={openAddressModal} /> }
           <Button title="Delete Address" onPress={handleDeleteAddress} />
         </View>
       ) : (
@@ -331,4 +331,4 @@ const styles = StyleSheet.create({
 
 
 
-export default Profile;
+export default Profile; */}
