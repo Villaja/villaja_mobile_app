@@ -28,7 +28,7 @@ const carouselData = [
     id:1,
     device:"Apple Watch Gen2",
     store:'Apple Store',
-    image:"https://images.unsplash.com/photo-1631863552122-3072cf599a46?q=80&w=1854&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:"https://downloadscdn6.freepik.com/23/2150297/2150296477.jpg?filename=new-smartwatch-balancing-with-hand.jpg&token=exp=1707936661~hmac=c634714fadddaa04ed2356927ead657d",
   },
   {
     id:2,
