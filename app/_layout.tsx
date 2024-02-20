@@ -36,7 +36,7 @@ export default function RootLayout() {
     'roboto-condensed-thin': require('../assets/fonts/RobotoCondensed-Thin.ttf'),
     'roboto-condensed-sb-i': require('../assets/fonts/RobotoCondensed-SemiBoldItalic.ttf'),
     'roboto-condensed-i': require('../assets/fonts/RobotoCondensed-Italic.ttf'),
-    
+
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -208,16 +208,16 @@ function RootLayoutNav() {
 
               }}
             />
-            <Stack.Screen 
-        name='catalog/[id]'
-        options={{
-          headerTitle:'',
-          headerShadowVisible:false,
-          headerShown:false,
-          
+            <Stack.Screen
+              name='catalog/[id]'
+              options={{
+                headerTitle: '',
+                headerShadowVisible: false,
+                headerShown: false,
 
-        }}
-      />
+
+              }}
+            />
             <Stack.Screen
               name='cartScreen/cart'
               options={{
@@ -334,11 +334,26 @@ function RootLayoutNav() {
 
               }}
             />
-                        <Stack.Screen
+            <Stack.Screen
               name="vouchers/voucherDetails2"
               options={{
                 // presentation: 'modal',
                 title: 'Voucher Details',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+
+              }}
+            />
+            <Stack.Screen
+              name="referralScreen/referral"
+              options={{
+                // presentation: 'modal',
+                title: 'Referrals',
                 headerShadowVisible: false,
                 headerStyle: {
                   backgroundColor: 'transparent'

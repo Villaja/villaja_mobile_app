@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image, Form } from 'react-native';
+import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import PickerSelect from 'react-native-picker-select';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,8 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-
-
+import { defaultStyles } from '../../constants/Styles'
 
 
 interface Address {
@@ -343,10 +342,10 @@ const account = () => {
                             </View>
                             <View style={styles.buttonContainer}>
                             <TouchableOpacity style={styles.button3}>
-                                <Text style={styles.buttonText}>Update</Text>
+                                <Text style={defaultStyles.btnText}>Update</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setPasswordModalVisible(false)} style={styles.button3}>
-                                <Text style={styles.buttonText}>Cancel</Text>
+                            <TouchableOpacity onPress={() => setPasswordModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)' }]}>
+                                <Text style={[defaultStyles.btnText, { color: "rgb(255,0,0)" }]}>Cancel</Text>
                             </TouchableOpacity>
                         </View>
                         </View>
@@ -450,11 +449,11 @@ const account = () => {
                             ]}
                         />*/}
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity onPress={handleSaveAddress} style={styles.button}>
-                                <Text style={styles.buttonText}>Save Address</Text>
+                            <TouchableOpacity onPress={handleSaveAddress} style={styles.button3}>
+                                <Text style={defaultStyles.btnText}>Save Address</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setAddressModalVisible(false)} style={styles.button}>
-                                <Text style={styles.buttonText}>Cancel</Text>
+                            <TouchableOpacity onPress={() => setAddressModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)' }]}>
+                                <Text style={[defaultStyles.btnText, { color: "rgb(255,0,0)" }]}>Cancel</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -639,9 +638,8 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
         marginTop: 20,
+        justifyContent: "space-between"
     },
     button: {
         backgroundColor: '#025492',
@@ -738,13 +736,18 @@ const styles = StyleSheet.create({
         marginBottom: 30
     },
     button3: {
-        backgroundColor: '#025492',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        width: 120,
+    backgroundColor: "#025492",
+    height: 50,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20
+    },
+    button4: {
+        backgroundColor: "#FF000050",
         height: 50,
+        borderRadius: 10,
         justifyContent: "center",
-        alignItems: 'center',
+        alignItems: "center",
     }
 })
