@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Clipboard } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Clipboard } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import { defaultStyles } from "../../constants/Styles";
 import { useRouter } from "expo-router";

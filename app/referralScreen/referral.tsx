@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image, Clipboard} from 'react-native';
+
 import PickerSelect from 'react-native-picker-select';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,8 +9,48 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { defaultStyles } from '../../constants/Styles'
 
-
 const referral = () => {
+    const [referralCode, setReferralCode] = useState('');
+
+    useEffect(() => {
+        const generateRandomString = (length) => {
+            const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                const randomCode = Math.floor(Math.random() * charset.length);
+                result += charset.charAt(randomCode);
+            }
+            return result;
+        };
+
+        const generateAndSetReferralCode = async () => {
+            try {
+                const existingReferralCode = await AsyncStorage.getItem('referralCode');
+                if (existingReferralCode) {
+                    setReferralCode(existingReferralCode);
+                } else {
+                    const newReferralCode = generateRandomString(10);
+                    await AsyncStorage.setItem('referralCode', newReferralCode);
+                    setReferralCode(newReferralCode);
+                }
+            } catch (error) {
+                console.error('Error generating or retrieving referral code:', error);
+            }
+        };
+
+        generateAndSetReferralCode();
+    }, []);
+
+    const handleShareReferralCode = async () => {
+        try {
+            await Clipboard.setString(referralCode);
+            Alert.alert('Referral Code Copied', 'Your referral code has been copied to the clipboard.');
+        } catch (error) {
+            console.error('Error copying referral code to clipboard:', error);
+            Alert.alert('Error', 'Failed to copy referral code to clipboard.');
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.topContainer}>
@@ -34,15 +75,17 @@ const referral = () => {
             <View style={styles.codeContainer}>
                 <View>
                     <Text style={styles.codeText1}>Your Referral Code</Text>
-                    <Text style={styles.codeText2}>D83JE7E8JD</Text>
+                    <Text style={styles.codeText2}>{referralCode}</Text>
                 </View>
-                <TouchableOpacity style={styles.shareButton}>
+                <TouchableOpacity style={styles.shareButton} onPress={handleShareReferralCode}>
                     <Text style={styles.shareButtonText}>Share</Text>
                 </TouchableOpacity> 
             </View>
         </View>
-    )
-}
+    );
+};
+
+
 
 export default referral
 
