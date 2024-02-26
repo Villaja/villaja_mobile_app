@@ -224,7 +224,7 @@ const index = () => {
             style={{ backgroundColor: '#fff' }}
             renderItem={({ item, index }) => <View >
 
-              <Image source={item.image} style={{ height: 250, width: 376, }} resizeMode='cover' />
+              <Image source={item.image} style={{ height: 211, width: 376, }} resizeMode='cover' />
               <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{item.store}</Text>
               <Text style={{ fontSize: 20, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '400', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{item.device}</Text>
               <TouchableOpacity style={styles.buyNowBtn}>
