@@ -47,8 +47,8 @@ export default function voucherDetails() {
                     <Image source={require("../../assets/images/Rectangl.jpg")} style={styles.image2} />
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.text1}>₦5,000 Promo on Initial Purchase</Text>
-                    <Text style={styles.text2}>Valid for 24 hours after sign up</Text>
+                    <Text style={styles.text1}>₦10,000 Promo on Initial Purchase</Text>
+                    <Text style={styles.text2}>Valid for 12 hours after sign up</Text>
                 </View>
             </View>
             <View style={styles.section2}>
@@ -70,7 +70,7 @@ export default function voucherDetails() {
                 </View>
                 <View style={styles.textLine}>
                     <Text style={styles.lineText1}>Amount</Text>
-                    <Text style={styles.lineText2}>₦5,000</Text>
+                    <Text style={styles.lineText2}>₦10,000</Text>
                 </View>
             </View>
             <TouchableOpacity

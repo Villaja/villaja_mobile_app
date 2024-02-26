@@ -18,8 +18,8 @@ function voucherList() {
                     <Image source={require("../../assets/images/Rectangl.jpg")} style={styles.image2} />
                 </View>
                 <View style={styles.textContainer}>
-                    <Text style={styles.text1}>₦5,000 Promo on Initial Purchase</Text>
-                    <Text style={styles.text2}>Valid for 24 hours after sign up</Text>
+                    <Text style={styles.text1}>₦10,000 Promo on Initial Purchase</Text>
+                    <Text style={styles.text2}>Valid for 12 hours after sign up</Text>
                 </View>
             </TouchableOpacity>
             <TouchableOpacity style={styles.voucherContainer} onPress={() => router.push(`/vouchers/voucherDetails2`)} >

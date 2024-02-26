@@ -134,6 +134,41 @@ const styles = StyleSheet.create({
         height: 132.93
     },
     codeContainer: {
-        backgroundColor: "red"
+        marginTop: 162.07,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "auto",
+        height: 77
+    },
+    codeText1: {
+        fontSize: 11,
+        color: "#00000090",
+        lineHeight: 15.2,
+        letterSpacing: -0.18,
+        marginHorizontal: 36,
+        fontWeight: "500"
+    },
+    codeText2: {
+        fontSize: 13,
+        color: "#025492",
+        lineHeight: 15.2,
+        letterSpacing: -0.18,
+        marginHorizontal: 36,
+        fontWeight: "700"
+    },
+    shareButton: {
+        width: 121,
+        height: 31,
+        backgroundColor: "#025492",
+        marginRight: 10,
+        borderRadius: 5,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    shareButtonText: {
+        color: "#ffffff",
+        fontSize: 9.82,
+        fontWeight: "500"
     }
 })

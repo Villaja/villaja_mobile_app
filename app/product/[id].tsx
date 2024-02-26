@@ -167,12 +167,12 @@ const Page: React.FC = () => {
                           <FontAwesome key={index} name='star' size={16} color={'rgba(0,0,0,0.10)'} />
                         ))
                       }
-                      <Text>({productDetails?.ratings} ratings)</Text>
+                      <Text style={{color: "#025492"}}>({productDetails?.ratings} ratings)</Text>
                     </View>
 
                     <View style={{flexDirection:'row',gap:8,paddingVertical:16}}>
                       <TouchableOpacity style={[defaultStyles.btn,{flexBasis:'49%'}]} onPress={() => handleAddToCart()}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed'}]}>Add To Cart</Text></TouchableOpacity>
-                      <TouchableOpacity style={[defaultStyles.btnStyleBorder,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed',color:Colors.primary}]}>Request For Swap</Text></TouchableOpacity>
+                      <TouchableOpacity style={[defaultStyles.btnStyleBorder,{flexBasis:'49%'}]}><Text style={[defaultStyles.btnText,{fontSize:16,fontFamily:'roboto-condensed',color:Colors.primary}]}>Buy Now</Text></TouchableOpacity>
                     </View>
                   </View>
 
