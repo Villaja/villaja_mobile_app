@@ -296,12 +296,12 @@ const index = () => {
 
           {
             carouselData.map((cat, index) => (
-              <View key={index} style={{ alignItems: 'center', borderRadius: 5, overflow: 'hidden' }}>
+              <TouchableOpacity activeOpacity={1} key={index} style={{ alignItems: 'center', borderRadius: 5, overflow: 'hidden' }}>
                 <Image source={cat.image } style={{ width: 300, height: 400, borderRadius: 5 }} />
                 <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
                 <Text style={{ fontSize: 18, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '700', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
 
-              </View>
+              </TouchableOpacity>
             ))
           }
         </ScrollView>
