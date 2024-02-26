@@ -1,39 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Clipboard } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import { defaultStyles } from "../../constants/Styles";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function voucherDetails() {
     const router = useRouter()
 
-    // Function to generate a random alphanumeric string
-    const generateRandomString = (length) => {
-        const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-        let result = ''
-        for (let i = 0; i < length; i++) {
-            const randomCode = Math.floor(Math.random() * charset.length)
-            result += charset.charAt(randomCode)
+   // Function to generate a random alphanumeric string
+   const generateRandomString = (length) => {
+    const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        const randomCode = Math.floor(Math.random() * charset.length);
+        result += charset.charAt(randomCode);
+    }
+    return result;
+};
+
+// Function to generate a unique promo code
+const generatePromoCode = () => {
+    const randomString = generateRandomString(15);
+    const suffix = Math.floor(Math.random() * 5000);
+
+    return `${randomString}-${suffix}`;
+};
+
+const [promoCode, setPromoCode] = useState('');
+
+useEffect(() => {
+    // Check if promo code is already stored in AsyncStorage
+    AsyncStorage.getItem('promoCode').then((storedPromoCode) => {
+        if (storedPromoCode) {
+            // If promo code is already stored, set it
+            setPromoCode(storedPromoCode);
+        } else {
+            // If promo code is not stored, generate a new one and store it
+            const newPromoCode = generatePromoCode();
+            setPromoCode(newPromoCode);
+            AsyncStorage.setItem('promoCode', newPromoCode);
         }
-        return result
-    }
+    }).catch((error) => {
+        console.error('Error fetching promo code from AsyncStorage:', error);
+    });
+}, []);
 
-    // Function to generate a unique promo code
-    const generatePromoCode = () => {
-        const randomString = generateRandomString(15)
-        const suffix = Math.floor(Math.random() * 5000)
-
-        return `${randomString}-${suffix}`
-    }
-
-    const [promoCode, setPromoCode] = useState(generatePromoCode())
-
-    //function to copy text to clipboard
-    const copyToClipboard = () => {
-        Clipboard.setString(promoCode)
-        alert('Promo Code Copied to Clipboard!!')
-    }
+//function to copy text to clipboard
+const copyToClipboard = () => {
+    Clipboard.setString(promoCode);
+    alert('Promo Code Copied to Clipboard!!');
+};
 
     return (
         <ScrollView style={styles.mainContainer}>
