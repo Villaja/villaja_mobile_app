@@ -284,7 +284,7 @@ const index = () => {
           </View>
         </View>
 
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginVertical: 20, height: 400 }} contentContainerStyle={
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginVertical: 20, height: 406.02 }} contentContainerStyle={
           {
             alignItems: 'center',
             gap: 4,
