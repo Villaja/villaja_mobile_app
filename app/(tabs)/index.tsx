@@ -20,7 +20,7 @@ const { width } = Dimensions.get('window')
 const testUser = {
   id: 1,
   name: "Tony Danza",
-  image: "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
+  image: require("../../assets/images/user2.png")
 }
 
 const carouselData = [
@@ -182,7 +182,7 @@ const index = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primaryUltraTransparent, paddingTop: Platform.OS === 'android' ? 30 : 0 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 8, }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9 }}>
-          <Image source={{ uri: testUser.image }} resizeMode='contain' style={{ width: 50, top: 1, height: 50, borderRadius: 40 }} />
+          <Image source={testUser.image} resizeMode='contain' style={{ width: 50, top: 1, height: 50, borderRadius: 40 }} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
             <View style={{}}>
               {user ? (

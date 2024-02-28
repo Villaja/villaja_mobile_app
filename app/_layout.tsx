@@ -364,6 +364,36 @@ function RootLayoutNav() {
 
               }}
             />
+            <Stack.Screen
+              name="getHelp/getHelp"
+              options={{
+                // presentation: 'modal',
+                title: 'Get Help',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+
+              }}
+            />
+            <Stack.Screen
+              name="accountScreen/deleteAccount"
+              options={{
+                // presentation: 'modal',
+                title: 'Delete Account',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+
+              }}
+            />
           </Stack>
         </OrdersProvider>
       </AuthProvider>

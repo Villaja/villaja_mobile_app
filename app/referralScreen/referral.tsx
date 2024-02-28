@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image, Clipboard} from 'react-native';
-import PickerSelect from 'react-native-picker-select';
-import axios from 'axios';
+import { View, Text, Alert, StyleSheet, TouchableOpacity, Image, Clipboard} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAuth } from '../../context/AuthContext';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { defaultStyles } from '../../constants/Styles'
+
 
 const referral = () => {
+    
     const [referralCode, setReferralCode] = useState('');
 
     useEffect(() => {
@@ -61,7 +57,7 @@ const referral = () => {
                 </View>
                 <View style={styles.textContainer}>
                     <Text style={styles.topContainerText1}>Total Referred</Text>
-                    <Text style={styles.topContainerText2}>5 Referred</Text>
+                    <Text style={styles.topContainerText2}>0 Referred</Text>
                 </View>
             </View>
             <View style={styles.middleTextContainer}>

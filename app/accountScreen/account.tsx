@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import PickerSelect from 'react-native-picker-select';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../../context/AuthContext';
@@ -34,7 +33,7 @@ const account = () => {
     const [addressModalVisible, setAddressModalVisible] = useState(false);
     const [addressTypeModalVisible, setAddressTypeModalVisible] = useState(false)
     const [passwordModalVisible, setPasswordModalVisible] = useState(false)
-    
+
     const openAddressTypeModalVisible = () => {
         setAddressTypeModalVisible(true)
     }
@@ -112,13 +111,12 @@ const account = () => {
                 console.error('Error updating user information:', error.message);
             });
     };
+
     const testUser = {
         id: 1,
         name: "Tony Danza",
-        image: "https://t4.ftcdn.net/jpg/02/15/84/43/360_F_215844325_ttX9YiIIyeaR7Ne6EaLLjMAmy4GvPC69.jpg"
+        image: require("../../assets/images/user2.png")
     }
-
-
 
 
     const handleSaveAddress = () => {
@@ -195,10 +193,10 @@ const account = () => {
 
     return (
         <ScrollView style={styles.pageContainer}>
-            <View style={styles.imageContainer}>
+            <View>
                 {/*user image*/}
-                <Image source={{ uri: testUser.image }} resizeMode='contain' style={styles.userIcon} />
-                <View style={styles.camera}>
+                <View style={styles.userIconContainer}>
+                    <Image source={testUser.image} resizeMode='contain' style={styles.userIcon} />
                     <TouchableOpacity style={styles.cameraContainer} >
                         <Ionicons name="camera-outline" size={23} color={"#ffffff"} style={styles.cameraIcon} />
                     </TouchableOpacity>
@@ -206,8 +204,6 @@ const account = () => {
                 <View style={styles.accountNameContainer} >
                     <Text style={styles.accountName}>{firstName} {lastName}</Text>
                 </View>
-
-
             </View>
             <View style={styles.section2}>
                 <View style={styles.inputContainer}>
@@ -256,7 +252,7 @@ const account = () => {
                     <Text style={styles.text}>Password</Text>
                     <View style={styles.addressComponent}>
                         <View style={styles.addressTextInput}>
-                            <Text  style={{ top: 15, left: 13, }}>{oldPasswordVisible && '*'.repeat(oldPasswordVisible.length)}</Text>
+                            <Text style={{ top: 15, left: 13, }}>{oldPasswordVisible && '*'.repeat(oldPasswordVisible.length)}</Text>
                         </View>
                         <TouchableOpacity onPress={openPasswordModalVisible} style={styles.editButton}>
                             <Text style={{ color: "#025492", fontSize: 12, fontWeight: 400 }}>Edit</Text>
@@ -278,7 +274,7 @@ const account = () => {
                         <Text style={styles.text}>Address</Text>
                         <View style={styles.addressComponent}>
                             <View style={styles.addressTextInput}>
-                            <Text  style={{ top: 8, left: 13, }}> {/** to display users address before editing */} {addressForm.address1}</Text>
+                                <Text style={{ top: 8, left: 13, }}> {/** to display users address before editing */} {addressForm.address1}</Text>
                             </View>
                             <TouchableOpacity onPress={openAddressModal} style={styles.editButton}>
                                 <Text style={{ color: "#025492", fontSize: 12, fontWeight: 400 }}>Edit</Text>
@@ -341,13 +337,13 @@ const account = () => {
                                 />
                             </View>
                             <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.button3}>
-                                <Text style={defaultStyles.btnText}>Update</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setPasswordModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)' }]}>
-                                <Text style={[defaultStyles.btnText, { color: "rgb(255,0,0)" }]}>Cancel</Text>
-                            </TouchableOpacity>
-                        </View>
+                                <TouchableOpacity style={styles.button3}>
+                                    <Text style={defaultStyles.btnText}>Update</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => setPasswordModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)' }]}>
+                                    <Text style={[defaultStyles.btnText, { color: "rgb(255,0,0)" }]}>Cancel</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
@@ -470,18 +466,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#ffffff"
     },
+    userIconContainer: {
+        top: 28,
+        flex: 1,
+        height: 180
+    },
     userIcon: {
         top: 30,
         height: 150,
-
-        flex: 1,
-        paddingHorizontal: 180,
-    },
-    camera: {
-        width: 100,
-        backgroundColor: "red",
-        marginHorizontal: 200,
-        position: 'absolute'
+        width: 150,
+        marginHorizontal: 106,
     },
     cameraContainer: {
         flex: 1,
@@ -489,18 +483,16 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#025491",
         width: 35,
-        marginHorizontal: 20,
+        marginHorizontal: 212,
         position: "absolute",
-        top: 150,
+        top: 144,
         borderRadius: 5,
-
     },
     cameraIcon: {
         width: 95,
         left: 36.5,
         top: 1,
-
-        paddingVertical: 5
+        paddingVertical: 5,
     },
     accountName: {
         color: "#242124",
@@ -508,7 +500,6 @@ const styles = StyleSheet.create({
         fontWeight: "500",
     },
     accountNameContainer: {
-        height: 50,
         position: "relative",
         top: 40,
         width: 200,
@@ -736,12 +727,12 @@ const styles = StyleSheet.create({
         marginBottom: 30
     },
     button3: {
-    backgroundColor: "#025492",
-    height: 50,
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 20
+        backgroundColor: "#025492",
+        height: 50,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20
     },
     button4: {
         backgroundColor: "#FF000050",
