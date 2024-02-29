@@ -18,8 +18,8 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
         <Image source={{ uri: order.cart[0].images[0].url }} style={styles.image} />
         <View style={{ paddingVertical: 12.5 }}>
           <Text style={styles.name}>{order.cart[0].name}</Text>
-          <Text style={styles.price}>N{order.totalPrice.toLocaleString()}</Text>
-          <Text style={styles.discount}>N{order.cart[0].discountPrice}</Text>
+          <Text style={styles.price}>₦{order.totalPrice.toLocaleString()}</Text>
+          <Text style={styles.discount}>₦{order.cart[0].discountPrice}</Text>
         </View>
       </View>
 

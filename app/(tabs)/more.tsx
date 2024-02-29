@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Switch } from "react-native";
 import { Svg, SvgXml, Path } from "react-native-svg";
-import { defaultStyles } from "../../constants/Styles";
 import { useRouter } from "expo-router";
 
 
@@ -59,7 +58,7 @@ function More() {
                         <Path fillRule="evenodd" clipRule="evenodd" d="M15.707 11.2932C15.8945 11.4807 15.9998 11.735 15.9998 12.0002C15.9998 12.2653 15.8945 12.5197 15.707 12.7072L10.05 18.3642C9.95776 18.4597 9.84742 18.5359 9.72541 18.5883C9.60341 18.6407 9.47219 18.6683 9.33941 18.6694C9.20663 18.6706 9.07495 18.6453 8.95205 18.595C8.82916 18.5447 8.7175 18.4705 8.62361 18.3766C8.52972 18.2827 8.45547 18.171 8.40519 18.0481C8.3549 17.9252 8.3296 17.7936 8.33076 17.6608C8.33191 17.528 8.3595 17.3968 8.41191 17.2748C8.46431 17.1528 8.5405 17.0424 8.63601 16.9502L13.586 12.0002L8.63601 7.05018C8.45385 6.86158 8.35305 6.60898 8.35533 6.34678C8.35761 6.08458 8.46278 5.83377 8.64819 5.64836C8.8336 5.46295 9.08441 5.35778 9.34661 5.35551C9.6088 5.35323 9.86141 5.45402 10.05 5.63618L15.707 11.2932Z" fill="black" fillOpacity="0.3" />
                     </Svg>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.content} >
+               {/* {SUSPENDED FEATURE} <TouchableOpacity style={styles.content} >
                     <View style={{flexDirection:'row',alignItems:'center'}}>
 
                     <Svg style={styles.Icon}>
@@ -70,10 +69,9 @@ function More() {
                     <Svg style={styles.arrowIcon2}>
                         <Path fillRule="evenodd" clipRule="evenodd" d="M15.707 11.2932C15.8945 11.4807 15.9998 11.735 15.9998 12.0002C15.9998 12.2653 15.8945 12.5197 15.707 12.7072L10.05 18.3642C9.95776 18.4597 9.84742 18.5359 9.72541 18.5883C9.60341 18.6407 9.47219 18.6683 9.33941 18.6694C9.20663 18.6706 9.07495 18.6453 8.95205 18.595C8.82916 18.5447 8.7175 18.4705 8.62361 18.3766C8.52972 18.2827 8.45547 18.171 8.40519 18.0481C8.3549 17.9252 8.3296 17.7936 8.33076 17.6608C8.33191 17.528 8.3595 17.3968 8.41191 17.2748C8.46431 17.1528 8.5405 17.0424 8.63601 16.9502L13.586 12.0002L8.63601 7.05018C8.45385 6.86158 8.35305 6.60898 8.35533 6.34678C8.35761 6.08458 8.46278 5.83377 8.64819 5.64836C8.8336 5.46295 9.08441 5.35778 9.34661 5.35551C9.6088 5.35323 9.86141 5.45402 10.05 5.63618L15.707 11.2932Z" fill="black" fillOpacity="0.3" />
                     </Svg>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.content}>
+                    </TouchableOpacity> */}
+                <TouchableOpacity onPress={() => router.push(`/savedProductScreen/saves`)}  style={styles.content}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-
                     <Svg style={styles.Icon}>
                         <Path d="M0.166687 15.5V2.16667C0.166687 1.70833 0.33002 1.31611 0.656687 0.99C0.983353 0.663889 1.37558 0.500556 1.83335 0.5H10.1667C10.625 0.5 11.0175 0.663333 11.3442 0.99C11.6709 1.31667 11.8339 1.70889 11.8334 2.16667V15.5L6.00002 13L0.166687 15.5ZM1.83335 12.9583L6.00002 11.1667L10.1667 12.9583V2.16667H1.83335V12.9583Z" fill="black" fillOpacity="0.4" />
                     </Svg>
@@ -102,7 +100,7 @@ function More() {
                         <Path d="M2.99999 15.834V8.33398C2.99999 7.0079 3.52678 5.73613 4.46446 4.79845C5.40214 3.86077 6.67391 3.33398 7.99999 3.33398C9.32607 3.33398 10.5978 3.86077 11.5355 4.79845C12.4732 5.73613 13 7.0079 13 8.33398V15.834M2.99999 15.834H13M2.99999 15.834H1.33332M13 15.834H14.6667M7.16666 18.334H8.83332" stroke="black" strokeOpacity="0.6" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                         <Path d="M8 3.33366C8.46023 3.33366 8.83333 2.96056 8.83333 2.50033C8.83333 2.04009 8.46023 1.66699 8 1.66699C7.53976 1.66699 7.16666 2.04009 7.16666 2.50033C7.16666 2.96056 7.53976 3.33366 8 3.33366Z" stroke="black" strokeOpacity="0.6" strokeWidth="1.66667" />
                     </Svg>
-                    <Text style={styles.contentText} >Notification</Text>
+                    <Text style={styles.contentText} >Notifications</Text>
                     <Switch
                             trackColor={{ false: '#87cefa', true: '#87CEEB' }}
                             thumbColor={isNotificationEnabled ? '#025492' : '#f4f3f4'}
@@ -117,7 +115,7 @@ function More() {
                 <View style={styles.headers}>
                     <Text style={styles.headerText}>Settings</Text>
                 </View>
-                {/*{suspended feature} <TouchableOpacity style={styles.content}>
+                {/*{SUSPENDED FEATURE} <TouchableOpacity style={styles.content}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
 
                     <Svg style={styles.Icon}>

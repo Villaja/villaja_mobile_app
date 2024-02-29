@@ -394,6 +394,21 @@ function RootLayoutNav() {
 
               }}
             />
+            <Stack.Screen
+              name="savedProductScreen/saves"
+              options={{
+                // presentation: 'modal',
+                title: 'Saves',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+
+              }}
+            />
           </Stack>
         </OrdersProvider>
       </AuthProvider>

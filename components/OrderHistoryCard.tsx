@@ -19,14 +19,13 @@ const CartCard = (item:Props) => {
     <View style={styles.container}>
       <View style={styles.topSection}>
         <View style={styles.imageContainer}>
-
             <Image source={{uri:item.image}} style={[styles.image,{tintColor:Colors.grey}]}  />
             <Image source={{uri:item.image}} style={styles.image}  />
         </View>
         <View style={{paddingVertical:12.5}}>
             <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>N{item.originalPrice.toLocaleString()}</Text>
-            <Text style={styles.discount}>N{item.discountPrice}</Text>
+            <Text style={styles.price}>₦{item.originalPrice.toLocaleString()}</Text>
+            <Text style={styles.discount}>₦{item.discountPrice}</Text>
         </View>
       </View>
 
