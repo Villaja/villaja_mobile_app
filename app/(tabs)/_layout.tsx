@@ -62,16 +62,16 @@ const Layout = () => {
         }}
       />
  <Tabs.Screen
-        name="More"
+        name="more"
         options={{
           tabBarLabel: 'More',
           headerShown: true,
+          headerTitleAlign:'center',
           headerTitleStyle:{
             fontFamily:'roboto-condensed-sb-i',
             fontSize:20,
             fontStyle: "italic",
             fontWeight: "700",
-            left: 140
           },
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="view-grid-plus-outline" size={size} color={color} />
