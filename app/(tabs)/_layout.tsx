@@ -46,9 +46,17 @@ const Layout = () => {
         }}
       />
       <Tabs.Screen
-        name="saved"
+        name="QuickSell"
         options={{
           tabBarLabel: 'Quick Sell',
+          title: 'Quick Sell',
+          headerTitleAlign: "center",
+          headerTitleStyle:{
+            fontFamily:'roboto-condensed-sb-i',
+            fontSize:20,
+            fontStyle: "italic",
+            fontWeight: "700"
+          },
           tabBarIcon: ({ size, color }) => <AntDesign name="plussquareo" size={size} color={color} />,
         }}
       />
@@ -62,9 +70,10 @@ const Layout = () => {
         }}
       />
  <Tabs.Screen
-        name="more"
+        name="More"
         options={{
           tabBarLabel: 'More',
+          title: 'More',
           headerShown: true,
           headerTitleAlign:'center',
           headerTitleStyle:{

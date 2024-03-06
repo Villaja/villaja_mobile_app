@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF99',
         height: 87,
         // width: 307,
-        left: 43,
+        left: 27,
         position: 'absolute'
     },
     text1: {
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     text2: {
         fontSize: 20,
         color: "#FFFFFF",
-        fontWeight: '500',
+        fontWeight: '700',
         lineHeight: 29.3,
         fontFamily: "Roboto"
     },

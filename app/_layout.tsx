@@ -409,6 +409,36 @@ function RootLayoutNav() {
 
               }}
             />
+            <Stack.Screen
+              name="quickSellAndSwap/uploadScreen"
+              options={{
+                // presentation: 'modal',
+                title: 'Upload',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+
+              }}
+            />
+                        <Stack.Screen
+              name="quickSellAndSwap/quickSell"
+              options={{
+                // presentation: 'modal',
+                title: 'Quick Sell',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+
+              }}
+            />
           </Stack>
         </OrdersProvider>
       </AuthProvider>
