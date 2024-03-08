@@ -10,7 +10,7 @@ const Page = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{marginTop: 150}}>
+      <View>
       <Text style={styles.headerText}>Forgot Password</Text>
       <Text style={styles.headerInfo}>To Change Your Password, Please Select Method Of Recovery</Text>
       </View>
