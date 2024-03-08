@@ -87,6 +87,14 @@ function RootLayoutNav() {
                     <Ionicons name="close-outline" size={28} />
                   </TouchableOpacity>
                 ),
+                headerShown: false
+              }}
+            />
+            <Stack.Screen
+              name="(modals)/firstLoadingScreen"
+              options={{
+                // presentation: 'modal',
+                headerShown: false
               }}
             />
             <Stack.Screen
@@ -438,7 +446,7 @@ function RootLayoutNav() {
                 },
               }}
             />
-                        <Stack.Screen
+            <Stack.Screen
               name="quickSellAndSwap/postAd1"
               options={{
                 // presentation: 'modal',

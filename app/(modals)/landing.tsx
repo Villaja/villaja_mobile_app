@@ -14,27 +14,24 @@ const Page = () => {
   return (
     <View style={styles.container}>
 
-      <Image style={{position:'absolute',left:20,top:-79}} source={require('../../assets/images/LoginRectangle1.png')} />
-      <Image style={{position:'absolute',left:0,top:488}} source={require('../../assets/images/LoginRectangle2.png')} />
+      <Image style={{width: 522.84, height: 590.83, position: 'absolute', top: -146, left: 20}} source={require('../../assets/images/Rectangle3.png')} />
+      <Image style={{position:'absolute',left:0,top: 505}} source={require('../../assets/images/Rectangle4.png')} />
 
-      <View style={{width:width * 0.8,height:width *0.8,alignSelf:'center'}}>
-        <Image style={{alignSelf:'center',marginBottom:20,width:'100%',height:'100%',resizeMode:'contain'}} source={require('../../assets/images/shoppingCart.png')} />
+      <View style={{width:width * 0.8,height:width *0.8,alignSelf:'center', marginBottom: 80}}>
+        <Image style={{alignSelf:'center',marginBottom:20,width: 233,height: 330, left: 20, top: 7 }} source={require('../../assets/images/shoppingCart.png')} />
       </View>
-      <Text style={{fontFamily:'roboto-condensed-sb-i',fontSize:44}}>The Best Online Shopping Has To Offer</Text>
+      <Text style={{fontFamily:'roboto-condensed-sb-i',fontSize:40, color: "#2C3033"}}>The Best Online Shopping Has To Offer</Text>
 
-      <TouchableOpacity style={defaultStyles.btn}>
+      <TouchableOpacity style={{
+    backgroundColor: '#025492',
+    height: 50,
+    borderRadius: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 100
+    }} onPress={() => router.push('/(modals)/register')} >
         <Text style={defaultStyles.btnText}>Get Started</Text>
       </TouchableOpacity>
-
-      <View style={{flexDirection:'row',gap:8,marginTop:16}}>
-
-        <TouchableOpacity style={defaultStyles.btnStyleBorder} onPress={() => router.push('/(modals)/login')}>
-          <Text style={defaultStyles.btnTextBorder}>Sign In</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={defaultStyles.btnStyleBorder} onPress={() => router.push('/(modals)/register')}> 
-          <Text style={defaultStyles.btnTextBorder}>Register</Text>
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };
