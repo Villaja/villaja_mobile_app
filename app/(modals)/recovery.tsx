@@ -9,7 +9,7 @@ const recovery = () => {
   return (
     <View style={defaultStyles.container}>
         <Text style={{alignSelf:'center',fontSize:25,fontFamily:"roboto-condensed-sb",color:Colors.primary}}>Recovery Account</Text>
-        <Image source={require('../../assets/images/recoveryIllustration.png')} resizeMode='contain' style={{alignSelf:'center',marginVertical:26}} />
+        <Image source={require('../../assets/images/recovery.png')}  style={{alignSelf:'center',marginVertical:26, width: 147, height: 146}} />
 
         <View style={{gap:4,marginHorizontal:20}}>
           <Text style={{fontFamily:'roboto-condensed',fontSize:15,color:'rgba(0,0,0,0.50)'}}>Please, Enter Your Email Address. You Will Receive An OTP For Accounts Recovery</Text>

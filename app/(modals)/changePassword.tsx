@@ -10,9 +10,9 @@ const changePassword = () => {
   const [confirmPasswordVisible,setConfirmPasswordVisisble] = useState<boolean>(true)
   return (
     <View style={defaultStyles.container}>
-        <Text style={{alignSelf:'center',fontSize:30,fontFamily:"roboto-condensed-sb",color:Colors.primary}}>Enter New Password</Text>
+        <Text style={{alignSelf:'center',fontSize:25,fontFamily:"roboto-condensed-sb",color:Colors.primary}}>Enter New Password</Text>
 
-      <Text style={{alignSelf:'center',color:'rgba(0,0,0,0.40)',fontSize:16,fontFamily:"roboto-condensed",marginTop:8}} >Enter A New Password That Work For You</Text>
+      <Text style={{alignSelf:'center',color:'rgba(0,0,0,0.40)',fontSize:15,fontFamily:"roboto-condensed",marginTop:8}} >Enter A New Password That Work For You</Text>
     
         <View style={{paddingHorizontal:20,marginVertical:16,gap:16}}>
             <View style={{gap:4}}>
@@ -32,7 +32,7 @@ const changePassword = () => {
         </View>
 
         <View style={{paddingHorizontal:20}}>
-            <View style={defaultStyles.btn}><Text style={defaultStyles.btnText}>Confirm</Text></View>
+            <TouchableOpacity style={defaultStyles.btn}><Text style={defaultStyles.btnText}>Confirm</Text></TouchableOpacity>
         </View>
 
     

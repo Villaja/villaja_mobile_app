@@ -10,12 +10,14 @@ const Page = () => {
 
   return (
     <View style={styles.container}>
+      <View style={{marginTop: 150}}>
       <Text style={styles.headerText}>Forgot Password</Text>
-      <Text style={styles.headerInfo}>To Create New Account, Please Select Method Of Recovery</Text>
+      <Text style={styles.headerInfo}>To Change Your Password, Please Select Method Of Recovery</Text>
+      </View>
     
-    <Link href={'/(modals)/recovery'} style={{marginVertical:30,alignSelf:'center',flexGrow:1}}>
+    <Link href={'/(modals)/recovery'} style={{marginVertical: 30,alignSelf:'center',flexGrow:1}}>
       <TouchableOpacity >
-        <Image source={require('../../assets/images/ViaEmailBtn.png')} />
+        <Image source={require('../../assets/images/email.png')} style={{width: 320, height: 143}} />
       </TouchableOpacity>
     </Link>
     {/* <Link href={'/(modals)/PhoneNumber'} style={{marginVertical:30,alignSelf:'center',flexGrow:1}}>
@@ -43,14 +45,14 @@ const styles = StyleSheet.create({
   },
   headerText:{
     fontFamily:'roboto-condensed-sb-i',
-    fontSize:35,
+    fontSize:25,
     color:Colors.primary,
     marginBottom:4
   },
   headerInfo:{
     color:Colors.grey,
     fontFamily:'roboto-condensed',
-    fontSize:16
+    fontSize:14
   }
 
 
