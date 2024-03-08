@@ -7,7 +7,8 @@ const categoriesData = [
   { id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
   { id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
   { id: 3, name: 'Tablets', image: require('../../assets/images/tabcat.png') },
-  {id: 4, name: 'Phone Accessories', image: require('../../assets/images/phoneacc.png')}
+  {id: 4, name: 'Phone Accessories', image: require('../../assets/images/phoneacc.png')},
+  {id: 5, name: 'Computer Accessories', image: require('../../assets/images/computeracc.png') }
 ];
 
 const QuickSell = () => {
