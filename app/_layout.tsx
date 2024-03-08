@@ -424,7 +424,7 @@ function RootLayoutNav() {
 
               }}
             />
-                        <Stack.Screen
+            <Stack.Screen
               name="quickSellAndSwap/quickSell"
               options={{
                 // presentation: 'modal',
@@ -436,7 +436,20 @@ function RootLayoutNav() {
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
                 },
-
+              }}
+            />
+                        <Stack.Screen
+              name="quickSellAndSwap/postAd1"
+              options={{
+                // presentation: 'modal',
+                title: 'Back',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
               }}
             />
           </Stack>

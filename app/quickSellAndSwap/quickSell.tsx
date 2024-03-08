@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from "expo-router";
 
 const categoriesData = [
-  { id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
-  { id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
-  { id: 3, name: 'Tablets', image: require('../../assets/images/tabcat.png') },
+  {id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
+  {id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
+  {id: 3, name: 'Tablets', image: require('../../assets/images/tabcat.png') },
   {id: 4, name: 'Phone Accessories', image: require('../../assets/images/phoneacc.png')},
   {id: 5, name: 'Computer Accessories', image: require('../../assets/images/computeracc.png')},
   {id: 6, name: 'Computer Monitors', image: require('../../assets/images/Monitor.png')},
@@ -16,14 +17,20 @@ const categoriesData = [
   {id: 10, name: 'Printers & Scanners', image: require('../../assets/images/printercat.png')},
   {id: 11, name: 'Cameras', image: require('../../assets/images/cameracat.png')},
   {id: 12, name: 'Security & Surveillance', image: require('../../assets/images/security.png')},
-  {id: 13, name: 'Video Games', image: require('../../assets/images/videogame.jpg')}
+  {id: 13, name: 'Video Games', image: require('../../assets/images/videogame.jpg')},
+  {id: 14, name: 'Tv', image: require('../../assets/images/tvcat.png')},
+  {id: 15, name: 'Video Game Console', image: require('../../assets/images/ps5.jpg')},
+  {id: 16, name: 'Computer Hardware', image: require('../../assets/images/comphardware.png')}
 ];
 
 const QuickSell = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const router = useRouter()
 
+
+  // functionality to render and select categories in modal
   const renderCategories = ({ item }) => {
     return (
       <TouchableOpacity
@@ -43,6 +50,7 @@ const QuickSell = () => {
     );
   }
 
+// functionality to select and upload product images
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -63,8 +71,10 @@ const QuickSell = () => {
       <TouchableOpacity style={styles.category} onPress={() => setModalVisible(true)}>
         {selectedCategory ? (
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Image source={selectedCategory.image} style={{ width: 60, height: 60, marginRight: 40, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }} />
+            <Image source={selectedCategory.image} style={{ width: 60, height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }} />
+            <View style={{width: 265, alignItems: "center"}}>
             <Text style={{ fontSize: 15, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{selectedCategory.name}</Text>
+            </View>
           </View>
         ) : (
           <View style={{ flexDirection: "row", alignItems: "center", width: 325, justifyContent: "space-between" }}>
@@ -81,7 +91,7 @@ const QuickSell = () => {
         transparent={false}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}>
-        <View style={{ flex: 1, justifyContent: 'center', left: 20, top: 50 }}>
+        <View style={{ flex: 1, justifyContent: 'center', left: 20, top: 50, marginBottom: 50 }}>
           <FlatList
             data={categoriesData}
             renderItem={renderCategories}
@@ -149,7 +159,7 @@ const QuickSell = () => {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.button} >
+        <TouchableOpacity style={styles.button} onPress={() => router.push(`/quickSellAndSwap/postAd1`)} >
           <Text style={styles.buttonText1}>Next</Text>
           <Ionicons name='arrow-forward-outline' size={18} style={styles.buttonText2}/>
         </TouchableOpacity>
