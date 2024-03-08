@@ -9,7 +9,14 @@ const categoriesData = [
   { id: 3, name: 'Tablets', image: require('../../assets/images/tabcat.png') },
   {id: 4, name: 'Phone Accessories', image: require('../../assets/images/phoneacc.png')},
   {id: 5, name: 'Computer Accessories', image: require('../../assets/images/computeracc.png')},
-  {id: 6, name: 'Computer Monitors', image: require('../../assets/images/Monitor.png')}
+  {id: 6, name: 'Computer Monitors', image: require('../../assets/images/Monitor.png')},
+  {id: 7, name: 'Headphones', image: require('../../assets/images/headphonescat.png')},
+  {id: 8, name: 'Laptops', image: require('../../assets/images/laptopcat.png')},
+  {id: 9, name: 'Networking Products', image: require('../../assets/images/networkcat.png')},
+  {id: 10, name: 'Printers & Scanners', image: require('../../assets/images/printercat.png')},
+  {id: 11, name: 'Cameras', image: require('../../assets/images/cameracat.png')},
+  {id: 12, name: 'Security & Surveillance', image: require('../../assets/images/security.png')},
+  {id: 13, name: 'Video Games', image: require('../../assets/images/videogame.jpg')}
 ];
 
 const QuickSell = () => {
