@@ -11,7 +11,7 @@ import ProductCard from '../../components/ProductCard'
 import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'expo-router'
 import { Skeleton } from '@rneui/themed'
-import { Svg, SvgXml, Path } from "react-native-svg";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -25,15 +25,15 @@ const testUser = {
 
 const carouselData = [
   {
-    id:1,
-    device:"Apple Watch Gen 2",
-    store:'Apple Store',
+    id: 1,
+    device: "Apple Watch Gen 2",
+    store: 'Apple Store',
     image: require('../../assets/images/new-smartwatch-balancing-with-hand.jpg')
   },
   {
-    id:6,
-    device:"Apple Vision Pro",
-    store:'Apple Store',
+    id: 6,
+    device: "Apple Vision Pro",
+    store: 'Apple Store',
     image: require('../../assets/images/portrait_base__bwsgtdddcl7m_large.jpg')
   },
   {
@@ -88,10 +88,9 @@ const index = () => {
 
   const { user } = useAuth();
   const router = useRouter();
-
-
   const [data, setData] = useState<Array<Product>>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [userImage, setUserImage] = useState('')
 
 
 
@@ -177,12 +176,30 @@ const index = () => {
     );
   };
 
+  useEffect(() => {
+    fetchUserImage();
+  }, []);
+
+
+  const fetchUserImage = async () => {
+    try {
+      const storedUserImage = await AsyncStorage.getItem('userImage');
+      if (storedUserImage !== null) {
+        setUserImage(storedUserImage);
+      }
+    } catch (error) {
+      console.error('Error fetching user image:', error);
+    }
+  };
+
+  const displayImage = userImage ? { uri: userImage } : testUser.image;
+
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primaryUltraTransparent, paddingTop: Platform.OS === 'android' ? 30 : 0 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 8, }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9 }}>
-          <Image source={testUser.image} resizeMode='contain' style={{ width: 50, top: 1, height: 50, borderRadius: 40 }} />
+          <Image source={displayImage} resizeMode='contain' style={{ width: 50, top: 1, height: 50, borderRadius: 40 }} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
             <View style={{}}>
               {user ? (
@@ -274,7 +291,7 @@ const index = () => {
 
 
         <View style={styles.imgContainer}>
-          <Image source={require('../../assets/images/villaja-seller.png')} style={{width: 350, height: 129}} />
+          <Image source={require('../../assets/images/villaja-seller.png')} style={{ width: 350, height: 129 }} />
           <View style={styles.imageText} >
             <Text style={styles.text1}> BECOME A</Text>
             <Text style={styles.text2}>Merchant For Villaja</Text>
@@ -297,7 +314,7 @@ const index = () => {
           {
             carouselData.map((cat, index) => (
               <TouchableOpacity activeOpacity={1} key={index} style={{ alignItems: 'center', borderRadius: 5, overflow: 'hidden' }}>
-                <Image source={cat.image } style={{ width: 300, height: 400, borderRadius: 5 }} />
+                <Image source={cat.image} style={{ width: 300, height: 400, borderRadius: 5 }} />
                 <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
                 <Text style={{ fontSize: 18, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '700', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
 
