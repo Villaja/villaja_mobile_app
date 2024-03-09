@@ -7,6 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { defaultStyles } from '../../constants/Styles'
+import * as ImagePicker from 'expo-image-picker';
 
 
 interface Address {
@@ -18,6 +19,12 @@ interface Address {
     address2: string;
     zipCode: string;
     addressType: string;
+}
+
+const testUser = {
+    id: 1,
+    name: "Tony Danza",
+    image: require("../../assets/images/user2.png")
 }
 
 const account = () => {
@@ -33,6 +40,7 @@ const account = () => {
     const [addressModalVisible, setAddressModalVisible] = useState(false);
     const [addressTypeModalVisible, setAddressTypeModalVisible] = useState(false)
     const [passwordModalVisible, setPasswordModalVisible] = useState(false)
+    const [userImage, setUserImage] = useState('')
 
     const openAddressTypeModalVisible = () => {
         setAddressTypeModalVisible(true)
@@ -112,11 +120,7 @@ const account = () => {
             });
     };
 
-    const testUser = {
-        id: 1,
-        name: "Tony Danza",
-        image: require("../../assets/images/user2.png")
-    }
+
 
 
     const handleSaveAddress = () => {
@@ -191,13 +195,66 @@ const account = () => {
     const [showPassword, setShowPassword] = useState(false); // State to manage password visibility
     const oldPasswordVisible = "bighead"; // just for testing input real logic from backend for user old password
 
+
+    //functionality for user image upload
+    const handleImagePicker = async () => {
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!permissionResult.granted) {
+            Alert.alert('Permission Denied', 'You need to grant Villaja permission to access the camera roll to upload an image.');
+            return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [10, 10],
+            quality: 1,
+        });
+
+        if (!result.cancelled) {
+            setUserImage(result.uri);
+            saveUserImage(result.uri);
+            // You can now upload 'result.uri' to the backend database here
+        }
+    };
+
+    // to save selected image to async
+    const saveUserImage = async (imageUri) => {
+        try {
+            await AsyncStorage.setItem('userImage', imageUri);
+            setUserImage(imageUri);
+        } catch (error) {
+            console.error('Error saving user image:', error);
+        }
+    };
+
+    // to fetch user image from async
+
+    useEffect(() => {
+        fetchUserImage();
+    }, []);
+
+
+    const fetchUserImage = async () => {
+        try {
+            const storedUserImage = await AsyncStorage.getItem('userImage');
+            if (storedUserImage !== null) {
+                setUserImage(storedUserImage);
+            }
+        } catch (error) {
+            console.error('Error fetching user image:', error);
+        }
+    };
+
+    const displayImage = userImage ? { uri: userImage } : testUser.image;
+
     return (
         <ScrollView style={styles.pageContainer}>
             <View>
                 {/*user image*/}
                 <View style={styles.userIconContainer}>
-                    <Image source={testUser.image} resizeMode='contain' style={styles.userIcon} />
-                    <TouchableOpacity style={styles.cameraContainer} >
+                    <Image source={displayImage} resizeMode='contain' style={styles.userIcon} />
+                    <TouchableOpacity style={styles.cameraContainer} onPress={handleImagePicker} >
                         <Ionicons name="camera-outline" size={23} color={"#ffffff"} style={styles.cameraIcon} />
                     </TouchableOpacity>
                 </View>
@@ -468,7 +525,7 @@ const styles = StyleSheet.create({
     },
     userIconContainer: {
         top: 28,
-        flex: 1,
+        
         height: 180
     },
     userIcon: {
@@ -476,6 +533,8 @@ const styles = StyleSheet.create({
         height: 150,
         width: 150,
         marginHorizontal: 106,
+        borderRadius: 150,
+       
     },
     cameraContainer: {
         flex: 1,
