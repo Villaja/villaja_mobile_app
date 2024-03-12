@@ -460,6 +460,34 @@ function RootLayoutNav() {
                 },
               }}
             />
+            <Stack.Screen
+              name="quickSellAndSwap/quickSwap"
+              options={{
+                // presentation: 'modal',
+                title: 'Quick Swap',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+              }}
+            />
+            <Stack.Screen
+              name="quickSellAndSwap/postAd2"
+              options={{
+                // presentation: 'modal',
+                title: 'Back',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                },
+              }}
+            />
           </Stack>
         </OrdersProvider>
       </AuthProvider>

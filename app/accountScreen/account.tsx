@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
     },
     userIconContainer: {
         top: 28,
-        
+
         height: 180
     },
     userIcon: {
@@ -534,7 +534,7 @@ const styles = StyleSheet.create({
         width: 150,
         marginHorizontal: 106,
         borderRadius: 150,
-       
+
     },
     cameraContainer: {
         flex: 1,

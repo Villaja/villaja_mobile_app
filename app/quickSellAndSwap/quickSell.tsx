@@ -153,7 +153,7 @@ const QuickSell = () => {
             <View style={styles.textInput2}>
               <TextInput
                 multiline={true}
-                style={{ top: 8, left: 13, width: 300, height: 218, }}
+                style={{ top: 8, left: 13, width: 300 }}
                 placeholder="Enter Details"
               />
             </View>
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   textInput2: {
     borderWidth: 1,
     width: 320,
-    height: 218,
+    height: 220,
     top: 5,
     borderColor: "#0000001A",
     borderRadius: 5,

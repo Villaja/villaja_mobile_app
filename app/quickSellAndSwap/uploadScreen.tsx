@@ -15,7 +15,7 @@ const uploadScreen = () => {
         </View>
         <Ionicons name='chevron-forward-outline' size={24} style={{ marginRight: 20 }} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.quickSell} >
+      <TouchableOpacity style={styles.quickSell} onPress={() => router.push(`/quickSellAndSwap/quickSwap`)} >
         <View style={styles.textContainer}>
           <Text style={styles.text1}>Quick Swap</Text>
           <Text style={styles.text2}>Swap Your Products With Other Merchant On Villaja and Negotiate To Get What You Want</Text>

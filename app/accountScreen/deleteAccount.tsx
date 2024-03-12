@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image } from "react-native";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,8 +34,8 @@ const deleteAccount = () => {
     const [password, setPassword] = useState('');
     const [passwordModalVisible, setPasswordModalVisible] = useState(false)
     const [token, setToken] = useState('');
+    const [userImage, setUserImage] = useState('')
     const router = useRouter()
-
     const openPasswordModalVisible = () => {
         setPasswordModalVisible(true)
     }
@@ -68,24 +68,40 @@ const deleteAccount = () => {
         fetchData();
     }, [user]);
 
-    
+    useEffect(() => {
+        fetchUserImage();
+    }, []);
+
+
+    const fetchUserImage = async () => {
+        try {
+            const storedUserImage = await AsyncStorage.getItem('userImage');
+            if (storedUserImage !== null) {
+                setUserImage(storedUserImage);
+            }
+        } catch (error) {
+            console.error('Error fetching user image:', error);
+        }
+    };
+
+    const displayImage = userImage ? { uri: userImage } : testUser.image;
+
+
+
 
     return (
         <ScrollView style={styles.pageContainer}>
-             <View>
+            <View>
                 {/*user image*/}
                 <View style={styles.userIconContainer}>
-                    <Image source={testUser.image} resizeMode='contain' style={styles.userIcon} />
-                    <TouchableOpacity style={styles.cameraContainer} >
-                        <Ionicons name="camera-outline" size={23} color={"#ffffff"} style={styles.cameraIcon} />
-                    </TouchableOpacity>
+                    <Image source={displayImage} resizeMode='contain' style={styles.userIcon} />
                 </View>
                 <View style={styles.accountNameContainer} >
                     <Text style={styles.accountName}>{firstName} {lastName}</Text>
                 </View>
             </View>
             <View style={styles.section2}>
-            <View style={styles.inputContainer}>
+                <View style={styles.inputContainer}>
                     {/*First name input*/}
                     <Text style={styles.text}>First Name</Text>
                     <View style={styles.textInput}>
@@ -111,26 +127,26 @@ const deleteAccount = () => {
                         />
                     </View>
                 </View>
-                 {/*password input/Edit Button*/}
-                 <View style={styles.addressInputContainer}>
+                {/*password input/Edit Button*/}
+                <View style={styles.addressInputContainer}>
                     <Text style={styles.text}>Password</Text>
                     <View style={styles.addressComponent}>
                         <View style={styles.addressTextInput}>
-                        <TextInput
-                            style={{ top: 8, left: 13, }}
-                            value={password}
-                            onChangeText={text => setPassword(text)}
-                            autoFocus
-                            placeholder="Enter Password"
-                        />
+                            <TextInput
+                                style={{ top: 8, left: 13, }}
+                                value={password}
+                                onChangeText={text => setPassword(text)}
+                                autoFocus
+                                placeholder="Enter Password"
+                            />
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity style={{backgroundColor: "#D40606", left: 20, height: 50, width: 320, borderRadius: 10, justifyContent: "center", alignItems: "center", marginTop: 52}}>
-                <Text style={{color: "#fff", fontSize: 15, fontFamily: "roboto-condensed-sb"}}>Delete Account</Text>
-            </TouchableOpacity>
+                <TouchableOpacity style={{ backgroundColor: "#D40606", left: 20, height: 50, width: 320, borderRadius: 10, justifyContent: "center", alignItems: "center", marginTop: 52 }}>
+                    <Text style={{ color: "#fff", fontSize: 15, fontFamily: "roboto-condensed-sb" }}>Delete Account</Text>
+                </TouchableOpacity>
             </View>
-          
+
         </ScrollView>
     )
 }
@@ -152,6 +168,7 @@ const styles = StyleSheet.create({
         height: 150,
         width: 150,
         marginHorizontal: 106,
+        borderRadius: 150
     },
     cameraContainer: {
         flex: 1,
@@ -206,7 +223,7 @@ const styles = StyleSheet.create({
         borderColor: "#0000001A",
         borderRadius: 5,
         backgroundColor: "#00000005"
-    }, 
+    },
     addressInputContainer: {
         top: 30,
         left: 20,
