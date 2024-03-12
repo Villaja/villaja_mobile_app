@@ -32,6 +32,7 @@ const postAd2 = () => {
     const [isFocus1, setIsFocus1] = useState(false);
     const [isFocus2, setIsFocus2] = useState(false);
     const [isFocus3, setIsFocus3] = useState(false);
+    const [isFocus4, setIsFocus4] = useState(false);
 
     const renderLabel1 = () => {
         if (selectedValue1 || isFocus1) {
