@@ -99,7 +99,7 @@ const postAd2 = () => {
                                 style={styles.icon2}
                                 color={isFocus1 ? '#02549290' : '#00000090'}
                                 name="Safety"
-                                size={20}
+                                size={18}
                             />
                         )}
                     />
@@ -141,12 +141,12 @@ const postAd2 = () => {
                     />
                 </View>
             </View>
-            <View style={styles.textInputContainer}>
+            <View style={styles.textInputContainer2}>
                 <Text style={styles.text} >Comes With</Text>
                 <View style={styles.container}>
                     {renderLabel3()}
                     <Dropdown
-                        style={[styles.dropdown, isFocus2 && { borderColor: '#025492' }]}
+                        style={[styles.dropdown, isFocus3 && { borderColor: '#025492' }]}
                         placeholderStyle={styles.placeholderStyle}
                         selectedTextStyle={styles.selectedTextStyle}
                         inputSearchStyle={styles.inputSearchStyle}
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     textInputContainer: {
         top: 25,
         marginLeft: 20,
-        marginBottom: 28.29
+        marginBottom: 8.29
     },
     textInputContainer2: {
         top: 25,
@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: 18.29
     },
     buttonText1: {
         color: "#fff",
@@ -247,19 +248,22 @@ const styles = StyleSheet.create({
         fontFamily: "roboto-condensed-sb",
     },
     container: {
-        backgroundColor: 'white',
+       
         paddingVertical: 10,
         marginEnd: 16
     },
     dropdown: {
-        height: 50,
+        height: 60,
         borderColor: 'gray',
         borderWidth: 0.5,
         borderRadius: 8,
         paddingHorizontal: 8,
+        backgroundColor: "#00000009"
     },
     icon2: {
         marginRight: 5,
+        marginTop: 2,
+        height: 20,
     },
     label: {
         position: 'absolute',
@@ -273,11 +277,14 @@ const styles = StyleSheet.create({
     placeholderStyle: {
         fontSize: 14,
         color: "#00000070",
-        marginVertical: 10
+        marginVertical: 10,
+        height: 20
     },
     selectedTextStyle: {
         fontSize: 14,
-        color: "#00000070"
+        color: "#00000070",
+        paddingVertical: 5,
+        height: 30
     },
     iconStyle: {
         width: 20,
