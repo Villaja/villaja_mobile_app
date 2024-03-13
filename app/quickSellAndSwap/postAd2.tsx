@@ -22,23 +22,73 @@ const options3 = [
     { label: 'Charger and cable', value: '9' },
     { label: 'Original Box', value: '10' },
     { label: 'No accessories', value: '11' }
-]
+];
+
+const options4 = [
+    { label: 'New', value: '12' },
+    { label: 'Open Box', value: '13' },
+    { label: 'Uk Used', value: '14' },
+    { label: 'Fairly used', value: '15' }, 
+    { label: 'For parts', value: '16' }
+];
+
+const options5 = [
+    { label: '2GB', value: '17' },
+    { label: '4GB', value: '18' },
+    { label: '6GB', value: '19' },
+    { label: '8GB', value: '20' }, 
+    { label: '10GB', value: '21' },
+    { label: '12GB', value: '22' },
+    { label: '16GB', value: '23' },
+    { label: '32GB', value: '24' }
+];
+
+const options6 = [
+    { label: '64GB', value: '25' },
+    { label: '100GB', value: '26' },
+    { label: '128GB', value: '27' },
+    { label: '250GB', value: '28' }, 
+    { label: '512GB', value: '29' },
+    { label: '800GB', value: '30' },
+    { label: '1TB', value: '31' },
+    { label: '2TB & more', value: '32' },
+];
+
+const options7 = [
+    { label: 'less than a month', value: '33' },
+    { label: '1 month', value: '34' },
+    { label: '2 months', value: '35' },
+    { label: 'quarter of a year', value: '36' },
+    { label: 'half a year', value: '37' },
+    { label: '1 year', value: '38' },
+    { label: '2 years', value: '39' },
+    { label: '3 years', value: '40' },
+    { label: '4 years', value: '41' },
+    { label: '5 years', value: '42' },
+];
 
 
 const postAd2 = () => {
     const [selectedValue1, setSelectedValue1] = useState(null);
     const [selectedValue2, setSelectedValue2] = useState(null);
     const [selectedValue3, setSelectedValue3] = useState(null);
+    const [selectedValue4, setSelectedValue4] = useState(null);
+    const [selectedValue5, setSelectedValue5] = useState(null);
+    const [selectedValue6, setSelectedValue6] = useState(null);
+    const [selectedValue7, setSelectedValue7] = useState(null);
     const [isFocus1, setIsFocus1] = useState(false);
     const [isFocus2, setIsFocus2] = useState(false);
     const [isFocus3, setIsFocus3] = useState(false);
     const [isFocus4, setIsFocus4] = useState(false);
+    const [isFocus5, setIsFocus5] = useState(false);
+    const [isFocus6, setIsFocus6] = useState(false);
+    const [isFocus7, setIsFocus7] = useState(false);
 
     const renderLabel1 = () => {
         if (selectedValue1 || isFocus1) {
             return (
                 <Text style={[styles.label, isFocus1 && { color: '#025492' }]}>
-                    Select Screen Condition
+                    Select screen condition
                 </Text>
             );
         }
@@ -49,7 +99,7 @@ const postAd2 = () => {
         if (selectedValue2 || isFocus2) {
             return (
                 <Text style={[styles.label, isFocus2 && { color: '#025492' }]}>
-                    Select Cosmetics Condition
+                    Select cosmetics condition
                 </Text>
             );
         }
@@ -60,7 +110,51 @@ const postAd2 = () => {
         if (selectedValue3 || isFocus3) {
             return (
                 <Text style={[styles.label, isFocus3 && { color: '#025492' }]}>
-                    Select Accessories
+                    Select accessories
+                </Text>
+            );
+        }
+        return null;
+    };
+
+    const renderLabel4 = () => {
+        if (selectedValue4 || isFocus4) {
+            return (
+                <Text style={[styles.label, isFocus4 && { color: '#025492' }]}>
+                   Select gadget condition
+                </Text>
+            );
+        }
+        return null;
+    };
+
+    const renderLabel5 = () => {
+        if (selectedValue5 || isFocus5) {
+            return (
+                <Text style={[styles.label, isFocus5 && { color: '#025492' }]}>
+                   Select RAM size
+                </Text>
+            );
+        }
+        return null;
+    };
+
+    const renderLabel6 = () => {
+        if (selectedValue6 || isFocus6) {
+            return (
+                <Text style={[styles.label, isFocus6 && { color: '#025492' }]}>
+                   Select ROM space
+                </Text>
+            );
+        }
+        return null;
+    };
+
+    const renderLabel7 = () => {
+        if (selectedValue7 || isFocus7) {
+            return (
+                <Text style={[styles.label, isFocus7 && { color: '#025492' }]}>
+                   Select the time usage of the product
                 </Text>
             );
         }
@@ -86,7 +180,7 @@ const postAd2 = () => {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder={!isFocus1 ? 'Select Screen Condition' : '...'}
+                        placeholder={!isFocus1 ? 'Select screen condition' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue1}
                         onFocus={() => setIsFocus1(true)}
@@ -107,7 +201,7 @@ const postAd2 = () => {
                 </View>
             </View>
             <View style={styles.textInputContainer}>
-                <Text style={styles.text} >Phone Condition</Text>
+                <Text style={styles.text} >Cosmetics Condition</Text>
                 <View style={styles.container}>
                     {renderLabel2()}
                     <Dropdown
@@ -122,7 +216,7 @@ const postAd2 = () => {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder={!isFocus2 ? 'Select Cosmetics Condition' : '...'}
+                        placeholder={!isFocus2 ? 'Select cosmetics condition' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue2}
                         onFocus={() => setIsFocus2(true)}
@@ -142,7 +236,7 @@ const postAd2 = () => {
                     />
                 </View>
             </View>
-            <View style={styles.textInputContainer2}>
+            <View style={styles.textInputContainer}>
                 <Text style={styles.text} >Comes With</Text>
                 <View style={styles.container}>
                     {renderLabel3()}
@@ -158,7 +252,7 @@ const postAd2 = () => {
                         maxHeight={300}
                         labelField="label"
                         valueField="value"
-                        placeholder={!isFocus3 ? 'Select Accessories' : '...'}
+                        placeholder={!isFocus3 ? 'Select accessories' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue3}
                         onFocus={() => setIsFocus3(true)}
@@ -170,7 +264,152 @@ const postAd2 = () => {
                         renderLeftIcon={() => (
                             <AntDesign
                                 style={styles.icon2}
-                                color={isFocus2 ? '#02549290' : '#00000090'}
+                                color={isFocus3 ? '#02549290' : '#00000090'}
+                                name="Safety"
+                                size={18}
+                            />
+                        )}
+                    />
+                </View>
+            </View>
+            <View style={styles.textInputContainer}>
+                <Text style={styles.text} >Gadget Condition</Text>
+                <View style={styles.container}>
+                    {renderLabel4()}
+                    <Dropdown
+                        style={[styles.dropdown, isFocus4 && { borderColor: '#025492' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        itemTextStyle={styles.itemTextStyle}
+                        iconStyle={styles.iconStyle}
+                        data={options4}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus4 ? 'Select gadget condition' : '...'}
+                        searchPlaceholder="Search..."
+                        value={selectedValue4}
+                        onFocus={() => setIsFocus4(true)}
+                        onBlur={() => setIsFocus4(false)}
+                        onChange={item => {
+                            setSelectedValue4(item.value);
+                            setIsFocus4(false);
+                        }} 
+                        renderLeftIcon={() => (
+                            <AntDesign
+                                style={styles.icon2}
+                                color={isFocus4 ? '#02549290' : '#00000090'}
+                                name="Safety"
+                                size={18}
+                            />
+                        )}
+                    />
+                </View>
+            </View>
+            <View style={styles.textInputContainer}>
+                <Text style={styles.text} >RAM Size</Text>
+                <View style={styles.container}>
+                    {renderLabel5()}
+                    <Dropdown
+                        style={[styles.dropdown, isFocus5 && { borderColor: '#025492' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        itemTextStyle={styles.itemTextStyle}
+                        iconStyle={styles.iconStyle}
+                        data={options5}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus5 ? 'Select RAM size' : '...'}
+                        searchPlaceholder="Search..."
+                        value={selectedValue5}
+                        onFocus={() => setIsFocus5(true)}
+                        onBlur={() => setIsFocus5(false)}
+                        onChange={item => {
+                            setSelectedValue5(item.value);
+                            setIsFocus5(false);
+                        }} 
+                        renderLeftIcon={() => (
+                            <AntDesign
+                                style={styles.icon2}
+                                color={isFocus5 ? '#02549290' : '#00000090'}
+                                name="Safety"
+                                size={18}
+                            />
+                        )}
+                    />
+                </View>
+            </View>
+            <View style={styles.textInputContainer}>
+                <Text style={styles.text} >ROM Size</Text>
+                <View style={styles.container}>
+                    {renderLabel6()}
+                    <Dropdown
+                        style={[styles.dropdown, isFocus6 && { borderColor: '#025492' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        itemTextStyle={styles.itemTextStyle}
+                        iconStyle={styles.iconStyle}
+                        data={options6}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus6 ? 'Select ROM space' : '...'}
+                        searchPlaceholder="Search..."
+                        value={selectedValue6}
+                        onFocus={() => setIsFocus6(true)}
+                        onBlur={() => setIsFocus6(false)}
+                        onChange={item => {
+                            setSelectedValue6(item.value);
+                            setIsFocus6(false);
+                        }} 
+                        renderLeftIcon={() => (
+                            <AntDesign
+                                style={styles.icon2}
+                                color={isFocus6 ? '#02549290' : '#00000090'}
+                                name="Safety"
+                                size={18}
+                            />
+                        )}
+                        dropdownPosition='top'
+                    />
+                </View>
+            </View>
+            <View style={styles.textInputContainer2}>
+                <Text style={styles.text} >Years Used</Text>
+                <View style={styles.container}>
+                    {renderLabel7()}
+                    <Dropdown
+                        style={[styles.dropdown, isFocus7 && { borderColor: '#025492' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        itemTextStyle={styles.itemTextStyle}
+                        iconStyle={styles.iconStyle}
+                        data={options7}
+                        search
+                        maxHeight={300}
+                        labelField="label"
+                        valueField="value"
+                        placeholder={!isFocus7 ? 'Select the time usage of the product' : '...'}
+                        searchPlaceholder="Search..."
+                        value={selectedValue7}
+                        onFocus={() => setIsFocus7(true)}
+                        onBlur={() => setIsFocus7(false)}
+                        onChange={item => {
+                            setSelectedValue7(item.value);
+                            setIsFocus7(false);
+                        }} 
+                        renderLeftIcon={() => (
+                            <AntDesign
+                                style={styles.icon2}
+                                color={isFocus7 ? '#02549290' : '#00000090'}
                                 name="Safety"
                                 size={18}
                             />
@@ -225,7 +464,7 @@ const styles = StyleSheet.create({
     textInputContainer2: {
         top: 25,
         marginLeft: 20,
-        marginBottom: 440.29
+        marginBottom: 40.29
     },
     icon: {
         width: 12.94,
@@ -273,7 +512,8 @@ const styles = StyleSheet.create({
         top: 8,
         zIndex: 999,
         paddingHorizontal: 8,
-        fontSize: 14,
+        fontSize: 12,
+        color: "#00000050"
     },
     placeholderStyle: {
         fontSize: 14,
