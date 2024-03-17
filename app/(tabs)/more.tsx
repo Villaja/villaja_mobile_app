@@ -21,7 +21,7 @@ function More() {
       };
       const router = useRouter()
     return (
-        <ScrollView  style={styles.mainContainer}>
+        <ScrollView   showsVerticalScrollIndicator={false} style={styles.mainContainer}>
             <View style={styles.topContainer}>
                 <View style={styles.imgContainer}>
                 <SvgXml xml={`

@@ -8,7 +8,7 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard3: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <View style={[styles.container]} key={product._id}>
 
@@ -19,18 +19,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <Image style={styles.image} source={{ uri: product.images[0]?.url }} />
 
           </View>
-          <Text style={styles.title}>{product.name.length < 30 ? product.name : product.name.slice(0, 30) + '...'}</Text>
+          <Text style={styles.title}>{product.name}</Text>
           <Text style={styles.price}>{'₦' + (product.discountPrice === 0 ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
           <Text style={styles.discountPrice}>{product.discountPrice !== 0 ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
           {/* <Text style={styles.shopName}>{product.shop?.name}</Text> */}
 
         </TouchableOpacity>
       </Link>
-      <Text style={styles.discountPercentage}>
+      {/*<Text style={styles.discountPercentage}>
         {
           product.discountPrice && (((product.originalPrice - product.discountPrice) / product.originalPrice) * 100).toFixed()
         }%
-      </Text>
+      </Text>*/}
 
 
     </View>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto-condensed-sb',
     color: '#00000080',
     marginTop: 7,
-    marginBottom: 9,
+    marginBottom: 0,
     minHeight: 30
   },
   price: {
@@ -109,4 +109,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductCard;
+export default ProductCard3;

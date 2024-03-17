@@ -7,6 +7,8 @@ import axios, { AxiosResponse } from 'axios'
 import { Product } from '../../types/Product'
 import { base_url } from '../../constants/server'
 import ProductCard from '../../components/ProductCard'
+import ProductCard2 from '../../components/ProductCard2';
+import ProductCard3 from '../../components/ProductCard3';
 // import InsetShadow from "react-native-inset-shadow";
 import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'expo-router'
@@ -52,8 +54,8 @@ const categoryData = [
     image: require('../../assets/images/Ellipse29.png')
   },
   {
-    name: "IPhone",
-    image: require('../../assets/images/iphone.png')
+    name: "Phones",
+    image: require('../../assets/images/Phonecatt.png')
   },
   {
     name: "Laptop",
@@ -102,7 +104,7 @@ const index = () => {
         );
 
         // Get the first 10 products
-        const first10Products = response.data.products.slice(0, 40);
+        const first10Products = response.data.products.slice(0, 50);
 
         setData(first10Products);
       } catch (error) {
@@ -168,6 +170,59 @@ const index = () => {
               ]}
             >
               <ProductCard product={product} />
+            </View>
+          ))}
+        </View>
+      </View>
+
+    );
+  };
+
+  const renderProductCards2 = (start: number, end: number) => {
+    const cardsPerRow = 2;
+
+    return (
+      <View>
+
+
+
+        <View style={styles.gridContainer2}>
+          {data.slice(start, end).map((product, index) => (
+            <View
+              key={product._id}
+              style={[
+                styles.productCard,
+                index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+              ]}
+            >
+              <ProductCard2 product={product} />
+            </View>
+          ))}
+        </View>
+      </View>
+
+    );
+  };
+
+
+  const renderProductCards3 = (start: number, end: number) => {
+    const cardsPerRow = 2;
+
+    return (
+      <View>
+
+
+
+        <View style={styles.gridContainer2}>
+          {data.slice(start, end).map((product, index) => (
+            <View
+              key={product._id}
+              style={[
+                styles.productCard,
+                index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+              ]}
+            >
+              <ProductCard3 product={product} />
             </View>
           ))}
         </View>
@@ -256,7 +311,7 @@ const index = () => {
           />
         </View>
 
-        <Text style={{ backgroundColor: '#fff', fontFamily: 'roboto-condensed', fontSize: 18, color: '#000000B2', paddingHorizontal: 20, paddingVertical: 6 }}>Top Categories</Text>
+        <Text style={{ backgroundColor: '#fff', fontFamily: 'roboto-condensed', fontSize: 13, fontWeight: "700", color: '#00000090', paddingHorizontal: 20, paddingVertical: 6 }}>Top Categories</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ height: 100 }} contentContainerStyle={
           {
             alignItems: 'center',
@@ -271,14 +326,14 @@ const index = () => {
             categoryData.map((cat, index) => (
               <View key={index} style={{ alignItems: 'center' }}>
                 <Image source={cat.image} style={{ width: 47, height: 47, borderRadius: 40 }} />
-                <Text style={{ fontFamily: 'roboto-condensed', color: "#00000099" }}>{cat.name}</Text>
+                <Text style={{ fontFamily: 'roboto-condensed', color: "#00000060", fontSize: 10, fontWeight: "700" }}>{cat.name}</Text>
               </View>
             ))
           }
         </ScrollView>
 
         <View style={{ paddingHorizontal: 20 }}>
-          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 18, color: '#000000B2', marginVertical: 9 }}>Popular</Text>
+          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginVertical: 9 }}>Popular</Text>
           <View>
             {loading ? (
               renderSkeletonLoader(0, 4)
@@ -288,8 +343,57 @@ const index = () => {
             )}
           </View>
         </View>
+        <View>
+          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginHorizontal: 20 }}>Selected for you</Text>
+          <ScrollView horizontal overScrollMode="never" showsHorizontalScrollIndicator={false} style={{ marginTop: 10, marginBottom: 20, height: 406.02 }} contentContainerStyle={
+            {
+              alignItems: 'center',
+              gap: 4,
+              paddingHorizontal: 20,
+              borderRadius: 5,
+              overflow: 'hidden'
 
+            }} >
+            {
+              carouselData.map((cat, index) => (
+                <TouchableOpacity activeOpacity={1} key={index} style={{ alignItems: 'center', borderRadius: 5, overflow: 'hidden' }}>
+                  <Image source={cat.image} style={{ width: 300, height: 400, borderRadius: 5 }} />
+                  <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
+                  <Text style={{ fontSize: 18, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '700', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
 
+                </TouchableOpacity>
+              ))
+            }
+          </ScrollView>
+        </View>
+
+        <View style={{ paddingHorizontal: 20 }}>
+          <View>
+          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginBottom: 10 }}>Best price offers</Text>
+            {loading ? (
+              // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
+              renderSkeletonLoader(0, 4)
+            ) : (
+              renderProductCards(20, 24)
+            )}
+          </View>
+        </View>
+        <View style={{ width: 375, height: 150, backgroundColor: "#02549210", marginBottom: 20 }} >
+          <View style={{ marginHorizontal: 20, marginVertical: 15 }} >
+            <Text style={{ fontSize: 12, color: "#00000090", marginBottom: 5, fontWeight: "400" }} >Top Picks For You Today</Text>
+            <Text style={{ fontSize: 30, color: "#000000", fontWeight: "700" }} >Buy Your Favorite Tech Product Now</Text>
+          </View>
+        </View>
+        <View style={{ paddingHorizontal: 20 }}>
+          <View>
+            {loading ? (
+              // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
+              renderSkeletonLoader(0, 4)
+            ) : (
+              renderProductCards2(32, 36)
+            )}
+          </View>
+        </View>
         <View style={styles.imgContainer}>
           <Image source={require('../../assets/images/villaja-seller.png')} style={{ width: 350, height: 129 }} />
           <View style={styles.imageText} >
@@ -300,40 +404,17 @@ const index = () => {
             </TouchableOpacity>
           </View>
         </View>
-
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginVertical: 20, height: 406.02 }} contentContainerStyle={
-          {
-            alignItems: 'center',
-            gap: 4,
-            paddingHorizontal: 5,
-            borderRadius: 5,
-            overflow: 'hidden'
-
-          }} >
-
-          {
-            carouselData.map((cat, index) => (
-              <TouchableOpacity activeOpacity={1} key={index} style={{ alignItems: 'center', borderRadius: 5, overflow: 'hidden' }}>
-                <Image source={cat.image} style={{ width: 300, height: 400, borderRadius: 5 }} />
-                <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
-                <Text style={{ fontSize: 18, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '700', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
-
-              </TouchableOpacity>
-            ))
-          }
-        </ScrollView>
-
         <View style={{ paddingHorizontal: 20 }}>
           <View>
+          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginBottom: 10 }}>Most Viewed Products</Text>
             {loading ? (
               // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
               renderSkeletonLoader(0, 4)
             ) : (
-              renderProductCards(4, 40)
+              renderProductCards3(40, 44)
             )}
           </View>
         </View>
-
       </ScrollView>
 
     </SafeAreaView>
@@ -360,6 +441,12 @@ const styles = StyleSheet.create({
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    // paddingHorizontal: 8,
+  },
+  gridContainer2: {
+    flexDirection: 'column-reverse',
+    flexWrap: 'nowrap',
     justifyContent: 'space-between',
     // paddingHorizontal: 8,
   },
@@ -396,7 +483,8 @@ const styles = StyleSheet.create({
   },
   imgContainer: {
     // width: 335,
-    marginVertical: 24,
+    marginTop: 10,
+    marginBottom: 30,
     height: 102,
     alignItems: 'center',
     justifyContent: 'center',
@@ -406,7 +494,6 @@ const styles = StyleSheet.create({
   },
 
   imageText: {
-
     color: '#FFFFFF99',
     height: 87,
     // width: 307,

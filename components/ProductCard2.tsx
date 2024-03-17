@@ -8,20 +8,22 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCard2: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <View style={[styles.container]} key={product._id}>
 
 
       <Link href={`/product/${product._id}`} asChild >
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.topSection}>
           <View style={styles.imgContainer}>
             <Image style={styles.image} source={{ uri: product.images[0]?.url }} />
+            <View style={{ marginLeft: 18 }}>
+              <Text style={styles.title}>{product.name.length < 30 ? product.name : product.name.slice(0, 30) + '...'}</Text>
+              <Text style={styles.price}>{'₦' + (product.discountPrice === 0 ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
+              <Text style={styles.discountPrice}>{product.discountPrice !== 0 ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
+            </View>
 
           </View>
-          <Text style={styles.title}>{product.name.length < 30 ? product.name : product.name.slice(0, 30) + '...'}</Text>
-          <Text style={styles.price}>{'₦' + (product.discountPrice === 0 ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
-          <Text style={styles.discountPrice}>{product.discountPrice !== 0 ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
           {/* <Text style={styles.shopName}>{product.shop?.name}</Text> */}
 
         </TouchableOpacity>
@@ -39,32 +41,33 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
 const styles = StyleSheet.create({
   container: {
+    gap: 15,
+    backgroundColor: "#ffffff",
+    padding: 14,
     borderRadius: 5,
-    backgroundColor: '#fff',
-    padding: 16,
-    marginVertical: 8,
-    elevation: 2,
-    shadowColor: 'rgba(2,84,146,0.10)',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    height: 250,
-
+    marginBottom: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottomWidth: 0.3,
+    borderBottomColor: "#00000040"
+  },
+  topSection: {
+    flexDirection: 'row',
+    gap: 8,
   },
   image: {
-    width: '100%',
-    height: 130,
-    // aspectRatio: 16 / 9, // Maintain a 16:9 aspect ratio
+    width: 83,
+    height: 83,
     resizeMode: 'contain',
-    borderRadius: 8,
+    borderRadius: 5,
+    borderColor: 'rgba(0,0,0,0.05)'
   },
   title: {
-    fontSize: 12,
     fontFamily: 'roboto-condensed-sb',
     color: '#00000080',
-    marginTop: 7,
-    marginBottom: 9,
-    minHeight: 30
+    marginBottom: 6,
+    fontSize: 13
   },
   price: {
     fontSize: 17,
@@ -73,9 +76,10 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto-condensed-sb',
   },
   discountPrice: {
+    fontFamily: 'roboto-condensed',
     fontSize: 12,
-    color: "rgba(0,0,0,0.30)", // or any other color you prefer
-    fontFamily: 'roboto-condensed-sb',
+    color: 'rgba(0,0,0,0.30)',
+    fontWeight: '500',
     textDecorationLine: 'line-through'
   },
   shopName: {
@@ -84,11 +88,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   imgContainer: {
-    width: '100%',
-    height: 130,
-    borderRadius: 5,
-    // backgroundColor:Colors.primaryTransparent,
-    overflow: 'hidden',
+    paddingVertical: 12.5,
+    flexDirection: "row",
+    alignItems: "center"
   },
   discountPercentage: {
     position: 'absolute',
@@ -109,4 +111,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductCard;
+export default ProductCard2;

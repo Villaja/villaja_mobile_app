@@ -90,7 +90,7 @@ const deleteAccount = () => {
 
 
     return (
-        <ScrollView style={styles.pageContainer}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.pageContainer}>
             <View>
                 {/*user image*/}
                 <View style={styles.userIconContainer}>

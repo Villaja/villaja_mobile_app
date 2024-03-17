@@ -10,7 +10,7 @@ const QuickSell = () => {
       <Image source={require("../../assets/images/quick.png")} style={styles.image} />
       <View style={styles.textContainer}>
         <Text style={styles.text1} >You Have Not Yet Uploaded A Product</Text>
-        <Text style={styles.text2} >Quick swap and sell is typical for selling or swapping used gadgets or accessories. You need to upload a product for it to be listed to sell on this page. To do so, select the button at the bottom of the page to get started.</Text>
+        <Text style={styles.text2} >Quick swap and sell is typical for selling or swapping used gadgets or accessories. You need to upload a product for it to be listed to sell on this page. To do so, click on the button at the bottom of the page to get started.</Text>
       </View>
       <TouchableOpacity style={styles.button} onPress={() => router.push(`/quickSellAndSwap/uploadScreen`)}>
         <Text style={styles.buttonText1}>Upload Product </Text>
