@@ -9,7 +9,7 @@ import { base_url } from '../../constants/server'
 import ProductCard from '../../components/ProductCard'
 // import InsetShadow from "react-native-inset-shadow";
 import { useAuth } from '../../context/AuthContext'
-import { useRouter } from 'expo-router'
+import { Redirect, useRouter } from 'expo-router'
 import { Skeleton } from '@rneui/themed'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -197,6 +197,7 @@ const index = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primaryUltraTransparent, paddingTop: Platform.OS === 'android' ? 30 : 0 }}>
+      {/* <Redirect href={'/(tabs2)/sellerAddProduct'} /> */}
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 8, }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9 }}>
           <Image source={displayImage} resizeMode='contain' style={{ width: 50, top: 1, height: 50, borderRadius: 40 }} />

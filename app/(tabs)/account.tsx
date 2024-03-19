@@ -19,6 +19,7 @@ const account = () => {
 
       <Button title='Logout' onPress={handleLogout} />
       <Button title='more screen' onPress={() => router.push('/(modals)/firstLoadingScreen')} />
+      <Button title='seller dashboard' onPress={() => router.push('/(tabs2)/sellerDashboard')} />
 
     </View>
   )

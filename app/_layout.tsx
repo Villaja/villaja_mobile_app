@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, useColorScheme, StyleSheet, Text } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { FontAwesome5, Ionicons } from '@expo/vector-icons';
@@ -12,6 +12,7 @@ import { StatusBar } from 'react-native';
 import React from 'react';
 import { AuthProvider } from '../context/AuthContext';
 import { OrdersProvider } from '../context/OrderContext';
+import { SellerProvider } from '../context/SellerContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
@@ -31,6 +32,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     'roboto-condensed': require('../assets/fonts/RobotoCondensed-Regular.ttf'),
+    'roboto-condensed-m': require('../assets/fonts/RobotoCondensed-Medium.ttf'),
     'roboto-condensed-sb': require('../assets/fonts/RobotoCondensed-SemiBold.ttf'),
     'roboto-condensed-b': require('../assets/fonts/RobotoCondensed-Bold.ttf'),
     'roboto-condensed-thin': require('../assets/fonts/RobotoCondensed-Thin.ttf'),
@@ -63,13 +65,19 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const router = useRouter();
 
+  const [isSeller,setIsSeller] = useState<boolean>(true)
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+
+      <SellerProvider>
 
       <AuthProvider>
         <OrdersProvider>
           <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              {/* <Stack.Screen name="(Seller)" options={{ headerShown: false }} /> */}
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="(tabs2)" options={{ headerShown: false }} />
             <Stack.Screen
               name="(modals)/landing"
               options={{
@@ -491,6 +499,8 @@ function RootLayoutNav() {
           </Stack>
         </OrdersProvider>
       </AuthProvider>
+      </SellerProvider>
+
     </GestureHandlerRootView>
 
 

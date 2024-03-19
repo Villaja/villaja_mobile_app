@@ -4,10 +4,19 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import Colors from '../../constants/Colors';
-import React from 'react';
+import React, { useState } from 'react';
+import { Marker } from 'react-native-svg';
+import { Image, View, Text, StyleSheet } from 'react-native';
+import {  } from 'expo-status-bar';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Layout = () => {
+  const [isSeller,setIsSeller] = useState(true)
+
+
   return (
+    
+
     <Tabs
       
       screenOptions={{
@@ -21,7 +30,6 @@ const Layout = () => {
       <Tabs.Screen
         name="index"
         options={{
-          
           tabBarLabel: 'Explore',
           headerTitle:'',
           headerShown:false,
@@ -38,6 +46,7 @@ const Layout = () => {
         name="search"
         
         options={{
+
           tabBarLabel: 'Search',
           headerShown:false,
           tabBarIcon: ({ size, color }) => (
@@ -48,6 +57,7 @@ const Layout = () => {
       <Tabs.Screen
         name="QuickSell"
         options={{
+
           tabBarLabel: 'Quick Sell',
           title: 'Quick Sell',
           headerTitleAlign: "center",
@@ -63,6 +73,7 @@ const Layout = () => {
       <Tabs.Screen
         name="account"
         options={{
+
           tabBarLabel: 'Notifications',
           tabBarIcon: ({ size, color }) => (
             <Ionicons name="notifications-outline" size={size} color={color} />
@@ -70,8 +81,9 @@ const Layout = () => {
         }}
       />
  <Tabs.Screen
-        name="More"
+        name="more"
         options={{
+
           tabBarLabel: 'More',
           title: 'More',
           headerShown: true,
@@ -87,8 +99,40 @@ const Layout = () => {
           ),
         }}
       />
+
+      
+
+        
+      
     </Tabs>
+
+
+
+    
+
   );
 };
+
+
+const styles = StyleSheet.create({
+  headerDashboardLeft:{
+    flexDirection:'row',
+    alignItems:'center',
+    gap:10,
+    marginLeft:20
+  },
+  sellerProfilePic:{
+    width:27,
+    height:27,
+    borderRadius:27
+  },
+  headerText:{
+    color:'#fff',
+    fontFamily:'roboto-condensed'
+  },
+  menuBtn:{
+    marginRight:20
+  }
+})
 
 export default Layout;
