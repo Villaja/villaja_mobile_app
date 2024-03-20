@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, TextInput, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 
 const postAd1 = () => {
@@ -8,7 +9,7 @@ const postAd1 = () => {
             <View style={styles.textInputContainer}>
                 <Text style={styles.text} >Location</Text>
                 <View style={styles.textInput}>
-                    <Image source={require('../../assets/images/search.png')} style={styles.icon} />
+                    <Ionicons name='location-outline' size={17} style={styles.icon} />
                     <TextInput placeholder='14b Soyiu, Ikorodu, Lagos, Nigeria' placeholderTextColor={"#03345450"} />
                 </View>
             </View>
@@ -71,10 +72,11 @@ const styles = StyleSheet.create({
         marginBottom: 440.29
     },
     icon: {
-        width: 12.94,
-        height: 12.93,
+        width: 17,
+        height: 17,
         marginRight: 10,
         marginLeft: 11.77,
+        color: "#03345450"
     },
     button: {
         backgroundColor: "#025492",

@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { defaultStyles } from '../../constants/Styles'
 import * as ImagePicker from 'expo-image-picker';
+import { Dropdown } from 'react-native-element-dropdown';
 
 
 interface Address {
@@ -27,6 +28,12 @@ const testUser = {
     image: require("../../assets/images/user2.png")
 }
 
+const addressTypeData = [
+    { label: 'Home', value: '1' },
+    { label: 'Work', value: '2' },
+    { label: 'Others', value: '3' }
+]
+
 const account = () => {
     const { user } = useAuth();
     const router = useRouter()
@@ -37,14 +44,11 @@ const account = () => {
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
     const [address, setAddress] = useState<Address | null>(null);
+    const [addressTypeValue, setAddressTypeValue] = useState(null);
     const [addressModalVisible, setAddressModalVisible] = useState(false);
-    const [addressTypeModalVisible, setAddressTypeModalVisible] = useState(false)
     const [passwordModalVisible, setPasswordModalVisible] = useState(false)
     const [userImage, setUserImage] = useState('')
 
-    const openAddressTypeModalVisible = () => {
-        setAddressTypeModalVisible(true)
-    }
     const openPasswordModalVisible = () => {
         setPasswordModalVisible(true)
     }
@@ -453,54 +457,25 @@ const account = () => {
                             style={styles.input}
                         />
 
-                        <View style={styles.addressTypeContainer} >
-                            <Text style={styles.txte}>Address Type</Text>
-                            <TouchableOpacity style={styles.addressTypeButton} onPress={openAddressTypeModalVisible}>
-                                <Text style={styles.txt}>{addressForm.addressType}</Text>
-                                <Ionicons name="caret-down-outline"></Ionicons>
-                            </TouchableOpacity>
-                        </View>
-
-                        {/**address type modal selection inside edit address modal */}
-                        <Modal
-                            animationType='slide'
-                            transparent={true}
-                            visible={addressTypeModalVisible}
-                            onRequestClose={() => setAddressTypeModalVisible(false)}
-                        >
-                            <View style={styles.addressModalContainer}>
-                                <View style={styles.addressModalContent}>
-                                    <TouchableOpacity style={styles.modalTextContainer} onPress={(value) =>
-                                        setAddressForm({ ...addressForm, addressType: value })} >
-                                        <Text style={styles.modalText}>Home</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.modalTextContainer}>
-                                        <Text style={styles.modalText}>Office</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.modalTextContainer}>
-                                        <Text style={styles.modalText}>Others</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => setAddressTypeModalVisible(false)} style={styles.cancelButton}>
-                                        <Text style={styles.buttonText}>Cancel</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </Modal>
+                      
+                            <Dropdown
+                                style={styles.dropdown}
+                                placeholderStyle={styles.placeholderStyle}
+                                selectedTextStyle={styles.selectedTextStyle}
+                                itemTextStyle={styles.itemTextStyle}
+                                iconStyle={styles.iconStyle}
+                                data={addressTypeData}
+                                maxHeight={300}
+                                labelField="label"
+                                valueField="value"
+                                placeholder="Address Type"
+                                value={addressTypeValue}
+                                onChange={item => {
+                                    setAddressTypeValue(item.value);
+                                }}
+                            />
 
                         {/**continuation of edit address modal */}
-
-                        {/*<PickerSelect
-                            style={{ inputIOS: styles.input, inputAndroid: styles.input }}
-                            value={addressForm.addressType}
-                            onValueChange={(value) =>
-                                setAddressForm({ ...addressForm, addressType: value })
-                            }
-                            items={[
-                                { label: 'Home', value: 'home' },
-                                { label: 'Work', value: 'work' },
-                                { label: 'Other', value: 'other' },
-                            ]}
-                        />*/}
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity onPress={handleSaveAddress} style={styles.button3}>
                                 <Text style={defaultStyles.btnText}>Save Address</Text>
@@ -799,5 +774,34 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",
+    },
+    dropdown: {
+        margin: 16,
+        height: 50,
+        borderBottomColor: '#00000050',
+        borderBottomWidth: 0.5,
+      },
+      icon: {
+        marginRight: 5,
+      },
+      placeholderStyle: {
+        fontSize: 14,
+        color: "#00000070"
+      },
+      selectedTextStyle: {
+        fontSize: 14,
+        color: "#00000070"
+      },
+      iconStyle: {
+        width: 20,
+        height: 20,
+      },
+      inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+      },
+      itemTextStyle: {
+        color: "#00000070",
+        fontSize: 14
     }
 })
