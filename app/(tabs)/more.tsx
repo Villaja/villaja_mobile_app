@@ -103,13 +103,17 @@ function More() {
                     </Svg>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.content}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
+                    <View style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+
+
 
                     <Svg style={styles.Icon}>
                         <Path d="M2.99999 15.834V8.33398C2.99999 7.0079 3.52678 5.73613 4.46446 4.79845C5.40214 3.86077 6.67391 3.33398 7.99999 3.33398C9.32607 3.33398 10.5978 3.86077 11.5355 4.79845C12.4732 5.73613 13 7.0079 13 8.33398V15.834M2.99999 15.834H13M2.99999 15.834H1.33332M13 15.834H14.6667M7.16666 18.334H8.83332" stroke="black" strokeOpacity="0.6" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                         <Path d="M8 3.33366C8.46023 3.33366 8.83333 2.96056 8.83333 2.50033C8.83333 2.04009 8.46023 1.66699 8 1.66699C7.53976 1.66699 7.16666 2.04009 7.16666 2.50033C7.16666 2.96056 7.53976 3.33366 8 3.33366Z" stroke="black" strokeOpacity="0.6" strokeWidth="1.66667" />
                     </Svg>
+
                     <Text style={styles.contentText} >Notifications</Text>
+                        </View>
                     <Switch
                             trackColor={{ false: '#87cefa', true: '#87CEEB' }}
                             thumbColor={isNotificationEnabled ? '#025492' : '#f4f3f4'}
@@ -117,8 +121,7 @@ function More() {
                             onValueChange={handleToggleSwitch}
                             value={isNotificationEnabled}
                             style={styles.switch}
-                        />
-                    </View>
+                            />
                    
                 </TouchableOpacity>
                 <View style={styles.headers}>
@@ -214,7 +217,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // backgroundColor: 'red',
-        padding:20
+        padding:20,
         // left:14,
     },
     image: {
@@ -229,7 +232,8 @@ const styles = StyleSheet.create({
         height: 87,
         // width: 307,
         left: 27,
-        position: 'absolute'
+        position: 'absolute',
+        paddingHorizontal:20
     },
     text1: {
         color: "#FFFFFF99",
@@ -292,7 +296,7 @@ const styles = StyleSheet.create({
         paddingLeft:30
     },
     switch: {
-        flex: 1,
+        // flex: 1,
         alignItems: "center",
         //backgroundColor: "red",
         paddingVertical: 12,

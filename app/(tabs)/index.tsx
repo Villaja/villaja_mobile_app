@@ -379,7 +379,7 @@ const index = () => {
             )}
           </View>
         </View>
-        <View style={{ width: 375, height: 150, backgroundColor: "#02549210", marginBottom: 20 }} >
+        <View style={{ width:'100%', height: 150, backgroundColor: "#02549210", marginBottom: 20 }} >
           <View style={{ marginHorizontal: 20, marginVertical: 15 }} >
             <Text style={{ fontSize: 12, color: "#00000090", marginBottom: 5, fontWeight: "400" }} >Top Picks For You Today</Text>
             <Text style={{ fontSize: 30, color: "#000000", fontWeight: "700" }} >Buy Your Favorite Tech Product Now</Text>
@@ -499,7 +499,8 @@ const styles = StyleSheet.create({
     height: 87,
     // width: 307,
     left: 26,
-    position: 'absolute'
+    position: 'absolute',
+    paddingHorizontal:20
   },
   text1: {
     color: "#FFFFFF99",
