@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
   },
   headerText:{
     fontFamily:'roboto-condensed-sb',
-    fontSize:20
+    fontSize:15
   },
   recentSearchOutput:
   {
@@ -248,7 +248,8 @@ const styles = StyleSheet.create({
   },
   text:{
     fontFamily:'roboto-condensed',
-    color:Colors.grey
+    color:Colors.grey,
+    fontSize: 13
   },
   tagSection:{
     gap:10

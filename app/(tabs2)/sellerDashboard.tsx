@@ -7,6 +7,7 @@ import { AntDesign, EvilIcons, Feather, Ionicons } from '@expo/vector-icons'
 import {
   BarChart,
 } from "react-native-chart-kit";
+import { useNavigation } from '@react-navigation/native'; 
 const {width} = Dimensions.get('window')
 
 const chartConfig = {
@@ -59,28 +60,28 @@ const swapRequests = [
 const pendingOrders = [
     {
         id:1,
-        image:'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MPTW3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1666124679330',
+        image:'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
         name:'IPhone 14 Pro Max',
         price:200000,
         user:'Lynn Tanner'
     },
     {
         id:2,
-        image:'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MPTW3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1666124679330',
+        image:'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
         name:'IPhone 14 Pro Max',
         price:200000,
         user:'Lynn Tanner'
     },
     {
         id:3,
-        image:'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MPTW3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1666124679330',
+        image:'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
         name:'IPhone 14 Pro Max',
         price:200000,
         user:'Lynn Tanner'
     },
     {
         id:4,
-        image:'https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/MPTW3?wid=1144&hei=1144&fmt=jpeg&qlt=90&.v=1666124679330',
+        image:'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
         name:'IPhone 14 Pro Max',
         price:200000,
         user:'Lynn Tanner'
@@ -90,6 +91,7 @@ const pendingOrders = [
 const SellerDashboard = () => {
 
     const [activeTab,setActiveTab] = useState<string>("overview")
+    
 
   return (
     <View style={styles.container}>
@@ -119,6 +121,8 @@ const SellerDashboard = () => {
 }
 
 const Overview = () => {
+    const navigation = useNavigation(); 
+    
     return (
         <View>
             <View style={styles.swapHeader}>
@@ -149,14 +153,14 @@ const Overview = () => {
                                         <Text style={styles.name}>{item.name
                                         }</Text>
                                         <View style={styles.dateContainer}>
-                                            <EvilIcons name='clock' size={16} color="rgba(0,0,0,0.4)"/> 
+                                            <EvilIcons name='clock' size={14} color="rgba(0,0,0,0.4)"/> 
                                             <Text style={styles.date}> {(new Date(item.date)).toLocaleDateString()}</Text>
                                         </View>
                                     </View>
                                 </View>
                                 <TouchableOpacity style={styles.swapBtn}>
                                     <Text style={styles.swapText}>Swap Now</Text>
-                                    <AntDesign name='arrowright' size={23} color={Colors.primary} />
+                                    <AntDesign name='arrowright' size={15} color={Colors.primary} />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -166,8 +170,8 @@ const Overview = () => {
             </ScrollView>
             :
                     <View  style={{padding:20,gap:10,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                            <AntDesign name='frowno' size={25} color={Colors.primary}/>
-                            <Text style={{fontFamily:'roboto-condensed',fontSize:17}}>No Swap Requests</Text>
+                            <AntDesign name='frowno' size={20} color={Colors.primary}/>
+                            <Text style={{fontFamily:'roboto-condensed',fontSize:15}}>No Swap Requests</Text>
                         </View>
 
             }
@@ -176,7 +180,7 @@ const Overview = () => {
             <View style={styles.pendingOrders}>
                 <View style={styles.swapHeader}>
                     <View style={styles.warning}>
-                        <Ionicons name='warning' color={"#ff9818"} size={23} />
+                        <Ionicons name='warning' color={"#ff9818"} size={20} />
                         <Text style={styles.headerText}>Pending Orders</Text>
                     </View>
                     <TouchableOpacity>
@@ -196,7 +200,7 @@ const Overview = () => {
                                         <Text style={styles.orderUser}>By: {order.user}</Text>
                                     </View>
                                 </View>
-                                <Text style={styles.orderPrice}>N{order.price.toLocaleString()}</Text>
+                                <Text style={styles.orderPrice}>₦{order.price.toLocaleString()}</Text>
                             </TouchableOpacity>
                         ))
 
@@ -213,11 +217,11 @@ const Overview = () => {
             </View>
 
             <View style={styles.salesSection}>
-                <View style={styles.salesContainer}>
+                <TouchableOpacity style={styles.salesContainer}>
                     <View style={styles.salesTop}>
                         <View style={styles.salesHeader}>
                             <Text style={styles.totalSales}>Total Sales</Text>
-                            <AntDesign name='arrowright' size={20} color={Colors.grey} />
+                            <AntDesign name='arrowright' size={15} color={Colors.grey} />
                         </View>
                         <View style={styles.salesMain}>
                             <Text style={styles.totalSalesPrice}>N534,987,34</Text>
@@ -235,7 +239,7 @@ const Overview = () => {
                         </View>
                     </View>
                     
-                </View>
+                </TouchableOpacity>
 
                 <View style={styles.salesChart}>
                     
@@ -244,7 +248,7 @@ const Overview = () => {
                         data={data}
                         width={0.8  * width}
                         height={300}
-                        yAxisLabel=""
+                        yAxisLabel="₦ "
                         yAxisSuffix=''
                         chartConfig={chartConfig}
                         verticalLabelRotation={90}
@@ -253,8 +257,6 @@ const Overview = () => {
                         />
                 </View>
             </View>
-
-            
         </View>
     )
 }
@@ -285,23 +287,20 @@ const styles = StyleSheet.create({
     activeTab:{
         borderBottomColor:"#000000",
         borderBottomWidth:2,
-        paddingVertical:10
-
+        paddingVertical: 4.5
     },
     tab:{
         paddingVertical:10
     },
     activeText:{
         color:"#000",
-        fontSize:17,
+        fontSize:15,
         fontFamily:'roboto-condensed-sb'
-
     },
     tabText:{
         color:Colors.grey,
-        fontSize:17,
+        fontSize:15,
         fontFamily:'roboto-condensed'
-
     },
     swapHeader:{
         marginBottom:5,
@@ -311,16 +310,21 @@ const styles = StyleSheet.create({
         paddingHorizontal:20
     },
     headerText:{
-        fontSize:20,
+        fontSize:15,
         fontFamily:'roboto-condensed',
-        color:'#111'
+        color:'#00000070',
+        lineHeight: 15,
+        letterSpacing: -0.18
     },
     headerBtn:{
         color:Colors.primary,
-        fontFamily:'roboto-condensed'
+        fontFamily:'roboto-condensed',
+        fontSize: 12,
+        lineHeight: 15,
+        letterSpacing: -0.18
     },
     swapContainer:{
-        width: 0.8 * width,
+        width: 0.75 * width,
         backgroundColor:'#fff',
         borderRadius:5,
         shadowColor: "rgba(0,0,0,0.5)",
@@ -337,7 +341,7 @@ const styles = StyleSheet.create({
     },
     swapImage:{
         width:'100%',
-        height:200
+        height: 145
     },
     infoContainer:{
         flexDirection:'row',
@@ -346,9 +350,9 @@ const styles = StyleSheet.create({
         justifyContent:'space-between'
     },
     userImage:{
-        width:25,
-        height:25,
-        borderRadius:25
+        width:29,
+        height:29,
+        borderRadius:29
     },
     info: {
         flexDirection:'row',
@@ -356,12 +360,14 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     infoContact:{
-        gap:5
+        gap:2
     },
     
     name:{
         fontFamily:'roboto-condensed-sb',
-        fontSize:16
+        fontSize: 12,
+        lineHeight: 15,
+        letterSpacing: -0.18
     },
     dateContainer:{
         flexDirection:'row',
@@ -370,7 +376,10 @@ const styles = StyleSheet.create({
     },
     date:{
         fontFamily:'roboto-condensed',
-        color:'rgba(0,0,0,0.4)'
+        color:'rgba(0,0,0,0.4)',
+        fontSize: 10,
+        lineHeight: 15,
+        letterSpacing: -0.18
     },
     swapBtn:{
         flexDirection:'row',
@@ -380,7 +389,7 @@ const styles = StyleSheet.create({
     swapText:{
         fontFamily:'roboto-condensed',
         color:Colors.primary,
-        fontSize:16
+        fontSize: 14
     },
     pendingOrders:{
         borderTopColor:'rgba(0,0,0,0.05)',
@@ -406,22 +415,28 @@ const styles = StyleSheet.create({
         alignItems:'center'
     },
     orderInfo:{
-        
         justifyContent:'space-between',
-        gap:10
+        gap: 7
     },
     orderName:{
-        fontSize:17,
-        fontFamily:'roboto-condensed-sb'
+        fontSize: 15,
+        fontFamily:'roboto-condensed-sb',
+        lineHeight: 15,
+        letterSpacing: -0.18
     },
     orderPrice:{
-        fontSize:17,
-        fontFamily:'roboto-condensed'
+        fontSize: 15,
+        fontFamily:'roboto-condensed',
+        lineHeight: 15,
+        letterSpacing: -0.18,
+        fontWeight: "600"
     },
     orderUser:{
-        fontSize:15,
+        fontSize:12,
         fontFamily:'roboto-condensed',
-        color:Colors.grey
+        color:Colors.grey,
+        lineHeight: 15,
+        letterSpacing: -0.18
     },
     orderImg:{
         width:50,
@@ -449,12 +464,12 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     salesTop:{
-        gap:10
+        gap: 3
     },
     salesHeader:{
         flexDirection:'row',
         justifyContent:'space-between',
-        alignItems:'center'
+        alignItems:'center',
     },
     salesMain:{
         flexDirection:'row',
@@ -487,13 +502,12 @@ const styles = StyleSheet.create({
     },
     totalSales:{
         color:'#828282',
-        fontSize:15,
+        fontSize:12.47,
         fontFamily:'roboto-condensed-m'
-
     },
     totalSalesPrice:{
         color:Colors.primary,
-        fontSize:31,
+        fontSize:31.16,
         fontFamily:'roboto-condensed-m'
     },
     totalSalesDate:{

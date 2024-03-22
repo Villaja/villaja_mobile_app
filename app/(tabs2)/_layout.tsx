@@ -9,6 +9,7 @@ import { Marker } from 'react-native-svg';
 import { Image, View, Text, StyleSheet } from 'react-native';
 import {  } from 'expo-status-bar';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Icon } from '@iconify/react';
 
 const Layout = () => {
   const [isSeller,setIsSeller] = useState(true)
@@ -31,7 +32,7 @@ const Layout = () => {
         name="sellerDashboard"
         options={{
           tabBarLabel: 'Dashboard',
-          tabBarIcon: ({ size, color }) => <Ionicons name="grid-outline" size={size} color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="grid-outline" size={20} color={color} />,
           headerTitle:'',
           headerStyle:{
             backgroundColor:'#111',
@@ -45,7 +46,7 @@ const Layout = () => {
           ),
           headerRight:() => (
             <TouchableOpacity style={styles.menuBtn}>
-                <Ionicons name='menu' size={25} color={"#fff"} />
+                <Image source={require("../../assets/images/menu.png")} style={{width: 15, height: 13 }} />
             </TouchableOpacity>
           )
         }}
@@ -64,7 +65,7 @@ const Layout = () => {
             fontWeight: "700",
           },
           tabBarLabel: 'Add Product',
-          tabBarIcon: ({ size, color }) => <AntDesign name="plussquare" size={size} color={color} />,
+          tabBarIcon: ({ size, color }) => <AntDesign name="plussquare" size={20} color={color} />,
           
         }}
       />
@@ -74,7 +75,7 @@ const Layout = () => {
         options={{
 
           tabBarLabel: 'Orders',
-          tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="text-box-check-outline" size={size} color={color} />,
+          tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="text-box-check-outline" size={20} color={color} />,
 
         }}
       />
@@ -84,7 +85,7 @@ const Layout = () => {
         options={{
 
           tabBarLabel: 'Notifications',
-          tabBarIcon: ({ size, color }) => <Ionicons name="notifications-outline" size={size} color={color} />,
+          tabBarIcon: ({ size, color }) => <Ionicons name="notifications-outline" size={20} color={color} />,
         }}
       />
     </Tabs>

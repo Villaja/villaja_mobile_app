@@ -143,7 +143,7 @@ const catalog = () => {
 
       :
       <View>
-        <Text style={{fontFamily:'roboto-condensed-sb',fontSize:20,textAlign:'center'}}>No Products Found</Text>
+        <Text style={{fontFamily:'roboto-condensed-sb',fontSize:15,textAlign:'center'}}>No Products Found</Text>
       </View>
         
       }
@@ -183,7 +183,7 @@ const catalog = () => {
         </TouchableOpacity>
       </View>
 
-      <View style={{padding:20}}>
+      <View style={{padding:11}}>
           <ScrollView 
             horizontal  
             showsHorizontalScrollIndicator={false}
@@ -203,7 +203,7 @@ const catalog = () => {
           </ScrollView>
       </View>
 
-      <ScrollView style={{paddingHorizontal:20}}>
+      <ScrollView style={{paddingHorizontal:20, marginTop: 25}}>
         <View>
           {loading ? (
           <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
@@ -306,7 +306,7 @@ const styles = StyleSheet.create({
     borderColor:'rgba(0,0,0,0.20)'
   },
   filterHeaderSection:{
-    paddingVertical:15,
+    paddingVertical: 11,
     flexDirection:'row',
     gap:10,
     alignItems:'center',
