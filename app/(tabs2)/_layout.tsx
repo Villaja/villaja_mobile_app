@@ -9,7 +9,7 @@ import { Marker } from 'react-native-svg';
 import { Image, View, Text, StyleSheet } from 'react-native';
 import {  } from 'expo-status-bar';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Icon } from '@iconify/react';
+
 
 const Layout = () => {
   const [isSeller,setIsSeller] = useState(true)
@@ -60,8 +60,9 @@ const Layout = () => {
           headerTitleAlign:'center',
           headerTitleStyle:{
             fontFamily:'roboto-condensed-sb',
-            fontSize:20,
-            fontStyle: "italic",
+            fontSize:18,
+            letterSpacing: -0.24,
+            lineHeight: 20,
             fontWeight: "700",
           },
           tabBarLabel: 'Add Product',

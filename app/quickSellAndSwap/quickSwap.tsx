@@ -3,6 +3,7 @@ import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet, Modal, Fla
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
+import { AntDesign } from '@expo/vector-icons'
 
 const categoriesData = [
     { id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
@@ -29,7 +30,7 @@ const quickSwap = () => {
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const router = useRouter()
 
-    // functionality to render and select categories in modal
+    // functionality to render and select categories inside the modal
     const renderCategories = ({ item }) => {
         return (
             <TouchableOpacity
@@ -49,21 +50,41 @@ const quickSwap = () => {
         );
     }
 
-    // functionality to select and upload product images
-    const pickImage = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-            multiple: true, // Allows multiple image selection
-        });
+      // functionality to select and upload product images
+  const pickImage = async () => {
+    // Check if the number of selected images is less than 4
+    if (selectedImages.length >= 4) {
+      alert('You can only upload up to 4 images.');
+      return;
+    }
 
-        if (!result.canceled && result.assets.length > 0) {
-            const newImages = result.assets.map(asset => asset.uri);
-            setSelectedImages(prevImages => [...prevImages, ...newImages]);
-        }
-    };
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      aspect: [4, 3],
+      quality: 1,
+      allowsMultipleSelection: true, // Allows multiple image selection
+    });
+
+    if (!result.canceled && result.assets.length > 0) {
+      const newImages = result.assets.map(asset => asset.uri);
+      // Ensure the total number of selected images doesn't exceed 4
+      const remainingSlots = 4 - selectedImages.length;
+      const imagesToAdd = newImages.slice(0, remainingSlots);
+      setSelectedImages(prevImages => [...prevImages, ...imagesToAdd]);
+    }
+  };
+
+  // Function to clear selected images
+  const clearSelectedImages = () => {
+    setSelectedImages([]);
+  };
+
+  // Function to remove a single selected image
+  const removeSelectedImage = (indexToRemove) => {
+    setSelectedImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
+  };
+
+      
 
     return (
         <ScrollView style={styles.container}>
@@ -115,13 +136,18 @@ const quickSwap = () => {
                                 renderItem={({ item }) => (
                                     <Image source={{ uri: item }} style={{ width: 114, height: 79, borderRadius: 10, margin: 5 }} />
                                 )}
-                                keyExtractor={(item, index) => index.toString()}
+                                keyExtractor={(index) => index.toString()}
                                 numColumns={2} // Set the number of columns for the grid
-                                contentContainerStyle={{ paddingBottom: 100 }} // Adjust padding to prevent overflow
+                                contentContainerStyle={{ paddingBottom: 10 }} // Adjust padding to prevent overflow
                             />
                         ) : (
                             <Image source={require('../../assets/images/watchcat.png')} style={{ width: 114, height: 79, borderRadius: 10 }} />
                         )}
+                        {selectedImages.length > 0 && (
+                <TouchableOpacity onPress={clearSelectedImages} style={{ marginLeft: 175 }} >
+                  <AntDesign name='delete' size={18} color='#FF0000' />
+                </TouchableOpacity>
+              )}
                     </View>
                 </View>
                 <View style={styles.section2}>
@@ -136,7 +162,7 @@ const quickSwap = () => {
                         </View>
                     </View>
                     <View style={styles.inputContainer}>
-                        {/*Amount input*/}
+                        {/*swap with input*/}
                         <Text style={styles.text}>Swap With?</Text>
                         <View style={styles.textInput}>
                             <TextInput

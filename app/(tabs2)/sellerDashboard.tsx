@@ -1,7 +1,6 @@
-import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import Colors from '../../constants/Colors'
 import { AntDesign, EvilIcons, Feather, Ionicons } from '@expo/vector-icons'
 import {
@@ -224,7 +223,7 @@ const Overview = () => {
                             <AntDesign name='arrowright' size={15} color={Colors.grey} />
                         </View>
                         <View style={styles.salesMain}>
-                            <Text style={styles.totalSalesPrice}>N534,987,34</Text>
+                            <Text style={styles.totalSalesPrice}>₦534,987,34</Text>
                             <View style={styles.salesDate}>
                                 <Text style={styles.totalSalesDate}>12-Sep-22 To Date</Text>
                                 <Feather name='calendar' size={11} color={'rgba(0,0,0,0.6)'} />

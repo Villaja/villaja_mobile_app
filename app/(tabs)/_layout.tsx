@@ -39,7 +39,7 @@ const Layout = () => {
             fontFamily:'roboto-condensed-sb-i',
             fontSize:20
           },
-          tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="compass-outline" size={size} color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="compass-outline" size={20} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -49,8 +49,8 @@ const Layout = () => {
 
           tabBarLabel: 'Search',
           headerShown:false,
-          tabBarIcon: ({ size, color }) => (
-            <AntDesign name="search1" size={size} color={color} />
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="search1" size={20} color={color} />
           ),
         }}
       />
@@ -67,7 +67,7 @@ const Layout = () => {
             fontStyle: "italic",
             fontWeight: "700"
           },
-          tabBarIcon: ({ size, color }) => <AntDesign name="plussquareo" size={size} color={color} />,
+          tabBarIcon: ({ color }) => <AntDesign name="plussquareo" size={20} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -75,8 +75,8 @@ const Layout = () => {
         options={{
 
           tabBarLabel: 'Notifications',
-          tabBarIcon: ({ size, color }) => (
-            <Ionicons name="notifications-outline" size={size} color={color} />
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="notifications-outline" size={20} color={color} />
           ),
         }}
       />
@@ -94,8 +94,8 @@ const Layout = () => {
             fontStyle: "italic",
             fontWeight: "700",
           },
-          tabBarIcon: ({ size, color }) => (
-            <MaterialCommunityIcons name="view-grid-plus-outline" size={size} color={color} />
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="view-grid-plus-outline" size={20} color={color} />
           ),
         }}
       />
