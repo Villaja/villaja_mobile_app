@@ -73,14 +73,14 @@ const QuickSell = () => {
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Image source={selectedCategory.image} style={{ width: 60, height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }} />
             <View style={{width: 265, alignItems: "center"}}>
-            <Text style={{ fontSize: 15, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{selectedCategory.name}</Text>
+            <Text style={{ fontSize: 14, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{selectedCategory.name}</Text>
             </View>
           </View>
         ) : (
           <View style={{ flexDirection: "row", alignItems: "center", width: 325, justifyContent: "space-between" }}>
             <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
               <Text style={{ fontSize: 14, color: "#FF0000", fontWeight: "900" }}>*</Text>
-              <Text style={{ fontSize: 15, color: "#00000050", fontWeight: "500", marginLeft: 5 }}>Select Category</Text>
+              <Text style={{ fontSize: 14, color: "#00000050", fontWeight: "500", marginLeft: 5 }}>Select Category</Text>
             </View>
             <Ionicons name='chevron-forward-outline' size={24} style={{ color: "#00000030", marginLeft: 'auto', marginRight: 20 }} />
           </View>
@@ -131,7 +131,7 @@ const QuickSell = () => {
             <Text style={styles.text}>Name</Text>
             <View style={styles.textInput}>
               <TextInput
-                style={{ top: 8, left: 13, }}
+                style={{ top: 8, left: 13, fontSize: 12}}
                 placeholder="Product Name"
               />
             </View>
@@ -141,7 +141,7 @@ const QuickSell = () => {
             <Text style={styles.text}>Amount</Text>
             <View style={styles.textInput}>
               <TextInput
-                style={{ top: 8, left: 13, }}
+                style={{ top: 8, left: 13, fontSize: 12}}
                 placeholder="0.00"
                 keyboardType='numeric'
               />
@@ -153,7 +153,7 @@ const QuickSell = () => {
             <View style={styles.textInput2}>
               <TextInput
                 multiline={true}
-                style={{ top: 8, left: 13, width: 300 }}
+                style={{ top: 8, left: 13, width: 300, fontSize: 12}}
                 placeholder="Enter Details"
               />
             </View>

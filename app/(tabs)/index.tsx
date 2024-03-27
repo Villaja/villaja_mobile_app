@@ -285,7 +285,7 @@ const index = () => {
 
         </View>
         <TouchableOpacity style={{ width: 40, height: 40, backgroundColor: Colors.primaryTransparent, borderRadius: 40, justifyContent: 'center', alignItems: 'center' }} onPress={() => router.push('/cartScreen/cart')}>
-          <AntDesign name="shoppingcart" size={24} color={Colors.primary} />
+          <AntDesign name="shoppingcart" size={20} color={Colors.primary} />
         </TouchableOpacity>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
@@ -298,11 +298,11 @@ const index = () => {
             renderItem={({ item, index }) => <View key={index}>
 
               <Image source={item.image} style={{ height: 211, width: "100%", }} resizeMode='cover' />
-              <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{item.store}</Text>
-              <Text style={{ fontSize: 20, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '400', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{item.device}</Text>
+              <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100, fontSize: 12 }}>{item.store}</Text>
+              <Text style={{ fontSize: 17, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '400', left: 20, top: 25, color: '#fff', zIndex: 100 }}>{item.device}</Text>
               <TouchableOpacity style={styles.buyNowBtn}>
-                <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 12 }}>BUY NOW</Text>
-                <AntDesign name="arrowright" size={12} color={"#fff"} />
+                <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 9.92}}>BUY NOW</Text>
+                <AntDesign name="arrowright" size={11} color={"#ffffff"} />
               </TouchableOpacity>
             </View>}
             itemWidth={width}
@@ -346,11 +346,12 @@ const index = () => {
         </View>
         <View>
           <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginHorizontal: 20 }}>Selected for you</Text>
-          <ScrollView horizontal overScrollMode="never" showsHorizontalScrollIndicator={false} style={{ marginTop: 10, marginBottom: 20, height: 406.02 }} contentContainerStyle={
+          <ScrollView horizontal overScrollMode="never" showsHorizontalScrollIndicator={false} style={{ marginTop: 10, marginBottom: 20, height: 406.02}} contentContainerStyle={
             {
               alignItems: 'center',
               gap: 4,
-              paddingHorizontal: 20,
+              paddingLeft: 20,
+              paddingRight: 10,
               borderRadius: 5,
               overflow: 'hidden'
 
@@ -358,9 +359,9 @@ const index = () => {
             {
               carouselData.map((cat, index) => (
                 <TouchableOpacity activeOpacity={1} key={index} style={{ alignItems: 'center', borderRadius: 5, overflow: 'hidden' }}>
-                  <Image source={cat.image} style={{ width: 300, height: 400, borderRadius: 5 }} />
+                  <Image source={cat.image} style={{ width: 302, height: 406.02, borderRadius: 5 }} />
                   <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
-                  <Text style={{ fontSize: 18, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '700', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
+                  <Text style={{ fontSize: 18.9, fontWeight: "500", fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
 
                 </TouchableOpacity>
               ))
@@ -398,8 +399,8 @@ const index = () => {
         <View style={styles.imgContainer}>
           <Image source={require('../../assets/images/villaja-seller.png')} style={{ width: 350, height: 129 }} />
           <View style={styles.imageText} >
-            <Text style={styles.text1}> BECOME A</Text>
-            <Text style={styles.text2}>Merchant For Villaja</Text>
+            <Text style={styles.text1}> BECOME A VERIFIED</Text>
+            <Text style={styles.text2}>Merchant On Villaja</Text>
             <TouchableOpacity style={styles.getStarted} >
               <Text style={styles.gtText} >Get Started</Text>
             </TouchableOpacity>
@@ -424,17 +425,18 @@ const index = () => {
 
 const styles = StyleSheet.create({
   buyNowBtn: {
-    backgroundColor: Colors.primary,
-    width: 120,
+    backgroundColor: "#02549290",
+    width: 92,
     borderRadius: 5,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
-    height: 35,
+    gap: 10,
+    height: 30,
     justifyContent: 'center',
     position: 'absolute',
     right: 30,
     bottom: 15,
+
   },
   loadingIndicator: {
     marginVertical: 16,
@@ -500,7 +502,6 @@ const styles = StyleSheet.create({
     // width: 307,
     left: 26,
     position: 'absolute',
-    paddingHorizontal:20
   },
   text1: {
     color: "#FFFFFF99",

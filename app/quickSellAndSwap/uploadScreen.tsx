@@ -25,8 +25,8 @@ const uploadScreen = () => {
       <View>
         <Image source={require('../../assets/images/merchant.png')} style={{ height: 129, width: 320, left: 20 }} />
         <View style={styles.imageText} >
-          <Text style={styles.textOne}> BECOME A</Text>
-          <Text style={styles.textTwo}>Merchant For Villaja</Text>
+          <Text style={styles.textOne}> BECOME A VERIFIED</Text>
+          <Text style={styles.textTwo}>Merchant On Villaja</Text>
           <TouchableOpacity style={styles.getStarted} >
             <Text style={styles.gtText} >Get Started</Text>  
           </TouchableOpacity>

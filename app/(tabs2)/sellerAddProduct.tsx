@@ -112,17 +112,17 @@ const sellerAddProduct = () => {
       <ScrollView style={styles.container}>
         <TouchableOpacity style={styles.category} onPress={() => setModalVisible(true)}>
           {selectedCategory ? (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}> 
               <Image source={selectedCategory.image} style={{ width: 60, height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }} />
               <View style={{ width: 265, alignItems: "center" }}>
-                <Text style={{ fontSize: 15, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{selectedCategory.name}</Text>
+                <Text style={{ fontSize: 14, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{selectedCategory.name}</Text>
               </View>
             </View>
           ) : (
             <View style={{ flexDirection: "row", alignItems: "center", width: 325, justifyContent: "space-between" }}>
               <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
                 <Text style={{ fontSize: 14, color: "#FF0000", fontWeight: "900" }}>*</Text>
-                <Text style={{ fontSize: 15, color: "#00000050", fontWeight: "500", marginLeft: 5 }}>Select Category</Text>
+                <Text style={{ fontSize: 14, color: "#00000050", fontWeight: "500", marginLeft: 5 }}>Select Category</Text>
               </View>
               <Ionicons name='chevron-forward-outline' size={24} style={{ color: "#00000030", marginLeft: 'auto', marginRight: 20 }} />
             </View>
@@ -181,7 +181,7 @@ const sellerAddProduct = () => {
               <Text style={styles.text}>Name</Text>
               <View style={styles.textInput}>
                 <TextInput
-                  style={{ top: 8, left: 13, }}
+                  style={{ top: 8, left: 13,  fontSize: 12 }}
                   placeholder="Product Name"
                   onChangeText={(value) => setName(value)}
                 />
@@ -192,9 +192,9 @@ const sellerAddProduct = () => {
               <Text style={styles.text}>Original Price</Text>
               <View style={styles.textInput}>
                 <TextInput
-                  style={{ top: 8, left: 13, }}
+                  style={{ top: 8, left: 13,  fontSize: 12 }}
                   placeholder="₦0.00"
-                  keyboardType='name-phone-pad'
+                  keyboardType= 'number-pad'
                   onChangeText={(value) => setOriginalPrice(value)}
                 />
               </View>
@@ -204,9 +204,9 @@ const sellerAddProduct = () => {
               <Text style={styles.text}>Discount price</Text>
               <View style={styles.textInput}>
                 <TextInput
-                  style={{ top: 8, left: 13, }}
+                  style={{ top: 8, left: 13,  fontSize: 12 }}
                   placeholder="₦0.00"
-                  keyboardType='name-phone-pad'
+                  keyboardType= 'number-pad'
                   onChangeText={(value) => setDiscountPrice(value)}
                 />
               </View>
@@ -216,7 +216,7 @@ const sellerAddProduct = () => {
               <Text style={styles.text}>Quantity Available</Text>
               <View style={styles.textInput}>
                 <TextInput
-                  style={{ top: 8, left: 13, }}
+                  style={{ top: 8, left: 13,  fontSize: 12 }}
                   placeholder="Enter amount of product in stock"
                   keyboardType='number-pad'
                   onChangeText={(value) => setQuantity(value)}
@@ -229,14 +229,14 @@ const sellerAddProduct = () => {
               <View style={styles.textInput2}>
                 <TextInput
                   multiline={true}
-                  style={{ top: 3, left: 13, width: 302 }}
+                  style={{ top: 3, left: 13, width: 302,  fontSize: 12 }}
                   placeholder="Enter Details"
                   onChangeText={(value) => setProductDetails(value)}
                 />
               </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => router.push ('/sellerAddProductScreen/addProducts')}>
             <Text style={styles.buttonText1}>Next</Text>
             <Ionicons name='arrow-forward-outline' size={18} style={styles.buttonText2} />
           </TouchableOpacity>

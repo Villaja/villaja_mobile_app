@@ -496,6 +496,29 @@ function RootLayoutNav() {
                 },
               }}
             />
+            <Stack.Screen
+              name="sellerAddProductScreen/addProducts"
+              options={{
+                // presentation: 'modal',
+                title: 'Back',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
+                },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
+              }}
+            />
           </Stack>
         </OrdersProvider>
       </AuthProvider>

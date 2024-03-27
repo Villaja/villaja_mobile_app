@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ScrollView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from '@expo/vector-icons/AntDesign';
 
@@ -417,8 +417,7 @@ const postAd2 = () => {
                     />
                 </View>
             </View>
-    
-            <TouchableOpacity style={styles.button} >
+            <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText1}>Post Ad</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -433,7 +432,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff'
     },
     text: {
-        fontSize: 15,
+        fontSize: 13,
         color: "#00000090",
         fontWeight: "500"
     },
@@ -488,7 +487,6 @@ const styles = StyleSheet.create({
         fontFamily: "roboto-condensed-sb",
     },
     container: {
-       
         paddingVertical: 10,
         marginEnd: 16
     },
@@ -516,16 +514,18 @@ const styles = StyleSheet.create({
         color: "#00000050"
     },
     placeholderStyle: {
-        fontSize: 14,
+        fontSize: 12,
         color: "#00000070",
         marginVertical: 10,
-        height: 20
+        height: 20,
+        top: 1.5
     },
     selectedTextStyle: {
-        fontSize: 14,
-        color: "#00000070",
+        fontSize: 12,
+        color: "#000000",
         paddingVertical: 5,
-        height: 30
+        height: 30,
+        top: 1.5
     },
     iconStyle: {
         width: 20,
@@ -533,11 +533,11 @@ const styles = StyleSheet.create({
     },
     inputSearchStyle: {
         height: 40,
-        fontSize: 14,
+        fontSize: 12,
         color: "#00000090"
     },
     itemTextStyle: {
         color: "#00000070",
-        fontSize: 14
+        fontSize: 12
     }
 })
