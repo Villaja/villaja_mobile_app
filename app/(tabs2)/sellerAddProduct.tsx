@@ -238,7 +238,7 @@ const sellerAddProduct = () => {
           </View>
           <TouchableOpacity style={styles.button} onPress={() => router.push ('/sellerAddProductScreen/addProducts')}>
             <Text style={styles.buttonText1}>Next</Text>
-            <Ionicons name='arrow-forward-outline' size={18} style={styles.buttonText2} />
+            <AntDesign name="arrowright" size={12} color="#ffffff" />
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -332,10 +332,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#025492",
     flexDirection: "row",
+    gap: 10
   },
   buttonText1: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 13,
     fontFamily: "roboto-condensed-sb",
   },
   buttonText2: {

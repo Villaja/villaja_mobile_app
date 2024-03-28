@@ -3,6 +3,8 @@ import { ScrollView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity 
 import { useSeller } from '../../context/SellerContext';
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useRouter } from "expo-router";
+
 
 
 const options = [
@@ -86,9 +88,11 @@ const options7 = [
 
 const addProducts = () => {
   const { addValue } = useSeller()
+  const router = useRouter()
   const [brandName, setBrandName] = useState("");
   const [modelName, setModelName] = useState("");
-  const [mainCamera, setMainCamera] = useState("")
+  const [mainCamera, setMainCamera] = useState("");
+  const [batteryCapacity, setBatteryCapacity] = useState("");
   const [selectedOption1, setSelectedOption1] = useState(null);
   const [selectedOption2, setSelectedOption2] = useState(null);
   const [selectedOption3, setSelectedOption3] = useState(null);
@@ -184,11 +188,14 @@ const addProducts = () => {
       brandName,
       modelName,
       mainCamera,
+      batteryCapacity,
       selectedOption1,
       selectedOption2,
       selectedOption3,
       selectedOption4,
       selectedOption5,
+      selectedOption6,
+      selectedOption7
     })
   }
 
@@ -478,34 +485,47 @@ const addProducts = () => {
               inputSearchStyle={styles.inputSearchStyle}
               itemTextStyle={styles.itemTextStyle}
               iconStyle={styles.iconStyle}
-              data={options6}
+              data={options7}
               search
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder={!isFocus6 ? 'Select sim card type and condition' : '...'}
+              placeholder={!isFocus7 ? 'Select sim card type and condition' : '...'}
               searchPlaceholder="Search..."
-              value={selectedOption6}
-              onFocus={() => setIsFocus6(true)}
-              onBlur={() => setIsFocus6(false)}
+              value={selectedOption7}
+              onFocus={() => setIsFocus7(true)}
+              onBlur={() => setIsFocus7(false)}
               onChange={item => {
-                setSelectedOption6(item.value);
-                setIsFocus6(false);
+                setSelectedOption7(item.value);
+                setIsFocus7(false);
               }}
               renderLeftIcon={() => (
                 <AntDesign
                   style={styles.icon2}
-                  color={isFocus6 ? '#02549290' : '#00000090'}
+                  color={isFocus7 ? '#02549290' : '#00000090'}
                   name="Safety"
                   size={18}
                 />
               )}
+              dropdownPosition='top'
+            />
+          </View>
+        </View>
+        <View style={styles.inputContainer}>
+          {/*Battery capacity input*/}
+          <Text style={styles.text}>Battery Capacity</Text>
+          <View style={styles.textInput}>
+            <TextInput
+              style={{ top: 12, left: 13, fontSize: 13 }}
+              placeholder="5000 mAh...."
+              onChangeText={(value) => setBatteryCapacity(value)}
             />
           </View>
         </View>
       </View>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText1}>Post Ad</Text>
+      <TouchableOpacity style={styles.button} onPress={() => router.push('/sellerAddProductScreen/productPromotion') } >
+        <Text style={styles.buttonText1}>Next</Text>
+        <AntDesign name="arrowright" size={12} color="#ffffff" />
       </TouchableOpacity>
     </ScrollView>
   )
@@ -522,7 +542,7 @@ const styles = StyleSheet.create({
     flex: 1,
     top: 23,
     marginHorizontal: 20,
-    marginBottom: 100
+    marginBottom: 80
   },
   inputContainer: {
     left: 5,
@@ -600,16 +620,18 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#025492",
     width: 320,
-    marginStart: 20,
+    marginHorizontal: 25,
     height: 50,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 18.29
+    marginBottom: 18.29,
+    flexDirection: "row",
+    gap: 10
   },
   buttonText1: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 13,
     fontFamily: "roboto-condensed-sb",
   },
 })
