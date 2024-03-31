@@ -37,7 +37,8 @@ export default postAd1
 const styles = StyleSheet.create({
     pageContainer: {
         flex: 1,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        paddingHorizontal:20
     },
     text: {
         fontSize: 13,
@@ -65,12 +66,10 @@ const styles = StyleSheet.create({
     },
     textInputContainer: {
         top: 25,
-        marginLeft: 20,
         marginBottom: 28.29
     },
     textInputContainer2: {
         top: 25,
-        marginLeft: 20,
         marginBottom: 440.29
     },
     icon: {
@@ -82,8 +81,8 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: "#025492",
-        width: 320,
-        marginStart: 20,
+        width: '100%',
+        // marginStart: 20,
         height: 50,
         borderRadius: 10,
         justifyContent: "center",

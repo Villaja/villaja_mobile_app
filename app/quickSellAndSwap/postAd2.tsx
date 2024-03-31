@@ -71,20 +71,20 @@ const options7 = [
 
 
 const postAd2 = () => {
-    const [selectedValue1, setSelectedValue1] = useState(null);
-    const [selectedValue2, setSelectedValue2] = useState(null);
-    const [selectedValue3, setSelectedValue3] = useState(null);
-    const [selectedValue4, setSelectedValue4] = useState(null);
-    const [selectedValue5, setSelectedValue5] = useState(null);
-    const [selectedValue6, setSelectedValue6] = useState(null);
-    const [selectedValue7, setSelectedValue7] = useState(null);
-    const [isFocus1, setIsFocus1] = useState(false);
-    const [isFocus2, setIsFocus2] = useState(false);
-    const [isFocus3, setIsFocus3] = useState(false);
-    const [isFocus4, setIsFocus4] = useState(false);
-    const [isFocus5, setIsFocus5] = useState(false);
-    const [isFocus6, setIsFocus6] = useState(false);
-    const [isFocus7, setIsFocus7] = useState(false);
+    const [selectedValue1, setSelectedValue1] = useState<string | null>(null);
+    const [selectedValue2, setSelectedValue2] = useState<string | null>(null);
+    const [selectedValue3, setSelectedValue3] = useState<string | null>(null);
+    const [selectedValue4, setSelectedValue4] = useState<string | null>(null);
+    const [selectedValue5, setSelectedValue5] = useState<string | null>(null);
+    const [selectedValue6, setSelectedValue6] = useState<string | null>(null);
+    const [selectedValue7, setSelectedValue7] = useState<string | null>(null);
+    const [isFocus1, setIsFocus1] = useState<boolean>(false);
+    const [isFocus2, setIsFocus2] = useState<boolean>(false);
+    const [isFocus3, setIsFocus3] = useState<boolean>(false);
+    const [isFocus4, setIsFocus4] = useState<boolean>(false);
+    const [isFocus5, setIsFocus5] = useState<boolean>(false);
+    const [isFocus6, setIsFocus6] = useState<boolean>(false);
+    const [isFocus7, setIsFocus7] = useState<boolean>(false);
 
     const renderLabel1 = () => {
         if (selectedValue1 || isFocus1) {
@@ -431,7 +431,8 @@ export default postAd2
 const styles = StyleSheet.create({
     pageContainer: {
         flex: 1,
-        backgroundColor: '#ffffff'
+        backgroundColor: '#ffffff',
+        paddingHorizontal:20
     },
     text: {
         fontSize: 13,
@@ -440,12 +441,12 @@ const styles = StyleSheet.create({
     },
     textInputContainer: {
         top: 25,
-        marginLeft: 20,
+        // marginLeft: 20,
         marginBottom: 8.29
     },
     textInputContainer2: {
         top: 25,
-        marginLeft: 20,
+        // marginLeft: 20,
         marginBottom: 40.29
     },
     icon: {
@@ -456,8 +457,7 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: "#025492",
-        width: 320,
-        marginStart: 20,
+        width: '100%',
         height: 50,
         borderRadius: 10,
         justifyContent: "center",

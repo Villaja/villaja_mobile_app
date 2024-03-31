@@ -57,17 +57,23 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   textContainer: {
-    marginHorizontal: 20,
+    marginLeft: 20,
+    flexShrink:1
+
   },
   text1: {
     fontSize: 13,
     color: "#000000",
     fontWeight: "700",
-    marginBottom: 8
+    marginBottom: 8,
+    fontFamily: "roboto-condensed-sb",
+
   },
   text2: {
     fontSize: 10,
-    color: "#00000060"
+    color: "#00000060",
+    fontFamily: "roboto-condensed",
+
   },
   icon: {
     marginRight: 20,
@@ -91,14 +97,14 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '500',
     lineHeight: 11.72,
-    fontFamily: 'Roboto'
+    fontFamily: 'roboto-condensed'
   },
   textTwo: {
     fontSize: 18,
     color: "#FFFFFF",
     fontWeight: '700',
     lineHeight: 29.3,
-    fontFamily: "Roboto",
+    fontFamily: "roboto-condensed",
     marginBottom: 10
   },
   getStarted: {
@@ -113,7 +119,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 12,
     fontWeight: '500',
-    fontFamily: 'Roboto',
+    fontFamily: 'roboto-condensed',
     lineHeight: 14.06
   },
 })

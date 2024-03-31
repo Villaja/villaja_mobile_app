@@ -5,6 +5,12 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
 import { AntDesign } from '@expo/vector-icons'
 
+interface CategoryInterface{
+  id:number,
+  name:string,
+  image:any
+}
+
 const categoriesData = [
     { id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
     { id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
@@ -29,12 +35,12 @@ const { width } = Dimensions.get("window");
 
 const quickSwap = () => {
     const [modalVisible, setModalVisible] = useState(false);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState<CategoryInterface | null>(null);
     const [selectedImages, setSelectedImages] = useState<string[]>([]);
     const router = useRouter()
 
     // functionality to render and select categories inside the modal
-    const renderCategories = ({ item }) => {
+    const renderCategories = ({ item }:{item:CategoryInterface}) => {
         return (
             <TouchableOpacity
                 style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}
@@ -42,7 +48,7 @@ const quickSwap = () => {
                     setSelectedCategory(item);
                     setModalVisible(false);
                 }}>
-                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: 325 }}>
+                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", width: '100%' }}>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
                         <Image source={item.image} style={{ width: 50, height: 50, marginRight: 10 }} />
                         <Text style={{ fontSize: 12, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{item.name}</Text>
@@ -83,7 +89,7 @@ const quickSwap = () => {
   };
 
   // Function to remove a single selected image
-  const removeSelectedImage = (indexToRemove) => {
+  const removeSelectedImage = (indexToRemove:number) => {
     setSelectedImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
   };
 
@@ -100,7 +106,7 @@ const quickSwap = () => {
                         </View>
                     </View>
                 ) : (
-                    <View style={{ flexDirection: "row", alignItems: "center", width: 325, justifyContent: "space-between" }}>
+                    <View style={{ flexDirection: "row", alignItems: "center", width: '100%', justifyContent: "space-between" }}>
                         <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
                             <Text style={{ fontSize: 14, color: "#FF0000", fontWeight: "900" }}>*</Text>
                             <Text style={{ fontSize: 14, color: "#00000050", fontWeight: "500", marginLeft: 5 }}>Select Category</Text>
@@ -114,7 +120,7 @@ const quickSwap = () => {
                 transparent={false}
                 visible={modalVisible}
                 onRequestClose={() => setModalVisible(false)}>
-                <View style={{ flex: 1, justifyContent: 'center', left: 20, top: 50, marginBottom: 50 }}>
+                <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal:20, top: 50, marginBottom: 50 }}>
                     <FlatList
                         data={categoriesData}
                         renderItem={renderCategories}
@@ -122,7 +128,7 @@ const quickSwap = () => {
                     />
                 </View>
             </Modal>
-            <View style={{ marginHorizontal: 20, marginBottom: 28 }}>
+            <View style={{marginBottom: 28 }}>
                 <Text style={{ fontSize: 13, color: "#000000", fontWeight: "500", marginBottom: 5 }}>Add At Least 4 Images</Text>
                 <Text style={{ fontSize: 10, color: "#00000050", marginBottom: 10 }}>First image you upload is the title image and must be a clear 1080p downloaded picture, the rest of the pictures should be a live picture of the gadget</Text>
                 <View style={{ flexDirection: "row" }}>
@@ -202,6 +208,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#ffffff",
+        paddingHorizontal:20
     },
     category: {
         flexDirection: "row",
@@ -212,7 +219,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "#00000010",
-        marginLeft: 20,
+        // marginLeft: 20,
         top: 10,
         marginBottom: 43
     },
@@ -222,7 +229,7 @@ const styles = StyleSheet.create({
         top: 23,
     },
     inputContainer: {
-        left: 5,
+        // left: 5,
         height: 80,
         position: "relative"
     },
@@ -272,7 +279,7 @@ const styles = StyleSheet.create({
     },
     button: {
         height: 50,
-        width: 330,
+        width: '100%',
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",

@@ -6,6 +6,14 @@ import { useRouter } from "expo-router";
 
 
 const { width } = Dimensions.get("window")
+
+interface CategoryInterface{
+  id:number,
+  name:string,
+  image:any
+}
+
+
 const categoriesData = [
   {id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
   {id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
@@ -27,13 +35,13 @@ const categoriesData = [
 
 const QuickSell = () => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryInterface | null>(null);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const router = useRouter()
 
 
   // functionality to render and select categories in modal
-  const renderCategories = ({ item }) => {
+  const renderCategories = ({ item }:{item:CategoryInterface}) => {
     return (
       <TouchableOpacity
         style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}
@@ -56,10 +64,10 @@ const QuickSell = () => {
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
+      // allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
-      multiple: true, // Allows multiple image selection
+      allowsMultipleSelection: true, // Allows multiple image selection
     });
 
     if (!result.canceled && result.assets.length > 0) {
@@ -79,7 +87,7 @@ const QuickSell = () => {
             </View>
           </View>
         ) : (
-          <View style={{ flexDirection: "row", alignItems: "center", width: 325, justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "row", alignItems: "center",width:'100%', justifyContent: "space-between" }}>
             <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
               <Text style={{ fontSize: 14, color: "#FF0000", fontWeight: "900" }}>*</Text>
               <Text style={{ fontSize: 14, color: "#00000050", fontWeight: "500", marginLeft: 5 }}>Select Category</Text>
@@ -101,7 +109,7 @@ const QuickSell = () => {
           />
         </View>
       </Modal>
-      <View style={{ marginHorizontal: 20, marginBottom: 28 }}>
+      <View style={{ marginBottom: 28 }}>
         <Text style={{ fontSize: 13, color: "#000000", fontWeight: "500", marginBottom: 5 }}>Add At Least 4 Images</Text>
         <Text style={{ fontSize: 10, color: "#00000050", marginBottom: 10 }}>First image you upload is the title image and must be a clear 1080p downloaded picture, the rest of the pictures should be a live picture of the gadget</Text>
         <View style={{ flexDirection: "row" }}>
@@ -176,6 +184,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#ffffff",
+    paddingHorizontal:20
   },
   category: {
     flexDirection: "row",
@@ -186,7 +195,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#00000010",
-    marginLeft: 20,
+    // marginLeft: 20,
     top: 10,
     marginBottom: 43
   },
@@ -196,7 +205,6 @@ const styles = StyleSheet.create({
     top: 23,
   },
   inputContainer: {
-    left: 5,
     height: 80,
     position: "relative"
   },
@@ -246,7 +254,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    width: 330,
+    width: '100%',
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",

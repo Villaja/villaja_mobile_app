@@ -22,10 +22,12 @@ function More() {
     const router = useRouter()
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.mainContainer}>
-            <View style={styles.topContainer}>
+            <View 
+            // style={styles.topContainer}
+            >
                 <View style={styles.imgContainer}>
                     <SvgXml xml={`
-                        <svg width="335" height="129" viewBox="0 0 335 129" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <svg width="335" height="129" viewBox="0 0 335 129"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                         <g clip-path="url(#clip0_203_3138)">
                         <rect width="335" height="129" fill="black"/>
                         <rect x="184.592" y="169.885" width="77.1442" height="178.689" transform="rotate(-117.475 184.592 169.885)" fill="white"/>
@@ -139,7 +141,7 @@ function More() {
                         <Path fillRule="evenodd" clipRule="evenodd" d="M15.707 11.2932C15.8945 11.4807 15.9998 11.735 15.9998 12.0002C15.9998 12.2653 15.8945 12.5197 15.707 12.7072L10.05 18.3642C9.95776 18.4597 9.84742 18.5359 9.72541 18.5883C9.60341 18.6407 9.47219 18.6683 9.33941 18.6694C9.20663 18.6706 9.07495 18.6453 8.95205 18.595C8.82916 18.5447 8.7175 18.4705 8.62361 18.3766C8.52972 18.2827 8.45547 18.171 8.40519 18.0481C8.3549 17.9252 8.3296 17.7936 8.33076 17.6608C8.33191 17.528 8.3595 17.3968 8.41191 17.2748C8.46431 17.1528 8.5405 17.0424 8.63601 16.9502L13.586 12.0002L8.63601 7.05018C8.45385 6.86158 8.35305 6.60898 8.35533 6.34678C8.35761 6.08458 8.46278 5.83377 8.64819 5.64836C8.8336 5.46295 9.08441 5.35778 9.34661 5.35551C9.6088 5.35323 9.86141 5.45402 10.05 5.63618L15.707 11.2932Z" fill="black" fillOpacity="0.3" />
                     </Svg>
                 </TouchableOpacity>*/}
-                <TouchableOpacity onPress={() => router.push(`referralScreen/referral`)} style={styles.content}>
+                <TouchableOpacity onPress={() => router.push("/referralScreen/referral")} style={styles.content}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
                         <Svg style={styles.Icon}>
@@ -154,7 +156,7 @@ function More() {
                 <View style={styles.headers} >
                     <Text style={styles.headerText}>My Account</Text>
                 </View>
-                <TouchableOpacity onPress={() => router.push(`getHelp/getHelp`)} style={styles.content}>
+                <TouchableOpacity onPress={() => router.push("/getHelp/getHelp")} style={styles.content}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
                         <Svg style={styles.Icon}>
