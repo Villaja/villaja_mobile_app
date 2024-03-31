@@ -1,7 +1,9 @@
 import React from 'react'
-import { View, TextInput, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, TextInput, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
+
+const { width } = Dimensions.get("window");
 
 const postAd1 = () => {
     return (
@@ -49,12 +51,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: "#00000010",
-        width: 320,
+        width: width - 40,
         height: 50
     },
     textInput2: {
         borderWidth: 1,
-        width: 320,
+        width: width - 40,
         height: 50,
         top: 5,
         borderColor: "#0000001A",

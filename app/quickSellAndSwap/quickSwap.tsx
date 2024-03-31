@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput } from "react-native";
+import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
@@ -23,6 +23,9 @@ const categoriesData = [
     { id: 15, name: 'Video Game Console', image: require('../../assets/images/ps5.jpg') },
     { id: 16, name: 'Computer Hardware', image: require('../../assets/images/comphardware.png') }
 ];
+
+
+const { width } = Dimensions.get("window");
 
 const quickSwap = () => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -198,13 +201,13 @@ export default quickSwap
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#ffffff"
+        backgroundColor: "#ffffff",
     },
     category: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        width: 325,
+        width: width - 40,
         height: 60,
         borderWidth: 1,
         borderRadius: 5,
@@ -230,7 +233,7 @@ const styles = StyleSheet.create({
     },
     textInput: {
         borderWidth: 1,
-        width: 320,
+        width: width - 40,
         height: 50,
         top: 5,
         borderColor: "#0000001A",
@@ -239,7 +242,7 @@ const styles = StyleSheet.create({
     },
     textInput2: {
         borderWidth: 1,
-        width: 320,
+        width: width - 40,
         height: 220,
         top: 5,
         borderColor: "#0000001A",

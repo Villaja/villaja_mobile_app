@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput } from "react-native";
+import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
 
+
+const { width } = Dimensions.get("window")
 const categoriesData = [
   {id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
   {id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
@@ -44,7 +46,7 @@ const QuickSell = () => {
             <Image source={item.image} style={{ width: 50, height: 50, marginRight: 10 }} />
             <Text style={{ fontSize: 12, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{item.name}</Text>
           </View>
-          <Ionicons name='chevron-forward-outline' size={24} style={{ color: "#00000050"}} />
+          <Ionicons name='chevron-forward-outline' size={20} style={{ color: "#00000050"}} />
         </View>
       </TouchableOpacity>
     );
@@ -82,7 +84,7 @@ const QuickSell = () => {
               <Text style={{ fontSize: 14, color: "#FF0000", fontWeight: "900" }}>*</Text>
               <Text style={{ fontSize: 14, color: "#00000050", fontWeight: "500", marginLeft: 5 }}>Select Category</Text>
             </View>
-            <Ionicons name='chevron-forward-outline' size={24} style={{ color: "#00000030", marginLeft: 'auto', marginRight: 20 }} />
+            <Ionicons name='chevron-forward-outline' size={20} style={{ color: "#00000030", marginRight: 20 }} />
           </View>
         )}
       </TouchableOpacity>
@@ -173,13 +175,13 @@ export default QuickSell;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
   },
   category: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 325,
+    width: width - 40,
     height: 60,
     borderWidth: 1,
     borderRadius: 5,
@@ -205,7 +207,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: 1,
-    width: 320,
+    width: width - 40,
     height: 50,
     top: 5,
     borderColor: "#0000001A",
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
   },
   textInput2: {
     borderWidth: 1,
-    width: 320,
+    width: width - 40,
     height: 220,
     top: 5,
     borderColor: "#0000001A",

@@ -437,7 +437,14 @@ function RootLayoutNav() {
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -452,6 +459,14 @@ function RootLayoutNav() {
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -466,6 +481,14 @@ function RootLayoutNav() {
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -479,7 +502,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -494,6 +526,14 @@ function RootLayoutNav() {
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -524,6 +564,29 @@ function RootLayoutNav() {
               options={{
                 // presentation: 'modal',
                 title: 'Back',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
+                },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
+              }}
+            />
+            <Stack.Screen
+              name="sellerAddProductScreen/sellerRegister"
+              options={{
+                // presentation: 'modal',
+                title: '',
                 headerShadowVisible: false,
                 headerStyle: {
                   backgroundColor: 'transparent'

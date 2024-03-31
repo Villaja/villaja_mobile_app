@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { ScrollView, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from '@expo/vector-icons/AntDesign';
 
+
+const { width } = Dimensions.get("window");
 
 const options = [
     { label: 'No Crack', value: '1' },
@@ -436,25 +438,6 @@ const styles = StyleSheet.create({
         color: "#00000090",
         fontWeight: "500"
     },
-    textInput: {
-        flexDirection: "row",
-        alignItems: "center",
-        top: 10,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: "#00000010",
-        width: 320,
-        height: 50
-    },
-    textInput2: {
-        borderWidth: 1,
-        width: 320,
-        height: 50,
-        top: 5,
-        borderColor: "#0000001A",
-        borderRadius: 5,
-        backgroundColor: "#00000005"
-    },
     textInputContainer: {
         top: 25,
         marginLeft: 20,
@@ -488,7 +471,8 @@ const styles = StyleSheet.create({
     },
     container: {
         paddingVertical: 10,
-        marginEnd: 16
+        marginEnd: 16,
+        width: width - 40
     },
     dropdown: {
         height: 60,

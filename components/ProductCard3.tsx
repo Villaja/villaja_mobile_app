@@ -11,8 +11,6 @@ interface ProductCardProps {
 const ProductCard3: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <View style={[styles.container]} key={product._id}>
-
-
       <Link href={`/product/${product._id}`} asChild >
         <TouchableOpacity>
           <View style={styles.imgContainer}>
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     right: 0,
-    backgroundColor: "#02549290",
+    backgroundColor: "#025492",
     paddingHorizontal: 10,
     paddingVertical: 3,
     color: '#ffffff',
