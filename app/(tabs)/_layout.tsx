@@ -37,7 +37,7 @@ const Layout = () => {
           headerShadowVisible:false,
           headerTitleStyle:{
             fontFamily:'roboto-condensed-sb-i',
-            fontSize:20
+            fontSize: 18
           },
           tabBarIcon: ({ color }) => <MaterialCommunityIcons name="compass-outline" size={20} color={color} />,
         }}
@@ -63,7 +63,7 @@ const Layout = () => {
           headerTitleAlign: "center",
           headerTitleStyle:{
             fontFamily:'roboto-condensed-sb-i',
-            fontSize:20,
+            fontSize: 18,
             fontStyle: "italic",
             fontWeight: "700"
           },
@@ -90,7 +90,7 @@ const Layout = () => {
           headerTitleAlign:'center',
           headerTitleStyle:{
             fontFamily:'roboto-condensed-sb-i',
-            fontSize:20,
+            fontSize: 18,
             fontStyle: "italic",
             fontWeight: "700",
           },

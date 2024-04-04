@@ -29,7 +29,7 @@ const uploadScreen = () => {
         <View style={styles.imageText}>
           <Text style={styles.textOne}>BECOME A VERIFIED</Text>
           <Text style={styles.textTwo}>Merchant On Villaja</Text>
-          <TouchableOpacity style={styles.getStarted}>
+          <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/(tabs2)/sellerDashboard')} >
             <Text style={styles.gtText}>Get Started</Text>
           </TouchableOpacity>
         </View>

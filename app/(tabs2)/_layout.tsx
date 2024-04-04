@@ -62,7 +62,7 @@ const Layout = () => {
             fontFamily:'roboto-condensed-sb',
             fontSize:18,
             letterSpacing: -0.24,
-            lineHeight: 20,
+            lineHeight: 18,
             fontWeight: "700",
           },
           tabBarLabel: 'Add Product',

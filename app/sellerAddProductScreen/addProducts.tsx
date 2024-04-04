@@ -523,7 +523,7 @@ const addProducts = () => {
           </View>
         </View>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/sellerAddProductScreen/productPromotion') } >
+      <TouchableOpacity style={styles.button} onPress={() => router.push('/sellerAddProductScreen/productPromotion')} >
         <Text style={styles.buttonText1}>Next</Text>
         <AntDesign name="arrowright" size={12} color="#ffffff" />
       </TouchableOpacity>

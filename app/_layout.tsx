@@ -89,10 +89,11 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="close-outline" size={28} />
+                    <Ionicons name="close-outline" size={20} />
                   </TouchableOpacity>
                 ),
                 headerShown: false
@@ -116,10 +117,11 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="close-outline" size={28} />
+                    <Ionicons name="close-outline" size={20} />
                   </TouchableOpacity>
                 ),
               }}
@@ -135,10 +137,11 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="close-outline" size={28} />
+                    <Ionicons name="close-outline" size={20} />
                   </TouchableOpacity>
                 ),
               }}
@@ -154,8 +157,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -169,8 +180,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -184,9 +203,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -200,9 +226,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
 
@@ -213,7 +246,7 @@ function RootLayoutNav() {
                 headerShadowVisible: false,
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="arrow-back" size={24} color={"#000"} />
+                    <Ionicons name="arrow-back" size={20} color={"#000"} />
                   </TouchableOpacity>
                 ),
                 headerRight: () => (
@@ -243,13 +276,11 @@ function RootLayoutNav() {
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
 
                     <TouchableOpacity onPress={() => router.push('/')}>
-                      <Ionicons name="arrow-back" size={24} color={"#000"} />
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
                     </TouchableOpacity>
-                    <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 22 }}>My Orders</Text>
+                    <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 16 }}>My Orders</Text>
                   </View>
                 ),
-
-
               }}
             />
             <Stack.Screen
@@ -261,9 +292,9 @@ function RootLayoutNav() {
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
 
                     <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={24} color={"#000"} />
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
                     </TouchableOpacity>
-                    <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 22 }}>Checkout</Text>
+                    <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 16 }}>Checkout</Text>
                   </View>
                 ),
 
@@ -277,14 +308,14 @@ function RootLayoutNav() {
                 headerTitleAlign: 'left',
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
-                  fontSize: 20
+                  fontSize: 16
                 },
                 headerShadowVisible: false,
                 headerLeft: () => (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                     <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={24} color={"#000"} />
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
                     </TouchableOpacity>
                   </View>
                 ),
@@ -301,8 +332,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -316,8 +355,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -331,8 +378,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -346,8 +401,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -361,8 +424,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -376,8 +447,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -391,8 +470,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -406,8 +493,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -421,8 +516,16 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
+                headerLeft: () => (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
+                    <TouchableOpacity onPress={() => router.back()}>
+                      <Ionicons name="arrow-back" size={20} color={"#000"} />
+                    </TouchableOpacity>
+                  </View>
+                ),
               }}
             />
             <Stack.Screen
@@ -436,6 +539,7 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
                 headerLeft: () => (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -458,6 +562,7 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
                 headerLeft: () => (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -480,6 +585,7 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
                 headerLeft: () => (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -525,6 +631,7 @@ function RootLayoutNav() {
                 },
                 headerTitleStyle: {
                   fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
                 },
                 headerLeft: () => (
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>

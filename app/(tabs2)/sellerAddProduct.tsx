@@ -49,7 +49,6 @@ const sellerAddProduct = () => {
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      aspect: [4, 3],
       quality: 1,
       allowsMultipleSelection: true, // Allows multiple image selection
     });
@@ -301,7 +300,6 @@ const styles = StyleSheet.create({
     borderColor: "#0000001A",
     borderRadius: 5,
     backgroundColor: "#00000005",
-
   },
   addressInputContainer: {
     top: 30,

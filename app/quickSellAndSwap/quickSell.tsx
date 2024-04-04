@@ -3,6 +3,7 @@ import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet, Modal, Fla
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
+import { AntDesign } from '@expo/vector-icons'
 
 
 const { width } = Dimensions.get("window")
@@ -60,21 +61,34 @@ const QuickSell = () => {
     );
   }
 
-// functionality to select and upload product images
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      // allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      allowsMultipleSelection: true, // Allows multiple image selection
-    });
-
-    if (!result.canceled && result.assets.length > 0) {
-      const newImages = result.assets.map(asset => asset.uri);
-      setSelectedImages(prevImages => [...prevImages, ...newImages]);
-    }
-  };
+     // functionality to select and upload product images
+     const pickImage = async () => {
+      // Check if the number of selected images is less than 4
+      if (selectedImages.length >= 4) {
+        alert('You can only upload up to 4 images.');
+        return;
+      }
+  
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        allowsEditing: true,
+        allowsMultipleSelection: false, // Allows multiple image selection
+      });
+  
+      if (!result.canceled && result.assets.length > 0) {
+        const newImages = result.assets.map(asset => asset.uri);
+        // Ensure the total number of selected images doesn't exceed 4
+        const remainingSlots = 4 - selectedImages.length;
+        const imagesToAdd = newImages.slice(0, remainingSlots);
+        setSelectedImages(prevImages => [...prevImages, ...imagesToAdd]);
+      }
+    };
+  
+    // Function to clear selected images
+    const clearSelectedImages = () => {
+      setSelectedImages([]);
+    };
 
   return (
     <ScrollView style={styles.container}>
@@ -128,11 +142,16 @@ const QuickSell = () => {
                 )}
                 keyExtractor={(item, index) => index.toString()}
                 numColumns={2} // Set the number of columns for the grid
-                contentContainerStyle={{ paddingBottom: 100 }} // Adjust padding to prevent overflow
+                contentContainerStyle={{ paddingBottom: 10 }} // Adjust padding to prevent overflow
               />
             ) : (
               <Image source={require('../../assets/images/watchcat.png')} style={{ width: 114, height: 79, borderRadius: 10 }} />
             )}
+             {selectedImages.length > 0 && (
+                <TouchableOpacity onPress={clearSelectedImages} style={{ marginLeft: 175 }} >
+                  <AntDesign name='delete' size={18} color='#FF0000' />
+                </TouchableOpacity>
+              )}
           </View>
         </View>
         <View style={styles.section2}>

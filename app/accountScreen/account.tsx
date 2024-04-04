@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../../context/AuthContext';
@@ -9,7 +9,7 @@ import { useRouter } from 'expo-router';
 import { defaultStyles } from '../../constants/Styles'
 import * as ImagePicker from 'expo-image-picker';
 import { Dropdown } from 'react-native-element-dropdown';
-
+import { FontAwesome5 } from '@expo/vector-icons';
 
 interface Address {
     _id?: string;
@@ -20,19 +20,21 @@ interface Address {
     address2: string;
     zipCode: string;
     addressType: string;
-}
+};
 
 const testUser = {
     id: 1,
     name: "Tony Danza",
     image: require("../../assets/images/user2.png")
-}
+};
 
 const addressTypeData = [
     { label: 'Home', value: '1' },
     { label: 'Work', value: '2' },
     { label: 'Others', value: '3' }
-]
+];
+
+const {width} = Dimensions.get("window")
 
 const account = () => {
     const { user } = useAuth();
@@ -211,7 +213,6 @@ const account = () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
-            aspect: [10, 10],
             quality: 1,
         });
 
@@ -272,10 +273,9 @@ const account = () => {
                     <Text style={styles.text}>First Name</Text>
                     <View style={styles.textInput}>
                         <TextInput
-                            style={{ top: 8, left: 13, }}
+                            style={{ top: 8, left: 13, fontSize: 12 }}
                             value={firstName}
                             onChangeText={text => setFirstName(text)}
-                            autoFocus
                             placeholder="First Name"
                         />
                     </View>
@@ -285,10 +285,9 @@ const account = () => {
                     <Text style={styles.text}>Last Name</Text>
                     <View style={styles.textInput}>
                         <TextInput
-                            style={{ top: 8, left: 13, }}
+                            style={{ top: 8, left: 13, fontSize: 12 }}
                             value={lastName}
                             onChangeText={text => setLastName(text)}
-                            autoFocus
                             placeholder="Last Name"
                         />
                     </View>
@@ -298,12 +297,11 @@ const account = () => {
                     <Text style={styles.text}>Phone Number</Text>
                     <View style={styles.textInput}>
                         <TextInput
-                            style={{ top: 8, left: 13 }}
+                            style={{ top: 8, left: 13, fontSize: 12 }}
                             value={phoneNumber}
                             onChangeText={text => setPhoneNumber(text)}
                             placeholder='Phone Number'
                             keyboardType="phone-pad"
-                            autoFocus
                         />
                     </View>
                 </View>
@@ -313,10 +311,10 @@ const account = () => {
                     <Text style={styles.text}>Password</Text>
                     <View style={styles.addressComponent}>
                         <View style={styles.addressTextInput}>
-                            <Text style={{ top: 15, left: 13, }}>{oldPasswordVisible && '*'.repeat(oldPasswordVisible.length)}</Text>
+                            <Text style={{ top: 15, left: 13, fontSize: 12 }}>{oldPasswordVisible && '*'.repeat(oldPasswordVisible.length)}</Text>
                         </View>
                         <TouchableOpacity onPress={openPasswordModalVisible} style={styles.editButton}>
-                            <Text style={{ color: "#025492", fontSize: 12, fontWeight: 400 }}>Edit</Text>
+                            <Text style={{ color: "#02549290", fontSize: 12, fontWeight: "400" }}>Edit</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -335,10 +333,10 @@ const account = () => {
                         <Text style={styles.text}>Address</Text>
                         <View style={styles.addressComponent}>
                             <View style={styles.addressTextInput}>
-                                <Text style={{ top: 8, left: 13, }}> {/** to display users address before editing */} {addressForm.address1}</Text>
+                                <Text style={{ top: 8, left: 13, fontSize: 12 }}> {/** to display users address before editing */} {addressForm.address1}</Text>
                             </View>
                             <TouchableOpacity onPress={openAddressModal} style={styles.editButton}>
-                                <Text style={{ color: "#025492", fontSize: 12, fontWeight: 400 }}>Edit</Text>
+                                <Text style={{ color: "#02549290", fontSize: 12, fontWeight: "400" }}>Edit</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -364,38 +362,44 @@ const account = () => {
                     <View style={styles.modalContent}>
                         <View style={styles.modalHeader}>
                             <View style={styles.modalIconContainer}>
-                                <Image source={require('../../assets/images/Padlock.png')} style={styles.modalIcon} />
+                            <FontAwesome5 name="user-lock" size={25} color="#025492" />
                             </View>
                             <Text style={styles.modalHeaderText}>Change Password</Text>
                         </View>
                         <Text style={styles.p}>To change your password, please fill in the details below. Your new password must contain at least 8 characters, and must have one upper case letter.</Text>
                         <View style={styles.container3}>
-                            <View>
-                                <Text>Current Password</Text>
-                                <TextInput
-                                    style={styles.input3}
-                                    secureTextEntry={true}
-                                    value={oldPassword}
-                                    onChangeText={(text) => setOldPassword(text)}
-                                />
+                            <View style={{marginBottom: 30}} >
+                                <Text style={styles.text} >Current Password</Text>
+                                <View style={styles.input3}>
+                                    <TextInput
+                                        style={{ top: 8, left: 13, fontSize: 14 }}
+                                        secureTextEntry={true}
+                                        value={oldPassword}
+                                        onChangeText={(text) => setOldPassword(text)}
+                                    />
+                                </View>
                             </View>
-                            <View>
-                                <Text>New Password</Text>
-                                <TextInput
-                                    style={styles.input3}
-                                    secureTextEntry={true}
-                                    value={newPassword}
-                                    onChangeText={(text) => setNewPassword(text)}
-                                />
+                            <View style={{marginBottom: 30}} >
+                                <Text style={styles.text} >New Password</Text>
+                                <View style={styles.input3}>
+                                    <TextInput
+                                        style={{ top: 8, left: 13, fontSize: 14 }}
+                                        secureTextEntry={true}
+                                        value={newPassword}
+                                        onChangeText={(text) => setNewPassword(text)}
+                                    />
+                                </View>
                             </View>
-                            <View>
-                                <Text>Confirm Password</Text>
-                                <TextInput
-                                    style={styles.input3}
-                                    secureTextEntry={true}
-                                    value={confirmPassword}
-                                    onChangeText={(text) => setConfirmPassword(text)}
-                                />
+                            <View style={{marginBottom: 30}} >
+                                <Text style={styles.text} >Confirm Password</Text>
+                                <View style={styles.input3}>
+                                    <TextInput
+                                        style={{ top: 8, left: 13, fontSize: 14 }}
+                                        secureTextEntry={true}
+                                        value={confirmPassword}
+                                        onChangeText={(text) => setConfirmPassword(text)}
+                                    />
+                                </View>
                             </View>
                             <View style={styles.buttonContainer}>
                                 <TouchableOpacity style={styles.button3}>
@@ -418,73 +422,80 @@ const account = () => {
                 onRequestClose={() => setAddressModalVisible(false)}
             >
                 <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
+                    <ScrollView style={styles.addressModalContent}>
                         <Text style={styles.modalHeading}>{address ? 'Update Address' : 'Add Address'}</Text>
+                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >Country</Text>
                         <TextInput
-                            placeholder="Country"
+                            placeholder="Enter your country"
                             value={addressForm.country}
                             onChangeText={text => setAddressForm({ ...addressForm, country: text })}
                             style={styles.input}
                         />
+                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >State</Text>
                         <TextInput
-                            placeholder="State"
+                            placeholder="Enter your state"
                             value={addressForm.state}
                             onChangeText={text => setAddressForm({ ...addressForm, state: text })}
                             style={styles.input}
                         />
+                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >City</Text>
                         <TextInput
-                            placeholder="City"
+                            placeholder="Enter your city"
                             value={addressForm.city}
                             onChangeText={text => setAddressForm({ ...addressForm, city: text })}
                             style={styles.input}
                         />
+                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >Address Line 1</Text>
                         <TextInput
-                            placeholder="Address Line 1"
+                            placeholder="Enter your first address"
                             value={addressForm.address1}
                             onChangeText={text => setAddressForm({ ...addressForm, address1: text })}
                             style={styles.input}
                         />
+                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >Address Details</Text>
                         <TextInput
-                            placeholder="Address Line 2"
+                            placeholder="Enter more details of your address, i.e directions"
                             value={addressForm.address2}
                             onChangeText={text => setAddressForm({ ...addressForm, address2: text })}
                             style={styles.input}
                         />
+                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >Zip Code</Text>
                         <TextInput
-                            placeholder="Zip Code"
+                            placeholder="Enter your city zip code"
                             value={addressForm.zipCode}
                             onChangeText={text => setAddressForm({ ...addressForm, zipCode: text })}
                             style={styles.input}
                         />
 
-                      
-                            <Dropdown
-                                style={styles.dropdown}
-                                placeholderStyle={styles.placeholderStyle}
-                                selectedTextStyle={styles.selectedTextStyle}
-                                itemTextStyle={styles.itemTextStyle}
-                                iconStyle={styles.iconStyle}
-                                data={addressTypeData}
-                                maxHeight={300}
-                                labelField="label"
-                                valueField="value"
-                                placeholder="Address Type"
-                                value={addressTypeValue}
-                                onChange={item => {
-                                    setAddressTypeValue(item.value);
-                                }}
-                            />
+                        {/**Address type drop down selection */}
+                        <Dropdown
+                            style={styles.dropdown}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            itemTextStyle={styles.itemTextStyle}
+                            iconStyle={styles.iconStyle}
+                            data={addressTypeData}
+                            maxHeight={300}
+                            labelField="label"
+                            valueField="value"
+                            placeholder="Address Type"
+                            value={addressTypeValue}
+                            onChange={item => {
+                                setAddressTypeValue(item.value);
+                            }}
+                            dropdownPosition='top'
+                        />
 
                         {/**continuation of edit address modal */}
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity onPress={handleSaveAddress} style={styles.button3}>
                                 <Text style={defaultStyles.btnText}>Save Address</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={() => setAddressModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)' }]}>
+                            <TouchableOpacity onPress={() => setAddressModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)', marginBottom: 30 }]}>
                                 <Text style={[defaultStyles.btnText, { color: "rgb(255,0,0)" }]}>Cancel</Text>
                             </TouchableOpacity>
                         </View>
-                    </View>
+                    </ScrollView>
                 </View>
             </Modal>
         </ScrollView>
@@ -554,12 +565,22 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     text: {
-        fontSize: 15,
-
+        fontSize: 13,
+        color: "#00000090",
+        fontWeight: "500"
     },
     textInput: {
         borderWidth: 1,
-        width: 320,
+        width: width - 40,
+        height: 50,
+        top: 5,
+        borderColor: "#0000001A",
+        borderRadius: 5,
+        backgroundColor: "#00000005"
+    },
+    input3: {
+        borderWidth: 1,
+        width: width - 70,
         height: 50,
         top: 5,
         borderColor: "#0000001A",
@@ -580,7 +601,7 @@ const styles = StyleSheet.create({
     },
     addressTextInput: {
         borderWidth: 1,
-        width: 260,
+        width: width - 100,
         height: 50,
         top: 5,
         borderColor: "#0000001A",
@@ -606,7 +627,7 @@ const styles = StyleSheet.create({
     editButton: {
         backgroundColor: "#ffffff",
         borderWidth: 0.5,
-        borderColor: "#025492",
+        borderColor: "#02549290",
         height: 50,
         width: 50,
         top: 5,
@@ -631,7 +652,7 @@ const styles = StyleSheet.create({
     },
     btnText: {
         color: "#fff",
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: "roboto-condensed-sb",
     },
     modalContainer: {
@@ -639,6 +660,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        
     },
     modalContent: {
         backgroundColor: '#fff',
@@ -654,13 +676,16 @@ const styles = StyleSheet.create({
     },
     addressModalContent: {
         backgroundColor: '#fff',
-        width: '70%',
+        flex: 1,
+        height: 200,
+        width: '100%',
         padding: 20,
-        borderRadius: 10,
     },
     modalHeading: {
-        fontSize: 20,
+        fontSize: 16,
         marginBottom: 20,
+        fontWeight: "500",
+        color: "#00000090"
     },
     buttonContainer: {
         marginTop: 20,
@@ -683,7 +708,8 @@ const styles = StyleSheet.create({
         borderColor: '#ccc',
         borderRadius: 5,
         padding: 10,
-        marginBottom: 10,
+        marginBottom: 20,
+        fontSize: 13
     },
     addressTypeContainer: {
         flexDirection: "row",
@@ -750,16 +776,6 @@ const styles = StyleSheet.create({
     container3: {
         marginTop: 40
     },
-    input3: {
-        borderWidth: 1,
-        width: 280,
-        height: 50,
-        top: 5,
-        borderColor: "#0000001A",
-        borderRadius: 5,
-        backgroundColor: "#00000005",
-        marginBottom: 30
-    },
     button3: {
         backgroundColor: "#025492",
         height: 50,
@@ -780,27 +796,27 @@ const styles = StyleSheet.create({
         height: 50,
         borderBottomColor: '#00000050',
         borderBottomWidth: 0.5,
-      },
-      icon: {
+    },
+    icon: {
         marginRight: 5,
-      },
-      placeholderStyle: {
+    },
+    placeholderStyle: {
         fontSize: 14,
         color: "#00000070"
-      },
-      selectedTextStyle: {
+    },
+    selectedTextStyle: {
         fontSize: 14,
         color: "#00000070"
-      },
-      iconStyle: {
+    },
+    iconStyle: {
         width: 20,
         height: 20,
-      },
-      inputSearchStyle: {
+    },
+    inputSearchStyle: {
         height: 40,
         fontSize: 16,
-      },
-      itemTextStyle: {
+    },
+    itemTextStyle: {
         color: "#00000070",
         fontSize: 14
     }

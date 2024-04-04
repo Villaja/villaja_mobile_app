@@ -13,7 +13,7 @@ const handleLogout = async () => {
     router.replace('/');
 };
 
-function More() {
+function more() {
     const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
     const handleToggleSwitch = () => {
         // logic to handle enabling/disabling notifications here, an API call or update a state in Redux or however you want to do it bolu
@@ -48,7 +48,7 @@ function More() {
                     <View style={styles.imageText} >
                         <Text style={styles.text1}> BECOME A VERIFIED</Text>
                         <Text style={styles.text2}>Merchant On Villaja</Text>
-                        <TouchableOpacity style={styles.getStarted} >
+                        <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/(tabs2)/sellerDashboard')} >
                             <Text style={styles.gtText} >Get Started</Text>
                         </TouchableOpacity>
                     </View>
@@ -196,7 +196,7 @@ function More() {
     )
 }
 
-export default More
+export default more
 
 const styles = StyleSheet.create({
     mainContainer: {

@@ -272,12 +272,6 @@ const styles = StyleSheet.create({
     fontSize:10,
     fontWeight:'500'
   }
-
-
-
-
-
-
 })
 
 export default search

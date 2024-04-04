@@ -125,7 +125,16 @@ const Page = () => {
             <Image source={require('../../assets/images/google.png')} style={{ width: 15, height: 15 }} />
             <Text style={[defaultStyles.btnText, { color: '#00000080', fontFamily: 'roboto-condensed', fontWeight: "700", fontSize: 13 }]}>Login With Google</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={defaultStyles.ThirdPartyBtn}>
+          <TouchableOpacity style={{
+            backgroundColor: "rgba(0,0,0,0.03)",
+            height: 50,
+            borderRadius: 10,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 8,
+            marginBottom: 50
+          }}>
             <Image source={require('../../assets/images/facebook.png')} style={{ width: 15, height: 15 }} />
             <Text style={[defaultStyles.btnText, { color: '#00000080', fontFamily: 'roboto-condensed', fontWeight: "700", fontSize: 13 }]}>Login With Facebook</Text>
           </TouchableOpacity>

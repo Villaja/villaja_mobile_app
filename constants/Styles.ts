@@ -27,12 +27,12 @@ export const defaultStyles = StyleSheet.create({
   },
   btnText: {
     color: "#fff",
-    fontSize: 15,
+    fontSize: 13,
     fontFamily: "roboto-condensed-sb",
   },
   btnIcon: {
     position: "absolute",
-    left: 16,
+    left: 12,
   },
 
   btnStyleBorder: {

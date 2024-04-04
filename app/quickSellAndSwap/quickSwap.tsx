@@ -69,9 +69,9 @@ const quickSwap = () => {
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      aspect: [4, 3],
       quality: 1,
-      allowsMultipleSelection: true, // Allows multiple image selection
+      allowsEditing: true,
+      allowsMultipleSelection: false // denies multiple image selection
     });
 
     if (!result.canceled && result.assets.length > 0) {

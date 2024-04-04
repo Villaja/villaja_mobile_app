@@ -28,7 +28,7 @@ const Page = () => {
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 100
+    marginTop: 130
     }} onPress={() => router.push('/(modals)/register')} >
         <Text style={defaultStyles.btnText}>Get Started</Text>
       </TouchableOpacity>

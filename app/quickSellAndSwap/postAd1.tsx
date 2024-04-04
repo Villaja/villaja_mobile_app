@@ -26,7 +26,7 @@ const postAd1 = () => {
                 </View>
             </View>
             <TouchableOpacity style={styles.button} >
-                <Text style={styles.buttonText1}>Post Ad</Text>
+                <Text style={styles.buttonText1}>Finish</Text>
             </TouchableOpacity>
         </View>
     )

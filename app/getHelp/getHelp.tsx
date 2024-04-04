@@ -16,7 +16,7 @@ const getHelp = () => {
             </View>
             <View style={{marginHorizontal: 40, alignItems: "center"}} >
                 <Text style={{fontSize: 12, color: "#00000040", fontWeight: "500", marginBottom: 33}}>Call the number for any complaints</Text>
-                <Text style={{fontSize: 20, color: "#025492", fontWeight: "700"}}>08167581703</Text>
+                <Text style={{fontSize: 14, color: "#025492", fontWeight: "700"}}>villajahelpteam@gmail.com</Text>
             </View>
         </View>
     )
