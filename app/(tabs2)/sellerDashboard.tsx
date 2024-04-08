@@ -7,10 +7,14 @@ import {
   BarChart,
 } from "react-native-chart-kit";
 import { useNavigation } from '@react-navigation/native'; 
+
+import Analytics from '../SellerDashboardComponents/Analytics'
+import Transactions from '../SellerDashboardComponents/Transactions'
+
 const {width} = Dimensions.get('window')
 
 const chartConfig = {
-  backgroundColor: '#fff',
+    backgroundColor: '#fff',
     backgroundGradientFrom: '#fff',
     backgroundGradientTo: '#fff',
     color: (opacity = 1) => `${Colors.primary}`,
@@ -95,7 +99,6 @@ const SellerDashboard = () => {
   return (
     <View style={styles.container}>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.tabs}>
                 <TouchableOpacity style={activeTab === "overview"?styles.activeTab:styles.tab} onPress={()=> setActiveTab('overview')}>
                     <Text style={activeTab === "overview"?styles.activeText:styles.tabText} >Overview</Text>
@@ -108,6 +111,7 @@ const SellerDashboard = () => {
                 </TouchableOpacity>
             </View>
 
+        <ScrollView showsVerticalScrollIndicator={false}>
 
             <View>
                 {activeTab === "overview" && <Overview/>}
@@ -259,16 +263,8 @@ const Overview = () => {
         </View>
     )
 }
-const Transactions = () => {
-    return (
-        <Text>Transactions</Text>
-    )
-}
-const Analytics = () => {
-    return (
-        <Text>Analytics</Text>
-    )
-}
+
+
 
 
 const styles = StyleSheet.create({

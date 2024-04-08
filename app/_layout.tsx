@@ -13,6 +13,7 @@ import React from 'react';
 import { AuthProvider } from '../context/AuthContext';
 import { OrdersProvider } from '../context/OrderContext';
 import { SellerProvider } from '../context/SellerContext';
+import { PaperProvider } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
@@ -69,6 +70,7 @@ function RootLayoutNav() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <PaperProvider>
 
       <SellerProvider>
 
@@ -716,6 +718,9 @@ function RootLayoutNav() {
         </OrdersProvider>
       </AuthProvider>
       </SellerProvider>
+
+      </PaperProvider>
+
 
     </GestureHandlerRootView>
 

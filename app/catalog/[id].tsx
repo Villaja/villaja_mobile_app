@@ -69,7 +69,7 @@ const catalog = () => {
     const fetchData = async () => {
       try {
         const response: AxiosResponse<{ products: Product[] }> = await axios.get(
-          `${base_url}/product/get-all-products`
+          `${base_url}/product/search-products?name=${id.toString().toLowerCase()}`
         );
   
         // Get the first 10 products
@@ -79,7 +79,8 @@ const catalog = () => {
         
         var products = response.data.products.filter(
           (data) => 
-          data.name.toLowerCase().slice(0,id.toString().length) === id.toString().toLowerCase()
+          data
+          // data.name.toLowerCase().slice(0,id.toString().length) === id.toString().toLowerCase()
           && data.originalPrice > parseInt(q.minPrice as string) && data.originalPrice < parseInt(q.maxPrice as string)
           )
 

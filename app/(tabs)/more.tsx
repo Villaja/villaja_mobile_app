@@ -234,21 +234,21 @@ const styles = StyleSheet.create({
         // width: 307,
         left: 27,
         position: 'absolute',
-        paddingHorizontal: 10
+        paddingHorizontal: 20
     },
     text1: {
         color: "#FFFFFF99",
         fontSize: 10,
         fontWeight: '500',
         lineHeight: 11.72,
-        fontFamily: 'Roboto'
+        fontFamily: 'roboto-condensed'
     },
     text2: {
         fontSize: 20,
         color: "#FFFFFF",
         fontWeight: '700',
         lineHeight: 29.3,
-        fontFamily: "Roboto"
+        fontFamily: "roboto-condensed"
     },
     getStarted: {
         borderWidth: 1,
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
         color: '#FFFFFF',
         fontSize: 12,
         fontWeight: '500',
-        fontFamily: 'Roboto',
+        fontFamily: 'roboto-condensed',
         lineHeight: 14.06
     },
 
