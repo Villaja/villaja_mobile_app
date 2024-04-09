@@ -13,7 +13,6 @@ const chartConfig = {
     color: (opacity = 1) => `${Colors.primary}`,
     style: {
       borderRadius: 16,
-      
     }
 };
 
@@ -32,35 +31,36 @@ const PieChartData = [
     population: 23,
     color: "#165BAA",
     legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    legendFontSize: 12,
+
   },
   {
     name: "Laptops",
     population: 18,
     color: "#A155B9",
     legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    legendFontSize: 12
   },
   {
     name: "Speaker",
     population: 14,
     color: "#F765A3",
     legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    legendFontSize: 12
   },
   {
     name: "Watch",
     population: 10,
     color: "#16BFD6",
     legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    legendFontSize: 12
   },
   {
     name: "Others",
     population: 35,
     color: "#1DDD8D",
     legendFontColor: "#7F7F7F",
-    legendFontSize: 15
+    legendFontSize: 12
   },
   
 ];
@@ -72,7 +72,7 @@ export default function Analytics() {
         <View style={styles.analyticsBox}>
           <View style={styles.analyticsBoxAction}>
             <Feather name='activity' color={'#FFA800'} size={20}/>
-            <AntDesign name='arrowright' color={'#11263C'} size={20}/>
+            <AntDesign name='arrowright' color={'#11263C'} size={18}/>
           </View>
           <View style={styles.analyticsBoxText}>
             <Text style={styles.analyticsBoxMainText}>₦51,858</Text>
@@ -86,7 +86,7 @@ export default function Analytics() {
         <View style={styles.analyticsBox}>
           <View style={styles.analyticsBoxAction}>
             <AntDesign name='adduser' color={'#3699FF'} size={20}/>
-            <AntDesign name='arrowright' color={'#11263C'} size={20}/>
+            <AntDesign name='arrowright' color={'#11263C'} size={18}/>
           </View>
           <View style={styles.analyticsBoxText}>
             <Text style={styles.analyticsBoxMainText}>1,858</Text>
@@ -128,12 +128,12 @@ export default function Analytics() {
                     
                     <PieChart
                       data={PieChartData}
-                      width={width-80}
-                      height={220}
+                      width={width- 50}
+                      height={180}
                       chartConfig={chartConfig}
                       accessor={"population"}
                       backgroundColor={"transparent"}
-                      paddingLeft={"15"}
+                      paddingLeft={"0"}
                       center={[0, 0]}
                       absolute
                     />
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     marginBottom:10
   },
   analyticsBoxMainText:{
-    fontSize:24,
+    fontSize:21,
     fontFamily:'roboto-condensed-sb',
     color:Colors.primary
   },
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
         shadowColor: "rgba(0,0,0,0.4)",
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 2, 
         },
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
@@ -296,12 +296,12 @@ const styles = StyleSheet.create({
     },
     totalSales:{
         color:'#828282',
-        fontSize:12.47,
+        fontSize:12.47, 
         fontFamily:'roboto-condensed-m'
     },
     totalSalesPrice:{
         color:Colors.primary,
-        fontSize:31.16,
+        fontSize:27.16,
         fontFamily:'roboto-condensed-m'
     },
     totalSalesDate:{
