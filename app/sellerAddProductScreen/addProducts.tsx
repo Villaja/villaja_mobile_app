@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { ScrollView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native'
+import { ScrollView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { useSeller } from '../../context/SellerContext';
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from "expo-router";
 
-
+const {width} = Dimensions.get("window")
 
 const options = [
   { label: 'Brand New', value: '1' },
@@ -557,7 +557,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: 0.5,
-    width: 320,
+    width: width - 40,
     height: 60,
     top: 5,
     borderColor: "gray",
@@ -619,7 +619,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#025492",
-    width: 320,
+    width: width - 40,
     marginHorizontal: 25,
     height: 50,
     borderRadius: 10,

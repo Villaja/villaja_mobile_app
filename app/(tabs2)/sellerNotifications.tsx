@@ -10,6 +10,8 @@ const sellerNotifications = () => {
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>sellerNotifications</Text>
       <Button title='seller register' onPress={() => router.push('/sellerAddProductScreen/sellerRegister')}/>
+
+      <Button title='seller profile' onPress={() => router.push('/otherSellerDashBoardScreens/sellerProfile')}/>
     </View>
   )
 }

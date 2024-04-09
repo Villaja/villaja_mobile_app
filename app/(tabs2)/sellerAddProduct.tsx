@@ -1,4 +1,4 @@
-import { Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, ScrollView, Modal, FlatList, TouchableOpacity } from 'react-native'
+import { Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, ScrollView, Modal, FlatList, TouchableOpacity, Dimensions } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { useSeller } from '../../context/SellerContext';
@@ -6,6 +6,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons'
+
+const {width} = Dimensions.get("window")
 
 const categoriesData = [
   { id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
@@ -50,7 +52,8 @@ const sellerAddProduct = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
-      allowsMultipleSelection: true, // Allows multiple image selection
+      allowsMultipleSelection: false, // denies multiple image selection
+      allowsEditing: true,
     });
 
     if (!result.canceled && result.assets.length > 0) {
@@ -113,7 +116,7 @@ const sellerAddProduct = () => {
           {selectedCategory ? (
             <View style={{ flexDirection: "row", alignItems: "center" }}> 
               <Image source={selectedCategory.image} style={{ width: 60, height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }} />
-              <View style={{ width: 265, alignItems: "center" }}>
+              <View style={{ width: width - 100, alignItems: "center"}}>
                 <Text style={{ fontSize: 14, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{selectedCategory.name}</Text>
               </View>
             </View>
@@ -152,17 +155,16 @@ const sellerAddProduct = () => {
             </TouchableOpacity>
             <View style={{ flex: 1 }}>
               {selectedImages.length > 0 ? (
-                <FlatList
-                  data={selectedImages}
-                  renderItem={({ item }) => (
-
-                    <Image source={{ uri: item }} style={{ width: 114, height: 79, borderRadius: 10, margin: 5 }} />
-
-                  )}
-                  keyExtractor={(index) => index.toString()}
-                  numColumns={2} // Set the number of columns for the grid
-                  contentContainerStyle={{ paddingBottom: 10 }} // Adjust padding to prevent overflow
-                />
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
+                {selectedImages.map((uri, index) => (
+                  <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
+                    <Image
+                      source={{ uri: uri }}
+                      style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
+                    />
+                  </View>
+                ))}
+              </View>                           
               ) : (
                 <Image source={require('../../assets/images/watchcat.png')} style={{ width: 114, height: 79, borderRadius: 10 }} />
               )}
@@ -258,7 +260,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    width: 325,
+    width: width - 40,
     height: 60,
     borderWidth: 1,
     borderRadius: 5,
@@ -274,7 +276,7 @@ const styles = StyleSheet.create({
     marginBottom: 100
   },
   inputContainer: {
-    left: 5,
+
     height: 80,
     position: "relative"
   },
@@ -285,7 +287,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderWidth: 1,
-    width: 320,
+    width: width - 40,
     height: 50,
     top: 5,
     borderColor: "#0000001A",
@@ -294,7 +296,7 @@ const styles = StyleSheet.create({
   },
   textInput2: {
     borderWidth: 1,
-    width: 320,
+    width: width - 40,
     height: 220,
     top: 5,
     borderColor: "#0000001A",
@@ -324,7 +326,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 50,
-    width: 330,
+    width: width - 35,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",

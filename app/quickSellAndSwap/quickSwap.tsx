@@ -140,15 +140,16 @@ const quickSwap = () => {
                     </TouchableOpacity>
                     <View style={{ flex: 1 }}>
                         {selectedImages.length > 0 ? (
-                            <FlatList
-                                data={selectedImages}
-                                renderItem={({ item }) => (
-                                    <Image source={{ uri: item }} style={{ width: 114, height: 79, borderRadius: 10, margin: 5 }} />
-                                )}
-                                keyExtractor={(index) => index.toString()}
-                                numColumns={2} // Set the number of columns for the grid
-                                contentContainerStyle={{ paddingBottom: 10 }} // Adjust padding to prevent overflow
-                            />
+                            <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
+                            {selectedImages.map((uri, index) => (
+                              <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
+                                <Image
+                                  source={{ uri: uri }}
+                                  style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
+                                />
+                              </View>
+                            ))}
+                          </View>
                         ) : (
                             <Image source={require('../../assets/images/watchcat.png')} style={{ width: 114, height: 79, borderRadius: 10 }} />
                         )}
