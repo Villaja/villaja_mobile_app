@@ -72,7 +72,7 @@ export default function Analytics() {
         <View style={styles.analyticsBox}>
           <View style={styles.analyticsBoxAction}>
             <Feather name='activity' color={'#FFA800'} size={20}/>
-            <AntDesign name='arrowright' color={'#11263C'} size={18}/>
+            {/* no earnings screen to navigate to <AntDesign name='arrowright' color={'#11263C'} size={18}/>*/}
           </View>
           <View style={styles.analyticsBoxText}>
             <Text style={styles.analyticsBoxMainText}>₦51,858</Text>
