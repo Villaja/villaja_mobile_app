@@ -140,7 +140,7 @@ const cart = () => {
         }
       </ScrollView>
       :activeTab === 'Orders'?
-      <ScrollView style={{ padding: 20 }}>
+      <View style={{ padding: 20 }}>
       {loading ? (
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
@@ -151,7 +151,7 @@ const cart = () => {
           renderItem={({ item }) => <OrdersCard key={item._id} order={item} />}
         />
       )}
-    </ScrollView>
+    </View>
       :
       <ScrollView style={{padding:0,gap:16}}>
         <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:20,paddingVertical:7}}>

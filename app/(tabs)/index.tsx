@@ -401,7 +401,7 @@ const index = () => {
           <View style={styles.imageText} >
             <Text style={styles.text1}> BECOME A VERIFIED</Text>
             <Text style={styles.text2}>Merchant On Villaja</Text>
-            <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/(tabs2)/sellerDashboard') } >
+            <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/sellerAuthScreens/SellerLogin') } >
               <Text style={styles.gtText} >Get Started</Text>
             </TouchableOpacity>
           </View>
@@ -492,16 +492,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     // backgroundColor: 'red',
-    padding: 20
+    padding: 20,
     // left:14,
   },
 
   imageText: {
     color: '#FFFFFF99',
     height: 87,
-    // width: 307,
-    left: 26,
+    left: 27,
     position: 'absolute',
+    paddingHorizontal: 20
   },
   text1: {
     color: "#FFFFFF99",

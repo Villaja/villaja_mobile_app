@@ -11,6 +11,7 @@ import ModalHeaderText from '../components/ModalHeaderText';
 import { StatusBar } from 'react-native';
 import React from 'react';
 import { AuthProvider } from '../context/AuthContext';
+import { SellerAuthProvider } from '../context/SellerAuthContext';
 import { OrdersProvider } from '../context/OrderContext';
 import { SellerProvider } from '../context/SellerContext';
 import { PaperProvider } from 'react-native-paper';
@@ -75,6 +76,8 @@ function RootLayoutNav() {
       <SellerProvider>
 
       <AuthProvider>
+        <SellerAuthProvider>
+
         <OrdersProvider>
           <Stack>
               {/* <Stack.Screen name="(Seller)" options={{ headerShown: false }} /> */}
@@ -530,6 +533,12 @@ function RootLayoutNav() {
                 ),
               }}
             />
+
+
+            {
+              //QUICK SELL AND QUICK SWAP SCREENS
+            }
+
             <Stack.Screen
               name="quickSellAndSwap/uploadScreen"
               options={{
@@ -645,6 +654,12 @@ function RootLayoutNav() {
                 ),
               }}
             />
+
+            {
+              //SELLER SCREENS
+            }
+
+
             <Stack.Screen
               name="sellerAddProductScreen/addProducts"
               options={{
@@ -715,6 +730,26 @@ function RootLayoutNav() {
               }}
             />
             <Stack.Screen
+              name="sellerAuthScreens/SellerLogin"
+              options={{
+                // presentation: 'modal',
+                title: '',
+                headerShadowVisible: false,
+                headerStyle: {
+                  backgroundColor: 'transparent'
+                },
+                headerTitleStyle: {
+                  fontFamily: 'roboto-condensed-sb',
+                  fontSize: 16
+                },
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => router.back()}>
+                    <Ionicons name="close-outline" size={20} />
+                  </TouchableOpacity>
+                ),
+              }}
+            />
+            <Stack.Screen
               name="otherSellerDashBoardScreens/sellerProfile"
               options={{
                 // presentation: 'modal',
@@ -739,6 +774,8 @@ function RootLayoutNav() {
             />
           </Stack>
         </OrdersProvider>
+        </SellerAuthProvider>
+
       </AuthProvider>
       </SellerProvider>
 

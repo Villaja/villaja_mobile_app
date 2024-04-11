@@ -1,5 +1,5 @@
 import { Dimensions, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import Colors from '../../constants/Colors'
 import { AntDesign, EvilIcons, Feather, Ionicons } from '@expo/vector-icons'
@@ -10,6 +10,10 @@ import { useNavigation } from '@react-navigation/native';
 
 import Analytics from '../SellerDashboardComponents/Analytics'
 import Transactions from '../SellerDashboardComponents/Transactions'
+import { useAuth } from '../../context/SellerAuthContext'
+import { Stack, router } from 'expo-router'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import axios from 'axios'
 
 const {width} = Dimensions.get('window')
 
@@ -93,11 +97,59 @@ const pendingOrders = [
 
 const SellerDashboard = () => {
 
+    const [seller,setSeller] = useState<any>([])
+    const [token,setToken] = useState<string>()
     const [activeTab,setActiveTab] = useState<string>("overview")
+
+    const [allOrders,setAllOrders] = useState<any>(null)
+
+    const handleGetOrders = async() => {
+        try{
+            const response = await axios.get(`https://api-villaja.cyclic.app/api/order/get-seller-all-orders/${seller._id}`, {
+                headers: {
+                Authorization: token,
+                },
+            });
+
+            setAllOrders(response.data.orders)
+            
+
+        }
+        catch(e)
+        {
+            console.log('Request error: ',e);
+            
+        }
+    }
+
+    useEffect(() => {
+        const checkToken = async() => {
+            const token = await AsyncStorage.getItem('sellerToken')
+            const seller = await AsyncStorage.getItem('seller')
+            
+            if(!token) return router.replace('/sellerAuthScreens/SellerLogin')
+                setSeller(JSON.parse(seller!).seller)
+                setToken(token)
+        }
+
+        checkToken()
+        handleGetOrders()
+    },[])
     
 
   return (
     <View style={styles.container}>
+        <Stack.Screen
+        options={{
+          headerLeft:() => (
+            <View style={styles.headerDashboardLeft}>
+              
+              <Image source={{uri:"https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg"}} resizeMode='contain' style={styles.sellerProfilePic} />
+              <Text style={{color:"#fff"}}>{seller?.name}</Text>
+            </View>
+          ),
+        }}
+      />
 
             <View style={styles.tabs}>
                 <TouchableOpacity style={activeTab === "overview"?styles.activeTab:styles.tab} onPress={()=> setActiveTab('overview')}>
@@ -114,8 +166,9 @@ const SellerDashboard = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
 
             <View>
-                {activeTab === "overview" && <Overview/>}
+                {activeTab === "overview" && allOrders && <Overview orders={allOrders}/>}
                 {activeTab === "transactions" && <Transactions/>}
+                
                 {activeTab === "analytics" && <Analytics/>}
             </View>
         </ScrollView>
@@ -123,9 +176,12 @@ const SellerDashboard = () => {
   )
 }
 
-const Overview = () => {
+const Overview = ({orders}:{orders:any}) => {
     const navigation = useNavigation(); 
     
+    console.log(orders);
+    
+
     return (
         <View>
             <View style={styles.swapHeader}>
@@ -194,11 +250,14 @@ const Overview = () => {
                 <View style={styles.orderSection}>
                     {
                         pendingOrders.length > 1 ?
-                        pendingOrders.map((order,index) => (
+                        pendingOrders
+                        // .filter((od:any) => od.status === "Delivered" )
+                        .map((order:any,index:number) => (
                             <TouchableOpacity style={styles.orderCard} key={index}>
                                 <View style={styles.orderCardLeft}>
                                     <Image source={{uri:order.image}} resizeMode='contain'  style={styles.orderImg}/>
                                     <View style={styles.orderInfo}>
+
                                         <Text style={styles.orderName}>{order.name}</Text>
                                         <Text style={styles.orderUser}>By: {order.user}</Text>
                                     </View>
@@ -272,6 +331,17 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:"#fff"
     },
+    headerDashboardLeft:{
+    flexDirection:'row',
+    alignItems:'center',
+    gap:10,
+    marginLeft:20
+  },
+  sellerProfilePic:{
+    width:27,
+    height:27,
+    borderRadius:27
+  },
     tabs:{
         paddingHorizontal:20,
         paddingVertical:10,

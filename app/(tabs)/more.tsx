@@ -5,21 +5,25 @@ import { useRouter } from "expo-router";
 import { router } from 'expo-router'
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from "../../context/AuthContext";
 
 
-const handleLogout = async () => {
 
-    await AsyncStorage.removeItem('token');
-    router.replace('/');
-};
 
 function more() {
+    const router = useRouter()
+    const {logout} = useAuth()
     const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
+
     const handleToggleSwitch = () => {
         // logic to handle enabling/disabling notifications here, an API call or update a state in Redux or however you want to do it bolu
         setIsNotificationEnabled(!isNotificationEnabled);
     };
-    const router = useRouter()
+
+    const handleLogout = async () => {
+        await logout()
+        router.replace('/');
+    };
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.mainContainer}>
             <View 
@@ -48,7 +52,7 @@ function more() {
                     <View style={styles.imageText} >
                         <Text style={styles.text1}> BECOME A VERIFIED</Text>
                         <Text style={styles.text2}>Merchant On Villaja</Text>
-                        <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/(tabs2)/sellerDashboard')} >
+                        <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/sellerAuthScreens/SellerLogin')} >
                             <Text style={styles.gtText} >Get Started</Text>
                         </TouchableOpacity>
                     </View>
