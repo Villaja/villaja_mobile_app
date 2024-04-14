@@ -34,7 +34,7 @@ const addressTypeData = [
     { label: 'Others', value: '3' }
 ];
 
-const {width} = Dimensions.get("window")
+const { width } = Dimensions.get("window")
 
 const account = () => {
     const { user } = useAuth();
@@ -48,8 +48,8 @@ const account = () => {
     const [address, setAddress] = useState<Address | null>(null);
     const [addressTypeValue, setAddressTypeValue] = useState(null);
     const [addressModalVisible, setAddressModalVisible] = useState(false);
-    const [passwordModalVisible, setPasswordModalVisible] = useState(false)
-    const [userImage, setUserImage] = useState('')
+    const [passwordModalVisible, setPasswordModalVisible] = useState(false);
+    const [userImage, setUserImage] = useState("");
 
     const openPasswordModalVisible = () => {
         setPasswordModalVisible(true)
@@ -203,7 +203,8 @@ const account = () => {
 
 
     //functionality for user image upload
-    const handleImagePicker = async () => {
+    {/*  suspended feature
+     const handleImagePicker = async () => {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (!permissionResult.granted) {
             Alert.alert('Permission Denied', 'You need to grant Villaja permission to access the camera roll to upload an image.');
@@ -233,35 +234,45 @@ const account = () => {
         }
     };
 
+
     // to fetch user image from async
 
     useEffect(() => {
         fetchUserImage();
     }, []);
 
-
     const fetchUserImage = async () => {
         try {
             const storedUserImage = await AsyncStorage.getItem('userImage');
             if (storedUserImage !== null) {
                 setUserImage(storedUserImage);
+            } else {
+                setUserImage(testUser.image)
             }
         } catch (error) {
             console.error('Error fetching user image:', error);
+            setUserImage(testUser.image)
         }
     };
 
-    const displayImage = userImage ? { uri: userImage } : testUser.image;
+    let displayImage;
+    if (!userImage) {
+        displayImage = testUser.image;
+    } else {
+        displayImage = { uri: userImage };
+    } */}
+
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.pageContainer}>
             <View>
                 {/*user image*/}
                 <View style={styles.userIconContainer}>
-                    <Image source={displayImage} resizeMode='contain' style={styles.userIcon} />
-                    <TouchableOpacity style={styles.cameraContainer} onPress={handleImagePicker} >
+                    <Image source={testUser.image} resizeMode='contain' style={styles.userIcon} />
+                    {/* suspended feature
+                    <TouchableOpacity style={styles.cameraContainer} onPress={handleImagePicker} > 
                         <Ionicons name="camera-outline" size={23} color={"#ffffff"} style={styles.cameraIcon} />
-                    </TouchableOpacity>
+    </TouchableOpacity> */}
                 </View>
                 <View style={styles.accountNameContainer} >
                     <Text style={styles.accountName}>{firstName} {lastName}</Text>
@@ -362,13 +373,13 @@ const account = () => {
                     <View style={styles.modalContent}>
                         <View style={styles.modalHeader}>
                             <View style={styles.modalIconContainer}>
-                            <FontAwesome5 name="user-lock" size={25} color="#025492" />
+                                <FontAwesome5 name="user-lock" size={25} color="#025492" />
                             </View>
                             <Text style={styles.modalHeaderText}>Change Password</Text>
                         </View>
                         <Text style={styles.p}>To change your password, please fill in the details below. Your new password must contain at least 8 characters, and must have one upper case letter.</Text>
                         <View style={styles.container3}>
-                            <View style={{marginBottom: 30}} >
+                            <View style={{ marginBottom: 30 }} >
                                 <Text style={styles.text} >Current Password</Text>
                                 <View style={styles.input3}>
                                     <TextInput
@@ -379,7 +390,7 @@ const account = () => {
                                     />
                                 </View>
                             </View>
-                            <View style={{marginBottom: 30}} >
+                            <View style={{ marginBottom: 30 }} >
                                 <Text style={styles.text} >New Password</Text>
                                 <View style={styles.input3}>
                                     <TextInput
@@ -390,7 +401,7 @@ const account = () => {
                                     />
                                 </View>
                             </View>
-                            <View style={{marginBottom: 30}} >
+                            <View style={{ marginBottom: 30 }} >
                                 <Text style={styles.text} >Confirm Password</Text>
                                 <View style={styles.input3}>
                                     <TextInput
@@ -424,42 +435,42 @@ const account = () => {
                 <View style={styles.modalContainer}>
                     <ScrollView style={styles.addressModalContent}>
                         <Text style={styles.modalHeading}>{address ? 'Update Address' : 'Add Address'}</Text>
-                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >Country</Text>
+                        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Country</Text>
                         <TextInput
                             placeholder="Enter your country"
                             value={addressForm.country}
                             onChangeText={text => setAddressForm({ ...addressForm, country: text })}
                             style={styles.input}
                         />
-                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >State</Text>
+                        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >State</Text>
                         <TextInput
                             placeholder="Enter your state"
                             value={addressForm.state}
                             onChangeText={text => setAddressForm({ ...addressForm, state: text })}
                             style={styles.input}
                         />
-                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >City</Text>
+                        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >City</Text>
                         <TextInput
                             placeholder="Enter your city"
                             value={addressForm.city}
                             onChangeText={text => setAddressForm({ ...addressForm, city: text })}
                             style={styles.input}
                         />
-                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >Address Line 1</Text>
+                        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Line 1</Text>
                         <TextInput
                             placeholder="Enter your first address"
                             value={addressForm.address1}
                             onChangeText={text => setAddressForm({ ...addressForm, address1: text })}
                             style={styles.input}
                         />
-                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >Address Details</Text>
+                        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Details</Text>
                         <TextInput
                             placeholder="Enter more details of your address, i.e directions"
                             value={addressForm.address2}
                             onChangeText={text => setAddressForm({ ...addressForm, address2: text })}
                             style={styles.input}
                         />
-                        <Text style={{fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5}} >Zip Code</Text>
+                        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Zip Code</Text>
                         <TextInput
                             placeholder="Enter your city zip code"
                             value={addressForm.zipCode}
@@ -542,7 +553,7 @@ const styles = StyleSheet.create({
     accountName: {
         color: "#242124",
         fontSize: 25,
-        fontWeight: "500",
+        fontWeight: "400",
     },
     accountNameContainer: {
         position: "relative",
@@ -660,7 +671,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        
+
     },
     modalContent: {
         backgroundColor: '#fff',

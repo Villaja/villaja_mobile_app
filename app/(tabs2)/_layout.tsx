@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { Marker } from 'react-native-svg';
 import { Image, View, Text, StyleSheet } from 'react-native';
 import {  } from 'expo-status-bar';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from "react-native";
 
 
 const Layout = () => {
@@ -27,7 +27,7 @@ const Layout = () => {
           // marginBottom:20
         },
       }}>
-    
+
      <Tabs.Screen
         name="sellerDashboard"
         options={{
@@ -60,7 +60,7 @@ const Layout = () => {
           headerTitleAlign:'center',
           headerTitleStyle:{
             fontFamily:'roboto-condensed-sb',
-            fontSize:18,
+            fontSize:16,
             letterSpacing: -0.24,
             lineHeight: 18,
             fontWeight: "700",
@@ -84,7 +84,7 @@ const Layout = () => {
       <Tabs.Screen
         name="sellerNotifications"
         options={{
-          headerShown:false,
+
           tabBarLabel: 'Notifications',
           tabBarIcon: ({ size, color }) => <Ionicons name="notifications-outline" size={20} color={color} />,
         }}

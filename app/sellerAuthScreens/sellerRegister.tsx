@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, ScrollView, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, Alert, FlatList, Image } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { EvilIcons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import * as ImagePicker from 'expo-image-picker';
+import { useAuth } from "../../context/SellerAuthContext";
+import { Link, useRouter } from 'expo-router';
 
 
 const { width } = Dimensions.get('window')
@@ -56,13 +58,14 @@ const sellerRegister = () => {
   const [shopAddress, setShopAddress] = useState("")
   const [addressState, setAddressState] = useState(null);
   const [zipCode, setZipCode] = useState("");
-  const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(false);
-  const [toggleCheckBox2, setToggleCheckBox2] = useState<boolean>(false);
-  const [toggleCheckBox3, setToggleCheckBox3] = useState<boolean>(false);
-  const [toggleCheckBox4, setToggleCheckBox4] = useState<boolean>(false);
+  const [phonesNiche, setPhonesNiche] = useState<boolean>(false);
+  const [laptopNiche, setLaptopNiche] = useState<boolean>(false);
+  const [tabletsNiche, setTabletsNiche] = useState<boolean>(false);
+  const [accessoriesNiche, setAccessoriesNiche] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState("");
   const [backgroundImage, setBackgroundImage] = useState("");
-
+  const {submit, isLoading, error, seller} = useAuth()
+  const router = useRouter()
 
   const renderStates = (item) => {
     return (
@@ -124,6 +127,20 @@ const sellerRegister = () => {
         console.error('Error picking image:', error);
       }
     };
+
+    const handleGetStartedButton = async () => {
+      try {
+        await submit(shopName, handler, handlerPhoneNumber, shopEmailAddress, shopAddress,
+          addressState, zipCode, phonesNiche, laptopNiche, tabletsNiche, accessoriesNiche,
+          profileImage, backgroundImage
+        )
+        Alert.alert('Verify Your Account', 'Please check your e-mail to activate your account with the verification code', [{text: "OK"}]);
+        router.replace('/(modals)/otp')
+      } catch (error) {
+        Alert.alert('Registration Failed', 'Unable to register, please try again', [{text: "OK"}]); 
+        console.log(error)
+      }
+    }; 
 
 
   return (
@@ -251,7 +268,7 @@ const sellerRegister = () => {
                 iconStyle={{ borderColor: "gray" }}
                 innerIconStyle={{ borderWidth: 2 }}
                 textStyle={{ fontSize: 10, color: "#ffffff" }}
-                onPress={(isChecked: boolean) => { setToggleCheckBox(isChecked) }}
+                onPress={(isChecked: boolean) => { setPhonesNiche(isChecked) }}
               />
             </View>
             <View style={{ marginLeft: 10, marginVertical: 10, width: 92.09, height: 35.06, backgroundColor: "#025492", justifyContent: "center", alignItems: "center", borderRadius: 5 }} >
@@ -263,7 +280,7 @@ const sellerRegister = () => {
                 iconStyle={{ borderColor: "gray" }}
                 innerIconStyle={{ borderWidth: 2 }}
                 textStyle={{ fontSize: 10, color: "#ffffff" }}
-                onPress={(isChecked: boolean) => { setToggleCheckBox2(isChecked) }}
+                onPress={(isChecked: boolean) => { setLaptopNiche(isChecked) }}
               />
             </View>
             <View style={{ marginLeft: 10, marginVertical: 10, width: 92.09, height: 35.06, backgroundColor: "#025492", justifyContent: "center", alignItems: "center", borderRadius: 5 }} >
@@ -275,7 +292,7 @@ const sellerRegister = () => {
                 iconStyle={{ borderColor: "gray" }}
                 innerIconStyle={{ borderWidth: 2 }}
                 textStyle={{ fontSize: 10, color: "#ffffff" }}
-                onPress={(isChecked: boolean) => { setToggleCheckBox3(isChecked) }}
+                onPress={(isChecked: boolean) => { setTabletsNiche(isChecked) }}
               />
             </View>
           </View>
@@ -289,7 +306,7 @@ const sellerRegister = () => {
                 iconStyle={{ borderColor: "gray" }}
                 innerIconStyle={{ borderWidth: 2 }}
                 textStyle={{ fontSize: 10, color: "#ffffff" }}
-                onPress={(isChecked: boolean) => { setToggleCheckBox4(isChecked) }}
+                onPress={(isChecked: boolean) => { setAccessoriesNiche(isChecked) }}
               />
             </View>
           </View>
@@ -327,7 +344,7 @@ const sellerRegister = () => {
       <View style={{justifyContent: "center", alignItems: "center", marginBottom: 20}} >
       {backgroundImage && <Image source={{ uri: backgroundImage }} style={{ width: 200, height: 200 }} />}
       </View>
-      <TouchableOpacity style={styles.button} >
+      <TouchableOpacity style={styles.button} onPress={handleGetStartedButton} >
         <Text style={styles.buttonText1}>Get Started</Text>
         <AntDesign name="arrowright" size={12} color="#ffffff" />
       </TouchableOpacity>

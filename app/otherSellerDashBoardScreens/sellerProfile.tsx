@@ -1,15 +1,135 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, ScrollView, Modal, FlatList, TouchableOpacity, Dimensions } from "react-native";
-import { MaterialIcons, MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome, Feather } from "@expo/vector-icons";
 import { timeAgo } from '../../utils/timeAgo';
 import { base_url } from "../../constants/server";
 import { Product } from '../../types/Product';
+import ProductCard2 from "../../components/ProductCard2";
+import ProductCard from "../../components/ProductCard";
+import { getAllProductsShop } from "../../context/SellerAuthContext";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
+import { useAuth } from "../../context/SellerAuthContext";
+import axios, { Axios, AxiosResponse } from 'axios';
+import { Skeleton } from '@rneui/themed'
+import index from '../(tabs)';
+
 
 
 const { width } = Dimensions.get("window");
 
+const testUser = {
+    id: 1,
+    name: "Tony Danza",
+    image: require("../../assets/images/user2.png")
+};
+
 const sellerProfile = () => {
+    const router = useRouter()
+    const { shop } = useAuth()
     const [about, setAbout] = useState(3);
+    const [products, setProducts] = useState<Array<Product>>([])
+    const [seller, setSeller] = useState<any>([]);
+    const [shopName, setShopName] = useState("")
+    const [token, setToken] = useState<string>()
+    const [loading, setLoading] = useState<boolean>(true)
+    const [shopImage, setShopImage] = useState("")
+
+
+    // fetch shop details functionality
+
+    const fetchProducts = async () => {
+        try {
+            const response: AxiosResponse<{ products: Product[] }> = await axios.get(`${base_url}/product/get-all-products-shop/${seller._id}`, {
+                headers: {
+                    Authorization: token,
+                },
+            });
+
+            const first10Products = response.data.products.slice(0, 50);
+            setProducts(first10Products)
+
+        } catch (error) {
+            console.error('Error fetching products', error);
+        } finally {
+            setLoading(false)
+        }
+    };
+
+    //fetch seller token 
+    useEffect(() => {
+        const fetchToken = async () => {
+            const token = await AsyncStorage.getItem('sellerToken');
+            const seller = await AsyncStorage.getItem('seller')
+
+            if (!token) return router.replace('/sellerAuthScreens/SellerLogin')
+            setSeller(JSON.parse(seller!).seller)
+            setToken(token)
+        }
+
+        fetchToken()
+    }, [])
+
+    useEffect(() => {
+        if (seller && token) {
+            fetchProducts();
+        }
+    }, [seller, token]);
+
+
+
+    const renderSkeletonLoader = (start: number, end: number) => {
+        const cardsPerRow = 2;
+
+        return (
+            <View>
+                <View style={styles.gridContainer2}>
+                    {Array(40).fill(0).slice(start, end).map((_, index) => (
+                        <View
+                            key={index}
+                            style={[
+                                styles.productCard,
+                                index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+                            ]}
+                        >
+                            <Skeleton skeletonStyle={{
+                                backgroundColor: 'rgba(0,0,0,0.10)',
+                                borderRadius: 5,
+                            }} animation="pulse" width={(Dimensions.get('window').width - 40) / 2 - 5} height={250} />
+                        </View>
+                    ))}
+                </View>
+            </View>
+        );
+    };
+
+
+    const renderProductCards = (start: number, end: number) => {
+        const cardsPerRow = 2;
+
+        return (
+            <View>
+                <View style={styles.gridContainer}>
+                    {products.map((product, index) => (
+                        <View
+                            key={product._id}
+                            style={[
+                                styles.productCard,
+                                index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+                            ]}
+                        >
+                            <ProductCard2 product={product} />
+                        </View>
+                    ))}
+                </View>
+            </View>
+
+        );
+    };
+
+
+
+
 
 
 
@@ -23,57 +143,77 @@ const sellerProfile = () => {
             <View style={{ width: width + 10, height: 78, marginBottom: 14 }} >
                 <Image source={require('../../assets/images/sellerbackgroundpic.png')} resizeMode='contain' style={{ width: width + 10, height: 78, }} />
             </View>
-            <View style={{ width: 95, height: 90.48, flexDirection: "row", justifyContent: "center", alignItems: "center", marginHorizontal: 20, position: "absolute", marginTop: 95}} >
-                <View style={{ width: 95, height: 90.48, borderRadius: 50, justifyContent: "center", alignItems: "center", backgroundColor: "#02549290",  }} >
-                    <Image source={require('../../assets/images/sellerpic.png')} style={{ width: 92, height: 87.48, borderRadius: 50 }} />
+            <View style={{ width: 95, height: 90.48, flexDirection: "row", justifyContent: "center", alignItems: "center", marginHorizontal: 20, position: "absolute", marginTop: 95 }} >
+                <View style={{ width: 95, height: 90.48, borderRadius: 50, justifyContent: "center", alignItems: "center", backgroundColor: "#02549290", }} >
+                    <Image source={testUser.image} style={{ width: 92, height: 87.48, borderRadius: 50 }} />
                 </View>
                 <MaterialIcons name="verified" size={18} color="green" style={{ alignSelf: "flex-end", right: 25, bottom: 5 }} />
             </View>
-            <Text style={{ fontSize: 18, fontWeight: "500", alignSelf: "center" }} >Thomas Tech</Text>
-            <Text style={{ alignSelf: "center", marginBottom: 37,  flexDirection: 'row', alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 12, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> 5 months on Villaja</Text>
-            <View style={{marginHorizontal: 20}} >
-                <View style={{flexDirection: "row", gap: 8}} >
-                    <View style={{ width: 53, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2}} >
-                        <Text style={{fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17}} >Phones</Text>
+            <Text style={{ marginLeft: 90, fontSize: 16, fontWeight: "500", alignSelf: "center" }} >{seller?.name}</Text>
+            <Text style={{ marginLeft: 80, alignSelf: "center", marginBottom: 37, flexDirection: 'row', alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 12, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> 5 months on Villaja</Text>
+            <View style={{ marginHorizontal: 20 }} >
+                <View style={{ flexDirection: "row", gap: 8 }} >
+                    <View style={{ width: 53, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
+                        <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Phones</Text>
                     </View>
-                    <View style={{ width: 55, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2}} >
-                        <Text style={{fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17}} >Tablets</Text>
+                    <View style={{ width: 55, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
+                        <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Tablets</Text>
                     </View>
-                    <View style={{ width: 55, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2}} >
-                        <Text style={{fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17}} >Laptops</Text>
+                    <View style={{ width: 55, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
+                        <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Laptops</Text>
                     </View>
-                    <View style={{ width: 85, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2}} >
-                        <Text style={{fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17}} >Accessories</Text>
+                    <View style={{ width: 85, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
+                        <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Accessories</Text>
                     </View>
                 </View>
-                <View style={{marginTop: 60}} >
-                    <Text style={{fontSize: 13, color: "#00000070", lineHeight: 15.2, letterSpacing: -0.18, fontWeight: "700"}} >About Me</Text>
-                    <Text numberOfLines={about} style={{fontSize: 11, color: "#00000070", lineHeight: 15, letterSpacing: -0.18}} >Lorem ipsum dolor sit amet consectetur. Dolor eu sit scelerisque nulla at auctor vitae justo. Viverra tempor velit enim cursus ut purus tortor commodo lacus. Est donec nulla nunc ac mauris nibh. Feugiat molestie malesuada sollicitudin sodales aenean praesent quam ornare fames. Aliquet pharetra massa sed vel.</Text>
+                <View style={{ marginTop: 60 }} >
+                    <Text style={{ fontSize: 13, color: "#00000070", lineHeight: 15.2, letterSpacing: -0.18, fontWeight: "700" }} >About Me</Text>
+                    <Text numberOfLines={about} style={{ fontSize: 11, color: "#00000070", lineHeight: 15, letterSpacing: -0.18 }} >Lorem ipsum dolor sit amet consectetur. Dolor eu sit scelerisque nulla at auctor vitae justo. Viverra tempor velit enim cursus ut purus tortor commodo lacus. Est donec nulla nunc ac mauris nibh. Feugiat molestie malesuada sollicitudin sodales aenean praesent quam ornare fames. Aliquet pharetra massa sed vel.</Text>
                     {
                         about === 100 ?
-                        <TouchableOpacity onPress={() => setAbout(3)} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-end' }}>
-                            <Text style={{fontSize: 11, color: "#025492", lineHeight: 15, letterSpacing: -0.18}} >Show Less</Text>
-                            <MaterialIcons name='keyboard-arrow-up' color="#025492" size={14} />
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setAbout(3)} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-end' }}>
+                                <Text style={{ fontSize: 11, color: "#025492", lineHeight: 15, letterSpacing: -0.18 }} >Show Less</Text>
+                                <MaterialIcons name='keyboard-arrow-up' color="#025492" size={14} />
+                            </TouchableOpacity>
 
-                        :
+                            :
 
-                        <TouchableOpacity onPress={() => setAbout(100)} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-end' }}>
-                            <Text style={{fontSize: 11, color: "#025492", lineHeight: 15, letterSpacing: -0.18}} >Show More</Text>
-                            <MaterialIcons name='keyboard-arrow-down' color="#025492" size={14} />
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={() => setAbout(100)} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-end' }}>
+                                <Text style={{ fontSize: 11, color: "#025492", lineHeight: 15, letterSpacing: -0.18 }} >Show More</Text>
+                                <MaterialIcons name='keyboard-arrow-down' color="#025492" size={14} />
+                            </TouchableOpacity>
                     }
                 </View>
             </View>
-            <View style={{height: 3, width: width + 10, backgroundColor: "#00000010", marginTop: 40}} ></View>
-            <View style={{marginTop: 10, flexDirection: "row"}} >
-                <TouchableOpacity style={{justifyContent: "center", alignItems: "center", width: 50, height: 50, borderWidth: 1, borderColor: "#00000010"}} >
+            <View style={{ height: 3, width: width + 10, backgroundColor: "#00000010", marginTop: 40 }} ></View>
+            <View style={{ flexDirection: "row", height: 50 }} >
+                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '15%', borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#00000010" }} >
                     <Ionicons name="grid-outline" size={20} color="#00000070" />
                 </TouchableOpacity>
-                <TouchableOpacity style={{justifyContent: "center", alignItems: "center", width: 163, height: 50, borderWidth: 1, borderColor: "#00000010"}} >
-                    <Ionicons name="grid-outline" size={20} color="#00000070" />
+                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '42.5%', borderWidth: 1, borderColor: "#00000010" }} >
+                    <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 4 }} >
+                        <FontAwesome name="sort" size={15} color="#00000070" />
+                        <Text style={{ fontSize: 15, color: "#00000070" }} >Sort</Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '42.5%', borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#00000010" }} >
+                    <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 4 }} >
+                        <Feather name="filter" size={15} color="#00000070" />
+                        <Text style={{ fontSize: 15, color: "#00000070" }} >Filter</Text>
+                    </View>
                 </TouchableOpacity>
             </View>
+            <View style={{ paddingHorizontal: 20, backgroundColor: "#FAFBFD" }}>
+                <View style={{marginTop: 20, backgroundColor: "#FAFBFD"}} >
+                    {loading ? (
+                        renderSkeletonLoader(0, 16)
+                        // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
+                    ) : (
+                        renderProductCards(0, 1)
+                    )}
+                </View>
+            </View>
+
         </ScrollView>
     )
 }
@@ -87,5 +227,24 @@ const styles = StyleSheet.create({
     },
     editButton: {
         marginHorizontal: 20
-    }
+    },
+    gridContainer: {
+        flexDirection: 'column-reverse',
+        flexWrap: 'nowrap',
+        justifyContent: 'space-between',
+        // paddingHorizontal: 8,
+    },
+    gridContainer2: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        // paddingHorizontal: 8,
+    },
+    productCard: {
+        flexBasis: '48%',
+        marginBottom: 16,
+    },
+    lastCardInRow: {
+        marginRight: 0,
+    },
 })

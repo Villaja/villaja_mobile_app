@@ -231,6 +231,7 @@ const index = () => {
     );
   };
 
+ {/* suspended feature
   useEffect(() => {
     fetchUserImage();
   }, []);
@@ -248,6 +249,7 @@ const index = () => {
   };
 
   const displayImage = userImage ? { uri: userImage } : testUser.image;
+*/}
 
 
   return (
@@ -255,7 +257,7 @@ const index = () => {
       {/* <Redirect href={'/(tabs2)/sellerAddProduct'} /> */}
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 8, }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9 }}>
-          <Image source={displayImage} resizeMode='contain' style={{ width: 50, top: 1, height: 50, borderRadius: 40 }} />
+          <Image source={testUser.image} resizeMode='contain' style={{ width: 50, top: 1, height: 50, borderRadius: 40 }} />
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
             <View style={{}}>
               {user ? (
@@ -499,7 +501,7 @@ const styles = StyleSheet.create({
   imageText: {
     color: '#FFFFFF99',
     height: 87,
-    left: 27,
+    left: 13,
     position: 'absolute',
     paddingHorizontal: 20
   },

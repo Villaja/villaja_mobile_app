@@ -49,10 +49,11 @@ const Actions  = ({router,handleLogout}:{router:Router,handleLogout:() => void})
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>sellerNotifications</Text>
-      <Button title='seller register' onPress={() => router.push('/sellerAddProductScreen/sellerRegister')}/>
+      <Button title='seller register' onPress={() => router.push('/sellerAuthScreens/sellerRegister')}/>
 
       <Button title='seller profile' onPress={() => router.push('/otherSellerDashBoardScreens/sellerProfile')}/>
       <Button title='Logout' onPress={() => handleLogout()}/>
+      <Button title='seller Otp ' onPress={() => router.push('/sellerAuthScreens/sellerOtp')}/>
     </View>
   )
 }
