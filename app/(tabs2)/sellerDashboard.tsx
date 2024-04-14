@@ -144,7 +144,7 @@ const SellerDashboard = () => {
           headerLeft:() => (
             <View style={styles.headerDashboardLeft}>
               
-              <Image source={{uri:"https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg"}} resizeMode='contain' style={styles.sellerProfilePic} />
+              <Image source={{uri:seller?.avatar?.url}} resizeMode='contain' style={styles.sellerProfilePic} />
               <Text style={{color:"#fff"}}>{seller?.name}</Text>
             </View>
           ),
@@ -168,7 +168,7 @@ const SellerDashboard = () => {
             <View>
                 {activeTab === "overview" && allOrders && <Overview orders={allOrders}/>}
                 {activeTab === "transactions" && <Transactions/>}
-                
+                 
                 {activeTab === "analytics" && <Analytics/>}
             </View>
         </ScrollView>
