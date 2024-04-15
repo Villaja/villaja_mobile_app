@@ -70,14 +70,15 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    paddingHorizontal:80,
+    paddingHorizontal: 60,
     paddingVertical:16,
     borderBottomWidth:1,
     borderBottomColor:'rgba(0,0,0,0.05)'
-    
   },
   tabText:{
     fontFamily:'roboto-condensed-m',
-    fontSize:15
+    fontSize:15,
+    lineHeight: 20,
+    letterSpacing: -0.24
   }
 })

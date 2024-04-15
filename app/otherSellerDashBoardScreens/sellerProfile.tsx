@@ -36,7 +36,7 @@ const sellerProfile = () => {
     const [shopImage, setShopImage] = useState("")
 
 
-    // fetch shop details functionality
+    // fetch shop products functionality
 
     const fetchProducts = async () => {
         try {
@@ -70,6 +70,7 @@ const sellerProfile = () => {
         fetchToken()
     }, [])
 
+    // finally fetch product after token confirmation
     useEffect(() => {
         if (seller && token) {
             fetchProducts();

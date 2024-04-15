@@ -72,17 +72,19 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff'
     },
         notificationImage:{
-        width:51,
-        height:51,
-        borderRadius:51
+        width: 49,
+        height: 49,
+        borderRadius: 49
     },
     notificationTitle:{
-        fontSize:15,
+        fontSize: 13,
         color:'rgba(0,0,0,0.50)',
-        fontFamily:'roboto-condensed'
+        fontFamily:'roboto-condensed',
+        lineHeight: 15.2,
+        letterSpacing: -0.18
     },
     notificationDate:{
-        fontSize:10,
+        fontSize: 10,
         color:'rgba(0,0,0,0.50)',
         fontFamily:'roboto-condensed'
 

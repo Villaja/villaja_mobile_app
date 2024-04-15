@@ -63,7 +63,7 @@ const Messages = () => {
     <View style={styles.container}>
       <View style={{paddingHorizontal:20}}>
             <AntDesign name='search1' size={18} color={Colors.grey} style={styles.searchIcon} />
-            <TextInput keyboardType='web-search' value={searchValue} onChangeText={(text) => setSearchValue(text)} onSubmitEditing={handleSearch} placeholder='I Am Looking For...' placeholderTextColor={Colors.grey} style={[defaultStyles.inputField, { height: 40, paddingLeft: 40, backgroundColor: 'rgba(0,0,0,0.03)' }]} />
+            <TextInput keyboardType='web-search' value={searchValue} onChangeText={(text) => setSearchValue(text)} onSubmitEditing={handleSearch} placeholder='I Am Looking For...' placeholderTextColor={"#00000040"} style={[defaultStyles.inputField, { height: 40, paddingLeft: 40, backgroundColor: 'rgba(0,0,0,0.03)' }]} />
           </View>
 
           <ScrollView showsVerticalScrollIndicator={false} style={{marginTop:20}}>
@@ -114,7 +114,7 @@ const MessageItem = ({data,me,searchValue}:{data:Conversation,me:string,searchVa
             user?.firstname?.toLowerCase().includes(searchValue.toLowerCase()) ? 
             <TouchableOpacity style={styles.messageItemContainer}>
             <View style={styles.messageItemleft}>
-                <Image source={{uri:user?.avatar?.url || "https://i.pinimg.com/564x/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg"}} style={styles.messageAvatar} resizeMode='contain' />
+                <Image source={user?.avatar?.url ? { uri: user.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
                 <View style={styles.messageItemInfo}>
                     <Text style={styles.messageItemName}>{user?.firstname}</Text>
                     <Text style={styles.messageItemText}>{data.lastMessage}</Text>
@@ -152,9 +152,9 @@ const styles = StyleSheet.create({
         gap: 20
     },
     messageAvatar:{
-        width:51,
-        height:51,
-        borderRadius:51
+        width: 49,
+        height: 49,
+        borderRadius: 49
     },
     messageItemContainer:{
         flexDirection:'row',
@@ -173,14 +173,15 @@ const styles = StyleSheet.create({
         gap:5
     },
     messageItemName:{
-        fontSize:15,
-        color:'rgba(0,0,0,0.60)',
-        fontFamily:'roboto-condensed-m'
+        fontSize:13,
+        color:'rgba(0,0,0,0.70)',
+        fontFamily:'roboto-condensed-m',
+        fontWeight: "500", 
     },
     messageItemText:{
         fontSize:11,
         color:'#000',
-        fontFamily:'roboto-condensed'
+        fontFamily:'roboto-condensed',
     },
     messageItemRight:{},
     messageItemDate:{

@@ -13,6 +13,7 @@ import Svg, { Path } from 'react-native-svg';
 import SimilarSection from '../../components/SimilarSection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PopUpModal from '../../components/popUpModal';
+import { useRouter } from "expo-router";
 
 
 
@@ -26,10 +27,10 @@ const Page: React.FC = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const [productDetails, setProductDetails] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [triggerCartModal, setTriggerCartModal] = useState(false)
-  const [modalInfo, setModalInfo] = useState<{ icon: string, message: string, iconColor: string } | undefined>()
-
-  const [descriptionLength, setDescriptionLength] = useState(3)
+  const [triggerCartModal, setTriggerCartModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState<{ icon: string, message: string, iconColor: string } | undefined>();
+  const [descriptionLength, setDescriptionLength] = useState(3);
+  const router = useRouter()
 
   const handleAddToCart = async () => {
 
@@ -270,7 +271,7 @@ const Page: React.FC = () => {
                   <View style={{ marginTop: 8, paddingHorizontal: 20, paddingVertical: 30, gap: 15, backgroundColor: '#fff' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                       <Text style={{ fontSize: 15, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Profile</Text>
-                      <TouchableOpacity onPress={() => { }} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, }}>
+                      <TouchableOpacity onPress={() => router.push('/otherSellerDashBoardScreens/sellerProfile')} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, }}>
                         <Text style={{ fontFamily: 'roboto-condensed', fontSize: 12, color: Colors.primary }}>View Profile</Text>
                         <MaterialIcons name='keyboard-arrow-right' color={Colors.primary} size={16} />
                       </TouchableOpacity>
