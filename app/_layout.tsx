@@ -67,740 +67,763 @@ export default function RootLayout() {
 function RootLayoutNav() {
   const router = useRouter();
 
-  const [isSeller,setIsSeller] = useState<boolean>(true)
+  const [isSeller, setIsSeller] = useState<boolean>(true)
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PaperProvider>
 
-      <SellerProvider>
+        <SellerProvider>
 
-      <AuthProvider>
-        <SellerAuthProvider>
+          <AuthProvider>
+            <SellerAuthProvider>
 
-        <OrdersProvider>
-          <Stack>
-              {/* <Stack.Screen name="(Seller)" options={{ headerShown: false }} /> */}
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="(tabs2)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="(modals)/landing"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="close-outline" size={20} />
-                  </TouchableOpacity>
-                ),
-                headerShown: false
-              }}
-            />
-            <Stack.Screen
-              name="(modals)/firstLoadingScreen"
-              options={{
-                // presentation: 'modal',
-                headerShown: false
-              }}
-            />
-            <Stack.Screen
-              name="(modals)/login"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="close-outline" size={20} />
-                  </TouchableOpacity>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="(modals)/register"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="close-outline" size={20} />
-                  </TouchableOpacity>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="(modals)/recovery"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+              <OrdersProvider>
+                <Stack>
+                  {/* <Stack.Screen name="(Seller)" options={{ headerShown: false }} /> */}
+                  <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                  <Stack.Screen name="(tabs2)" options={{ headerShown: false }} />
+                  <Stack.Screen
+                    name="(modals)/landing"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <TouchableOpacity onPress={() => router.back()}>
+                          <Ionicons name="close-outline" size={20} />
+                        </TouchableOpacity>
+                      ),
+                      headerShown: false
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(modals)/firstLoadingScreen"
+                    options={{
+                      // presentation: 'modal',
+                      headerShown: false
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(modals)/login"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <TouchableOpacity onPress={() => router.back()}>
+                          <Ionicons name="close-outline" size={20} />
+                        </TouchableOpacity>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(modals)/register"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <TouchableOpacity onPress={() => router.back()}>
+                          <Ionicons name="close-outline" size={20} />
+                        </TouchableOpacity>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(modals)/recovery"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="(modals)/forgotPassword"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(modals)/forgotPassword"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="(modals)/changePassword"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(modals)/changePassword"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="(modals)/otp"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(modals)/otp"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
 
-            <Stack.Screen
-              name='product/[id]'
-              options={{
-                headerTitle: '',
-                headerShadowVisible: false,
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="arrow-back" size={20} color={"#000"} />
-                  </TouchableOpacity>
-                ),
-                headerRight: () => (
-                  <TouchableOpacity>
-                    <FontAwesome5 name="bookmark" size={20} color="rgba(0,0,0,0.40)" />
-                  </TouchableOpacity>
-                )
+                  <Stack.Screen
+                    name='product/[id]'
+                    options={{
+                      headerTitle: '',
+                      headerShadowVisible: false,
+                      headerLeft: () => (
+                        <TouchableOpacity onPress={() => router.back()}>
+                          <Ionicons name="arrow-back" size={20} color={"#000"} />
+                        </TouchableOpacity>
+                      ),
+                      headerRight: () => (
+                        <TouchableOpacity>
+                          <FontAwesome5 name="bookmark" size={20} color="rgba(0,0,0,0.40)" />
+                        </TouchableOpacity>
+                      )
 
-              }}
-            />
-            <Stack.Screen
-              name='catalog/[id]'
-              options={{
-                headerTitle: '',
-                headerShadowVisible: false,
-                headerShown: false,
-
-
-              }}
-            />
-            <Stack.Screen
-              name='cartScreen/cart'
-              options={{
-                headerTitle: '',
-                headerShadowVisible: false,
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.push('/')}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                    <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 16 }}>My Orders</Text>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name='checkoutPage/checkout'
-              options={{
-                headerTitle: '',
-                headerShadowVisible: false,
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                    <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 16 }}>Checkout</Text>
-                  </View>
-                ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name='catalog/[id]'
+                    options={{
+                      headerTitle: '',
+                      headerShadowVisible: false,
+                      headerShown: false,
 
 
-              }}
-            />
-            <Stack.Screen
-              name='filter/filter'
-              options={{
-                headerTitle: 'Filter',
-                headerTitleAlign: 'left',
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerShadowVisible: false,
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                    }}
+                  />
+                  <Stack.Screen
+                    name='cartScreen/cart'
+                    options={{
+                      headerTitle: '',
+                      headerShadowVisible: false,
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="(modals)/PhoneNumber"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.push('/')}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                          <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 16 }}>My Orders</Text>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name='checkoutPage/checkout'
+                    options={{
+                      headerTitle: '',
+                      headerShadowVisible: false,
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="accountScreen/account"
-              options={{
-                // presentation: 'modal',
-                title: 'Account',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="vouchers/voucherList"
-              options={{
-                // presentation: 'modal',
-                title: 'Vouchers',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="vouchers/voucherDetails"
-              options={{
-                // presentation: 'modal',
-                title: 'Voucher Details',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="vouchers/voucherDetails2"
-              options={{
-                // presentation: 'modal',
-                title: 'Voucher Details',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="referralScreen/referral"
-              options={{
-                // presentation: 'modal',
-                title: 'Referrals',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="getHelp/getHelp"
-              options={{
-                // presentation: 'modal',
-                title: 'Get Help',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="accountScreen/deleteAccount"
-              options={{
-                // presentation: 'modal',
-                title: 'Delete Account',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="savedProductScreen/saves"
-              options={{
-                // presentation: 'modal',
-                title: 'Saves',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                          <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 16 }}>Checkout</Text>
+                        </View>
+                      ),
 
 
-            {
-              //QUICK SELL AND QUICK SWAP SCREENS
-            }
+                    }}
+                  />
+                  <Stack.Screen
+                    name='filter/filter'
+                    options={{
+                      headerTitle: 'Filter',
+                      headerTitleAlign: 'left',
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerShadowVisible: false,
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-            <Stack.Screen
-              name="quickSellAndSwap/uploadScreen"
-              options={{
-                // presentation: 'modal',
-                title: 'Upload',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="(modals)/PhoneNumber"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="quickSellAndSwap/quickSell"
-              options={{
-                // presentation: 'modal',
-                title: 'Quick Sell',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="accountScreen/account"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Account',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="quickSellAndSwap/postAd1"
-              options={{
-                // presentation: 'modal',
-                title: 'Back',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="vouchers/voucherList"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Vouchers',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="quickSellAndSwap/quickSwap"
-              options={{
-                // presentation: 'modal',
-                title: 'Quick Swap',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="vouchers/voucherDetails"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Voucher Details',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="quickSellAndSwap/postAd2"
-              options={{
-                // presentation: 'modal',
-                title: 'Back',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="vouchers/voucherDetails2"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Voucher Details',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="referralScreen/referral"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Referrals',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-            {
-              //SELLER SCREENS
-            }
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="getHelp/getHelp"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Get Help',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="accountScreen/deleteAccount"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Delete Account',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="savedProductScreen/saves"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Saves',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
 
 
-            <Stack.Screen
-              name="sellerAddProductScreen/addProducts"
-              options={{
-                // presentation: 'modal',
-                title: 'Back',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                  {
+                    //QUICK SELL AND QUICK SWAP SCREENS
+                  }
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="sellerAddProductScreen/productPromotion"
-              options={{
-                // presentation: 'modal',
-                title: 'Back',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                  <Stack.Screen
+                    name="quickSellAndSwap/uploadScreen"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Upload',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="sellerAuthScreens/sellerRegister"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="quickSellAndSwap/quickSell"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Quick Sell',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="sellerAuthScreens/SellerLogin"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <TouchableOpacity onPress={() => router.back()}>
-                    <Ionicons name="close-outline" size={20} />
-                  </TouchableOpacity>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="otherSellerDashBoardScreens/sellerProfile"
-              options={{
-                // presentation: 'modal',
-                title: 'Profile',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="quickSellAndSwap/postAd1"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Back',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-            <Stack.Screen
-              name="sellerAuthScreens/sellerOtp"
-              options={{
-                // presentation: 'modal',
-                title: '',
-                headerShadowVisible: false,
-                headerStyle: {
-                  backgroundColor: 'transparent'
-                },
-                headerTitleStyle: {
-                  fontFamily: 'roboto-condensed-sb',
-                  fontSize: 16
-                },
-                headerLeft: () => (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="quickSellAndSwap/quickSwap"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Quick Swap',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                    <TouchableOpacity onPress={() => router.back()}>
-                      <Ionicons name="arrow-back" size={20} color={"#000"} />
-                    </TouchableOpacity>
-                  </View>
-                ),
-              }}
-            />
-          </Stack>
-        </OrdersProvider>
-        </SellerAuthProvider>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="quickSellAndSwap/postAd2"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Back',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-      </AuthProvider>
-      </SellerProvider>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+
+                  {
+                    //SELLER SCREENS
+                  }
+
+
+                  <Stack.Screen
+                    name="sellerAddProductScreen/addProducts"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Back',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="sellerAddProductScreen/productPromotion"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Back',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="sellerAuthScreens/sellerRegister"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="sellerAuthScreens/SellerLogin"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <TouchableOpacity onPress={() => router.back()}>
+                          <Ionicons name="close-outline" size={20} />
+                        </TouchableOpacity>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="otherSellerDashBoardScreens/sellerProfile"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Profile',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="sellerAuthScreens/sellerOtp"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                  <Stack.Screen
+                    name="otherSellerDashBoardScreens/editSellerProfile"
+                    options={{
+                      // presentation: 'modal',
+                      title: 'Account',
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb',
+                        fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                </Stack>
+              </OrdersProvider>
+            </SellerAuthProvider>
+
+          </AuthProvider>
+        </SellerProvider>
 
       </PaperProvider>
 

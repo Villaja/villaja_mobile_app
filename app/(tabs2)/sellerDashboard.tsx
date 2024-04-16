@@ -145,7 +145,7 @@ const SellerDashboard = () => {
             <View style={styles.headerDashboardLeft}>
               
               <Image source={{uri:seller?.avatar?.url}} resizeMode='contain' style={styles.sellerProfilePic} />
-              <Text style={{color:"#fff"}}>{seller?.name}</Text>
+              <Text style={{color:"#fff", fontSize: 10}}>{seller?.name}</Text>
             </View>
           ),
         }}
@@ -335,12 +335,13 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'center',
     gap:10,
-    marginLeft:20
+    marginLeft:20,
+    marginBottom: -8
   },
   sellerProfilePic:{
-    width:27,
-    height:27,
-    borderRadius:27
+    width:37,
+    height:37,
+    borderRadius:37
   },
     tabs:{
         paddingHorizontal:20,

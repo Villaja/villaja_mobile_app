@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { ScrollView, View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../../context/AuthContext';
-import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { defaultStyles } from '../../constants/Styles'

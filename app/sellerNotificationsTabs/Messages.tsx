@@ -1,5 +1,5 @@
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, {useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { base_url } from '../../constants/server'
 import Colors from '../../constants/Colors'
@@ -9,30 +9,31 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useAuth } from '../../context/SellerAuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
+import { router } from 'expo-router'
 
 
-interface Conversation{
-    _id:string,
-    groupTitle:string,
-    members:Array<string>,
-    createdAt:any,
-    updatedAt:Date,
-    lastMessage:string,
-    lastMessageId:string
+interface Conversation {
+    _id: string,
+    groupTitle: string,
+    members: Array<string>,
+    createdAt: any,
+    updatedAt: Date,
+    lastMessage: string,
+    lastMessageId: string
 }
 
 
-
 const Messages = () => {
-    const { seller,isLoading } = useAuth()
-    const [convoLoading,setConvoLoading] = useState<boolean>(true)
-  const [conversations, setConversations] = useState<Conversation[] | any>([]);
-  const [messages, setMessages] = useState([]);
-  const [searchValue,setSearchValue] = useState<string>("")
-
+    const { isLoading } = useAuth()
+    const [convoLoading, setConvoLoading] = useState<boolean>(true)
+    const [conversations, setConversations] = useState<Conversation[] | any>([]);
+    const [messages, setMessages] = useState([]);
+    const [searchValue, setSearchValue] = useState<string>("")
+    const [seller, setSeller] = useState<any>([]);
+    const [token, setToken] = useState<string>();
 
     const handleSearch = () => {
-        
+
     }
 
     useEffect(() => {
@@ -49,7 +50,7 @@ const Messages = () => {
                         withCredentials: true // Send cookies along with the request
                     }
                 );
-                
+
                 setConversations(response.data.conversations);
                 setConvoLoading(false)
             } catch (error) {
@@ -59,88 +60,138 @@ const Messages = () => {
         };
         getConversation();
     }, [seller, messages]);
-  return (
-    <View style={styles.container}>
-      <View style={{paddingHorizontal:20}}>
-            <AntDesign name='search1' size={18} color={Colors.grey} style={styles.searchIcon} />
-            <TextInput keyboardType='web-search' value={searchValue} onChangeText={(text) => setSearchValue(text)} onSubmitEditing={handleSearch} placeholder='I Am Looking For...' placeholderTextColor={"#00000040"} style={[defaultStyles.inputField, { height: 40, paddingLeft: 40, backgroundColor: 'rgba(0,0,0,0.03)' }]} />
-          </View>
 
-          <ScrollView showsVerticalScrollIndicator={false} style={{marginTop:20}}>
 
-        
-        {
-            convoLoading ? <ActivityIndicator size={'small'} color={Colors.primary} /> :
-            conversations && conversations.length > 1 ?  conversations.map((item:Conversation) => (
-                <MessageItem key={item._id} data={item} me={seller._id} searchValue={searchValue} />
-            ))
+    //fetch seller token 
+    useEffect(() => {
+        const fetchToken = async () => {
+            const token = await AsyncStorage.getItem('sellerToken');
+            const seller = await AsyncStorage.getItem('seller');
 
-            :
-            <Text>no messages</Text>
+            if (!token) return router.replace('/sellerAuthScreens/SellerLogin'),
+                setSeller(JSON.parse(seller!).seller);
+            setToken(token)
         }
-          </ScrollView>
 
-    </View>
-  )
+        fetchToken()
+    }, [seller, token]);
+
+    const fetchShop = async () => {
+        try {
+            const response = await axios.get(`${base_url}/shop/getSeller`, {
+                headers: {
+                    Authorization: token,
+                },
+            })
+            setSeller(response.data.seller)
+        } catch (error) {
+            console.log('Error fetching shop information', error)
+        }
+    };
+
+    useEffect(() => {
+        if (seller && token) {
+            fetchShop();
+        }
+    }, [seller, token])
+
+
+    return (
+        <View style={styles.container}>
+            <View style={{ paddingHorizontal: 20 }}>
+                <AntDesign name='search1' size={18} color={Colors.grey} style={styles.searchIcon} />
+                <TextInput keyboardType='web-search' value={searchValue} onChangeText={(text) => setSearchValue(text)} onSubmitEditing={handleSearch} placeholder='I Am Looking For...' placeholderTextColor={"#00000040"} style={[defaultStyles.inputField, { height: 40, paddingLeft: 40, backgroundColor: 'rgba(0,0,0,0.03)' }]} />
+            </View>
+
+            <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 20 }}>
+                {/* Display seller's information */}
+                {seller && (
+                    <TouchableOpacity style={styles.messageItemContainer} onPress={() => router.push('/otherSellerDashBoardScreens/sellerProfile')}>
+                        <View style={styles.messageItemleft}>
+                            <Image source={seller?.avatar?.url ? { uri: seller.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
+                            <View style={styles.messageItemInfo}>
+                                <Text style={styles.messageItemName}>{seller?.name}</Text>
+                                <Text style={styles.messageItemText}>Click to view your Profile</Text>
+                            </View>
+                        </View>
+                        <View style={styles.messageItemRight}>
+                            <Text style={styles.messageItemDate}>now</Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
+                {
+                    convoLoading ? <ActivityIndicator size={'small'} color={Colors.primary} /> :
+                        conversations && conversations.length > 1 ? conversations.map((item: Conversation) => (
+
+                            <MessageItem key={item._id} data={item} me={seller._id} searchValue={searchValue} />
+                        ))
+
+                            :
+                            <Text>no messages</Text>
+                }
+            </ScrollView>
+
+        </View>
+    )
 }
 
-const MessageItem = ({data,me,searchValue}:{data:Conversation,me:string,searchValue:string}) => 
-{
-  
-    
+const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string, searchValue: string }) => {
+
+
     const [user, setUser] = useState<any>({});
 
 
-   
 
-    
+
+
+
+
     useEffect(() => {
-    const userId = data.members.find((user) => user != me);
+        const userId = data.members.find((user) => user != me);
 
-    const getUser = async () => {
-      try {
-        const res = await axios.get(`${base_url}/user/user-info/${userId}`);
-        setUser(res.data.user);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, [me, data]);
+        const getUser = async () => {
+            try {
+                const res = await axios.get(`${base_url}/user/user-info/${userId}`);
+                setUser(res.data.user);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getUser();
+    }, [me, data]);
     return (
         <View>
 
-        {
-            user?.firstname?.toLowerCase().includes(searchValue.toLowerCase()) ? 
-            <TouchableOpacity style={styles.messageItemContainer}>
-            <View style={styles.messageItemleft}>
-                <Image source={user?.avatar?.url ? { uri: user.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
-                <View style={styles.messageItemInfo}>
-                    <Text style={styles.messageItemName}>{user?.firstname}</Text>
-                    <Text style={styles.messageItemText}>{data.lastMessage}</Text>
-                </View>
-            </View>
-            <View style={styles.messageItemRight}>
-                <Text style={styles.messageItemDate}>{moment(data?.updatedAt).fromNow()}</Text>
-            </View>
-        </TouchableOpacity>
-            : null
-        }
+            {/* Display user's information */}
+            {user && (
+                <TouchableOpacity style={styles.messageItemContainer}>
+                    <View style={styles.messageItemleft}>
+                        <Image source={user?.avatar?.url ? { uri: user.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
+                        <View style={styles.messageItemInfo}>
+                            <Text style={styles.messageItemName}>{user?.firstname}</Text>
+                            <Text style={styles.messageItemText}>{data.lastMessage}</Text>
+                        </View>
+                    </View>
+                    <View style={styles.messageItemRight}>
+                        <Text style={styles.messageItemDate}>{moment(data?.updatedAt).fromNow()}</Text>
+                    </View>
+                </TouchableOpacity>
+            )}
         </View>
-        
+
     )
 }
 
 export default Messages
 
 const styles = StyleSheet.create({
-    container:{
-        backgroundColor:'#FAFBFD',
+    container: {
+        backgroundColor: '#FAFBFD',
         // padding:20,
-        paddingTop:10,
-        flex:1
+        paddingTop: 10,
+        flex: 1
     },
-    
+
     searchIcon: {
         position: 'absolute',
         top: 10,
@@ -151,43 +202,43 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         gap: 20
     },
-    messageAvatar:{
+    messageAvatar: {
         width: 49,
         height: 49,
         borderRadius: 49
     },
-    messageItemContainer:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        marginBottom:4,
-        backgroundColor:'#fff',
-        paddingHorizontal:20,
-        paddingVertical:15
+    messageItemContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 4,
+        backgroundColor: '#fff',
+        paddingHorizontal: 20,
+        paddingVertical: 15
     },
-    messageItemleft:{
-        flexDirection:'row',
-        gap:10,
-        alignItems:'center'
+    messageItemleft: {
+        flexDirection: 'row',
+        gap: 10,
+        alignItems: 'center'
     },
-    messageItemInfo:{
-        gap:5
+    messageItemInfo: {
+        gap: 5
     },
-    messageItemName:{
-        fontSize:13,
-        color:'rgba(0,0,0,0.70)',
-        fontFamily:'roboto-condensed-m',
-        fontWeight: "500", 
+    messageItemName: {
+        fontSize: 13,
+        color: 'rgba(0,0,0,0.70)',
+        fontFamily: 'roboto-condensed-m',
+        fontWeight: "500",
     },
-    messageItemText:{
-        fontSize:11,
-        color:'#000',
-        fontFamily:'roboto-condensed',
+    messageItemText: {
+        fontSize: 11,
+        color: '#000',
+        fontFamily: 'roboto-condensed',
     },
-    messageItemRight:{},
-    messageItemDate:{
-        fontSize:10,
-        color:'rgba(0,0,0,0.60)',
-        fontFamily:'roboto-condensed-m'
-    },   
+    messageItemRight: {},
+    messageItemDate: {
+        fontSize: 10,
+        color: 'rgba(0,0,0,0.60)',
+        fontFamily: 'roboto-condensed-m'
+    },
 
 })

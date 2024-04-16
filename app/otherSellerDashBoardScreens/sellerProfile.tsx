@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, ScrollView, Modal, FlatList, TouchableOpacity, Dimensions } from "react-native";
+import { Image, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome, Feather, Entypo } from "@expo/vector-icons";
 import { timeAgo } from '../../utils/timeAgo';
 import { base_url } from "../../constants/server";
 import { Product } from '../../types/Product';
 import ProductCard2 from "../../components/ProductCard2";
 import ProductCard from "../../components/ProductCard";
-import { getAllProductsShop } from "../../context/SellerAuthContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import { useAuth } from "../../context/SellerAuthContext";
 import axios, { Axios, AxiosResponse } from 'axios';
 import { Skeleton } from '@rneui/themed'
-import index from '../(tabs)';
+
 
 
 
@@ -26,36 +24,15 @@ const testUser = {
 
 const sellerProfile = () => {
     const router = useRouter()
-    const { shop } = useAuth()
     const [about, setAbout] = useState(3);
     const [products, setProducts] = useState<Array<Product>>([]);
     const [seller, setSeller] = useState<any>([]);
-    const [shopName, setShopName] = useState("");
     const [token, setToken] = useState<string>();
     const [loading, setLoading] = useState<boolean>(true);
-    const [shopImage, setShopImage] = useState("");
     const [viewType, setViewType] = useState<boolean>(true)
 
 
-    // fetch shop products functionality
 
-    const fetchProducts = async () => {
-        try {
-            const response: AxiosResponse<{ products: Product[] }> = await axios.get(`${base_url}/product/get-all-products-shop/${seller._id}`, {
-                headers: {
-                    Authorization: token,
-                },
-            });
-
-            const first10Products = response.data.products.slice(0, 50);
-            setProducts(first10Products)
-
-        } catch (error) {
-            console.error('Error fetching products', error);
-        } finally {
-            setLoading(false)
-        }
-    };
 
     //fetch seller token 
     useEffect(() => {
@@ -70,6 +47,26 @@ const sellerProfile = () => {
 
         fetchToken()
     }, [])
+
+        // fetch shop products functionality
+
+        const fetchProducts = async () => {
+            try {
+                const response: AxiosResponse<{ products: Product[] }> = await axios.get(`${base_url}/product/get-all-products-shop/${seller._id}`, {
+                    headers: {
+                        Authorization: token,
+                    },
+                });
+    
+                const first10Products = response.data.products.slice(0, 50);
+                setProducts(first10Products)
+    
+            } catch (error) {
+                console.error('Error fetching products', error);
+            } finally {
+                setLoading(false)
+            }
+        };
 
     // finally fetch product after token confirmation
     useEffect(() => {
@@ -138,7 +135,7 @@ const sellerProfile = () => {
     return (
         <ScrollView style={styles.container} >
             <View style={styles.editButton} >
-                <TouchableOpacity style={{ width: 88, height: 28, backgroundColor: "#025492", borderRadius: 2, justifyContent: "center", alignItems: "center", alignSelf: "flex-end", marginBottom: 16 }} >
+                <TouchableOpacity style={{ width: 88, height: 28, backgroundColor: "#025492", borderRadius: 2, justifyContent: "center", alignItems: "center", alignSelf: "flex-end", marginBottom: 16 }} onPress={() => router.push('/otherSellerDashBoardScreens/editSellerProfile')}>
                     <Text style={{ color: "#fff", fontSize: 12 }} >Edit Profile</Text>
                 </TouchableOpacity>
             </View>
