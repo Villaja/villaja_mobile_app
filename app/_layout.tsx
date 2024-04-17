@@ -838,7 +838,14 @@ function RootLayoutNav() {
                             <Ionicons name="arrow-back" size={20} color={"#000"} />
                           </TouchableOpacity>
                         </View>
-                      ),
+                      ),}} />
+                  <Stack.Screen
+                    name="sellerNotificationsTabs/[id]"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShown:false,
+                      
                     }}
                   />
                 </Stack>
