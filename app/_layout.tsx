@@ -753,14 +753,15 @@ function RootLayoutNav() {
                     name="otherSellerDashBoardScreens/sellerProfile"
                     options={{
                       // presentation: 'modal',
-                      title: 'Profile',
+                      title: "Your Profile",
                       headerShadowVisible: false,
                       headerStyle: {
                         backgroundColor: 'transparent'
                       },
                       headerTitleStyle: {
-                        fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        
+                        fontSize: 14,
+                        fontWeight: "200"
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -807,6 +808,28 @@ function RootLayoutNav() {
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
                         fontSize: 16
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }}
+                  />
+                                    <Stack.Screen
+                    name="accountScreen/merchantProfile"
+                    options={{
+                      // presentation: 'modal',
+                      title: "Merchant's Profile",
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontSize: 14
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>

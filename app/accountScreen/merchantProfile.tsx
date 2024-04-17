@@ -22,7 +22,7 @@ const testUser = {
     image: require("../../assets/images/user2.png")
 };
 
-const sellerProfile = () => {
+const merchantProfile = () => {
     const router = useRouter()
     const [about, setAbout] = useState(3);
     const [products, setProducts] = useState<Array<Product>>([]);
@@ -134,23 +134,18 @@ const sellerProfile = () => {
 
     return (
         <ScrollView style={styles.container} >
-            <View style={styles.editButton} >
-                <TouchableOpacity style={{ width: 88, height: 28, backgroundColor: "#025492", borderRadius: 2, justifyContent: "center", alignItems: "center", alignSelf: "flex-end", marginBottom: 16 }} onPress={() => router.push('/otherSellerDashBoardScreens/editSellerProfile')}>
-                    <Text style={{ color: "#fff", fontSize: 12 }} >Edit Profile</Text>
-                </TouchableOpacity>
+            <View style={{ width: width , height: 78, marginBottom: 34 }} >
+                <Image source={require('../../assets/images/The-Ultimate-Guide-to-Online-Sales-Tax-2023.png')}  style={{ width: width , height: 100, }} />
             </View>
-            <View style={{ width: width + 10, height: 78, marginBottom: 14 }} >
-                <Image source={require('../../assets/images/sellerbackgroundpic.png')} resizeMode='contain' style={{ width: width + 10, height: 78, }} />
-            </View>
-            <View style={{ width: 95, height: 90.48, flexDirection: "row", justifyContent: "center", alignItems: "center", marginHorizontal: 20, position: "absolute", marginTop: 95 }} >
-                <View style={{ width: 95, height: 90.48, borderRadius: 50, justifyContent: "center", alignItems: "center", backgroundColor: "#02549290", }} >
+            <View style={{ width: 95, height: 90.48, flexDirection: "row", justifyContent: "center", alignItems: "center", marginHorizontal: 20, position: "absolute", marginTop: 53 }} >
+                <View style={{ width: 95, height: 90.48, marginTop: 50, borderRadius: 50, justifyContent: "center", alignItems: "center", backgroundColor: "#02549290", }} >
                     <Image source={seller?.avatar?.url ? { uri: seller.avatar.url } : testUser.image} style={{ width: 92, height: 87.48, borderRadius: 50 }} />
                 </View>
-                <MaterialIcons name="verified" size={18} color="green" style={{ alignSelf: "flex-end", right: 25, bottom: 5 }} />
+                <MaterialIcons name="verified" size={18} color="green" style={{ alignSelf: "flex-end", right: 25, bottom: -19 }} />
             </View>
-            <Text style={{ marginLeft: 90, fontSize: 14, fontWeight: "500", alignSelf: "center" }} >{seller?.name}</Text>
-            <Text style={{ marginLeft: 80, alignSelf: "center", marginBottom: 37, flexDirection: 'row', justifyContent: "center", alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 10, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={12} color={"rgba(0,0,0,0.50)"} /> 5 months on Villaja</Text>
-            <View style={{ marginHorizontal: 20 }} >
+            <Text style={{ marginLeft: 50, fontSize: 14, fontWeight: "500", alignSelf: "center" }} >{seller?.name}</Text>
+            <Text style={{ marginLeft: 40, alignSelf: "center", marginBottom: 37, flexDirection: 'row', justifyContent: "center", alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 10, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={12} color={"rgba(0,0,0,0.50)"} /> 5 months on Villaja</Text>
+            <View style={{ marginHorizontal: 20, marginTop: 12 }} >
                 <View style={{ flexDirection: "row", gap: 8 }} >
                     <View style={{ width: 53, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
                         <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Phones</Text>
@@ -166,7 +161,7 @@ const sellerProfile = () => {
                     </View>
                 </View>
                 <View style={{ marginTop: 40 }} >
-                    <Text style={{ fontSize: 13, color: "#00000070", lineHeight: 15.2, letterSpacing: -0.18, fontWeight: "700" }} >About Me</Text>
+                    <Text style={{ fontSize: 12, color: "#00000070", lineHeight: 15.2, letterSpacing: -0.18, fontWeight: "700" }} >About this merchant</Text>
                     <Text numberOfLines={about} style={{ marginTop: 6, fontSize: 11, color: "#00000070", lineHeight: 15, letterSpacing: -0.18 }} >{seller?.description}</Text>
                     {
                         about === 100 ?
@@ -222,7 +217,7 @@ const sellerProfile = () => {
     )
 }
 
-export default sellerProfile
+export default merchantProfile
 
 const styles = StyleSheet.create({
     container: {

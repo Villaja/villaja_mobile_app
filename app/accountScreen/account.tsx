@@ -553,6 +553,7 @@ const styles = StyleSheet.create({
         color: "#242124",
         fontSize: 25,
         fontWeight: "400",
+        textAlign: 'center'
     },
     accountNameContainer: {
         position: "relative",
