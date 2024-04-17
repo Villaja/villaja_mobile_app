@@ -205,16 +205,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // backgroundColor: 'red',
-        padding: 20,
         // left:14,
       },
     
       imageText: {
         color: '#FFFFFF99',
         height: 87,
-        left: 13,
+        left: 23,
         position: 'absolute',
-        paddingHorizontal: 20
       },
       text1: {
         color: "#FFFFFF99",
