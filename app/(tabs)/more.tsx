@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Switch } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Switch, Dimensions } from "react-native";
 import { Svg, SvgXml, Path } from "react-native-svg";
 import { useRouter } from "expo-router";
 import { router } from 'expo-router'
@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from "../../context/AuthContext";
 
 
-
+const {width} = Dimensions.get('window')
 
 function more() {
     const router = useRouter()
@@ -30,7 +30,7 @@ function more() {
             // style={styles.topContainer}
             >
                 <View style={styles.imgContainer}>
-          <Image source={require('../../assets/images/villaja-seller.png')} style={{ width: 350, height: 129 }} />
+          <Image source={require('../../assets/images/villaja-seller.png')} style={{ width: width - 10, height: 129 }} />
           <View style={styles.imageText} >
             <Text style={styles.text1}> BECOME A VERIFIED</Text>
             <Text style={styles.text2}>Merchant On Villaja</Text>
@@ -205,16 +205,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // backgroundColor: 'red',
-        padding: 20,
         // left:14,
       },
     
       imageText: {
         color: '#FFFFFF99',
         height: 87,
-        left: 13,
+        left: 23,
         position: 'absolute',
-        paddingHorizontal: 20
       },
       text1: {
         color: "#FFFFFF99",
