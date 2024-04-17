@@ -1,4 +1,4 @@
-import { Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, ScrollView, Modal, FlatList, TouchableOpacity, Dimensions } from 'react-native'
+import { Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, ScrollView, Modal, FlatList, TouchableOpacity, Dimensions, ImageSourcePropType } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
 import { useSeller } from '../../context/SellerContext';
@@ -8,6 +8,12 @@ import axios from 'axios';
 import { AntDesign } from '@expo/vector-icons'
 
 const {width} = Dimensions.get("window")
+
+interface Category{
+  id:number,
+  name:string,
+  image:ImageSourcePropType
+}
 
 const categoriesData = [
   { id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
@@ -37,7 +43,7 @@ const sellerAddProduct = () => {
   const [productDetails, setProductDetails] = useState<string>("")
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const router = useRouter()
 
 
@@ -71,13 +77,13 @@ const sellerAddProduct = () => {
   };
 
   // Function to remove a single selected image
-  const removeSelectedImage = (indexToRemove) => {
+  const removeSelectedImage = (indexToRemove:number) => {
     setSelectedImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
   };
 
 
   // functionality to render and select categories inside the modal
-  const renderCategories = ({ item }) => {
+  const renderCategories = ({ item }:{item:Category}) => {
     return (
       <TouchableOpacity
         style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}

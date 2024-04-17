@@ -165,7 +165,7 @@ const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string
             {/* Display user's information */}
             {
             user?.firstname?.toLowerCase().includes(searchValue.toLowerCase()) ? 
-            <TouchableOpacity style={styles.messageItemContainer} onPress={() => router.push(`/sellerNotificationsTabs/${data._id}`)}>
+            <TouchableOpacity style={styles.messageItemContainer} onPress={() => router.push({pathname:`/sellerNotificationsTabs/${data._id}`,params:{userName:user?.firstname}})}>
             <View style={styles.messageItemleft}>
                 <Image source={user?.avatar?.url ? { uri: user.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
                 <View style={styles.messageItemInfo}>

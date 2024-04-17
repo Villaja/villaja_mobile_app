@@ -36,6 +36,7 @@ const Layout = () => {
           headerTitle:'',
           headerStyle:{
             backgroundColor:'#111',
+            
           },
           headerLeft:() => (
             <View style={styles.headerDashboardLeft}>
