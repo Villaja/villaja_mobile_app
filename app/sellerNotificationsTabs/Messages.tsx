@@ -9,7 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useAuth } from '../../context/SellerAuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
-import { router } from 'expo-router'
+import { router, useRouter } from 'expo-router'
 
 
 interface Conversation {
@@ -33,7 +33,7 @@ const Messages = () => {
     const [token, setToken] = useState<string>();
 
     const handleSearch = () => {
-
+        
     }
 
     useEffect(() => {
@@ -138,6 +138,7 @@ const Messages = () => {
 const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string, searchValue: string }) => {
 
 
+    const router = useRouter()
     const [user, setUser] = useState<any>({});
 
 
@@ -148,7 +149,6 @@ const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string
 
     useEffect(() => {
         const userId = data.members.find((user) => user != me);
-
         const getUser = async () => {
             try {
                 const res = await axios.get(`${base_url}/user/user-info/${userId}`);
@@ -163,20 +163,22 @@ const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string
         <View>
 
             {/* Display user's information */}
-            {user && (
-                <TouchableOpacity style={styles.messageItemContainer}>
-                    <View style={styles.messageItemleft}>
-                        <Image source={user?.avatar?.url ? { uri: user.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
-                        <View style={styles.messageItemInfo}>
-                            <Text style={styles.messageItemName}>{user?.firstname} {user?.lastname} </Text>
-                            <Text style={styles.messageItemText}>{data.lastMessage}</Text>
-                        </View>
-                    </View>
-                    <View style={styles.messageItemRight}>
-                        <Text style={styles.messageItemDate}>{moment(data?.updatedAt).fromNow()}</Text>
-                    </View>
-                </TouchableOpacity>
-            )}
+            {
+            user?.firstname?.toLowerCase().includes(searchValue.toLowerCase()) ? 
+            <TouchableOpacity style={styles.messageItemContainer} onPress={() => router.push(`/sellerNotificationsTabs/${data._id}`)}>
+            <View style={styles.messageItemleft}>
+                <Image source={user?.avatar?.url ? { uri: user.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
+                <View style={styles.messageItemInfo}>
+                    <Text style={styles.messageItemName}>{user?.firstname}</Text>
+                    <Text style={styles.messageItemText}>{data.lastMessage}</Text>
+                </View>
+            </View>
+            <View style={styles.messageItemRight}>
+                <Text style={styles.messageItemDate}>{moment(data?.updatedAt).fromNow()}</Text>
+            </View>
+        </TouchableOpacity>
+            : null
+        }
         </View>
 
     )

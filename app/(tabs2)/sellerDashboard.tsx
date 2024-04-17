@@ -14,6 +14,7 @@ import { useAuth } from '../../context/SellerAuthContext'
 import { Stack, router } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
+import { ActivityIndicator } from 'react-native-paper'
 
 const {width} = Dimensions.get('window')
 
@@ -166,7 +167,7 @@ const SellerDashboard = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
 
             <View>
-                {activeTab === "overview" && allOrders && <Overview orders={allOrders}/>}
+                {activeTab === "overview" && allOrders ? <Overview orders={allOrders}/> : <ActivityIndicator size={'small'} color={Colors.primary}/>}
                 {activeTab === "transactions" && <Transactions/>}
                  
                 {activeTab === "analytics" && <Analytics/>}
