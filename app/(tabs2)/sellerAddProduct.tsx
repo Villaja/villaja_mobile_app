@@ -182,7 +182,7 @@ const sellerAddProduct = () => {
               <Text style={styles.text}>Name</Text>
               <View style={styles.textInput}>
                 <TextInput
-                  style={{ top: 8, left: 13,  fontSize: 12 }}
+                  style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="Product Name"
                   onChangeText={(value) => setName(value)}
                 />
@@ -193,7 +193,7 @@ const sellerAddProduct = () => {
               <Text style={styles.text}>Original Price</Text>
               <View style={styles.textInput}>
                 <TextInput
-                  style={{ top: 8, left: 13,  fontSize: 12 }}
+                  style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="₦0.00"
                   keyboardType= 'number-pad'
                   onChangeText={(value) => setOriginalPrice(value)}
@@ -205,7 +205,7 @@ const sellerAddProduct = () => {
               <Text style={styles.text}>Discount price</Text>
               <View style={styles.textInput}>
                 <TextInput
-                  style={{ top: 8, left: 13,  fontSize: 12 }}
+                 style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="₦0.00"
                   keyboardType= 'number-pad'
                   onChangeText={(value) => setDiscountPrice(value)}
@@ -217,7 +217,7 @@ const sellerAddProduct = () => {
               <Text style={styles.text}>Quantity Available</Text>
               <View style={styles.textInput}>
                 <TextInput
-                  style={{ top: 8, left: 13,  fontSize: 12 }}
+                  style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="Enter amount of product in stock"
                   keyboardType='number-pad'
                   onChangeText={(value) => setQuantity(value)}
@@ -230,7 +230,7 @@ const sellerAddProduct = () => {
               <View style={styles.textInput2}>
                 <TextInput
                   multiline={true}
-                  style={{ top: 3, left: 13, width: 302,  fontSize: 12 }}
+                  style={{ top: 3, left: 13, width: width - 61, fontSize: 12 }}
                   placeholder="Enter Details"
                   onChangeText={(value) => setProductDetails(value)}
                 />

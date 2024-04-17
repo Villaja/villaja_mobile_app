@@ -155,7 +155,7 @@ const sellerRegister = () => {
           <Text style={styles.text}>Shop Name</Text>
           <View style={styles.textInput}>
             <TextInput
-              style={{ top: 12, left: 13, fontSize: 12 }}
+              style={{ top: 5, left: 13, width: width - 61, height: 45, fontSize: 12 }}
               placeholder="Enter your shop name...."
               onChangeText={(value) => setShopName(value)}
             />
@@ -166,7 +166,7 @@ const sellerRegister = () => {
           <Text style={styles.text}>Account Handler Full Name</Text>
           <View style={styles.textInput}>
             <TextInput
-              style={{ top: 12, left: 13, fontSize: 12 }}
+              style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }}
               placeholder="Enter your full name...."
               onChangeText={(value) => setHandler(value)}
             />
@@ -177,7 +177,7 @@ const sellerRegister = () => {
           <Text style={styles.text}>Account Handler Phone Number</Text>
           <View style={styles.textInput}>
             <TextInput
-              style={{ top: 12, left: 13, fontSize: 12 }}
+              style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }}
               placeholder="Enter your phone number...."
               onChangeText={(value) => setHandlerPhoneNumber(value)}
               keyboardType="number-pad"
@@ -189,7 +189,7 @@ const sellerRegister = () => {
           <Text style={styles.text}>E-mail Address</Text>
           <View style={styles.textInput}>
             <TextInput
-              style={{ top: 12, left: 13, fontSize: 12 }}
+              style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }}
               placeholder="Enter your e-mail address...."
               onChangeText={(value) => setShopEmailAddress(value)}
             />
@@ -200,7 +200,7 @@ const sellerRegister = () => {
           <Text style={styles.text}>Shop Address</Text>
           <View style={styles.textInput}>
             <TextInput
-              style={{ top: 12, left: 13, fontSize: 12 }}
+              style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }}
               placeholder="Enter your shop address...."
               onChangeText={(value) => setShopAddress(value)}
             />
@@ -234,7 +234,7 @@ const sellerRegister = () => {
           <Text style={styles.text}>Zip Code</Text>
           <View style={styles.textInput}>
             <TextInput
-              style={{ top: 12, left: 13, fontSize: 12 }}
+              style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }}
               placeholder="Enter your shop address zip code...."
               onChangeText={(value) => setZipCode(value)}
               keyboardType="number-pad"
@@ -247,7 +247,7 @@ const sellerRegister = () => {
           <View style={styles.textInput2}>
             <TextInput
               multiline={true}
-              style={{ top: 3, left: 13, width: 302, fontSize: 12 }}
+              style={{ top: 3, left: 13, width: width - 61, fontSize: 12 }}
               placeholder="Enter your shop details, what does your shop sell...."
             />
           </View>

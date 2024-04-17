@@ -30,30 +30,32 @@ const options4 = [
     { label: 'New', value: '12' },
     { label: 'Open Box', value: '13' },
     { label: 'Uk Used', value: '14' },
-    { label: 'Fairly used', value: '15' }, 
+    { label: 'Fairly used', value: '15' },
     { label: 'For parts', value: '16' }
 ];
 
 const options5 = [
-    { label: '2GB', value: '17' },
-    { label: '4GB', value: '18' },
-    { label: '6GB', value: '19' },
-    { label: '8GB', value: '20' }, 
-    { label: '10GB', value: '21' },
-    { label: '12GB', value: '22' },
-    { label: '16GB', value: '23' },
-    { label: '32GB', value: '24' }
+    { label: 'None', value: '1' },
+    { label: '2GB', value: '2' },
+    { label: '4GB', value: '3' },
+    { label: '6GB', value: '4' },
+    { label: '8GB', value: '5' },
+    { label: '10GB', value: '6' },
+    { label: '12GB', value: '77' },
+    { label: '16GB', value: '8' },
+    { label: '32GB', value: '9' }
 ];
 
 const options6 = [
-    { label: '64GB', value: '25' },
-    { label: '100GB', value: '26' },
-    { label: '128GB', value: '27' },
-    { label: '250GB', value: '28' }, 
-    { label: '512GB', value: '29' },
-    { label: '800GB', value: '30' },
-    { label: '1TB', value: '31' },
-    { label: '2TB & more', value: '32' },
+    { label: 'None', value: '1' },
+    { label: '64GB', value: '2' },
+    { label: '100GB', value: '3' },
+    { label: '128GB', value: '4' },
+    { label: '250GB', value: '5' },
+    { label: '512GB', value: '6' },
+    { label: '800GB', value: '7' },
+    { label: '1TB', value: '8' },
+    { label: '2TB & more', value: '9' },
 ];
 
 const options7 = [
@@ -123,7 +125,7 @@ const postAd2 = () => {
         if (selectedValue4 || isFocus4) {
             return (
                 <Text style={[styles.label, isFocus4 && { color: '#025492' }]}>
-                   Select gadget condition
+                    Select gadget condition
                 </Text>
             );
         }
@@ -134,7 +136,7 @@ const postAd2 = () => {
         if (selectedValue5 || isFocus5) {
             return (
                 <Text style={[styles.label, isFocus5 && { color: '#025492' }]}>
-                   Select RAM size
+                    Select RAM size
                 </Text>
             );
         }
@@ -145,7 +147,7 @@ const postAd2 = () => {
         if (selectedValue6 || isFocus6) {
             return (
                 <Text style={[styles.label, isFocus6 && { color: '#025492' }]}>
-                   Select ROM space
+                    Select ROM space
                 </Text>
             );
         }
@@ -156,7 +158,7 @@ const postAd2 = () => {
         if (selectedValue7 || isFocus7) {
             return (
                 <Text style={[styles.label, isFocus7 && { color: '#025492' }]}>
-                   Select the time usage of the product
+                    Select the time usage of the product
                 </Text>
             );
         }
@@ -262,7 +264,7 @@ const postAd2 = () => {
                         onChange={item => {
                             setSelectedValue3(item.value);
                             setIsFocus3(false);
-                        }} 
+                        }}
                         renderLeftIcon={() => (
                             <AntDesign
                                 style={styles.icon2}
@@ -298,7 +300,7 @@ const postAd2 = () => {
                         onChange={item => {
                             setSelectedValue4(item.value);
                             setIsFocus4(false);
-                        }} 
+                        }}
                         renderLeftIcon={() => (
                             <AntDesign
                                 style={styles.icon2}
@@ -334,7 +336,7 @@ const postAd2 = () => {
                         onChange={item => {
                             setSelectedValue5(item.value);
                             setIsFocus5(false);
-                        }} 
+                        }}
                         renderLeftIcon={() => (
                             <AntDesign
                                 style={styles.icon2}
@@ -370,7 +372,7 @@ const postAd2 = () => {
                         onChange={item => {
                             setSelectedValue6(item.value);
                             setIsFocus6(false);
-                        }} 
+                        }}
                         renderLeftIcon={() => (
                             <AntDesign
                                 style={styles.icon2}
@@ -407,7 +409,7 @@ const postAd2 = () => {
                         onChange={item => {
                             setSelectedValue7(item.value);
                             setIsFocus7(false);
-                        }} 
+                        }}
                         renderLeftIcon={() => (
                             <AntDesign
                                 style={styles.icon2}
@@ -432,7 +434,7 @@ const styles = StyleSheet.create({
     pageContainer: {
         flex: 1,
         backgroundColor: '#ffffff',
-        paddingHorizontal:20
+        paddingHorizontal: 20
     },
     text: {
         fontSize: 13,

@@ -12,14 +12,14 @@ const postAd1 = () => {
                 <Text style={styles.text} >Location</Text>
                 <View style={styles.textInput}>
                     <Ionicons name='location-outline' size={17} style={styles.icon} />
-                    <TextInput style={{fontSize: 12}} placeholder='14b Soyiu, Ikorodu, Lagos, Nigeria' placeholderTextColor={"#03345450"} />
+                    <TextInput style={{ width: 269, height: 45, fontSize: 12 }} placeholder='14b Soyiu, Ikorodu, Lagos, Nigeria' placeholderTextColor={"#03345450"} />
                 </View>
             </View>
             <View style={styles.textInputContainer2}>
                 <Text style={styles.text}>Phone Number</Text>
                 <View style={styles.textInput2}>
                     <TextInput
-                        style={{ top: 8, left: 13, fontSize: 12}}
+                        style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                         placeholder='Phone Number'
                         keyboardType="phone-pad"
                     />
@@ -73,8 +73,7 @@ const styles = StyleSheet.create({
         marginBottom: 440.29
     },
     icon: {
-        width: 17,
-        height: 17,
+        
         marginRight: 10,
         marginLeft: 11.77,
         color: "#03345450"

@@ -166,7 +166,7 @@ const quickSwap = () => {
                         <Text style={styles.text}>Name</Text>
                         <View style={styles.textInput}>
                             <TextInput
-                                style={{ top: 8, left: 13, fontSize: 12}}
+                                style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                                 placeholder="Product Name"
                             />
                         </View>
@@ -176,7 +176,7 @@ const quickSwap = () => {
                         <Text style={styles.text}>Swap With?</Text>
                         <View style={styles.textInput}>
                             <TextInput
-                                style={{ top: 8, left: 13, fontSize: 12}}
+                                style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                                 placeholder="Enter product(s) you want for your product"
                                 keyboardType= 'name-phone-pad'
                             />
@@ -188,7 +188,7 @@ const quickSwap = () => {
                         <View style={styles.textInput2}>
                             <TextInput
                                 multiline={true}
-                                style={{ top: 3, left: 13, width: 302, fontSize: 12}}
+                                style={{ top: 3, left: 13, width: 302, fontSize: 12 }}
                                 placeholder="Enter Details"
                             />
                         </View>

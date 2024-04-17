@@ -115,7 +115,7 @@ const Messages = () => {
                             </View>
                         </View>
                         <View style={styles.messageItemRight}>
-                            <Text style={styles.messageItemDate}>now</Text>
+                            <Text style={styles.messageItemDate}>Now</Text>
                         </View>
                     </TouchableOpacity>
                 )}
@@ -168,7 +168,7 @@ const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string
                     <View style={styles.messageItemleft}>
                         <Image source={user?.avatar?.url ? { uri: user.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
                         <View style={styles.messageItemInfo}>
-                            <Text style={styles.messageItemName}>{user?.firstname}</Text>
+                            <Text style={styles.messageItemName}>{user?.firstname} {user?.lastname} </Text>
                             <Text style={styles.messageItemText}>{data.lastMessage}</Text>
                         </View>
                     </View>
@@ -234,7 +234,9 @@ const styles = StyleSheet.create({
         color: '#000',
         fontFamily: 'roboto-condensed',
     },
-    messageItemRight: {},
+    messageItemRight: {
+        alignSelf: "center"
+    },
     messageItemDate: {
         fontSize: 10,
         color: 'rgba(0,0,0,0.60)',

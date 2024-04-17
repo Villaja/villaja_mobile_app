@@ -161,7 +161,7 @@ const QuickSell = () => {
             <Text style={styles.text}>Name</Text>
             <View style={styles.textInput}>
               <TextInput
-                style={{ top: 8, left: 13, fontSize: 12}}
+                style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                 placeholder="Product Name"
               />
             </View>
@@ -171,7 +171,7 @@ const QuickSell = () => {
             <Text style={styles.text}>Amount</Text>
             <View style={styles.textInput}>
               <TextInput
-                style={{ top: 8, left: 13, fontSize: 12}}
+                style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                 placeholder="0.00"
                 keyboardType='numeric'
               />
@@ -183,7 +183,7 @@ const QuickSell = () => {
             <View style={styles.textInput2}>
               <TextInput
                 multiline={true}
-                style={{ top: 8, left: 13, width: 300, fontSize: 12}}
+                style={{ top: 3, left: 13, width: 302, fontSize: 12 }}
                 placeholder="Enter Details"
               />
             </View>

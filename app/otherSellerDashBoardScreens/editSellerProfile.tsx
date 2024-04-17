@@ -60,40 +60,35 @@ const editSellerProfile = () => {
 
     //fetch seller token 
     useEffect(() => {
-        const fetchToken = async() => {
-            const token = await AsyncStorage.getItem("sellerToken");
-            const seller = await AsyncStorage.getItem("seller");
+        const fetchSellerDetails = async() => {
+            const token = await AsyncStorage.getItem('sellerToken');
+            const seller = await AsyncStorage.getItem('seller');
 
-            if (!token) return router.replace('/sellerAuthScreens/SellerLogin');
+            if (!token) return router.replace('/sellerAuthScreens/SellerLogin')
+            setToken(token);
             setSeller(JSON.parse(seller!).seller);
-            setToken(token)
-        }
 
-        fetchToken()
-    }, []);
+            if (seller) {
+                axios.get(`${base_url}/shop/getSeller`, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then(response => {
+                    const sellerData = response.data.seller;
+                    setShopName(sellerData.name);
+                    setAbout(sellerData.description);
+                    
+                })
+            }
+        }
+    }, [])
+    
 
     // fetch shop information
-    const fetchShop = async() => {
-        try {
-            const response = await axios.get(`${base_url}/shop/getSeller`, {
-                headers: {
-                    Authorization: token
-                },
-            });
 
-            await AsyncStorage.setItem('seller', JSON.stringify(response.data));
-            
-        } catch (error) {
-            console.error('Error fetching shop details', error)
-        }
-    };  
-    
-    
-    useEffect(() => {
-        if (seller && token) {
-            fetchShop()
-        }
-    }, [seller, token]);
+
+    //
     
     
 
