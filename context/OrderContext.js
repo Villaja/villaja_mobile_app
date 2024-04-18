@@ -53,7 +53,7 @@ const OrdersProvider = ({ children }) => {
 
       // Fetch token from AsyncStorage
       const token = await AsyncStorage.getItem('token');
-      const response = await axios.get(`https://api-villaja.cyclic.app/api/order/get-all-orders/${id}`, {
+      const response = await axios.get(`${base_url}/order/get-all-orders/${id}`, {
         headers: {
           Authorization: token,
         },

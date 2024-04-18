@@ -15,6 +15,7 @@ import { Stack, router } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { ActivityIndicator } from 'react-native-paper'
+import { base_url } from '../../constants/server'
 
 const {width} = Dimensions.get('window')
 
@@ -106,7 +107,7 @@ const SellerDashboard = () => {
 
     const handleGetOrders = async() => {
         try{
-            const response = await axios.get(`https://api-villaja.cyclic.app/api/order/get-seller-all-orders/${seller._id}`, {
+            const response = await axios.get(`${base_url}/order/get-seller-all-orders/${seller._id}`, {
                 headers: {
                 Authorization: token,
                 },

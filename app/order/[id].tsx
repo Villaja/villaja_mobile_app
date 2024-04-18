@@ -5,6 +5,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'expo-router'
 import { ScrollView } from 'react-native-gesture-handler';
+import { base_url } from '../../constants/server';
 
 
 const Page = () => {
@@ -20,7 +21,7 @@ const Page = () => {
     const fetchOrderDetails = async () => {
       try {
         if (user) {
-        const response = await axios.get(`https://api-villaja.cyclic.app/api/order/get-all-orders/${userid}`);
+        const response = await axios.get(`${base_url}/order/get-all-orders/${userid}`);
         if (response.data.success && response.data.orders.length > 0) {
           const specificOrder = response.data.orders.find((order: any) => order._id === id);
           if (specificOrder) {

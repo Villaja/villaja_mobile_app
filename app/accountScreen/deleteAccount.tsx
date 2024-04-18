@@ -7,6 +7,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { defaultStyles } from '../../constants/Styles'
+import { base_url } from '../../constants/server';
 
 
 interface Address {
@@ -43,11 +44,11 @@ const deleteAccount = () => {
     useEffect(() => {
         const fetchData = async () => {
             const storedToken = await AsyncStorage.getItem('token');
-            setToken(storedToken);
+            setToken(storedToken!);
 
             if (user) {
                 // Fetch user details
-                axios.get('https://api-villaja.cyclic.app/api/user/getuser', {
+                axios.get(`${base_url}/user/getuser`,{
                     headers: {
                         Authorization: storedToken
                     }

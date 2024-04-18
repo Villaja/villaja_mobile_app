@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
 
-      const response = await axios.post(`https://api-villaja.cyclic.app/api/user/login`, { email, password });
+      const response = await axios.post(`${base_url}/user/login`, { email, password });
      
       await AsyncStorage.setItem('token', response.data.token);
      
@@ -74,7 +74,7 @@ const AuthProvider = ({ children }) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
 
-      const response = await axios.post(`https://api-villaja.cyclic.app/api/user/register`, { firstname, lastname, email, phoneNumber, password });
+      const response = await axios.post(`${base_url}/user/register`, { firstname, lastname, email, phoneNumber, password });
 
 
       dispatch({ type: 'SET_TOKEN', payload: response.data.token });
@@ -94,7 +94,7 @@ const AuthProvider = ({ children }) => {
 
   const getUserDetails = async (token) => {
     try {
-      const response = await axios.get(`https://api-villaja.cyclic.app/api/user/getuser`, {
+      const response = await axios.get(`${base_url}/user/getuser`, {
         headers: {
           Authorization: token,
         },

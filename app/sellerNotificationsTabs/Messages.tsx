@@ -156,9 +156,11 @@ const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string
             } catch (error) {
                 console.log(error);
             }
+            console.log('running user/user-info');
+            
         };
         getUser();
-    }, [me, data]);
+    }, []);
     return (
         <View>
 

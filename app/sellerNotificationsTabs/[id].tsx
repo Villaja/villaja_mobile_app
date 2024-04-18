@@ -1,12 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Platform, SafeAreaView, StyleSheet, Text, View , TouchableOpacity,Image, ScrollView, ScrollViewComponent, KeyboardAvoidingView, TextInput} from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router'
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'
+import { Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
 import Colors from '../../constants/Colors'
 import axios from 'axios'
 import { base_url } from '../../constants/server'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
+import * as ImagePicker from 'expo-image-picker';
+
 
 interface Conversation {
     _id: string,
@@ -25,7 +27,32 @@ const Chat = () => {
   const [messages,setMessages] = useState<any>([])
   const [newMessage,setNewMessage] = useState<string>("")
   const [sellerId,setSellerId] = useState<string>("")
+  const [images,setImages] = useState<any>([])
   const scrollRef = useRef<any>(null)
+
+  const pickImage = async() => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      allowsMultipleSelection: false, // denies multiple image selection
+      allowsEditing: true,
+    });
+    // console.log(result);
+    
+    if(false)
+      {
+        const response = await axios.get(result.assets![0].uri,{
+          responseType: 'blob'
+        })
+        // console.log(response);
+        
+        const blob = URL.createObjectURL(response.data)
+        console.log(blob)
+        sendImageHandler(response.data)
+      }
+
+    
+  }
 
   const updateLastMessage = async () => {
     
@@ -41,6 +68,36 @@ const Chat = () => {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const sendImageHandler = async (result:any) => {
+    
+    try {
+      await axios
+        .post(`${base_url}/message/create-new-message`, {
+          images: result,
+          sender: sellerId,
+          text: newMessage,
+          conversationId: id,
+        })
+        .then((res) => {
+          setImages([]);
+          setMessages([...messages, res.data.message]);
+          updateLastMessageForImage();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const updateLastMessageForImage = async () => {
+    await axios.put(
+      `${base_url}/conversation/update-last-message/${id}`,
+      {
+        lastMessage: "Photo",
+        lastMessageId: sellerId,
+      }
+    );
   };
 
   const sendMessageHandler = async () => {
@@ -159,13 +216,13 @@ const Chat = () => {
       </ScrollView>
       <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={Platform.select({ios: 70, android: 0})}
+      keyboardVerticalOffset={Platform.select({ios: 40, android: 0})}
       >
 
       <View style={[styles.messageInputBox]}>
-        <TextInput placeholder='' style={styles.messageInput} onChangeText={(text) => setNewMessage(text) } value={newMessage}/>
-        <TouchableOpacity onPress={() => sendMessageHandler()}>
-          <MaterialCommunityIcons name='send-circle' size={40} color={Colors.primary} />
+        <TextInput keyboardType="web-search" onSubmitEditing={sendMessageHandler} placeholder='Type Messages...' placeholderTextColor={"rgba(0,0,0,0.40)"} style={styles.messageInput} onChangeText={(text) => setNewMessage(text) } value={newMessage}/>
+        <TouchableOpacity onPress={() => pickImage()} style={styles.camera}>
+          <SimpleLineIcons name='camera' size={25} color={Colors.primary} />
         </TouchableOpacity>
       </View>
       </KeyboardAvoidingView>
@@ -205,7 +262,8 @@ const styles = StyleSheet.create({
     messageBox:{
     paddingHorizontal:20,
     gap:50,
-    paddingBottom:20
+    paddingBottom:20,
+    backgroundColor:Colors.primaryUltraTransparent
   },
   messageBubble:{
     borderRadius:10,
@@ -214,7 +272,9 @@ const styles = StyleSheet.create({
     padding:5,
     paddingHorizontal:15,
     paddingVertical:13,
-    alignSelf:'flex-start'
+    alignSelf:'flex-start',
+    backgroundColor:'#fff',
+
   },
   messageBubbleUser:{
     borderRadius:10,
@@ -243,31 +303,47 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
-    paddingHorizontal:50,
-    paddingVertical:30,
-    paddingTop:10,
-    backgroundColor:'#ececec'
+    paddingHorizontal:20,
+    paddingVertical:14,
+    backgroundColor:"#fff",
+    gap:8.5
   },
   messageInput:{
     backgroundColor:"#fff",
-    borderColor:'#000',
-    borderWidth:StyleSheet.hairlineWidth,
-    width:'80%',
-    borderRadius:15,
+    borderColor:Colors.primaryTransparent,
+    borderWidth:2,
+    width:'100%',
+    height:48,
+    borderRadius:10,
     fontSize:16,
     padding:8,
-    paddingVertical:5
+    paddingVertical:5,
+    color:'#111',
+    fontFamily:'roboto-condensed',
+    flexShrink:1
   },
   date:{
     fontSize:10,
     alignSelf:'flex-end',
     color:'rgba(0,0,0,0.5)',
+    // color:'#000',
     position:'absolute',
     right:6,
-    bottom:2
+    bottom:-15,
+    fontFamily:'roboto-condensed'
   },
   messageImage:{
     width:200,
-    height:200
+    height:200,
+    borderRadius:10
+  },
+  camera:{
+    height:48,
+    width:48,
+    borderRadius:10,
+    alignItems:'center',
+    justifyContent:'center',
+    borderColor:Colors.primaryTransparent,
+    borderWidth:2
   }
 })

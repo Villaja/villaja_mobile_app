@@ -9,6 +9,7 @@ import { defaultStyles } from '../../constants/Styles'
 import * as ImagePicker from 'expo-image-picker';
 import { Dropdown } from 'react-native-element-dropdown';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { base_url } from '../../constants/server';
 
 interface Address {
     _id?: string;
@@ -43,9 +44,9 @@ const account = () => {
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [password, setPassword] = useState('');
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState<string>('');
     const [address, setAddress] = useState<Address | null>(null);
-    const [addressTypeValue, setAddressTypeValue] = useState(null);
+    const [addressTypeValue, setAddressTypeValue] = useState<string | null>(null);
     const [addressModalVisible, setAddressModalVisible] = useState(false);
     const [passwordModalVisible, setPasswordModalVisible] = useState(false);
     const [userImage, setUserImage] = useState("");
@@ -66,11 +67,11 @@ const account = () => {
     useEffect(() => {
         const fetchData = async () => {
             const storedToken = await AsyncStorage.getItem('token');
-            setToken(storedToken);
+            setToken(storedToken!);
 
             if (user) {
                 // Fetch user details
-                axios.get('https://api-villaja.cyclic.app/api/user/getuser', {
+                axios.get(`${base_url}/user/getuser`, {
                     headers: {
                         Authorization: storedToken
                     }
@@ -108,7 +109,7 @@ const account = () => {
         };
 
         // Update user information
-        axios.put('https://api-villaja.cyclic.app/api/user/update-user-info', updatedUser, {
+        axios.put(`${base_url}/user/update-user-info`, updatedUser, {
             headers: {
                 Authorization: token
             }
@@ -140,7 +141,7 @@ const account = () => {
         };
 
         // Logic to save/update address
-        axios.put('https://api-villaja.cyclic.app/api/user/update-user-addresses', newAddress, {
+        axios.put(`${base_url}/user/update-user-addresses`, newAddress, {
             headers: {
                 Authorization: token
             }
@@ -171,7 +172,7 @@ const account = () => {
         }
 
         // Make a DELETE request to delete the address
-        axios.delete(`https://api-villaja.cyclic.app/api/user/delete-user-address/${address._id}`, {
+        axios.delete(`${base_url}/user/delete-user-address/${address._id}`, {
             headers: {
                 Authorization: token
             }
@@ -491,7 +492,7 @@ const account = () => {
                             placeholder="Address Type"
                             value={addressTypeValue}
                             onChange={item => {
-                                setAddressTypeValue(item.value);
+                                setAddressTypeValue(item?.value);
                             }}
                             dropdownPosition='top'
                         />

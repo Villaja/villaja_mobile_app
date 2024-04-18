@@ -14,6 +14,7 @@ import { useOrders } from '../../context/OrderContext';
 import { Order, CartItem } from '../../types/Order'
 
 import axios from 'axios'
+import { base_url } from '../../constants/server'
 
 const sampleCartItems = [
   {
@@ -47,7 +48,7 @@ const cart = () => {
     const fetchData = async () => {
       try {
         if (user) {
-          const response = await axios.get(`https://api-villaja.cyclic.app/api/order/get-all-orders/${id}`);
+          const response = await axios.get(`${base_url}/order/get-all-orders/${id}`);
           if (response.data.success) {
             setOrders(response.data.orders);
           } else {

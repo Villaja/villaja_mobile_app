@@ -14,6 +14,7 @@ import { useAuth } from '../../context/AuthContext'
 import axios from 'axios'
 import  { Paystack }  from 'react-native-paystack-webview';
 import { useRouter } from 'expo-router'
+import { base_url } from '../../constants/server'
 
 
 
@@ -81,7 +82,7 @@ const checkout = () => {
           setCheckoutModal(true)
     
           // Make a POST request to create the order
-          const createOrderResponse = await axios.post(`https://api-villaja.cyclic.app/api/order/create-order`, order, config);
+          const createOrderResponse = await axios.post(`${base_url}/order/create-order`, order, config);
     
           if (createOrderResponse.data.success) {
             // Order created successfully
