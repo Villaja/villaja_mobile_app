@@ -32,6 +32,7 @@ const Messages = () => {
     const [seller, setSeller] = useState<any>([]);
     const [token, setToken] = useState<string>();
 
+
     const handleSearch = () => {
         
     }
@@ -140,7 +141,7 @@ const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string
 
     const router = useRouter()
     const [user, setUser] = useState<any>({});
-
+    const [lastMessage, setLastMessage] = useState(1)
 
 
 
@@ -171,8 +172,8 @@ const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string
             <View style={styles.messageItemleft}>
                 <Image source={user?.avatar?.url ? { uri: user.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
                 <View style={styles.messageItemInfo}>
-                    <Text style={styles.messageItemName}>{user?.firstname}</Text>
-                    <Text style={styles.messageItemText}>{data.lastMessage}</Text>
+                    <Text style={styles.messageItemName}>{user?.firstname} {user?.lastname} </Text>
+                    <Text numberOfLines={lastMessage} style={styles.messageItemText}>{data.lastMessage}</Text>
                 </View>
             </View>
             <View style={styles.messageItemRight}>
@@ -222,10 +223,10 @@ const styles = StyleSheet.create({
     messageItemleft: {
         flexDirection: 'row',
         gap: 10,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     messageItemInfo: {
-        gap: 5
+        gap: 5,
     },
     messageItemName: {
         fontSize: 13,
@@ -237,6 +238,7 @@ const styles = StyleSheet.create({
         fontSize: 11,
         color: '#000',
         fontFamily: 'roboto-condensed',
+        width: 200,
     },
     messageItemRight: {
         alignSelf: "center"
