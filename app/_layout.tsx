@@ -848,6 +848,15 @@ function RootLayoutNav() {
                       
                     }}
                   />
+                  <Stack.Screen
+                    name="userNotificationsTabs/[id]"
+                    options={{
+                      // presentation: 'modal',
+                      title: '',
+                      headerShown:false,
+                      
+                    }}
+                  />
                 </Stack>
               </OrdersProvider>
             </SellerAuthProvider>

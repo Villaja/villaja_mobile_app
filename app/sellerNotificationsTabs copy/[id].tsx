@@ -101,8 +101,6 @@ const Chat = () => {
 
   const sendMessageHandler = async () => {
 
-    setNewMessage("") 
-
     const message = {
       sender: sellerId,
       text: newMessage,

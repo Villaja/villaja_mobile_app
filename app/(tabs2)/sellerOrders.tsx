@@ -14,6 +14,7 @@ const sellerOrders = () => {
   }
 
   return (
+    
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Button title='seller register' onPress={() => router.push('/sellerAuthScreens/sellerRegister')} />
       <Button title='seller profile' onPress={() => router.push('/otherSellerDashBoardScreens/sellerProfile')} />

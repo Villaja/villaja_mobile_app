@@ -73,7 +73,8 @@ const Layout = () => {
       <Tabs.Screen
         name="account"
         options={{
-
+          headerTitle:"",
+          headerShown: false,
           tabBarLabel: 'Notifications',
           tabBarIcon: ({ color }) => (
             <Ionicons name="notifications-outline" size={20} color={color} />

@@ -39,31 +39,31 @@ const data = {
 };
 
 
-const swapRequests = [
-    {
-        id:1,
-        name:"Angus McGyver",
-        image:"https://image.cnbcfm.com/api/v1/image/106452529-1584646955287macbook-air-2020-10.png?v=1584647237&w=929&h=523&vtcrop=y",
-        date: Date.now(),
-        avatar:require('../../assets/images/user1.png')
-    },
-    {
-        id:2,
-        name:"Angus McGyver",
-        image:"https://fdn.gsmarena.com/imgroot/news/23/09/iphone-15-dummies-colors-video/inline/-1200/gsmarena_001.jpg",
-        date: Date.now(),
-        avatar:require('../../assets/images/user1.png')
-    },
-    {
-        id:3,
-        name:"Angus McGyver",
-        image:"https://www.digitaltrends.com/wp-content/uploads/2020/12/macbook-air-m1.jpg?resize=625%2C417&p=1",
-        date: Date.now(),
-        avatar:require('../../assets/images/user1.png')
-    }
-]
+// const swapRequests = [
+//     {
+//         id:1,
+//         name:"Angus McGyver",
+//         image:"https://image.cnbcfm.com/api/v1/image/106452529-1584646955287macbook-air-2020-10.png?v=1584647237&w=929&h=523&vtcrop=y",
+//         date: Date.now(),
+//         avatar:require('../../assets/images/user1.png')
+//     },
+//     {
+//         id:2,
+//         name:"Angus McGyver",
+//         image:"https://fdn.gsmarena.com/imgroot/news/23/09/iphone-15-dummies-colors-video/inline/-1200/gsmarena_001.jpg",
+//         date: Date.now(),
+//         avatar:require('../../assets/images/user1.png')
+//     },
+//     {
+//         id:3,
+//         name:"Angus McGyver",
+//         image:"https://www.digitaltrends.com/wp-content/uploads/2020/12/macbook-air-m1.jpg?resize=625%2C417&p=1",
+//         date: Date.now(),
+//         avatar:require('../../assets/images/user1.png')
+//     }
+// ]
 
-// const swapRequests = []
+const swapRequests = [] as any
 // const pendingOrders = []
 
 const pendingOrders = [
@@ -102,26 +102,26 @@ const SellerDashboard = () => {
     const [seller,setSeller] = useState<any>([])
     const [token,setToken] = useState<string>()
     const [activeTab,setActiveTab] = useState<string>("overview")
+    const [loading,setLoading]= useState<boolean>(false) 
 
     const [allOrders,setAllOrders] = useState<any>(null)
 
     const handleGetOrders = async() => {
-        try{
-            const response = await axios.get(`${base_url}/order/get-seller-all-orders/${seller._id}`, {
-                headers: {
-                Authorization: token,
-                },
-            });
-
-            setAllOrders(response.data.orders)
+        try {
+        
+          const response = await axios.get(`${base_url}/order/get-seller-all-orders/${seller._id}`);
+          if (response.data.success) {
+            setAllOrders(response.data.orders);
             
-
-        }
-        catch(e)
-        {
-            console.log('Request error: ',e);
-            
-        }
+          } else {
+            console.error('Failed to fetch orders');
+          }
+        
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+      } finally {
+        setLoading(false);
+      }
     }
 
     useEffect(() => {
@@ -135,8 +135,11 @@ const SellerDashboard = () => {
         }
 
         checkToken()
-        handleGetOrders()
     },[])
+
+    useEffect(() => {
+        handleGetOrders()
+    },[seller])
     
 
   return (
@@ -168,9 +171,8 @@ const SellerDashboard = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
 
             <View>
-                {activeTab === "overview" && allOrders ? <Overview orders={allOrders}/> : <ActivityIndicator size={'small'} color={Colors.primary}/>}
+                {activeTab === "overview" && <Overview orders={allOrders}/>}
                 {activeTab === "transactions" && <Transactions/>}
-                 
                 {activeTab === "analytics" && <Analytics/>}
             </View>
         </ScrollView>
@@ -181,7 +183,7 @@ const SellerDashboard = () => {
 const Overview = ({orders}:{orders:any}) => {
     const navigation = useNavigation(); 
     
-    console.log(orders);
+    console.log("orders : ",orders);
     
 
     return (
@@ -251,20 +253,22 @@ const Overview = ({orders}:{orders:any}) => {
 
                 <View style={styles.orderSection}>
                     {
-                        pendingOrders.length > 1 ?
-                        pendingOrders
+                        orders.length > 1 ?
+                        orders
+                        .filter((od:any) => od.status != "Delivered")
+                        .slice(0,4)
                         // .filter((od:any) => od.status === "Delivered" )
                         .map((order:any,index:number) => (
                             <TouchableOpacity style={styles.orderCard} key={index}>
                                 <View style={styles.orderCardLeft}>
-                                    <Image source={{uri:order.image}} resizeMode='contain'  style={styles.orderImg}/>
+                                    <Image source={{uri:order.cart[0].images[0].url}} resizeMode='contain'  style={styles.orderImg}/>
                                     <View style={styles.orderInfo}>
 
-                                        <Text style={styles.orderName}>{order.name}</Text>
-                                        <Text style={styles.orderUser}>By: {order.user}</Text>
+                                        <Text style={styles.orderName}>{order.cart[0].name}</Text>
+                                        <Text style={styles.orderUser}>By: {order.user.firstname}</Text>
                                     </View>
                                 </View>
-                                <Text style={styles.orderPrice}>₦{order.price.toLocaleString()}</Text>
+                                <Text style={styles.orderPrice}>₦{order.totalPrice.toLocaleString()}</Text>
                             </TouchableOpacity>
                         ))
 

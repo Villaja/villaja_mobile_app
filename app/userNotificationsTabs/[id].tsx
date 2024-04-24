@@ -25,7 +25,7 @@ const Chat = () => {
   const [conversation, setConversation] = useState<Conversation | null>(null)
   const [messages, setMessages] = useState<any>([])
   const [newMessage, setNewMessage] = useState<string>("")
-  const [sellerId, setSellerId] = useState<string>("")
+  const [userId, setuserId] = useState<string>("")
   const [images, setImages] = useState<any>([])
   const scrollRef = useRef<any>(null)
   const [isTyping, setIsTyping] = useState<boolean>(false);
@@ -59,7 +59,7 @@ const Chat = () => {
     await axios
       .put(`${base_url}/conversation/update-last-message/${id}`, {
         lastMessage: newMessage,
-        lastMessageId: sellerId,
+        lastMessageId: userId,
       })
       .then((res) => {
         setNewMessage("");
@@ -71,11 +71,12 @@ const Chat = () => {
 
   const sendImageHandler = async (result: any) => {
 
+    setNewMessage("") 
     try {
       await axios
         .post(`${base_url}/message/create-new-message`, {
           images: result,
-          sender: sellerId,
+          sender: userId,
           text: newMessage,
           conversationId: id,
         })
@@ -94,21 +95,19 @@ const Chat = () => {
       `${base_url}/conversation/update-last-message/${id}`,
       {
         lastMessage: "Photo",
-        lastMessageId: sellerId,
+        lastMessageId: userId,
       }
     );
   };
 
   const sendMessageHandler = async () => {
 
-    setNewMessage("") 
-
     const message = {
-      sender: sellerId,
+      sender: userId,
       text: newMessage,
       conversationId: id,
     };
-
+    
     try {
       if (newMessage !== "") {
         await axios
@@ -130,14 +129,14 @@ const Chat = () => {
     const getMessage = async () => {
 
       try {
-        const seller = await AsyncStorage.getItem('seller')
-        setSellerId(JSON.parse(seller!)?.seller._id)
+        const user = await AsyncStorage.getItem('user')
+        setuserId(JSON.parse(user!)?._id)
         const response = await axios.get(
           `${base_url}/message/get-all-messages/${id}`
         );
         setMessages(response.data.messages);
       } catch (error) {
-        console.log(error);
+        console.log("get message",error);
       }
     };
     getMessage();
@@ -147,7 +146,7 @@ const Chat = () => {
     const getConversation = async () => {
 
       try {
-        const token = await AsyncStorage.getItem('sellerToken')
+        const token = await AsyncStorage.getItem('token')
         const response = await axios.get(`${base_url}/conversation/get-conversation/${id}`,
           {
             headers: {
@@ -187,11 +186,12 @@ const Chat = () => {
         >
           {messages ? (
             messages.map((msg: any) =>
-              msg.sender != sellerId ? (
+              msg.sender != userId ? (
                 <View key={msg._id}>
                   <View style={[styles.messageBubble]}>
                     {msg.text && <Text style={styles.msgText}>{msg.text}</Text>}
                     <Text style={styles.date}>{moment(msg.createdAt).fromNow()}</Text>
+
                   </View>
                   {msg.images ? (
                     <View style={styles.messageBubble2}>
@@ -207,6 +207,7 @@ const Chat = () => {
               ) : (
                 <View key={msg._id} style={[styles.messageBubbleUser]}>
                   <Text style={styles.msgTextUser}>{msg.text}</Text>
+
                   <Text style={styles.date}>{moment(msg.createdAt).fromNow()}</Text>
                 </View>
               )
