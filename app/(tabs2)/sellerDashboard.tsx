@@ -104,7 +104,8 @@ const SellerDashboard = () => {
     const [activeTab,setActiveTab] = useState<string>("overview")
     const [loading,setLoading]= useState<boolean>(false) 
 
-    const [allOrders,setAllOrders] = useState<any>(null)
+    const [allOrders,setAllOrders] = useState<any>([])
+    
 
     const handleGetOrders = async() => {
         try {
@@ -182,6 +183,7 @@ const SellerDashboard = () => {
 
 const Overview = ({orders}:{orders:any}) => {
     const navigation = useNavigation(); 
+    const [multiLine, setMultiLine] = useState(1)
     
     console.log("orders : ",orders);
     
@@ -264,7 +266,7 @@ const Overview = ({orders}:{orders:any}) => {
                                     <Image source={{uri:order.cart[0].images[0].url}} resizeMode='contain'  style={styles.orderImg}/>
                                     <View style={styles.orderInfo}>
 
-                                        <Text style={styles.orderName}>{order.cart[0].name}</Text>
+                                        <Text numberOfLines={multiLine} style={styles.orderName}>{order.cart[0].name}</Text>
                                         <Text style={styles.orderUser}>By: {order.user.firstname}</Text>
                                     </View>
                                 </View>
@@ -481,21 +483,25 @@ const styles = StyleSheet.create({
     orderCard:{
         flexDirection:'row',
         alignItems:'center',
-        justifyContent:'space-between'
+        justifyContent:'space-between',
     },
     orderCardLeft:{
         flexDirection:'row',
-        alignItems:'center'
+        alignItems:'center',
+        flexShrink: 1
     },
     orderInfo:{
         justifyContent:'space-between',
-        gap: 7
+        gap: 7,
+        flexShrink: 1,
+        maxWidth: 190,
     },
     orderName:{
-        fontSize: 15,
+        fontSize: 14,
         fontFamily:'roboto-condensed-sb',
         lineHeight: 15,
-        letterSpacing: -0.18
+        letterSpacing: -0.18,
+        
     },
     orderPrice:{
         fontSize: 15,
