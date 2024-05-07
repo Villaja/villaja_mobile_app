@@ -100,7 +100,7 @@ const index = () => {
     const fetchData = async () => {
       try {
         const response: AxiosResponse<{ products: Product[] }> = await axios.get(
-          `${base_url}/product/get-all-products`
+          `${base_url}/product/get-all-products` 
         );
 
         // Get the first 10 products

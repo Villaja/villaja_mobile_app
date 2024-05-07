@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'roboto-condensed',
     textTransform: 'capitalize',
-    color: '#000'
+    color: '#00000090'
   },
   description: {
     fontSize: 16,

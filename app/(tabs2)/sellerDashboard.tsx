@@ -234,7 +234,7 @@ const Overview = ({orders}:{orders:any}) => {
                 }
             </ScrollView>
             :
-                    <View  style={{padding:20,gap:10,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                    <View  style={{height: 200, padding:20,gap:10,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                             <AntDesign name='frowno' size={20} color={Colors.primary}/>
                             <Text style={{fontFamily:'roboto-condensed',fontSize:15}}>No Swap Requests</Text>
                         </View>
