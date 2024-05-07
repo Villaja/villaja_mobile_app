@@ -172,7 +172,7 @@ const Page: React.FC = () => {
 
 
                   <View style={{ marginTop: 10, paddingVertical: 20, paddingHorizontal: 20, backgroundColor: '#fff' }}>
-                    <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15, color: "rgba(0,0,0,0.70)", marginBottom: 12, fontWeight: "700" }}>Specs</Text>
+                    <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: "rgba(0,0,0,0.70)", marginBottom: 12, fontWeight: "700" }}>Specs</Text>
                     <View style={{ gap: 12 }}>
                       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                         <View style={{ gap: 4, flexBasis: '49%' }}>
@@ -250,7 +250,7 @@ const Page: React.FC = () => {
                   </View>
 
                   <View style={{ marginTop: 8, paddingHorizontal: 20, paddingVertical: 15, gap: 8, backgroundColor: '#fff' }}>
-                    <Text style={{ fontSize: 15, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Description</Text>
+                    <Text style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Description</Text>
                     <Text numberOfLines={descriptionLength} style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)" }} >{productDetails.description}</Text>
                     {
                       descriptionLength === 100 ?
@@ -270,7 +270,7 @@ const Page: React.FC = () => {
 
                   <View style={{ marginTop: 8, paddingHorizontal: 20, paddingVertical: 30, gap: 15, backgroundColor: '#fff' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <Text style={{ fontSize: 15, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Profile</Text>
+                      <Text style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Profile</Text>
                       <TouchableOpacity onPress={() => router.push('/accountScreen/merchantProfile')} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, }}>
                         <Text style={{ fontFamily: 'roboto-condensed', fontSize: 12, color: Colors.primary }}>View Profile</Text>
                         <MaterialIcons name='keyboard-arrow-right' color={Colors.primary} size={16} />
@@ -311,7 +311,7 @@ const Page: React.FC = () => {
                   </View>
 
                   <View style={{ marginTop: 8, paddingHorizontal: 20, paddingVertical: 30, gap: 15 }}>
-                    <Text style={{ fontSize: 15, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Similar</Text>
+                    <Text style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Similar</Text>
                     <View>
                       <SimilarSection category={productDetails?.category} />
                     </View>
@@ -403,7 +403,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: 'roboto-condensed',
     textTransform: 'capitalize',
-    color: '#00000090'
+    color: '#00000090',
+    fontWeight: "500"
   },
   description: {
     fontSize: 16,
