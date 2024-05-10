@@ -321,7 +321,6 @@ const styles = StyleSheet.create({
   },
   msgTextUser: {
     fontSize: 14,
-    marginRight: 5,
     color: '#fff',
     textAlign: 'left',
     fontFamily: 'roboto-condensed'
