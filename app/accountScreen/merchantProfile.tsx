@@ -10,8 +10,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import axios, { Axios, AxiosResponse } from 'axios';
 import { Skeleton } from '@rneui/themed'
+import { useAuth } from "../../context/AuthContext";
+import Toast from 'react-native-toast-message';
 
-
+interface Conversation {
+    _id: string;
+    groupTitle: string;
+    members: Array<string>;
+    createdAt: any;
+    updatedAt: Date;
+    lastMessage: string;
+    lastMessageId: string;
+  }
 
 
 const { width } = Dimensions.get("window");
@@ -24,25 +34,34 @@ const testUser = {
 
 const merchantProfile = () => {
     const router = useRouter()
+    const [user, setUser] = useState<any>({});
     const [about, setAbout] = useState(3);
     const [products, setProducts] = useState<Array<Product>>([]);
     const [seller, setSeller] = useState<any>([]);
     const [token, setToken] = useState<string>();
+    const [userToken, setUserToken] = useState<string>();
     const [loading, setLoading] = useState<boolean>(true);
     const [viewType, setViewType] = useState<boolean>(true)
 
 
 
 
-    //fetch seller token 
+    //fetch user and seller token
     useEffect(() => {
         const fetchToken = async () => {
             const token = await AsyncStorage.getItem('sellerToken');
+            const userToken = await AsyncStorage.getItem('user')
+            const user = await AsyncStorage.getItem('user')
             const seller = await AsyncStorage.getItem('seller')
 
             if (!token) return router.replace('/sellerAuthScreens/SellerLogin')
+            if (!userToken) {
+                return router.replace('/(modals)/login')
+            }
+            setUser(JSON.parse(user!).user)
             setSeller(JSON.parse(seller!).seller)
             setToken(token)
+            setUserToken(userToken)
         }
 
         fetchToken()
@@ -126,6 +145,35 @@ const merchantProfile = () => {
         );
     };
 
+    //fetch user token to ensure user is logged in before sending a message 
+
+    
+
+    //Create new conversation function to send message to seller
+    const sendMessageHandler = async() => {
+        try {
+            if (user && userToken) {
+                const userId = user;
+                const sellerId = seller;
+                const groupTitle = user + seller
+                await axios
+                .post(`${base_url}/conversation/create-new-conversation`, {
+                    groupTitle,
+                    userId,
+                    sellerId,
+                })
+                .then((response)=> {
+                    router.push(`/userNotificationsTabs/${data._id}`);
+                    console.log("created")
+                })
+                .catch((error)=> {
+                    console.log(error)
+                });
+            } 
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
 
