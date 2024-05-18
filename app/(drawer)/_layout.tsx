@@ -2,11 +2,13 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { DrawerActions } from "@react-navigation/native";
 import { useNavigation } from "expo-router";
 import React from "react";
-import { Pressable, View, Text, StyleSheet } from "react-native";
+import { Pressable, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import Drawer from "expo-router/drawer";
 import { Feather, FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { useAuth } from '../../context/SellerAuthContext';
+import { useRouter } from "expo-router";
 
 
 export function CustomDrawerContent(props:any) {
@@ -16,6 +18,13 @@ export function CustomDrawerContent(props:any) {
   
     const closeDrawer = ()=>{
         navigation.dispatch(DrawerActions.closeDrawer())
+    }
+    const router = useRouter()
+    const { logout } = useAuth()
+  
+    const handleLogout = async () => {
+      await logout()
+      router.replace('/')
     }
     return(
         <View
@@ -32,10 +41,10 @@ export function CustomDrawerContent(props:any) {
                 <DrawerItemList {...props} />
               </DrawerContentScrollView>
         
-              <Pressable onPress={closeDrawer} style={styles.button}>
+              <TouchableOpacity onPress={() => handleLogout()} style={styles.button}>
                 <AntDesign name="back" size={24} color="white" />
-                <Text style={{color:'white'}}>Return to Main App</Text>
-              </Pressable>
+                <Text style={{color:'white'}}>Log Out</Text>
+              </TouchableOpacity>
         </View>
     )
   
@@ -149,7 +158,8 @@ export function CustomDrawerContent(props:any) {
         display: 'flex', 
         flexDirection: 'row', 
         justifyContent: 'flex-start', 
-        alignItems: 'center'
+        alignItems: 'center',
+        gap: 10
     },
     
   })

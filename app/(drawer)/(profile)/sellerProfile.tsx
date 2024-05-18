@@ -48,25 +48,25 @@ const sellerProfile = () => {
         fetchToken()
     }, [])
 
-        // fetch shop products functionality
+    // fetch shop products functionality
 
-        const fetchProducts = async () => {
-            try {
-                const response: AxiosResponse<{ products: Product[] }> = await axios.get(`${base_url}/product/get-all-products-shop/${seller._id}`, {
-                    headers: {
-                        Authorization: token,
-                    },
-                });
-    
-                const first10Products = response.data.products.slice(0, 50);
-                setProducts(first10Products)
-    
-            } catch (error) {
-                console.error('Error fetching products', error);
-            } finally {
-                setLoading(false)
-            }
-        };
+    const fetchProducts = async () => {
+        try {
+            const response: AxiosResponse<{ products: Product[] }> = await axios.get(`${base_url}/product/get-all-products-shop/${seller._id}`, {
+                headers: {
+                    Authorization: token,
+                },
+            });
+
+            const first10Products = response.data.products.slice(0, 50);
+            setProducts(first10Products)
+
+        } catch (error) {
+            console.error('Error fetching products', error);
+        } finally {
+            setLoading(false)
+        }
+    };
 
     // finally fetch product after token confirmation
     useEffect(() => {
@@ -138,9 +138,6 @@ const sellerProfile = () => {
                 options={{
                     headerLeft: () => (
                         <View style={styles.headerDashboardLeft}>
-
-                            <Image source={{ uri: seller?.avatar?.url }} resizeMode='contain' style={styles.sellerProfilePic} />
-                            <Text style={{ color: "#fff", fontSize: 10, marginBottom: 5 }}>{seller?.name}</Text>
                         </View>
                     ),
                 }}
@@ -197,7 +194,7 @@ const sellerProfile = () => {
             </View>
             <View style={{ height: 3, width: width + 10, backgroundColor: "#00000010", marginTop: 40 }} ></View>
             <View style={{ flexDirection: "row", height: 50 }} >
-                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '15%', borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#00000010" }} onPress={() => setViewType(!viewType) } >
+                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '15%', borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#00000010" }} onPress={() => setViewType(!viewType)} >
                     {
                         viewType ?
                             <Ionicons name="grid-outline" size={20} color="#00000090" />
@@ -236,27 +233,26 @@ const sellerProfile = () => {
 export default sellerProfile
 
 const styles = StyleSheet.create({
-    
-        
-        headerDashboardLeft: {
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 10,
-            marginLeft: 20,
-            marginBottom: -8
-        },
-        sellerProfilePic: {
-            width: 37,
-            height: 37,
-            borderRadius: 37,
-            marginBottom: 5
-        },
+    headerDashboardLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        marginLeft: 20,
+        marginBottom: -8
+    },
+    sellerProfilePic: {
+        width: 37,
+        height: 37,
+        borderRadius: 37,
+        marginBottom: 5
+    },
     container: {
         flex: 1,
-        backgroundColor: "#fff"
+        backgroundColor: "#fff",
+        paddingTop: 30
     },
     editButton: {
-        marginHorizontal: 20
+        marginHorizontal: 15
     },
     gridContainer: {
         flexDirection: 'column-reverse',

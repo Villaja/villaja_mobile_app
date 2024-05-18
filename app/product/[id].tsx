@@ -277,12 +277,12 @@ const Page: React.FC = () => {
                       </TouchableOpacity>
                     </View>
 
-                    <View style={{ flexDirection: 'row', gap: 20 }}>
+                    <View style={{ flexDirection: 'row', gap: 10}}>
                       <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }} >
                         <Image source={{ uri: productDetails?.shop.avatar.url }} style={{ width: 60, height: 60, borderRadius: 58, resizeMode: 'contain' }} />
                         <MaterialIcons name="verified" size={18} color="green" style={{ alignSelf: "flex-end", right: 20 }} />
                       </View>
-                      <View style={{ gap: 8 }}>
+                      <View style={{ gap: 4, justifyContent: "center", alignItems: "center"}}>
                         <Text style={{ flexDirection: 'row', alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 12, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> {timeAgo(productDetails?.shop.createdAt)} on Villaja</Text>
                         <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 14 }}>{productDetails?.shop.name}</Text>
                       </View>

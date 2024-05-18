@@ -10,62 +10,54 @@ import { DrawerActions } from '@react-navigation/native'
 
 
 export default function MyStack() {
-    const navigation = useNavigation()
-    return (
-        <Stack initialRouteName="sellerProfile">
-            <Stack.Screen 
-                name="sellerProfile" 
-                
-                  options={{
-                    title: '',
-                    headerStyle:{
-                      backgroundColor:'#111',
-                      
-                    },
-                    headerLeft:() => (
-                      <View style={styles.headerDashboardLeft}>
-                        
-                        <Image source={{uri:"https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg"}} resizeMode='contain' style={styles.sellerProfilePic} />
-                        <Text style={styles.headerText}>Col.Rederic Docker</Text>
-                      </View>
-                    ),
-                    headerRight:() => (
-                      
-                      
-                        
-                          <TouchableOpacity style={styles.menuBtn} onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())} >
-                          <Image source={require("../../../assets/images/menu.png")} style={{width: 15, height: 13 }} />
-                        </TouchableOpacity> 
-                        
-          
-                    )
-                  }}
-            />
-            <Stack.Screen 
-                name="editSellerProfile" 
-                options={{ title: 'Edit Profile' }} 
-            />
-        </Stack>
-    );
+  const navigation = useNavigation()
+  return (
+    <Stack initialRouteName="sellerProfile">
+      <Stack.Screen
+        name="sellerProfile"
+        options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: '#111',
+          },
+          headerLeft: () => (
+            <View style={styles.headerDashboardLeft}>
+              <Image source={{ uri: "https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg" }} resizeMode='contain' style={styles.sellerProfilePic} />
+              <Text style={styles.headerText}>Col.Rederic Docker</Text>
+            </View>
+          ),
+          headerRight: () => (
+            <TouchableOpacity style={styles.menuBtn} onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} >
+              <Image source={require("../../../assets/images/menu.png")} style={{ width: 15, height: 13 }} />
+            </TouchableOpacity>
+          )
+        }}
+      />
+      <Stack.Screen
+        name="editSellerProfile"
+        options={{ title: 'Edit Profile' }}
+      />
+    </Stack>
+  );
 }
 const styles = StyleSheet.create({
-    headerDashboardLeft:{
-      flexDirection:'row',
-      alignItems:'center',
-      gap:10,
-      marginLeft:20
-    },
-    sellerProfilePic:{
-      width:27,
-      height:27,
-      borderRadius:27
-    },
-    headerText:{
-      color:'#fff',
-      fontFamily:'roboto-condensed'
-    },
-    menuBtn:{
-      marginRight:20
-    }
-  })
+  headerDashboardLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    marginLeft: 20
+  },
+  sellerProfilePic: {
+    width: 27,
+    height: 27,
+    borderRadius: 27
+  },
+  headerText: {
+    color: '#fff',
+    fontFamily: 'roboto-condensed'
+  },
+  menuBtn: {
+    marginRight: 2.5
+  }
+})
 

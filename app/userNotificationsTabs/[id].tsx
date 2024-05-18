@@ -54,8 +54,6 @@ const Chat = () => {
   }
 
   const updateLastMessage = async () => {
-
-
     await axios
       .put(`${base_url}/conversation/update-last-message/${id}`, {
         lastMessage: newMessage,
