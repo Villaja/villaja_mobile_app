@@ -4,9 +4,9 @@ import { StatusBar } from 'expo-status-bar'
 import Colors from '../../../constants/Colors'
 import { AntDesign, EvilIcons, Feather, Ionicons } from '@expo/vector-icons'
 import {
-  BarChart,
+    BarChart,
 } from "react-native-chart-kit";
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 
 import Analytics from '../../SellerDashboardComponents/Analytics'
 import Transactions from '../../SellerDashboardComponents/Transactions'
@@ -18,7 +18,7 @@ import { ActivityIndicator } from 'react-native-paper'
 import { base_url } from '../../../constants/server'
 
 
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 const chartConfig = {
     backgroundColor: '#fff',
@@ -26,17 +26,17 @@ const chartConfig = {
     backgroundGradientTo: '#fff',
     color: (opacity = 1) => `${Colors.primary}`,
     style: {
-      borderRadius: 16,
+        borderRadius: 16,
     }
 };
 
 const data = {
-  labels: ["January", "February", "March", "April", "May", "June"],
-  datasets: [
-    {
-      data: [20, 45, 28, 80, 99, 43]
-    }
-  ]
+    labels: ["January", "February", "March", "April", "May", "June"],
+    datasets: [
+        {
+            data: [20, 45, 28, 80, 99, 43]
+        }
+    ]
 };
 
 
@@ -69,32 +69,32 @@ const swapRequests = [] as any
 
 const pendingOrders = [
     {
-        id:1,
-        image:'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
-        name:'IPhone 14 Pro Max',
-        price:200000,
-        user:'Lynn Tanner'
+        id: 1,
+        image: 'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
+        name: 'IPhone 14 Pro Max',
+        price: 200000,
+        user: 'Lynn Tanner'
     },
     {
-        id:2,
-        image:'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
-        name:'IPhone 14 Pro Max',
-        price:200000,
-        user:'Lynn Tanner'
+        id: 2,
+        image: 'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
+        name: 'IPhone 14 Pro Max',
+        price: 200000,
+        user: 'Lynn Tanner'
     },
     {
-        id:3,
-        image:'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
-        name:'IPhone 14 Pro Max',
-        price:200000,
-        user:'Lynn Tanner'
+        id: 3,
+        image: 'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
+        name: 'IPhone 14 Pro Max',
+        price: 200000,
+        user: 'Lynn Tanner'
     },
     {
-        id:4,
-        image:'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
-        name:'IPhone 14 Pro Max',
-        price:200000,
-        user:'Lynn Tanner'
+        id: 4,
+        image: 'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
+        name: 'IPhone 14 Pro Max',
+        price: 200000,
+        user: 'Lynn Tanner'
     },
 ]
 
@@ -102,94 +102,94 @@ const pendingOrders = [
 
 const SellerDashboard = () => {
 
-    const [seller,setSeller] = useState<any>([])
-    const [token,setToken] = useState<string>()
-    const [activeTab,setActiveTab] = useState<string>("overview")
-    const [loading,setLoading]= useState<boolean>(false) 
+    const [seller, setSeller] = useState<any>([])
+    const [token, setToken] = useState<string>()
+    const [activeTab, setActiveTab] = useState<string>("overview")
+    const [loading, setLoading] = useState<boolean>(false)
 
-    const [allOrders,setAllOrders] = useState<any>([])
-    
+    const [allOrders, setAllOrders] = useState<any>([])
 
-    const handleGetOrders = async() => {
+
+    const handleGetOrders = async () => {
         try {
-        
-          const response = await axios.get(`${base_url}/order/get-seller-all-orders/${seller._id}`);
-          if (response.data.success) {
-            setAllOrders(response.data.orders);
-            
-          } else {
-            console.error('Failed to fetch orders');
-          }
-        
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-      } finally {
-        setLoading(false);
-      }
+
+            const response = await axios.get(`${base_url}/order/get-seller-all-orders/${seller._id}`);
+            if (response.data.success) {
+                setAllOrders(response.data.orders);
+
+            } else {
+                console.error('Failed to fetch orders');
+            }
+
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     useEffect(() => {
-        const checkToken = async() => {
+        const checkToken = async () => {
             const token = await AsyncStorage.getItem('sellerToken')
             const seller = await AsyncStorage.getItem('seller')
-            
-            if(!token) return router.replace('/sellerAuthScreens/SellerLogin')
-                setSeller(JSON.parse(seller!).seller)
-                setToken(token)
+
+            if (!token) return router.replace('/sellerAuthScreens/SellerLogin')
+            setSeller(JSON.parse(seller!).seller)
+            setToken(token)
         }
 
         checkToken()
-    },[])
+    }, [])
 
     useEffect(() => {
         handleGetOrders()
-    },[seller])
-    
+    }, [seller])
 
-  return (
-    <View style={styles.container}>
-        <Stack.Screen
-        options={{
-          headerLeft:() => (
-            <View style={styles.headerDashboardLeft}>
-              
-              <Image source={{uri:seller?.avatar?.url}} resizeMode='contain' style={styles.sellerProfilePic} />
-              <Text style={{color:"#fff", fontSize: 10,marginBottom:5}}>{seller?.name}</Text>
-            </View>
-          ),
-        }}
-      />
+
+    return (
+        <View style={styles.container}>
+            <Stack.Screen
+                options={{
+                    headerLeft: () => (
+                        <View style={styles.headerDashboardLeft}>
+
+                            <Image source={{ uri: seller?.avatar?.url }} resizeMode='contain' style={styles.sellerProfilePic} />
+                            <Text style={{ color: "#fff", fontSize: 10, marginBottom: 5 }}>{seller?.name}</Text>
+                        </View>
+                    ),
+                }}
+            />
 
             <View style={styles.tabs}>
-                <TouchableOpacity style={activeTab === "overview"?styles.activeTab:styles.tab} onPress={()=> setActiveTab('overview')}>
-                    <Text style={activeTab === "overview"?styles.activeText:styles.tabText} >Overview</Text>
+                <TouchableOpacity style={activeTab === "overview" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('overview')}>
+                    <Text style={activeTab === "overview" ? styles.activeText : styles.tabText} >Overview</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={activeTab === "transactions"?styles.activeTab:styles.tab} onPress={()=> setActiveTab('transactions')}>
-                    <Text style={activeTab === "transactions"?styles.activeText:styles.tabText}>Transactions</Text>
+                <TouchableOpacity style={activeTab === "transactions" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('transactions')}>
+                    <Text style={activeTab === "transactions" ? styles.activeText : styles.tabText}>Transactions</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={activeTab === "analytics"?styles.activeTab:styles.tab} onPress={()=> setActiveTab('analytics')}>
-                    <Text style={activeTab === "analytics"?styles.activeText:styles.tabText}>Analytics</Text>
+                <TouchableOpacity style={activeTab === "analytics" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('analytics')}>
+                    <Text style={activeTab === "analytics" ? styles.activeText : styles.tabText}>Analytics</Text>
                 </TouchableOpacity>
             </View>
 
-        <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false}>
 
-            <View>
-                {activeTab === "overview" && <Overview orders={allOrders}/>}
-                {activeTab === "transactions" && <Transactions/>}
-                {activeTab === "analytics" && <Analytics/>}
-            </View>
-        </ScrollView>
-    </View>
-  )
+                <View>
+                    {activeTab === "overview" && <Overview orders={allOrders} />}
+                    {activeTab === "transactions" && <Transactions />}
+                    {activeTab === "analytics" && <Analytics />}
+                </View>
+            </ScrollView>
+        </View>
+    )
 }
 
-const Overview = ({orders}:{orders:any}) => {
-    const navigation = useNavigation(); 
+const Overview = ({ orders }: { orders: any }) => {
+    const navigation = useNavigation();
     const [multiLine, setMultiLine] = useState(1)
-    
-    console.log("orders : ",orders);
-    
+
+    console.log("orders : ", orders);
+
 
     return (
         <View>
@@ -200,47 +200,46 @@ const Overview = ({orders}:{orders:any}) => {
                 </TouchableOpacity>
             </View>
             {
-                swapRequests.length > 1?
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}  contentContainerStyle={
-          {
-            alignItems: 'center',
-            gap: 5,
-            paddingHorizontal: 20,
-            paddingVertical:10
+                swapRequests.length > 1 ?
+                    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={
+                        {
+                            alignItems: 'center',
+                            gap: 5,
+                            paddingHorizontal: 20,
+                            paddingVertical: 10
 
-          }} >
-                {
-                    
-                    swapRequests.map((item: { image: any; avatar: ImageSourcePropType; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; date: string | number | Date },index: React.Key | null | undefined) => (
-                        <View style={styles.swapContainer} key={index}>
-                            <Image source={{uri:item.image}} resizeMode='cover' style={styles.swapImage} />
-                            <View style={styles.infoContainer}>
-                                <View style={styles.info}>
-                                    <Image source={item.avatar} resizeMode='cover' style={styles.userImage} />
-                                    <View style={styles.infoContact}>
-                                        <Text style={styles.name}>{item.name
-                                        }</Text>
-                                        <View style={styles.dateContainer}>
-                                            <EvilIcons name='clock' size={14} color="rgba(0,0,0,0.4)"/> 
-                                            <Text style={styles.date}> {(new Date(item.date)).toLocaleDateString()}</Text>
+                        }} >
+                        {
+                            swapRequests.map((item, index) => (
+                                <View style={styles.swapContainer} key={index}>
+                                    <Image source={{ uri: item.image }} resizeMode='cover' style={styles.swapImage} />
+                                    <View style={styles.infoContainer}>
+                                        <View style={styles.info}>
+                                            <Image source={item.avatar} resizeMode='cover' style={styles.userImage} />
+                                            <View style={styles.infoContact}>
+                                                <Text style={styles.name}>{item.name
+                                                }</Text>
+                                                <View style={styles.dateContainer}>
+                                                    <EvilIcons name='clock' size={14} color="rgba(0,0,0,0.4)" />
+                                                    <Text style={styles.date}> {(new Date(item.date)).toLocaleDateString()}</Text>
+                                                </View>
+                                            </View>
                                         </View>
+                                        <TouchableOpacity style={styles.swapBtn}>
+                                            <Text style={styles.swapText}>Swap Now</Text>
+                                            <AntDesign name='arrowright' size={15} color={Colors.primary} />
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
-                                <TouchableOpacity style={styles.swapBtn}>
-                                    <Text style={styles.swapText}>Swap Now</Text>
-                                    <AntDesign name='arrowright' size={15} color={Colors.primary} />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    ))
-                    
-                }
-            </ScrollView>
-            :
-                    <View  style={{height: 200, padding:20,gap:10,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                            <AntDesign name='frowno' size={20} color={Colors.primary}/>
-                            <Text style={{fontFamily:'roboto-condensed',fontSize:15}}>No Swap Requests</Text>
-                        </View>
+                            ))
+
+                        }
+                    </ScrollView>
+                    :
+                    <View style={{ height: 200, padding: 20, gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <AntDesign name='frowno' size={20} color={Colors.primary} />
+                        <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15 }}>No Swap Requests</Text>
+                    </View>
 
             }
 
@@ -259,30 +258,30 @@ const Overview = ({orders}:{orders:any}) => {
                 <View style={styles.orderSection}>
                     {
                         orders.length > 1 ?
-                        orders
-                        .filter((od:any) => od.status != "Delivered")
-                        .slice(0,4)
-                        // .filter((od:any) => od.status === "Delivered" )
-                        .map((order:any,index:number) => (
-                            <TouchableOpacity style={styles.orderCard} key={index}>
-                                <View style={styles.orderCardLeft}>
-                                    <Image source={{uri:order.cart[0].images[0].url}} resizeMode='contain'  style={styles.orderImg}/>
-                                    <View style={styles.orderInfo}>
+                            orders
+                                .filter((od: any) => od.status != "Delivered")
+                                .slice(0, 4)
+                                // .filter((od:any) => od.status === "Delivered" )
+                                .map((order: any, index: number) => (
+                                    <TouchableOpacity style={styles.orderCard} key={index}>
+                                        <View style={styles.orderCardLeft}>
+                                            <Image source={{ uri: order.cart[0].images[0].url }} resizeMode='contain' style={styles.orderImg} />
+                                            <View style={styles.orderInfo}>
 
-                                        <Text numberOfLines={multiLine} style={styles.orderName}>{order.cart[0].name}</Text>
-                                        <Text style={styles.orderUser}>By: {order.user.firstname}</Text>
-                                    </View>
-                                </View>
-                                <Text style={styles.orderPrice}>₦{order.totalPrice.toLocaleString()}</Text>
-                            </TouchableOpacity>
-                        ))
+                                                <Text numberOfLines={multiLine} style={styles.orderName}>{order.cart[0].name}</Text>
+                                                <Text style={styles.orderUser}>By: {order.user.firstname}</Text>
+                                            </View>
+                                        </View>
+                                        <Text style={styles.orderPrice}>₦{order.totalPrice.toLocaleString()}</Text>
+                                    </TouchableOpacity>
+                                ))
 
-                        :
+                            :
 
-                        <View style={{gap:10,flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                            <AntDesign name='frowno' size={25} color={Colors.primary}/>
-                            <Text style={{fontFamily:'roboto-condensed',fontSize:17}}>No Pending Orders</Text>
-                        </View>
+                            <View style={{ gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                <AntDesign name='frowno' size={25} color={Colors.primary} />
+                                <Text style={{ fontFamily: 'roboto-condensed', fontSize: 17 }}>No Pending Orders</Text>
+                            </View>
                     }
                 </View>
 
@@ -303,23 +302,23 @@ const Overview = ({orders}:{orders:any}) => {
                                 <Feather name='calendar' size={11} color={'rgba(0,0,0,0.6)'} />
                             </View>
                         </View>
-                        <View style={{flexDirection:'row',alignItems:'center',gap:4}}>
-                            <EvilIcons name='clock' size={12}  color={Colors.grey} />
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                            <EvilIcons name='clock' size={12} color={Colors.grey} />
                             <Text style={styles.month}>last month</Text>
                         </View>
                         <View>
 
                         </View>
                     </View>
-                    
+
                 </TouchableOpacity>
 
                 <View style={styles.salesChart}>
-                    
+
                     <BarChart
                         style={chartConfig.style}
                         data={data}
-                        width={0.8  * width}
+                        width={0.8 * width}
                         height={300}
                         yAxisLabel="₦ "
                         yAxisSuffix=''
@@ -327,7 +326,7 @@ const Overview = ({orders}:{orders:any}) => {
                         verticalLabelRotation={90}
                         fromZero={true}
                         withInnerLines={false}
-                        />
+                    />
                 </View>
             </View>
         </View>
@@ -338,73 +337,73 @@ const Overview = ({orders}:{orders:any}) => {
 
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        backgroundColor:"#fff"
+    container: {
+        flex: 1,
+        backgroundColor: "#fff"
     },
-    headerDashboardLeft:{
-    flexDirection:'row',
-    alignItems:'center',
-    gap:10,
-    marginLeft:20,
-    marginBottom: -8
-  },
-  sellerProfilePic:{
-    width:37,
-    height:37,
-    borderRadius:37,
-    marginBottom:5
-  },
-    tabs:{
-        paddingHorizontal:20,
-        paddingVertical:10,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between'
+    headerDashboardLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        marginLeft: 20,
+        marginBottom: -8
     },
-    activeTab:{
-        borderBottomColor:"#000000",
-        borderBottomWidth:2,
+    sellerProfilePic: {
+        width: 37,
+        height: 37,
+        borderRadius: 37,
+        marginBottom: 5
+    },
+    tabs: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    activeTab: {
+        borderBottomColor: "#000000",
+        borderBottomWidth: 2,
         paddingVertical: 4.5
     },
-    tab:{
-        paddingVertical:10
+    tab: {
+        paddingVertical: 10
     },
-    activeText:{
-        color:"#000",
-        fontSize:15,
-        fontFamily:'roboto-condensed-sb'
+    activeText: {
+        color: "#000",
+        fontSize: 15,
+        fontFamily: 'roboto-condensed-sb'
     },
-    tabText:{
-        color:Colors.grey,
-        fontSize:15,
-        fontFamily:'roboto-condensed'
+    tabText: {
+        color: Colors.grey,
+        fontSize: 15,
+        fontFamily: 'roboto-condensed'
     },
-    swapHeader:{
-        marginBottom:5,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
-        paddingHorizontal:20
+    swapHeader: {
+        marginBottom: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20
     },
-    headerText:{
-        fontSize:15,
-        fontFamily:'roboto-condensed',
-        color:'#00000070',
+    headerText: {
+        fontSize: 15,
+        fontFamily: 'roboto-condensed',
+        color: '#00000070',
         lineHeight: 15,
         letterSpacing: -0.18
     },
-    headerBtn:{
-        color:Colors.primary,
-        fontFamily:'roboto-condensed',
+    headerBtn: {
+        color: Colors.primary,
+        fontFamily: 'roboto-condensed',
         fontSize: 12,
         lineHeight: 15,
         letterSpacing: -0.18
     },
-    swapContainer:{
+    swapContainer: {
         width: 0.75 * width,
-        backgroundColor:'#fff',
-        borderRadius:5,
+        backgroundColor: '#fff',
+        borderRadius: 5,
         shadowColor: "rgba(0,0,0,0.5)",
         shadowOffset: {
             width: 0,
@@ -413,129 +412,129 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.23,
         shadowRadius: 2.62,
         elevation: 4,
-        overflow:'hidden',
+        overflow: 'hidden',
 
-        
+
     },
-    swapImage:{
-        width:'100%',
+    swapImage: {
+        width: '100%',
         height: 145
     },
-    infoContainer:{
-        flexDirection:'row',
-        padding:10,
-        alignItems:'center',
-        justifyContent:'space-between'
+    infoContainer: {
+        flexDirection: 'row',
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
-    userImage:{
-        width:29,
-        height:29,
-        borderRadius:29
+    userImage: {
+        width: 29,
+        height: 29,
+        borderRadius: 29
     },
     info: {
-        flexDirection:'row',
-        gap:10,
-        alignItems:'center'
+        flexDirection: 'row',
+        gap: 10,
+        alignItems: 'center'
     },
-    infoContact:{
-        gap:2
+    infoContact: {
+        gap: 2
     },
-    
-    name:{
-        fontFamily:'roboto-condensed-sb',
+
+    name: {
+        fontFamily: 'roboto-condensed-sb',
         fontSize: 12,
         lineHeight: 15,
         letterSpacing: -0.18
     },
-    dateContainer:{
-        flexDirection:'row',
-        alignItems:'center',
-        
+    dateContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+
     },
-    date:{
-        fontFamily:'roboto-condensed',
-        color:'rgba(0,0,0,0.4)',
+    date: {
+        fontFamily: 'roboto-condensed',
+        color: 'rgba(0,0,0,0.4)',
         fontSize: 10,
         lineHeight: 15,
         letterSpacing: -0.18
     },
-    swapBtn:{
-        flexDirection:'row',
-        alignItems:'center',
-        gap:5
+    swapBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 5
     },
-    swapText:{
-        fontFamily:'roboto-condensed',
-        color:Colors.primary,
+    swapText: {
+        fontFamily: 'roboto-condensed',
+        color: Colors.primary,
         fontSize: 14
     },
-    pendingOrders:{
-        borderTopColor:'rgba(0,0,0,0.05)',
-        borderTopWidth:1,
-        paddingVertical:10
+    pendingOrders: {
+        borderTopColor: 'rgba(0,0,0,0.05)',
+        borderTopWidth: 1,
+        paddingVertical: 10
     },
-    warning:{
-        gap:5,
-        flexDirection:'row',
-        alignItems:'center'
+    warning: {
+        gap: 5,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
-    orderSection:{
-        padding:20,
-        gap:10
+    orderSection: {
+        padding: 20,
+        gap: 10
     },
-    orderCard:{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
+    orderCard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
-    orderCardLeft:{
-        flexDirection:'row',
-        alignItems:'center',
+    orderCardLeft: {
+        flexDirection: 'row',
+        alignItems: 'center',
         flexShrink: 1
     },
-    orderInfo:{
-        justifyContent:'space-between',
+    orderInfo: {
+        justifyContent: 'space-between',
         gap: 7,
         flexShrink: 1,
         maxWidth: 190,
     },
-    orderName:{
+    orderName: {
         fontSize: 14,
-        fontFamily:'roboto-condensed-sb',
+        fontFamily: 'roboto-condensed-sb',
         lineHeight: 15,
         letterSpacing: -0.18,
-        
+
     },
-    orderPrice:{
+    orderPrice: {
         fontSize: 15,
-        fontFamily:'roboto-condensed',
+        fontFamily: 'roboto-condensed',
         lineHeight: 15,
         letterSpacing: -0.18,
         fontWeight: "600"
     },
-    orderUser:{
-        fontSize:12,
-        fontFamily:'roboto-condensed',
-        color:Colors.grey,
+    orderUser: {
+        fontSize: 12,
+        fontFamily: 'roboto-condensed',
+        color: Colors.grey,
         lineHeight: 15,
         letterSpacing: -0.18
     },
-    orderImg:{
-        width:50,
-        height:42,
-        marginRight:10
+    orderImg: {
+        width: 50,
+        height: 42,
+        marginRight: 10
     },
-    salesSection:{
-        paddingHorizontal:20,
-        paddingVertical:10,
-        backgroundColor:Colors.primaryUltraTransparent
+    salesSection: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: Colors.primaryUltraTransparent
     },
-    salesContainer:{
-        padding:25,
-        backgroundColor:'#fff',
+    salesContainer: {
+        padding: 25,
+        backgroundColor: '#fff',
         // borderRadius:8,
-        borderStartStartRadius:8,
-        borderStartEndRadius:8,
+        borderStartStartRadius: 8,
+        borderStartEndRadius: 8,
         shadowColor: "rgba(0,0,0,0.4)",
         shadowOffset: {
             width: 0,
@@ -545,34 +544,34 @@ const styles = StyleSheet.create({
         shadowRadius: 2.62,
         elevation: 4,
     },
-    salesTop:{
+    salesTop: {
         gap: 3
     },
-    salesHeader:{
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
+    salesHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    salesMain:{
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between'
+    salesMain: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
-    salesDate:{
-        borderWidth:0.79,
-        borderColor:'#ece9f1',
-        borderRadius:4,
-        gap:6,
-        flexDirection:'row',
-        alignItems:'center',
-        padding:8
+    salesDate: {
+        borderWidth: 0.79,
+        borderColor: '#ece9f1',
+        borderRadius: 4,
+        gap: 6,
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 8
     },
-    salesChart:{
-        marginTop:5,
-        padding:20,
-        backgroundColor:'#fff',
-        borderEndStartRadius:8,
-        borderEndEndRadius:8,
+    salesChart: {
+        marginTop: 5,
+        padding: 20,
+        backgroundColor: '#fff',
+        borderEndStartRadius: 8,
+        borderEndEndRadius: 8,
         shadowColor: "rgba(0,0,0,0.4)",
         shadowOffset: {
             width: 0,
@@ -582,30 +581,30 @@ const styles = StyleSheet.create({
         shadowRadius: 2.62,
         elevation: 4,
     },
-    totalSales:{
-        color:'#828282',
-        fontSize:12.47,
-        fontFamily:'roboto-condensed-m'
+    totalSales: {
+        color: '#828282',
+        fontSize: 12.47,
+        fontFamily: 'roboto-condensed-m'
     },
-    totalSalesPrice:{
-        color:Colors.primary,
-        fontSize:31.16,
-        fontFamily:'roboto-condensed-m'
+    totalSalesPrice: {
+        color: Colors.primary,
+        fontSize: 31.16,
+        fontFamily: 'roboto-condensed-m'
     },
-    totalSalesDate:{
-        fontSize:9,
-        color:'rgba(0,0,0,0.6)',
-        fontFamily:'roboto-condensed'
+    totalSalesDate: {
+        fontSize: 9,
+        color: 'rgba(0,0,0,0.6)',
+        fontFamily: 'roboto-condensed'
 
-        
-    },
-    month:{
-        fontSize:11,
-        color:'rgba(0,0,0,0.3)',
-        fontFamily:'roboto-condensed'
 
     },
-    graphStyle:{
+    month: {
+        fontSize: 11,
+        color: 'rgba(0,0,0,0.3)',
+        fontFamily: 'roboto-condensed'
+
+    },
+    graphStyle: {
 
     }
 })

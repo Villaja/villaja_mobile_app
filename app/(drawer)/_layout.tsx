@@ -40,13 +40,7 @@ export function CustomDrawerContent(props:any) {
     )
   
   }
-  export function toggleDrawer(){
-    console.log('Here');
-    const navigation = useNavigation();
-    navigation.dispatch(DrawerActions.toggleDrawer());
 
-
-  }
 
   export default function DrawerNavigation() {
     return <Drawer 
@@ -57,16 +51,30 @@ export function CustomDrawerContent(props:any) {
             drawerActiveBackgroundColor: 'gray',
             drawerActiveTintColor: 'white',
             drawerInactiveTintColor: 'white',
+            headerShown: false
             
             
         }}
         drawerContent={CustomDrawerContent}
-        screenOptions={{headerShown: false}}
+        
     >
 
         <Drawer.Screen
             
             name="(tabs2)"
+            options={{
+                drawerLabel: 'Dashboard',
+                title: 'Dashboard',
+                drawerIcon: ({size, color})=>(
+                    <MaterialIcons name="dashboard" size={size} color={color} />
+                )
+
+            }}
+            
+        />
+        <Drawer.Screen
+            
+            name="(profile)"
             options={{
                 drawerLabel: 'Profile',
                 title: 'Profile',
@@ -78,7 +86,7 @@ export function CustomDrawerContent(props:any) {
             
         />
         {/* <Drawer.Screen
-            name="index"
+            name=""
             options={{
                 drawerLabel: 'My Products',
                 title: 'My Products',
@@ -90,7 +98,7 @@ export function CustomDrawerContent(props:any) {
             
         />
         <Drawer.Screen
-            name="ind"
+            name=""
             options={{
                 drawerLabel: 'Swap Deals',
                 title: 'Swap Deals',
@@ -101,7 +109,7 @@ export function CustomDrawerContent(props:any) {
             }}
         />
         <Drawer.Screen
-            name="in"
+            name=""
             options={{
                 drawerLabel: 'Quick Sale',
                 title: 'Quick Sale',
@@ -112,7 +120,7 @@ export function CustomDrawerContent(props:any) {
             }}
         />
         <Drawer.Screen
-            name="i"
+            name=""
             options={{
                 drawerLabel: 'About',
                 title: 'About',
@@ -121,8 +129,8 @@ export function CustomDrawerContent(props:any) {
                 )
 
             }}
-        />        
-         */}
+        />         */}
+        
     </Drawer>
   }
 
