@@ -34,7 +34,7 @@ const SellerLogin = () => {
 
   useEffect(() => {
     if (seller) {
-      router.replace('/(tabs2)/sellerDashboard')
+      router.replace('/(drawer)/(tabs2)/sellerDashboard')
       console.log("successs")
     }
 

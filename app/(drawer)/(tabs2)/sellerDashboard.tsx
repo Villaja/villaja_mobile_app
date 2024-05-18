@@ -1,21 +1,22 @@
-import { Dimensions, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, ImageSourcePropType } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import Colors from '../../constants/Colors'
+import Colors from '../../../constants/Colors'
 import { AntDesign, EvilIcons, Feather, Ionicons } from '@expo/vector-icons'
 import {
   BarChart,
 } from "react-native-chart-kit";
 import { useNavigation } from '@react-navigation/native'; 
 
-import Analytics from '../SellerDashboardComponents/Analytics'
-import Transactions from '../SellerDashboardComponents/Transactions'
-import { useAuth } from '../../context/SellerAuthContext'
+import Analytics from '../../SellerDashboardComponents/Analytics'
+import Transactions from '../../SellerDashboardComponents/Transactions'
+import { useAuth } from '../../../context/SellerAuthContext'
 import { Stack, router } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 import { ActivityIndicator } from 'react-native-paper'
-import { base_url } from '../../constants/server'
+import { base_url } from '../../../constants/server'
+
 
 const {width} = Dimensions.get('window')
 
@@ -96,6 +97,8 @@ const pendingOrders = [
         user:'Lynn Tanner'
     },
 ]
+
+
 
 const SellerDashboard = () => {
 
@@ -208,7 +211,7 @@ const Overview = ({orders}:{orders:any}) => {
           }} >
                 {
                     
-                    swapRequests.map((item,index) => (
+                    swapRequests.map((item: { image: any; avatar: ImageSourcePropType; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; date: string | number | Date },index: React.Key | null | undefined) => (
                         <View style={styles.swapContainer} key={index}>
                             <Image source={{uri:item.image}} resizeMode='cover' style={styles.swapImage} />
                             <View style={styles.infoContainer}>

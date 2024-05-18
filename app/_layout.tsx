@@ -18,6 +18,7 @@ import { PaperProvider } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -82,7 +83,7 @@ function RootLayoutNav() {
                 <Stack>
                   {/* <Stack.Screen name="(Seller)" options={{ headerShown: false }} /> */}
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                  <Stack.Screen name="(tabs2)" options={{ headerShown: false }} />
+                  <Stack.Screen name="(drawer)" options={{ headerShown: false }}/>
                   <Stack.Screen
                     name="(modals)/landing"
                     options={{

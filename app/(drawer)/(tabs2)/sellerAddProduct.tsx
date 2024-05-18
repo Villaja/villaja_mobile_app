@@ -1,7 +1,7 @@
 import { Image, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, View, ScrollView, Modal, FlatList, TouchableOpacity, Dimensions, ImageSourcePropType } from 'react-native'
 import React, { useState } from 'react'
 import * as ImagePicker from 'expo-image-picker';
-import { useSeller } from '../../context/SellerContext';
+import { useSeller } from '../../../context/SellerContext';
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import axios from 'axios';
@@ -16,22 +16,22 @@ interface Category{
 }
 
 const categoriesData = [
-  { id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
-  { id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
-  { id: 3, name: 'Tablets', image: require('../../assets/images/tabcat.png') },
-  { id: 4, name: 'Phone Accessories', image: require('../../assets/images/phoneacc.png') },
-  { id: 5, name: 'Computer Accessories', image: require('../../assets/images/computeracc.png') },
-  { id: 6, name: 'Computer Monitors', image: require('../../assets/images/Monitor.png') },
-  { id: 7, name: 'Headphones', image: require('../../assets/images/headphonescat.png') },
-  { id: 8, name: 'Laptops', image: require('../../assets/images/laptopcat.png') },
-  { id: 9, name: 'Networking Products', image: require('../../assets/images/networkcat.png') },
-  { id: 10, name: 'Printers & Scanners', image: require('../../assets/images/printercat.png') },
-  { id: 11, name: 'Cameras', image: require('../../assets/images/cameracat.png') },
-  { id: 12, name: 'Security & Surveillance', image: require('../../assets/images/security.png') },
-  { id: 13, name: 'Video Games', image: require('../../assets/images/videogame.jpg') },
-  { id: 14, name: 'Tv', image: require('../../assets/images/tvcat.png') },
-  { id: 15, name: 'Video Game Console', image: require('../../assets/images/ps5.jpg') },
-  { id: 16, name: 'Computer Hardware', image: require('../../assets/images/comphardware.png') }
+  { id: 1, name: 'Mobile Phones', image: require('../../../assets/images/phonecat.png') },
+  { id: 2, name: 'Smart Watches and Trackers', image: require('../../../assets/images/watchcat.png') },
+  { id: 3, name: 'Tablets', image: require('../../../assets/images/tabcat.png') },
+  { id: 4, name: 'Phone Accessories', image: require('../../../assets/images/phoneacc.png') },
+  { id: 5, name: 'Computer Accessories', image: require('../../../assets/images/computeracc.png') },
+  { id: 6, name: 'Computer Monitors', image: require('../../../assets/images/Monitor.png') },
+  { id: 7, name: 'Headphones', image: require('../../../assets/images/headphonescat.png') },
+  { id: 8, name: 'Laptops', image: require('../../../assets/images/laptopcat.png') },
+  { id: 9, name: 'Networking Products', image: require('../../../assets/images/networkcat.png') },
+  { id: 10, name: 'Printers & Scanners', image: require('../../../assets/images/printercat.png') },
+  { id: 11, name: 'Cameras', image: require('../../../assets/images/cameracat.png') },
+  { id: 12, name: 'Security & Surveillance', image: require('../../../assets/images/security.png') },
+  { id: 13, name: 'Video Games', image: require('../../../assets/images/videogame.jpg') },
+  { id: 14, name: 'Tv', image: require('../../../assets/images/tvcat.png') },
+  { id: 15, name: 'Video Game Console', image: require('../../../assets/images/ps5.jpg') },
+  { id: 16, name: 'Computer Hardware', image: require('../../../assets/images/comphardware.png') }
 ];
 
 const sellerAddProduct = () => {
@@ -172,7 +172,7 @@ const sellerAddProduct = () => {
                 ))}
               </View>                           
               ) : (
-                <Image source={require('../../assets/images/watchcat.png')} style={{ width: 114, height: 79, borderRadius: 10 }} />
+                <Image source={require('../../../assets/images/watchcat.png')} style={{ width: 114, height: 79, borderRadius: 10 }} />
               )}
               {selectedImages.length > 0 && (
                 <TouchableOpacity onPress={clearSelectedImages} style={{ marginLeft: 175 }} >

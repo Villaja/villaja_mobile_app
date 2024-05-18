@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, TouchableOpacity, Button, SafeAreaView, Platform, Pressable } from 'react-native';
 import React, {useState} from 'react';
 import { Router, useRouter } from "expo-router";
-import { useAuth } from '../../context/SellerAuthContext';
-import Colors from '../../constants/Colors';
-import Messages from '../sellerNotificationsTabs/Messages';
-import Notifications from '../sellerNotificationsTabs/Notifications';
+import { useAuth } from '../../../context/SellerAuthContext';
+import Colors from '../../../constants/Colors';
+import Messages from '../../sellerNotificationsTabs/Messages';
+import Notifications from '../../sellerNotificationsTabs/Notifications';
 
 
 const sellerNotifications = () => {

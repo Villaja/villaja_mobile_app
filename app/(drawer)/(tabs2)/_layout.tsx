@@ -3,16 +3,26 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import Colors from '../../constants/Colors';
+import Colors from '../../../constants/Colors';
 import React, { useState } from 'react';
 import { Marker } from 'react-native-svg';
 import { Image, View, Text, StyleSheet } from 'react-native';
 import {  } from 'expo-status-bar';
 import { TouchableOpacity } from "react-native";
+import { Drawer } from 'expo-router/drawer';
+import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useNavigation } from 'expo-router';
+import { DrawerActions } from '@react-navigation/native'
+import {  Pressable} from 'react-native'
+import { DrawerToggleButton } from '@react-navigation/drawer';
+
 
 
 const Layout = () => {
   const [isSeller,setIsSeller] = useState(true)
+  const navigation = useNavigation()
 
 
   return (
@@ -46,9 +56,14 @@ const Layout = () => {
             </View>
           ),
           headerRight:() => (
-            <TouchableOpacity style={styles.menuBtn}>
-                <Image source={require("../../assets/images/menu.png")} style={{width: 15, height: 13 }} />
-            </TouchableOpacity>
+            
+            
+              
+                <TouchableOpacity style={styles.menuBtn} onPress={()=>navigation.dispatch(DrawerActions.toggleDrawer())} >
+                <Image source={require("../../../assets/images/menu.png")} style={{width: 15, height: 13 }} />
+              </TouchableOpacity> 
+              
+
           )
         }}
       />
