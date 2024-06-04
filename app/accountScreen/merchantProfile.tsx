@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import { Image, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome, Feather, Entypo } from "@expo/vector-icons";
 import { timeAgo } from '../../utils/timeAgo';
 import { base_url } from "../../constants/server";
@@ -149,13 +149,13 @@ const merchantProfile = () => {
 
     
 
-    //Create new conversation function to send message to seller
+    //Create new conversation Logic to send message to seller
     const sendMessageHandler = async() => {
         try {
             if (user && userToken) {
-                const userId = user;
-                const sellerId = seller;
-                const groupTitle = user + seller
+                const userId = user._id;
+                const sellerId = seller._id;
+                const groupTitle = user._id + seller._id
                 await axios
                 .post(`${base_url}/conversation/create-new-conversation`, {
                     groupTitle,
@@ -163,7 +163,7 @@ const merchantProfile = () => {
                     sellerId,
                 })
                 .then((response)=> {
-                    router.push(`/userNotificationsTabs/${data._id}`);
+                    
                     console.log("created")
                 })
                 .catch((error)=> {
@@ -208,6 +208,9 @@ const merchantProfile = () => {
                         <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Accessories</Text>
                     </View>
                 </View>
+                <TouchableOpacity onPress={sendMessageHandler} style={{backgroundColor: "#025492", height: 38, width: 125, justifyContent: "center", alignItems: "center", marginTop: 20, borderRadius: 8}} >
+                    <Text style={{color:"#ffffff", fontSize: 13, fontWeight: "500" }} >Message</Text>
+                </TouchableOpacity>
                 <View style={{ marginTop: 40 }} >
                     <Text style={{ fontSize: 12, color: "#00000070", lineHeight: 15.2, letterSpacing: -0.18, fontWeight: "700" }} >About this merchant</Text>
                     <Text numberOfLines={about} style={{ marginTop: 6, fontSize: 11, color: "#00000070", lineHeight: 15, letterSpacing: -0.18 }} >{seller?.description}</Text>

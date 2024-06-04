@@ -820,7 +820,7 @@ function RootLayoutNav() {
                       ),
                     }}
                   />
-                                    <Stack.Screen
+                    <Stack.Screen
                     name="accountScreen/merchantProfile"
                     options={{
                       // presentation: 'modal',

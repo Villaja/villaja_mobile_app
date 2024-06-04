@@ -143,7 +143,7 @@ const sellerProfile = () => {
                 }}
             />
             <View style={styles.editButton} >
-                <TouchableOpacity style={{ width: 88, height: 28, backgroundColor: "#025492", borderRadius: 2, justifyContent: "center", alignItems: "center", alignSelf: "flex-end", marginBottom: 16 }} onPress={() => router.push('/otherSellerDashBoardScreens/editSellerProfile')}>
+                <TouchableOpacity style={{ width: 88, height: 28, backgroundColor: "#025492", borderRadius: 2, justifyContent: "center", alignItems: "center", alignSelf: "flex-end", marginBottom: 16 }} onPress={() => router.push('/(drawer)/(profile)/editSellerProfile')}>
                     <Text style={{ color: "#fff", fontSize: 12 }} >Edit Profile</Text>
                 </TouchableOpacity>
             </View>

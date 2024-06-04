@@ -89,7 +89,7 @@ const checkout = () => {
             setCheckoutModal(false)
             router.replace('/orderSuccess/orderSuccess');
             // toast.success('Order successful!');
-            console.log("order succedd")
+            console.log("order succeded")
             await AsyncStorage.setItem('cart',JSON.stringify(savedCart));
           } else {
             console.error('Failed to create order');

@@ -94,19 +94,22 @@ export function CustomDrawerContent(props:any) {
             }}
             
         />
-        {/* <Drawer.Screen
-            name=""
+         <Drawer.Screen
+            name="(otherDrawerScreens)"
             options={{
                 drawerLabel: 'My Products',
                 title: 'My Products',
                 drawerIcon: ({size, color})=>(
                     <Feather name="shopping-bag" size={size} color={color} />
-                )
-
+                ),
+                headerTitle: 'My Products',
+                headerStyle: {
+                    backgroundColor: "#000000"
+                }
             }}
             
         />
-        <Drawer.Screen
+        {/*<Drawer.Screen
             name=""
             options={{
                 drawerLabel: 'Swap Deals',

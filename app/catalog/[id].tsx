@@ -224,28 +224,28 @@ const catalog = () => {
       >
         <View style={styles.contentContainer}>
           <View style={{padding:10,paddingTop:0,width:'100%',alignItems:'flex-start',borderBottomColor:'rgba(0,0,0,0.20)',borderBottomWidth:1}}>
-            <Text style={[styles.text,{fontSize:22}]}>Sort By</Text>
+            <Text style={[styles.text,{fontSize:18}]}>Sort By</Text>
           </View>
-          <View style={{width:'100%',padding:20,gap:20}}>
+          <View style={{width:'100%',padding:20, gap:20}}>
             <TouchableOpacity style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}} onPress={() => setSortValue('New In')}>
               <Text></Text>
-              <Text style={[styles.text,{fontSize:22,color:'rgba(0,0,0,0.50)',textAlign:'center'}]}>New In</Text>
-              {sortValue === "New In" ? <FontAwesome size={24} color={Colors.primary} name='check' /> : <Text></Text>}
+              <Text style={[styles.text,{fontSize:18,color:'rgba(0,0,0,0.50)',textAlign:'center'}]}>New In</Text>
+              {sortValue === "New In" ? <FontAwesome size={20} color={Colors.primary} name='check' /> : <Text></Text>}
             </TouchableOpacity>
             <TouchableOpacity style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}} onPress={() => setSortValue('Best Rating')}>
               <Text></Text>
-              <Text style={[styles.text,{fontSize:22,color:'rgba(0,0,0,0.50)',textAlign:'center'}]}>Best Rating</Text>
-              {sortValue === "Best Rating" ? <FontAwesome size={24} color={Colors.primary} name='check' /> : <Text></Text>}
+              <Text style={[styles.text,{fontSize:18,color:'rgba(0,0,0,0.50)',textAlign:'center'}]}>Best Rating</Text>
+              {sortValue === "Best Rating" ? <FontAwesome size={20} color={Colors.primary} name='check' /> : <Text></Text>}
             </TouchableOpacity>
             <TouchableOpacity style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}} onPress={() => setSortValue("Lowest Price")}>
               <Text></Text>
-              <Text style={[styles.text,{fontSize:22,color:'rgba(0,0,0,0.50)',textAlign:'center'}]}>Lowest Price</Text>
-              {sortValue === "Lowest Price" ? <FontAwesome size={24} color={Colors.primary} name='check' />: <Text></Text>}
+              <Text style={[styles.text,{fontSize:18,color:'rgba(0,0,0,0.50)',textAlign:'center'}]}>Lowest Price</Text>
+              {sortValue === "Lowest Price" ? <FontAwesome size={20} color={Colors.primary} name='check' />: <Text></Text>}
             </TouchableOpacity>
             <TouchableOpacity style={{flexDirection:'row',alignItems:'center',justifyContent:'space-between'}} onPress={() => setSortValue("Highest Price")}>
               <Text></Text>
-              <Text style={[styles.text,{fontSize:22,color:'rgba(0,0,0,0.50)',textAlign:'center'}]}>Highest Price</Text>
-              {sortValue === "Highest Price" ? <FontAwesome size={24} color={Colors.primary} name='check' /> : <Text></Text>}
+              <Text style={[styles.text,{fontSize:18,color:'rgba(0,0,0,0.50)',textAlign:'center'}]}>Highest Price</Text>
+              {sortValue === "Highest Price" ? <FontAwesome size={20} color={Colors.primary} name='check' /> : <Text></Text>}
             </TouchableOpacity>
           </View>
         </View>
@@ -298,7 +298,8 @@ const styles = StyleSheet.create({
   text:{
     fontFamily:'roboto-condensed',
     color:Colors.grey,
-    fontSize:18
+    fontSize:18,
+    fontWeight: "200"
   },
   filterHeader:{
     flexDirection:'row',
