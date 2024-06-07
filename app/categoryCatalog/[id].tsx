@@ -69,19 +69,15 @@ const catalog = () => {
     const fetchData = async () => {
       try {
         const response: AxiosResponse<{ products: Product[] }> = await axios.get(
-          `${base_url}/product/search-products?name=${id?.toString().toLowerCase()}`
+          `${base_url}/product/get-all-products`
         );
-  
-        // Get the first 10 products
-        // console.log(id.toString());
-        // console.log(q);
-        // console.log(maxPrice);
         
         var products = response.data.products.filter(
           (data) => 
           data
-          // data.name.toLowerCase().slice(0,id.toString().length) === id.toString().toLowerCase()
-          && data.originalPrice > parseInt(q.minPrice as string) && data.originalPrice < parseInt(q.maxPrice as string)
+          && data.category.toLowerCase().slice(0,id?.toString().length) === id?.toString().toLowerCase()
+          && data.originalPrice > parseInt(q.minPrice as string) 
+          && data.originalPrice < parseInt(q.maxPrice as string)
           )
 
         
@@ -178,7 +174,7 @@ const catalog = () => {
           <FontAwesome name="sort" size={18} color={Colors.grey}/>
           <Text style={styles.text}>Sort</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.filterHeaderSection,{flexBasis:'42.5%',borderLeftWidth:1,borderLeftColor:'rgba(0,0,0,0.10)'}]} onPress={() => router.push({pathname:'/filter/filter',params:{id:id,prevRouteName:'catalog'}})}>
+        <TouchableOpacity style={[styles.filterHeaderSection,{flexBasis:'42.5%',borderLeftWidth:1,borderLeftColor:'rgba(0,0,0,0.10)'}]} onPress={() => router.push({pathname:'/filter/filter',params:{id:id,prevRouteName:'categoryCatalog'}})}>
           <Feather size={18}  name="filter" color={Colors.grey}/>
           <Text style={styles.text}>Filter</Text>
         </TouchableOpacity>

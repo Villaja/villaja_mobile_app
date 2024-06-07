@@ -48,7 +48,14 @@ const Layout = () => {
         options={{
 
           tabBarLabel: 'Search',
-          headerShown:false,
+          headerShadowVisible:false,
+          headerTitle:'Explore',
+          headerTitleStyle:{
+            fontFamily:'roboto-condensed-sb-i',
+            fontSize:20
+          },
+          headerTitleAlign:'center',
+          // headerShown:false,
           tabBarIcon: ({ color }) => (
             <AntDesign name="search1" size={20} color={color} />
           ),

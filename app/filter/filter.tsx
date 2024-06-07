@@ -9,13 +9,13 @@ import { useLocalSearchParams, useRouter } from 'expo-router'
 const filter = () => {
     
     const router = useRouter()
-    const {id} = useLocalSearchParams()
+    const {id,prevRouteName} = useLocalSearchParams()
 
     const [minPrice,setMinPrice] = useState<number>(1)
     const [maxPrice,setMaxPrice] = useState<number>(1)
 
     const handleApplyFilter = () => {
-        router.push({pathname:`/catalog/${id}`,params:{minPrice:minPrice.toString(),maxPrice:maxPrice.toString()}})
+        router.replace({pathname:`/${prevRouteName}/${id}`,params:{minPrice:minPrice.toString(),maxPrice:maxPrice.toString()}})
     }
   return (
     <View style={{flex:1,backgroundColor:Colors.primaryUltraTransparent,paddingBottom:60}}>

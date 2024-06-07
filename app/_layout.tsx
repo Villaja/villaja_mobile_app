@@ -274,6 +274,16 @@ function RootLayoutNav() {
                     }}
                   />
                   <Stack.Screen
+                    name='categoryCatalog/[id]'
+                    options={{
+                      headerTitle: '',
+                      headerShadowVisible: false,
+                      headerShown: false,
+
+
+                    }}
+                  />
+                  <Stack.Screen
                     name='cartScreen/cart'
                     options={{
                       headerTitle: '',
@@ -534,6 +544,23 @@ function RootLayoutNav() {
                       ),
                     }}
                   />
+
+                  <Stack.Screen
+        name="search/searchPage"
+        
+        options={{
+          animation:'fade',
+          headerShadowVisible:false,
+          headerTitle:'Explore',
+          headerTitleStyle:{
+            fontFamily:'roboto-condensed-sb-i',
+            fontSize:20
+          },
+          headerTitleAlign:'center',
+          headerShown:false,
+          
+        }}
+      />
 
 
                   {

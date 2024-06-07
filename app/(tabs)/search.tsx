@@ -1,272 +1,189 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Platform, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
-import React, { ProfilerOnRenderCallback, useEffect, useState } from 'react'
-import { AntDesign, FontAwesome, FontAwesome5, Ionicons, Octicons } from '@expo/vector-icons'
-import { TextInput } from 'react-native-gesture-handler'
-import Colors from '../../constants/Colors'
-import { defaultStyles } from '../../constants/Styles'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { base_url } from '../../constants/server'
-import axios, { AxiosResponse } from 'axios'
-import { Product } from '../../types/Product'
-import { useRouter } from 'expo-router'
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, ActivityIndicator, ScrollView, StyleSheet, Image, Dimensions, ImageProps} from 'react-native';
+import axios, { AxiosResponse } from 'axios';
+import ProductCard from '../../components/ProductCard';
+import { Product } from '../../types/Product';
+import { base_url } from '../../constants/server';
+import Colors from '../../constants/Colors';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
-const tags = ["Samsung S23 Ultra", "Monitor", "EarPods", "IPhone 15 Pro Max", "Camera", "Samsung S22 Ultra", "Samsung A45", "Razer Gaming Mouse"]
+const Tags = ["All","Price","Earpods","Iphone 15 Pro Max","Camera","Samsung"]
 
-const search = () => {
+const Categories = [
+  {
+    name:"Phones",
+    image:require('../../assets/images/PhoneCategory.png')
+  },
+  {
+    name:"Accessories",
+    image:require('../../assets/images/Earpods.png')
+  },
+  {
+    name:"Computers",
+    image:require('../../assets/images/Monitor.png')
+  },
+  {
+    name:"Camera",
+    image:require('../../assets/images/Camera.png')
+  },
+  {
+    name:"Smart Watches",
+    image:require('../../assets/images/SmartWatch.png')
+  },
+]
 
-  const router = useRouter()
+const {width} = Dimensions.get("window")
 
-  const [data, setData] = useState<Array<Product>>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [searchResult, setSearchResult] = useState<Array<Product>>([])
-  const [searchValue, setSearchValue] = useState<string>("")
-  const [recentSearch, setRecentSearch] = useState<Array<string>>([])
+const explore: React.FC = () => {
 
-  const handleRecentSearch = async (searchTerm: string) => {
-    var searches = [] as any
+  const [headerSelection,setHeaderSelection] = useState<string>('Products')
+  const [loading, setLoading] = useState<boolean>(false);
 
-    await AsyncStorage.getItem('recentSearches', (err, result) => {
-      if (err) {
-        return console.log(err);
+  const scrollRef = useRef<ScrollView>()
 
+
+
+  const renderCategoryCards = () => {
+    return <View>
+      {
+        Categories.map((cat,index) => <ProductCategory key={index} category={cat.name} picture={cat.image} /> )
       }
-      searches = JSON.parse(result!) || []
-
-    })
-
-    searchTerm && !searches.includes(searchTerm) && await AsyncStorage.setItem('recentSearches', JSON.stringify([...searches, searchTerm]))
-    // console.log(searches); 
-
+      
+    </View>
   }
 
-  const handleDeleteRecentSearch = async (searchTerm: string) => {
-    var searches = [] as any
-
-    await AsyncStorage.getItem('recentSearches', (err, result) => {
-      if (err) {
-        return console.log(err);
-
-      }
-      searches = JSON.parse(result!).filter((value: string) => value !== searchTerm) || []
-
-    })
-
-    await AsyncStorage.setItem('recentSearches', JSON.stringify([...searches]))
-    setRecentSearch(searches.reverse())
-    console.log(searches);
-  }
-
-  const handleSearch = (e: any) => {
-    // console.log(e.nativeEvent.key)
-    // if((e.nativeEvent.key ===  "Enter") || e.type == 'ended'){
-    setSearchValue(searchValue)
-    handleRecentSearch(searchValue)
-    searchValue && router.push({ pathname: `/catalog/${searchValue}`, params: { minPrice: "1", maxPrice: "5000000" } })
-    // }
-  }
-
-  useEffect(() => {
-    setSearchResult(data.filter((item) => item.name.toLowerCase().slice(0, searchValue.length) === searchValue.toLowerCase()).slice(0, 10))
-  }, [data, searchValue])
-
-  useEffect(() => {
-    const getRecentSearch = async () => {
-      await AsyncStorage.getItem('recentSearches', (err, result) => {
-        if (err) {
-          return console.log(err);
-
-        }
-        const res = (JSON.parse(result!) || [])
-        setRecentSearch(res.reverse())
-      })
-    }
-    getRecentSearch()
-  }, [])
-
-
-
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response: AxiosResponse<{ products: Product[] }> = await axios.get(
-          `${base_url}/product/get-all-products`
-        );
-
-        // Get the first 10 products
-        const first10Products = response.data.products;
-
-        setData(first10Products);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === "android" ? 30 : 0 }}>
-
-
-      <View>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity>
-            <Ionicons name="arrow-back-outline" size={16} color={"#000"} />
-          </TouchableOpacity>
-          <View style={styles.searchWrapper}>
-            <AntDesign name='search1' size={18} color={Colors.grey} style={styles.searchIcon} />
-            <TextInput keyboardType='web-search' value={searchValue} onChangeText={(text) => setSearchValue(text)} onSubmitEditing={handleSearch} placeholder='I Am Looking For...' placeholderTextColor={Colors.grey} style={[defaultStyles.inputField, { height: 40, paddingLeft: 40, backgroundColor: 'rgba(0,0,0,0.03)' }]} />
-          </View>
-        </View>
-
-
-        {
-          searchValue ?
-            <View>
-              {
-                recentSearch && recentSearch.length > 0 && recentSearch.filter((value) => value.toLowerCase().slice(0, searchValue.length) === searchValue.toLowerCase()).slice(0, 4).map((value, index) =>
-                  <TouchableOpacity key={index} style={[styles.recentSearchOutput, { paddingHorizontal: 20, gap: 20, marginTop: 20 }]} onPress={() => router.push({ pathname: `/catalog/${value}`, params: { minPrice: "1", maxPrice: "5000000" } })}>
-                    <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center' }}>
-                      <Octicons name='history' size={18} color={Colors.primary} />
-                      <Text style={styles.text}>{value}</Text>
-                    </View>
-                    <TouchableOpacity onPress={() => handleDeleteRecentSearch(value)} >
-                      <AntDesign name='close' size={16} color={Colors.grey} />
-                    </TouchableOpacity>
-                  </TouchableOpacity>)
-              }
-              <FlatList
-                data={searchResult}
-                renderItem={({ item }) =>
-                  <View style={styles.searchContainer}>
-
-                    <TouchableOpacity style={styles.recentSearch} onPress={() => router.push(`/product/${item._id}`)}>
-                      <View style={styles.recentSearchOutput}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                          <Text style={[styles.text, { color: '#000' }]} numberOfLines={1}>{item.name.slice(0, searchValue.length)}</Text>
-                          <Text style={[styles.text, { color: '#000', fontFamily: 'roboto-condensed-sb' }]} numberOfLines={1}>{item.name.slice(searchValue.length)}</Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                }
-                keyExtractor={item => item._id}
-                ListEmptyComponent={() => <ActivityIndicator style={{ marginVertical: 20 }} color={Colors.primary} size={'small'} />}
-
-              />
-
-            </View>
-
-
-            :
-
-            <View style={styles.searchContainer}>
-              <View style={styles.recentSearch}>
-                <Text style={styles.headerText}>Recent Search</Text>
-                {
-                  recentSearch && recentSearch.length > 0 && recentSearch.slice(0, 4).map((value, index) =>
-                    <TouchableOpacity key={index} style={styles.recentSearchOutput} onPress={() => router.push({ pathname: `/catalog/${value}`, params: { minPrice: "1", maxPrice: "5000000" } })}>
-                      <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center' }}>
-                        <Octicons name='history' size={18} color={Colors.primary} />
-                        <Text style={styles.text}>{value}</Text>
-                      </View>
-                      <TouchableOpacity onPress={() => handleDeleteRecentSearch(value)} >
-                        <AntDesign name='close' size={16} color={Colors.grey} />
-                      </TouchableOpacity>
-                    </TouchableOpacity>
-
-                  )
-                }
-
-              </View>
-
-              <View style={styles.tagSection}>
-                <Text style={styles.headerText}>Trending</Text>
-                <View style={styles.tagContent}>
-                  {
-                    tags.map((tag, index) => <TouchableOpacity key={index} style={styles.tagBtn}>
-                      <Text style={styles.tagText}>{tag}</Text>
-                    </TouchableOpacity>)
-                  }
-                </View>
-              </View>
-            </View>
-        }
-
+    <View>
+      <View style={styles.pageHeader}>
+        <TouchableOpacity style={headerSelection === 'Products' ? styles.textContainerActive :styles.textContainer} onPress={() => setHeaderSelection('Products')}>
+          <Text style={headerSelection === 'Products' ? styles.textActive :styles.text}>Products</Text>
+        </TouchableOpacity>
+        <TouchableOpacity  style={headerSelection === 'Merchants' ? styles.textContainerActive :styles.textContainer} onPress={() => setHeaderSelection('Merchants')}>
+          <Text style={headerSelection === 'Merchants' ? styles.textActive :styles.text}>Merchants</Text>
+        </TouchableOpacity>
       </View>
+      
+      <View style={{paddingHorizontal:18,paddingVertical:12,gap:12,backgroundColor:'#fff'}}>
+          <TouchableOpacity style={{flexDirection:'row',gap:6,paddingVertical:8,paddingHorizontal:12,borderWidth:StyleSheet.hairlineWidth,borderColor:Colors.grey,borderRadius:5,backgroundColor:'rgba(0,0,0,0.03)'}} onPress={() => router.push('/search/searchPage')}>
+            <AntDesign name='search1' size={18} color={Colors.grey} />
+            <Text style={{color:Colors.grey,fontFamily:'roboto-condensed'}}>I Am Looking For...</Text>
+          </TouchableOpacity>
+
+          <ScrollView 
+            horizontal  
+            showsHorizontalScrollIndicator={false}
+            
+            contentContainerStyle={
+                {
+                    alignItems:'center',
+                    gap:8,
+                    paddingRight:16,
+                    
+
+                }
+            }>
+            {Tags.map((tag,key) => <TouchableOpacity key={key} style={{paddingHorizontal:12,paddingVertical:8,backgroundColor:Colors.primaryTransparent,borderRadius:2}}>
+              <Text style={{fontFamily:'roboto-condensed-sb',color:Colors.primary}}>{tag}</Text>
+            </TouchableOpacity>)}
+          </ScrollView>
+      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        {loading ? (
+          <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator} />
+          ) : (
+            renderCategoryCards()
+            )}
+      </ScrollView>
+    </View>
+  );
+};
 
 
-
-    </SafeAreaView>
-  )
+const ProductCategory = ({category,picture}:{category:string,picture:ImageProps}):JSX.Element => {
+  
+  return <TouchableOpacity style={styles.categoryContainer} onPress={() => router.push({ pathname: `/categoryCatalog/${category}`, params: { minPrice: "1", maxPrice: "5000000" } })}>
+    <Text style={{fontFamily:'roboto-condensed-sb',fontSize:16}}>{category}</Text>
+    <Image source={picture} style={styles.productPicture} resizeMode='contain'/>
+  </TouchableOpacity>
 }
 
+
 const styles = StyleSheet.create({
-  headerContainer: {
-    padding: 20,
-    flexDirection: 'row',
+  container: {
+    justifyContent: 'center',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 20,
-    paddingBottom: 10,
-    borderBottomColor: 'rgba(0,0,0,0.30)',
-    borderBottomWidth: StyleSheet.hairlineWidth
+    paddingBottom: 16,
+    backgroundColor:'#fff'
   },
-  searchWrapper: {
-    flex: 1
+  pageHeader:{
+    paddingTop:24,
+    paddingHorizontal:60,
+    width:'100%',
+    height:53,
+    flexDirection:'row',
+    justifyContent:'space-between',
+    backgroundColor:'#fff',
+    borderBottomWidth:StyleSheet.hairlineWidth,
+    borderBottomColor:'rgba(79,79,79,0.3)',
   },
-  searchIcon: {
-    position: 'absolute',
-    top: 10,
-    left: 10
+  textContainer:{
+    
+    paddingHorizontal:12,
+    paddingBottom:12
   },
-  searchContainer: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    gap: 20
+  textContainerActive:{
+    borderBottomWidth:2,
+    borderBottomColor:Colors.primary,
+    paddingHorizontal:12,
+    paddingBottom:8
+
+
   },
-  recentSearch: {
-    gap: 10
+  text:{
+    fontFamily:'roboto-condensed',
+    fontSize:16,
+    color:Colors.grey,
+    
   },
-  headerText: {
-    fontFamily: 'roboto-condensed-sb',
-    fontSize: 15
+  textActive:{
+    fontFamily:'roboto-condensed',
+    fontSize:16,
+    color:Colors.primary
   },
-  recentSearchOutput:
-  {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+  loadingIndicator: {
+    marginTop: 16,
   },
-  text: {
-    fontFamily: 'roboto-condensed',
-    color: Colors.grey,
-    fontSize: 13
-  },
-  tagSection: {
-    gap: 10
-  },
-  tagContent: {
+  gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10
+    justifyContent: 'space-between',
+    paddingHorizontal: 8,
   },
-  tagBtn: {
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 5,
-    backgroundColor: Colors.primaryTransparent,
+  productCard: {
+    flexBasis: '48%', // Adjust as needed based on your styling preference
+    marginBottom: 16,
+  },
+  lastCardInRow: {
+    marginRight: 0,
+  },
+
+  categoryContainer:{
+    width,
+    flexDirection:'row',
+    paddingLeft: 36,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth:StyleSheet.hairlineWidth,
+    borderTopColor:'rgba(0,0,0,0.05)',
 
   },
-  tagText: {
-    fontFamily: 'roboto-condensed',
-    color: Colors.primary,
-    fontSize: 10,
-    fontWeight: '500'
+
+  productPicture:{
+    width:170,
+    height:110,
   }
-})
+});
 
-export default search
+export default explore
