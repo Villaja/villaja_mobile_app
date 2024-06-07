@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from 'react'
 import { StyleSheet, Text, View ,ScrollView} from 'react-native'
-import DataTable , { COL_TYPES } from 'react-native-datatable-component';
+// import DataTable , { COL_TYPES } from 'react-native-datatable-component';
 
 
 const data = [ 
@@ -47,8 +47,8 @@ export default function Transactions() {
     <View style= {styles.container}>
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} style={{width:'100%'}}>
 
-      <DataTable
-            data={data} // list of objects
+      {/* <DataTable
+            data={data} 
             onRowSelect={(row:any) => {console.log('ROW => ',row)}}
             colNames={['name', 'age', 'gender','select']} //List of Strings
             colSettings={[
@@ -60,7 +60,7 @@ export default function Transactions() {
             noOfPages={data.length/10} //number
             backgroundColor={'#fff'} //Table Background Color
             headerLabelStyle={{ color: 'grey', fontSize: 12}} //Text Style Works
-        />
+        /> */}
 
       </ScrollView>
 
