@@ -30,7 +30,7 @@ const Categories = [
   },
   {
     name:"Smart Watches",
-    image:require('../../assets/images/SmartWatch.png')
+    image:require('../../assets/images/smw.png')
   },
 ]
 
@@ -55,18 +55,18 @@ const explore: React.FC = () => {
   }
 
   return (
-    <View>
-      <View style={styles.pageHeader}>
+    <ScrollView showsVerticalScrollIndicator={false}>
+      {/* POSTPONED TILL v1.2 <View style={styles.pageHeader}>
         <TouchableOpacity style={headerSelection === 'Products' ? styles.textContainerActive :styles.textContainer} onPress={() => setHeaderSelection('Products')}>
           <Text style={headerSelection === 'Products' ? styles.textActive :styles.text}>Products</Text>
         </TouchableOpacity>
         <TouchableOpacity  style={headerSelection === 'Merchants' ? styles.textContainerActive :styles.textContainer} onPress={() => setHeaderSelection('Merchants')}>
           <Text style={headerSelection === 'Merchants' ? styles.textActive :styles.text}>Merchants</Text>
         </TouchableOpacity>
-      </View>
+      </View>*/}
       
       <View style={{paddingHorizontal:18,paddingVertical:12,gap:12,backgroundColor:'#fff'}}>
-          <TouchableOpacity style={{flexDirection:'row',gap:6,paddingVertical:8,paddingHorizontal:12,borderWidth:StyleSheet.hairlineWidth,borderColor:Colors.grey,borderRadius:5,backgroundColor:'rgba(0,0,0,0.03)'}} onPress={() => router.push('/search/searchPage')}>
+          <TouchableOpacity style={{flexDirection:'row',gap:6,paddingVertical:12,paddingHorizontal:12,borderWidth:StyleSheet.hairlineWidth,borderColor:Colors.grey,borderRadius:5,backgroundColor:'rgba(0,0,0,0.03)'}} onPress={() => router.push('/search/searchPage')}>
             <AntDesign name='search1' size={18} color={Colors.grey} />
             <Text style={{color:Colors.grey,fontFamily:'roboto-condensed'}}>I Am Looking For...</Text>
           </TouchableOpacity>
@@ -74,7 +74,6 @@ const explore: React.FC = () => {
           <ScrollView 
             horizontal  
             showsHorizontalScrollIndicator={false}
-            
             contentContainerStyle={
                 {
                     alignItems:'center',
@@ -85,7 +84,7 @@ const explore: React.FC = () => {
                 }
             }>
             {Tags.map((tag,key) => <TouchableOpacity key={key} style={{paddingHorizontal:12,paddingVertical:8,backgroundColor:Colors.primaryTransparent,borderRadius:2}}>
-              <Text style={{fontFamily:'roboto-condensed-sb',color:Colors.primary}}>{tag}</Text>
+              <Text style={{fontFamily:'roboto-condensed-sb',color:Colors.primary, fontSize:12}}>{tag}</Text>
             </TouchableOpacity>)}
           </ScrollView>
       </View>
@@ -96,7 +95,7 @@ const explore: React.FC = () => {
             renderCategoryCards()
             )}
       </ScrollView>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -104,7 +103,7 @@ const explore: React.FC = () => {
 const ProductCategory = ({category,picture}:{category:string,picture:ImageProps}):JSX.Element => {
   
   return <TouchableOpacity style={styles.categoryContainer} onPress={() => router.push({ pathname: `/categoryCatalog/${category}`, params: { minPrice: "1", maxPrice: "5000000" } })}>
-    <Text style={{fontFamily:'roboto-condensed-sb',fontSize:16}}>{category}</Text>
+    <Text style={{fontFamily:'roboto-condensed-sb',fontSize:14}}>{category}</Text>
     <Image source={picture} style={styles.productPicture} resizeMode='contain'/>
   </TouchableOpacity>
 }

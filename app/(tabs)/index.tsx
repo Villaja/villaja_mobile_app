@@ -282,7 +282,7 @@ const index = () => {
 
               )}
             </View>
-            <Entypo name="chevron-thin-down" size={16} color={Colors.grey} />
+            {/*<Entypo name="chevron-thin-down" size={16} color={Colors.grey} />*/}
           </View>
 
         </View>

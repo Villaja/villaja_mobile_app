@@ -79,9 +79,7 @@ const catalog = () => {
           && data.originalPrice > parseInt(q.minPrice as string) 
           && data.originalPrice < parseInt(q.maxPrice as string)
           )
-
-        
-  
+          
         setData(products);
         setSortedData(products);
       } catch (error) {
