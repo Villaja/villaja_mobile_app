@@ -83,7 +83,7 @@ function RootLayoutNav() {
                 <Stack>
                   {/* <Stack.Screen name="(Seller)" options={{ headerShown: false }} /> */}
                   <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                  <Stack.Screen name="(drawer)" options={{ headerShown: false }}/>
+                  <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
                   <Stack.Screen
                     name="(modals)/landing"
                     options={{
@@ -546,21 +546,21 @@ function RootLayoutNav() {
                   />
 
                   <Stack.Screen
-        name="search/searchPage"
-        
-        options={{
-          animation:'fade',
-          headerShadowVisible:false,
-          headerTitle:'Explore',
-          headerTitleStyle:{
-            fontFamily:'roboto-condensed-sb-i',
-            fontSize:20
-          },
-          headerTitleAlign:'center',
-          headerShown:false,
-          
-        }}
-      />
+                    name="search/searchPage"
+
+                    options={{
+                      animation: 'fade',
+                      headerShadowVisible: false,
+                      headerTitle: 'Explore',
+                      headerTitleStyle: {
+                        fontFamily: 'roboto-condensed-sb-i',
+                        fontSize: 20
+                      },
+                      headerTitleAlign: 'center',
+                      headerShown: false,
+
+                    }}
+                  />
 
 
                   {
@@ -787,7 +787,7 @@ function RootLayoutNav() {
                         backgroundColor: 'transparent'
                       },
                       headerTitleStyle: {
-                        
+
                         fontSize: 14,
                         fontWeight: "200"
                       },
@@ -847,7 +847,7 @@ function RootLayoutNav() {
                       ),
                     }}
                   />
-                    <Stack.Screen
+                  <Stack.Screen
                     name="accountScreen/merchantProfile"
                     options={{
                       // presentation: 'modal',
@@ -861,19 +861,19 @@ function RootLayoutNav() {
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
                           <TouchableOpacity onPress={() => router.back()}>
                             <Ionicons name="arrow-back" size={20} color={"#000"} />
                           </TouchableOpacity>
                         </View>
-                      ),}} />
+                      ),
+                    }} />
                   <Stack.Screen
                     name="sellerNotificationsTabs/[id]"
                     options={{
                       // presentation: 'modal',
                       title: '',
-                      headerShown:false,
-                      
+                      headerShown: false,
+
                     }}
                   />
                   <Stack.Screen
@@ -881,10 +881,31 @@ function RootLayoutNav() {
                     options={{
                       // presentation: 'modal',
                       title: '',
-                      headerShown:false,
-                      
+                      headerShown: false,
+
                     }}
                   />
+                  <Stack.Screen
+                    name="order/[id]"
+                    options={{
+                      // presentation: 'modal',
+                      title: "Track Order",
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontSize: 16,
+                        fontWeight: "500"
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }} />
                 </Stack>
               </OrdersProvider>
             </SellerAuthProvider>

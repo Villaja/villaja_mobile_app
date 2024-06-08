@@ -4,6 +4,8 @@ import { defaultStyles } from '../constants/Styles';
 import Colors from '../constants/Colors';
 import { Order } from '../types/Order';
 import { Link, useRouter } from 'expo-router';
+import { useOrders } from "../context/OrderContext";
+
 
 interface OrderCardProps {
   order: Order;
@@ -11,6 +13,8 @@ interface OrderCardProps {
 
 const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
   const router = useRouter()
+  
+
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
@@ -18,7 +22,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
         <View style={{ paddingVertical: 12.5 }}>
           <Text style={styles.name}>{order.cart[0].name}</Text>
           <Text style={styles.price}>₦{order.totalPrice.toLocaleString()}</Text>
-          <Text style={styles.discount}>₦{order.cart[0].discountPrice}</Text>
+          <Text style={styles.discount}>₦{order.cart[0].discountPrice.toLocaleString()}</Text>
         </View>
       </View>
         <TouchableOpacity style={[defaultStyles.btn,{width:'100%',flexGrow:1,flexBasis:'100%',backgroundColor:Colors.primaryTransparent}]} onPress={() => router.push(`/order/${order._id}`)}>

@@ -141,7 +141,7 @@ const OrdersProvider = ({ children }) => {
       // Fetch token from AsyncStorage
       const token = await AsyncStorage.getItem('token');
 
-      await axios.delete(`${server}/orders/${id}`, {
+      await axios.delete(`${base_url}/orders/${id}`, {
         headers: {
           Authorization: token,
         },

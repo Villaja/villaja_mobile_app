@@ -63,20 +63,20 @@ const QuickSell = () => {
 
      // functionality to select and upload product images
      const pickImage = async () => {
-      // Check if the number of selected images is less than 4
-      if (selectedImages.length >= 4) {
-        alert('You can only upload up to 4 images.');
-        return;
-      }
-  
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 1,
         allowsEditing: true,
         allowsMultipleSelection: false, // Allows multiple image selection
       });
-  
-      if (!result.canceled && result.assets.length > 0) {
+
+       // Check if the number of selected images is less than 4
+       if (selectedImages.length >= 4) {
+         alert('You can only upload up to 4 images.');
+         return;
+       }
+
+       if (!result.canceled && result.assets.length > 0) {
         const newImages = result.assets.map(asset => asset.uri);
         // Ensure the total number of selected images doesn't exceed 4
         const remainingSlots = 4 - selectedImages.length;
