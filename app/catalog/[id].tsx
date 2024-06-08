@@ -6,6 +6,7 @@ import Colors from '../../constants/Colors'
 import { defaultStyles } from '../../constants/Styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import ProductCard from '../../components/ProductCard'
+import ProductCard2 from "../../components/ProductCard2";
 import { Product } from '../../types/Product'
 import axios, { AxiosResponse } from 'axios'
 import { base_url } from '../../constants/server'
@@ -159,6 +160,36 @@ const catalog = () => {
 
     );
   }
+
+  const renderProductCards2 = (start: number, end: number) => {
+    const cardsPerRow = 1;
+
+    return (
+      <>
+        {
+          <View>
+            <View style={styles.gridContainer2}>
+              {sortedData.map((product, index) => (
+                <View
+                  key={product._id}
+                  style={[
+                    styles.productCard,
+                    index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+                  ]}
+                >
+                  <ProductCard2 product={product} />
+                </View>
+              ))}
+            </View>
+          </View>
+        }
+      </>
+
+
+
+    );
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === "android" ? 30 : 0 }}>
       <View style={styles.headerContainer}>
@@ -215,7 +246,7 @@ const catalog = () => {
             <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator} />
           ) : (
             sortedData.length >= 1 ? (
-              renderProductCards(0, 4)
+                productDisplayType ? renderProductCards(0, 4) : renderProductCards2(0, 4)
               ) : (
                 <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} >
                   <View style={{ justifyContent: "center", alignItems: "center"}} >
@@ -405,6 +436,12 @@ const styles = StyleSheet.create({
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    // paddingHorizontal: 8,
+  },
+  gridContainer2: {
+    flexDirection: 'column-reverse',
+    flexWrap: 'nowrap',
     justifyContent: 'space-between',
     // paddingHorizontal: 8,
   },

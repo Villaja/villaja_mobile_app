@@ -12,6 +12,7 @@ import { AntDesign } from '@expo/vector-icons'
 import { useAuth } from '../../context/AuthContext'
 import { useOrders } from '../../context/OrderContext';
 import { Order, CartItem } from '../../types/Order'
+import  LottieView  from "lottie-react-native";
 
 import axios from 'axios'
 import { base_url } from '../../constants/server'
@@ -123,7 +124,7 @@ const cart = () => {
       </View>
       {
         activeTab==='Cart'?
-      <ScrollView style={{padding:20,gap:16}}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{padding:20,gap:16}}>
         {
           cart && cart.length > 0? cart.map((item) => (
             <CartCard item={item} key={item._id}  handleRemoveCart={handleRemoveFromCart} />
@@ -132,10 +133,9 @@ const cart = () => {
 
           :
           <View style={{paddingVertical:50,justifyContent:'center',alignItems:'center',gap:20}}>
-            <AntDesign name="shoppingcart" size={60} color={Colors.primary} />
-            <Text style={[styles.textHeader,{color:'#000'}]}>Your Cart is Empty</Text>
+            <LottieView source={require('../../assets/images/cart-animation2.json')} autoPlay loop={false} style={{width: 200, height: 200}} />
             <TouchableOpacity style={[defaultStyles.btn,{paddingHorizontal:20}]} onPress={() => router.push('/')}>
-              <Text style={defaultStyles.btnText}>Continue Shopping</Text>
+              <Text style={[defaultStyles.btnText, {paddingHorizontal: 50}]}>Continue Shopping</Text>
             </TouchableOpacity>
           </View>
         }
@@ -146,6 +146,7 @@ const cart = () => {
         <ActivityIndicator size="large" color="#0000ff" />
       ) : (
         <FlatList
+          showsVerticalScrollIndicator={false}
           data={orders}
           keyExtractor={(item) => item._id}
           ListEmptyComponent={() => <Text>No orders available</Text>}
@@ -154,10 +155,10 @@ const cart = () => {
       )}
     </View>
       :
-      <ScrollView style={{padding:0,gap:16}}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{padding:0,gap:16}}>
         <View style={{flexDirection:'row',justifyContent:'space-between',alignItems:'center',paddingHorizontal:20,paddingVertical:7}}>
           <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.35)'}}>History</Text>
-          <TouchableOpacity><Text style={{fontFamily:'roboto-condensed',color:Colors.primary}}>Clear History</Text></TouchableOpacity>
+          {/* POSTPONED TILL V2.1 <TouchableOpacity><Text style={{fontFamily:'roboto-condensed',color:Colors.primary}}>Clear History</Text></TouchableOpacity>*/}
         </View>
         {
           sampleCartItems && sampleCartItems.map((item) => (
@@ -205,13 +206,13 @@ const styles = StyleSheet.create({
     paddingHorizontal:13
   },
   textHeader:{
-    fontSize:18,
+    fontSize:14,
     fontFamily:'roboto-condensed',
     color:'rgba(0,0,0,0.40)',
     fontWeight:'500'
   },
   activeTextHeader:{
-    fontSize:18,
+    fontSize:16,
     fontFamily:'roboto-condensed',
     color:'#000',
     fontWeight:'500'

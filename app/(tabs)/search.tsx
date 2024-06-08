@@ -103,7 +103,7 @@ const explore: React.FC = () => {
 const ProductCategory = ({category,picture}:{category:string,picture:ImageProps}):JSX.Element => {
   
   return <TouchableOpacity style={styles.categoryContainer} onPress={() => router.push({ pathname: `/categoryCatalog/${category}`, params: { minPrice: "1", maxPrice: "5000000" } })}>
-    <Text style={{fontFamily:'roboto-condensed-sb',fontSize:14}}>{category}</Text>
+    <Text style={{fontFamily:'roboto-condensed-sb',fontSize:14, color: "#00000099"}}>{category}</Text>
     <Image source={picture} style={styles.productPicture} resizeMode='contain'/>
   </TouchableOpacity>
 }

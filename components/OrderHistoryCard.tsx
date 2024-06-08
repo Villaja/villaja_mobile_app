@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity , Image, StyleSheet} from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import React from 'react'
 import { defaultStyles } from '../constants/Styles';
 import Colors from '../constants/Colors';
@@ -14,93 +14,88 @@ interface Props {
 
 
 
-const CartCard = (item:Props) => {
+const CartCard = (item: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
         <View style={styles.imageContainer}>
-            <Image source={{uri:item.image}} style={[styles.image,{tintColor:Colors.grey}]}  />
-            <Image source={{uri:item.image}} style={styles.image}  />
+          <Image source={{ uri: item.image }} style={[styles.image, { tintColor: Colors.grey }]} />
+          <Image source={{ uri: item.image }} style={styles.image} />
         </View>
-        <View style={{paddingVertical:12.5}}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>₦{item.originalPrice.toLocaleString()}</Text>
-            <Text style={styles.discount}>₦{item.discountPrice}</Text>
+        <View style={{ paddingVertical: 12.5 }}>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.price}>₦{item.originalPrice.toLocaleString()}</Text>
+          {/* NOT NECESSARY <Text style={styles.discount}>₦{item.discountPrice}</Text>*/}
         </View>
       </View>
-
-    <TouchableOpacity style={styles.closeBtn}>
-      <AntDesign name='closecircle' size={18} color={'#000'}  />
-    </TouchableOpacity>
-      
-        
-      
+      <TouchableOpacity style={styles.closeBtn}>
+        <AntDesign name='closecircle' size={18} color={'#000'} />
+      </TouchableOpacity>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        gap:15,
-        padding:20,
-        backgroundColor:'#fff',
-        borderRadius:5,
-        elevation: 4,
-        shadowColor: 'rgba(2, 84, 146, 0.10)',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.5,
-        shadowRadius: 8,
-        borderBottomWidth:StyleSheet.hairlineWidth,
-        borderBottomColor:'rgba(0,0,0,0.10)'
+  container: {
+    gap: 15,
+    padding: 20,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    elevation: 4,
+    shadowColor: 'rgba(2, 84, 146, 0.10)',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(0,0,0,0.10)',
+  },
+  topSection: {
+    flexDirection: 'row',
+    gap: 8,
 
-    },
-    topSection:{
-        flexDirection:'row',
-        gap:18,
-        
-    },
-    imageContainer:{
-         width:83,
-        height:83,
-        borderRadius:3,
-    },
-    image:{
-        width:83,
-        height:83,
-        resizeMode:'contain',
-        borderRadius:3,
-        borderWidth:StyleSheet.hairlineWidth,
-        borderColor:'rgba(0,0,0,0.05)',
-        position:'absolute',
-        opacity:0.3
-        
-    },
-    name:{
-        fontFamily:'roboto-condensed',
-        fontWeight:'500',
-        color:'rgba(0,0,0,0.50)',
-        marginBottom:6                                                     
-    },
-    price:{
-        fontFamily:'roboto-condensed',
-        fontSize:18,
-                color:'rgba(0,0,0,0.50)',
+  },
+  imageContainer: {
+    width: 83,
+    height: 83,
+    borderRadius: 3,
+  },
+  image: {
+    width: 83,
+    height: 83,
+    resizeMode: 'contain',
+    borderRadius: 3,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0,0,0,0.05)',
+    position: 'absolute',
+    opacity: 0.3
 
-        fontWeight:'500'
-    },
-    discount:{
-        fontFamily:'roboto-condensed',
-        fontSize:10,
-        color:'rgba(0,0,0,0.30)',
-        fontWeight:'500',
-        textDecorationLine:'line-through'
-    },
-    closeBtn:{
-        position:'absolute',
-        right:30,
-        top:20,
-        opacity:0.3
-    }
+  },
+  name: {
+    fontFamily: 'roboto-condensed',
+    fontWeight: '600',
+    color: 'rgba(0,0,0,0.50)',
+    marginBottom: 6
+  },
+  price: {
+    fontFamily: 'roboto-condensed',
+    fontSize: 18,
+    color: 'rgba(0,0,0,0.50)',
+
+    fontWeight: '500'
+  },
+  discount: {
+    fontFamily: 'roboto-condensed',
+    fontSize: 10,
+    color: 'rgba(0,0,0,0.30)',
+    fontWeight: '500',
+    textDecorationLine: 'line-through'
+  },
+  closeBtn: {
+    position: 'absolute',
+    right: 20,
+    top: 5,
+    opacity: 0.3
+  }
 })
 
 export default CartCard

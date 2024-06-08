@@ -12,7 +12,6 @@ interface OrderCardProps {
 const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
   const router = useRouter()
   return (
-    
     <View style={styles.container}>
       <View style={styles.topSection}>
         <Image source={{ uri: order.cart[0].images[0].url }} style={styles.image} />
@@ -22,9 +21,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
           <Text style={styles.discount}>₦{order.cart[0].discountPrice}</Text>
         </View>
       </View>
-
         <TouchableOpacity style={[defaultStyles.btn,{width:'100%',flexGrow:1,flexBasis:'100%',backgroundColor:Colors.primaryTransparent}]} onPress={() => router.push(`/order/${order._id}`)}>
-
         <Text style={[defaultStyles.btnText, { color: Colors.primary }]}>Track Order</Text>
         </TouchableOpacity>
       <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.redTransparent }]}>
@@ -49,15 +46,12 @@ const styles = StyleSheet.create({
   },
   topSection: {
     flexDirection: 'row',
-    gap: 18,
+    gap: 28,
   },
   image: {
     width: 83,
     height: 83,
     resizeMode: 'contain',
-    borderRadius: 3,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'rgba(0,0,0,0.05)',
   },
   name: {
     fontFamily: 'roboto-condensed',
