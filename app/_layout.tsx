@@ -906,7 +906,7 @@ function RootLayoutNav() {
                         </View>
                       ),
                     }} />
-                  <Stack.Screen
+                 {/* SUSPENDED <Stack.Screen
                     name="orderSuccess/orderSuccess"
                     options={{
                       // presentation: 'modal',
@@ -927,7 +927,7 @@ function RootLayoutNav() {
                           </TouchableOpacity>
                         </View>
                       ),
-                    }} />
+                    }} /> */}
                 </Stack>
               </OrdersProvider>
             </SellerAuthProvider>

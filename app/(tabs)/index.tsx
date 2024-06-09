@@ -264,7 +264,7 @@ const index = () => {
 
                 <>
                   <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.30)', fontSize: 12 }}>Welcome To Villaja</Text>
-                  <Text style={styles.userName}>
+                  <Text numberOfLines={1} style={styles.userName}>
                     {user?.user.firstname} {user?.user.lastname}
                   </Text>
                 </>
@@ -467,7 +467,8 @@ const styles = StyleSheet.create({
     color: Colors.primary,
     fontSize: 14,
     fontWeight: '400',
-    left: 8
+    left: 8,
+    maxWidth: 150,
   },
   Login: {
     backgroundColor: '#025492',
