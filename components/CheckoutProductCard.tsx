@@ -24,7 +24,7 @@ const CheckoutProductCard = (item:Product) => {
             <Image source={{uri:item.images[0].url}} style={styles.image}  />
         </View>
         <View style={{paddingVertical:12.5}}>
-            <Text style={styles.name}>{item.name}</Text>
+            <Text numberOfLines={2} style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>N{item.originalPrice.toLocaleString()}</Text>
             {item.discountPrice > 0 && <Text style={styles.discount}>N{item.discountPrice}</Text>}
         </View>
@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
         fontFamily:'roboto-condensed',
         fontWeight:'500',
         color:'rgba(0,0,0,0.50)',
-        marginBottom:6                                                     
+        marginBottom:6,  
+        maxWidth: 210                                                   
     },
     price:{
         fontFamily:'roboto-condensed',

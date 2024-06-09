@@ -1,4 +1,4 @@
-import { View, Text, Platform, SafeAreaView, TextInput, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Dimensions, Modal } from 'react-native'
+import { View, Text, Platform, SafeAreaView, TextInput, TouchableOpacity, StyleSheet, ScrollView, ActivityIndicator, Dimensions, Modal, Alert } from 'react-native'
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useGlobalSearchParams, useLocalSearchParams, useRouter } from 'expo-router'
 import { Ionicons, AntDesign, Entypo, FontAwesome, Feather } from '@expo/vector-icons'
@@ -32,8 +32,9 @@ const catalog = () => {
   const [sortValue, setSortValue] = useState<string>('New In');
   const [reviewModalVisible, setReviewModalVisible] = useState(false)
   const [productName, setProductName] = useState("")
-  const [ramSize, setRamSize] = useState("")
-  const [romSize, setRomSize] = useState("")
+  const [moreDetails, setMoreDetails] = useState("")
+  const [user, setUser] = useState<any>({})
+  const [token, setToken] = useState<string>()
   
 
 
@@ -190,6 +191,48 @@ const catalog = () => {
     );
   }
 
+
+  useEffect(() => {
+    const fetchToken = async() => {
+      const token = await AsyncStorage.getItem('token');
+      const user = await AsyncStorage.getItem('user');
+
+      if (!token) {
+        return router.push('/(modals)/login')
+      }
+
+      setUser(JSON.parse(user!).user);
+      setToken(token);
+    }
+
+    fetchToken()
+  }, [])
+  
+
+
+  const notFoundSubmit = async () => {
+    if (!productName || !moreDetails) {
+      Alert.alert('Error', 'Please fill all the input fields');
+      return;
+    };
+
+    try {
+      const response = await axios.post('https://villaja-server.onrender.com/api/not-found/create', {
+        productName: productName,
+        productDescription: moreDetails,
+      })
+      if (response.data && response.data.success) {
+        Alert.alert('Success', 'Thank you for your feedback');
+        setReviewModalVisible(!reviewModalVisible);
+      } else {
+        Alert.alert('Error', 'There was an issue submitting your response, please try again');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Error sending feedback, please try again');
+      console.log(error);
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === "android" ? 30 : 0 }}>
       <View style={styles.headerContainer}>
@@ -289,38 +332,28 @@ const catalog = () => {
                 <Text style={{ fontSize: 12, color: "#00000090", fontWeight:"500" }}>Product Name</Text>
                 <View style={{ borderWidth: 1, width: width - 70, height: 50, top: 5, borderColor: "#0000001A", borderRadius: 5, backgroundColor: "#00000005"}} >
                   <TextInput
-                    placeholder='Enter the what you did not find'
+                    placeholder='Name of what you did not find'
                     onChangeText={(text) => { setProductName(text)}}
-                    keyboardType='visible-password'
+                    keyboardType= 'default'
                     style={{ top: 8, fontSize: 13, left: 13, width: width -70 }}
                     
                   />
                 </View>
               </View>
               <View style={{marginBottom: 30}} >
-                <Text style={{ fontSize: 12, color: "#00000090", fontWeight:"500" }}>RAM Size</Text>
-                <View style={{ borderWidth: 1, width: width - 70, height: 50, top: 5, borderColor: "#0000001A", borderRadius: 5, backgroundColor: "#00000005"}} >
+                <Text style={{ fontSize: 12, color: "#00000090", fontWeight:"500" }}>More Details</Text>
+                <View style={{ borderWidth: 1, width: width - 70, height: 220, top: 5, borderColor: "#0000001A", borderRadius: 5, backgroundColor: "#00000005" }} >
                   <TextInput
                     placeholder='Enter "none" if not applicable'
-                    onChangeText={(text) => {setRamSize(text)}}
-                    keyboardType='visible-password'
-                    style={{ top: 8, fontSize: 13, left: 13, width: width -70 }}
+                    onChangeText={(text) => {setMoreDetails(text)}}
+                    keyboardType='default'
+                    style={{ fontSize: 13, paddingHorizontal: 13, width: width -70 }}
+                    multiline={true}
                   />
                 </View>
               </View>
-              <View style={{marginBottom: 50}} >
-                <Text style={{ fontSize: 12, color: "#00000090", fontWeight:"500" }}>ROM Size</Text>
-                <View style={{ borderWidth: 1, width: width - 70, height: 50, top: 5, borderColor: "#0000001A", borderRadius: 5, backgroundColor: "#00000005"}} >
-                  <TextInput
-                    placeholder='Enter "none" if not applicable'
-                    onChangeText={(text) => {setRomSize(text)}}
-                    keyboardType='visible-password'
-                    style={{ top: 8, fontSize: 13, left: 13, width: width -70 }}
-                  />
-                </View>
-              </View>
-              <TouchableOpacity style={[defaultStyles.btn, {marginBottom: 20}]} >
-                <Text style={defaultStyles.btnText} >Submit</Text>
+              <TouchableOpacity style={[defaultStyles.btn, {marginBottom: 20}]} onPress={notFoundSubmit} >
+                <Text style={defaultStyles.btnText}>Submit</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[defaultStyles.btn, {marginBottom: 40, backgroundColor: "rgba(255,0,0,0.05)"}]} onPress={handleReviewModalVisibility} >
                 <Text style={[defaultStyles.btnText, {color: 'rgb(255,0,0)'}]} >Cancel</Text>

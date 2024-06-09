@@ -252,7 +252,7 @@ function RootLayoutNav() {
                       headerShadowVisible: false,
                       headerLeft: () => (
                         <TouchableOpacity onPress={() => router.back()}>
-                          <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          <Ionicons name="arrow-back" size={22} color={"#000"} />
                         </TouchableOpacity>
                       ),
                       headerRight: () => (
@@ -890,6 +890,28 @@ function RootLayoutNav() {
                     options={{
                       // presentation: 'modal',
                       title: "Track Order",
+                      headerShadowVisible: false,
+                      headerStyle: {
+                        backgroundColor: 'transparent'
+                      },
+                      headerTitleStyle: {
+                        fontSize: 16,
+                        fontWeight: "500"
+                      },
+                      headerLeft: () => (
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                          <TouchableOpacity onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={20} color={"#000"} />
+                          </TouchableOpacity>
+                        </View>
+                      ),
+                    }} />
+                  <Stack.Screen
+                    name="orderSuccess/orderSuccess"
+                    options={{
+                      // presentation: 'modal',
+                      title: "Track Order",
+                      headerShown: false,
                       headerShadowVisible: false,
                       headerStyle: {
                         backgroundColor: 'transparent'

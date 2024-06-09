@@ -6,6 +6,8 @@ import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'expo-router'
 import { ScrollView } from 'react-native-gesture-handler';
 import { base_url } from '../../constants/server';
+import LottieView from "lottie-react-native";
+
 
 
 const Page = () => {
@@ -48,7 +50,7 @@ const Page = () => {
     fetchOrderDetails();
   }, [id]);
 
-  const previousScreen = () => {
+  {/*const previousScreen = () => {
     return (
       <View>
         <Image source={{ uri: orderDetails.cart[0].images[0].url }} />
@@ -61,7 +63,7 @@ const Page = () => {
         <Text style={styles.header}>Order Details for Order ID: {id}</Text>
       </View>
     )
-  }
+  } */}
 
   return (
 
@@ -79,7 +81,7 @@ const Page = () => {
                   <View style={{ alignItems: 'center', marginBottom: 10 }} >
                     <Image source={require('../../assets/images/track-order.png')} resizeMode='contain' style={{ height: 209, width: width }} />
                     <View style={{ justifyContent: "center", alignItems: 'center', position: 'absolute', top: 20, gap: 10 }} >
-                      <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500', width: 300 }}>{orderDetails.cart[0].name}</Text>
+                      <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500' }}>{orderDetails.cart[0].name}</Text>
                       <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[0].originalPrice.toLocaleString()}</Text>
                     </View>
                   </View>
@@ -101,7 +103,17 @@ const Page = () => {
                   </View>
                 </View>
               ) : (
-                <View></View>
+                <View>
+                  <View style={{ justifyContent: "center", alignItems: "center"}} >
+                  <LottieView
+                    source={require('../../assets/images/no-result.json')}
+                    autoPlay
+                    loop
+                    style={{ height: 200, width: 200}}
+                  />
+                <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 20, color: "#02549296", textAlign: 'center' }}>No Orders Found</Text>
+                </View>
+                </View>
               )
           }
         </ScrollView>

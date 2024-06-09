@@ -1,6 +1,7 @@
-import React from 'react';
+{/* NOT NEEDED ANYMORE; USED MODAL FOR ORDER SUCCESS IN CHECKOUT import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router'
+import { useRouter } from 'expo-router';
+import LottieView from "lottie-react-native";
 
 
 
@@ -14,9 +15,10 @@ const OrderSuccess = () => {
 
   return (
     <View style={styles.container}>
+      <LottieView source={require('../../assets/images/order-success.json')} autoPlay loop={false} style={{width: 200, height: 200}} />
       <Text style={styles.successText}>Your order was successful!</Text>
       <TouchableOpacity onPress={handleSeeAllOrders} style={styles.button}>
-        <Text style={styles.buttonText}>See All Your Orders</Text>
+        <Text style={styles.buttonText}>Check Your Order</Text>
       </TouchableOpacity>
     </View>
   );
@@ -34,8 +36,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-    backgroundColor: '#3498db',
-    padding: 10,
+    backgroundColor: '#025492',
+    paddingVertical: 20,
+    paddingHorizontal: 40, 
     borderRadius: 5,
   },
   buttonText: {
@@ -45,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OrderSuccess;
+export default OrderSuccess; */}

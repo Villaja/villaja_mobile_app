@@ -97,11 +97,9 @@ const Page: React.FC = () => {
 
   return (
     <ScrollView style={{ backgroundColor: Colors.primaryUltraTransparent }} ref={scrollRef} >
-
       <View>
         <PopUpModal icon={modalInfo?.icon!} message={modalInfo?.message!} iconColor={modalInfo?.iconColor!} triggerCartModal={triggerCartModal} setTriggerCartModal={setTriggerCartModal} />
       </View>
-
       <View style={styles.container}>
         {loading ? (
           <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator} />

@@ -1,8 +1,7 @@
-import { View, Text, ScrollView, StyleSheet, Alert, Modal, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Alert, Modal, ActivityIndicator, Dimensions, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { defaultStyles } from '../../constants/Styles'
 import Colors from '../../constants/Colors'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import Svg, { Path } from 'react-native-svg'
 import { AntDesign, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import OrderHistoryCard from '../../components/OrderHistoryCard'
@@ -14,7 +13,8 @@ import { useAuth } from '../../context/AuthContext'
 import axios from 'axios'
 import  { Paystack }  from 'react-native-paystack-webview';
 import { useRouter } from 'expo-router'
-import { base_url } from '../../constants/server'
+import { base_url } from '../../constants/server';
+import LottieView from "lottie-react-native";
 
 
 
@@ -25,8 +25,10 @@ const checkout = () => {
     const [savedCart,setSavedCart] = useState<Product[]>([])
     const [showPaystack, setShowPaystack] = useState(false);
     const [checkoutModal,setCheckoutModal] = useState(false)
+    const [orderSuccessModal, setOrderSuccessModal] = useState(false);
     const router = useRouter()
     const { user } = useAuth();
+    const {height} = Dimensions.get('window')
 
     const handleGetCart = async () => {
         await AsyncStorage.getItem('cart', (err, result) => {
@@ -86,8 +88,8 @@ const checkout = () => {
     
           if (createOrderResponse.data.success) {
             // Order created successfully
-            setCheckoutModal(false)
-            router.replace('/orderSuccess/orderSuccess');
+            setCheckoutModal(false);
+            setOrderSuccessModal(true);
             // toast.success('Order successful!');
             console.log("order succeded")
             await AsyncStorage.setItem('cart',JSON.stringify(savedCart));
@@ -123,24 +125,77 @@ const checkout = () => {
         </View>
       </Modal>
 
+      <Modal
+        animationType='fade'
+        transparent={true}
+        visible={orderSuccessModal}
+        onRequestClose={() => setOrderSuccessModal(false)}
+      >
+        <View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          margin: 0
+        }}>
+          <View style={{
+            backgroundColor: '#fff',
+            margin: 20,
+            width: '90%',
+            borderRadius: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.25,
+            shadowRadius: 4,
+
+          }}>
+            <LottieView source={require('../../assets/images/order-success.json')} autoPlay loop={false} style={{ width: 200, height: 200 }} />
+            <Text style={{
+              fontSize: 18,
+              fontWeight: '500',
+              marginBottom: 20,
+            }}>Your order was successful!</Text>
+            <TouchableOpacity onPress={() => router.replace('/cartScreen/cart') } style={{
+              backgroundColor: '#025492',
+              paddingVertical: 15,
+              paddingHorizontal: 30,
+              borderRadius: 10,
+              marginBottom: 50
+            }}>
+              <Text style={{
+                color: '#fff',
+                fontSize: 14,
+                fontWeight: '500',
+              }}>Check Your Order
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
     <ScrollView style={{flex:1,backgroundColor:Colors.primaryUltraTransparent,paddingVertical:4,}}>
       <View style={styles.orderSummaryContainer}>
         <Text 
-            style={{fontFamily:'roboto-condensed',
+            style={{fontFamily:'roboto-condensed-sb',
             color:'rgba(0,0,0,0.70)',
-            fontSize:18}}
+            fontSize:16, fontWeight: '500'}}
         >Order Summary</Text>
         <View style={styles.orderSummarySection}>
-            <Text style={styles.orderSummaryText}>Total</Text>
-            <Text style={styles.orderSummaryPrice}>{total.toLocaleString()}</Text>
+            <Text style={styles.orderSummaryText}>Price</Text>
+            <Text style={styles.orderSummaryPrice}>₦{total.toLocaleString()}</Text>
         </View>
         <View style={styles.orderSummarySection}>
             <Text style={styles.orderSummaryText}>Delivery Fee</Text>
-            <Text style={styles.orderSummaryPrice}>N650</Text>
+            <Text style={styles.orderSummaryPrice}>₦650</Text>
         </View>
         <View style={[styles.orderSummarySection,{paddingVertical:8}]}>
             <Text style={[styles.orderSummaryText,{fontSize:18}]}>Total</Text>
-            <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>N{(total+650).toLocaleString()}</Text>
+            <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>₦{(total+650).toLocaleString()}</Text>
         </View>
       </View>
 
@@ -157,7 +212,7 @@ const checkout = () => {
       <View style={styles.addressContainer}>
         <View style={styles.addressHeader}>
             <Text style={styles.addressHeaderText}>Address</Text>
-            <TouchableOpacity style={styles.changeLocationBtn} onPress={() => router.replace('/accountScreen/profile')}>
+            <TouchableOpacity style={styles.changeLocationBtn} onPress={()=> setOrderSuccessModal(true)}>
                 <Text style={styles.changeLocationText}>Change Location</Text>
                 <MaterialIcons name='keyboard-arrow-down' color={Colors.primary} size={15} />
             </TouchableOpacity>
@@ -165,10 +220,21 @@ const checkout = () => {
 
         <View style={styles.addressContentSection}>
             <Ionicons name="location-outline" size={24} color={"#68e349"} />
-            <Text style={styles.addressContentText} numberOfLines={1}>
-              {user?.user.addresses[0]?.address1}
-              </Text>
-        </View>
+            {
+              user ? (
+                <Text style={styles.addressContentText} numberOfLines={1}>
+                  {user?.user.addresses[0]?.address1}
+                </Text>
+              ) : (
+                <Text style={{
+                  fontFamily: 'roboto-condensed',
+                  fontSize: 15,
+                  color: 'rgba(0,0,0,0.50)',
+                  flexShrink: 1, alignSelf: 'center'
+                }} >No address found</Text>
+              )
+            }
+          </View>
       </View>
 
       <View style={{backgroundColor:'#fff',marginBottom:4,paddingHorizontal:20,paddingVertical:10}}>
@@ -246,7 +312,7 @@ const styles = StyleSheet.create({
     },
     addressHeaderText:{
         fontFamily:'roboto-condensed',
-        fontSize:18
+        fontSize:16
     },
     changeLocationBtn:{
         flexDirection:'row',
@@ -302,7 +368,7 @@ const styles = StyleSheet.create({
     promoCodeText:{
         fontFamily:'roboto-condensed',
         color:'rgba(0,0,0,0.90)',
-        fontSize:18
+        fontSize:16
     }
 
 })

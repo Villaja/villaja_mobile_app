@@ -20,7 +20,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
       <View style={styles.topSection}>
         <Image source={{ uri: order.cart[0].images[0].url }} style={styles.image} />
         <View style={{ paddingVertical: 12.5 }}>
-          <Text style={styles.name}>{order.cart[0].name}</Text>
+          <Text numberOfLines={2} style={styles.name}>{order.cart[0].name}</Text>
           <Text style={styles.price}>₦{order.totalPrice.toLocaleString()}</Text>
           <Text style={styles.discount}>₦{order.cart[0].discountPrice.toLocaleString()}</Text>
         </View>
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'rgba(0,0,0,0.50)',
     marginBottom: 6,
+    maxWidth: 180,  
   },
   price: {
     fontFamily: 'roboto-condensed',
