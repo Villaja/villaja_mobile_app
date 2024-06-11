@@ -8,8 +8,9 @@ import { useRouter } from 'expo-router';
 import { defaultStyles } from '../../constants/Styles'
 import * as ImagePicker from 'expo-image-picker';
 import { Dropdown } from 'react-native-element-dropdown';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { base_url } from '../../constants/server';
+import LottieView from "lottie-react-native";
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 
 interface Address {
     _id?: string;
@@ -34,7 +35,7 @@ const addressTypeData = [
     { label: 'Others', value: '3' }
 ];
 
-const { width } = Dimensions.get("window")
+const { width, height } = Dimensions.get("window")
 
 const account = () => {
     const { user } = useAuth();
@@ -43,13 +44,21 @@ const account = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [token, setToken] = useState<string>('');
+    const [passwordSecure, setPasswordSecure] = useState(true);
+    const [token, setToken] = useState<string>();
     const [address, setAddress] = useState<Address | null>(null);
     const [addressTypeValue, setAddressTypeValue] = useState<string | null>(null);
     const [addressModalVisible, setAddressModalVisible] = useState(false);
     const [passwordModalVisible, setPasswordModalVisible] = useState(false);
     const [userImage, setUserImage] = useState("");
+    const [country, setCountry] = useState("");
+    const [state, setState] = useState("");
+    const [city, setCity] = useState("");
+    const [address2, setAddress2] = useState("");
+    const [zipCode, setZipCode] = useState("");
+
 
     const openPasswordModalVisible = () => {
         setPasswordModalVisible(true)
@@ -61,8 +70,10 @@ const account = () => {
         address1: '',
         address2: '',
         zipCode: '',
-        addressType: 'Home',
+        addressType: '',
     });
+
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,6 +92,7 @@ const account = () => {
                         setFirstName(userData.firstname);
                         setLastName(userData.lastname);
                         setPhoneNumber(userData.phoneNumber.toString());
+                        setEmail(userData.email);
                         setAddress(userData.addresses.length > 0 ? userData.addresses[0] : null);
                         setLoading(false);
                     })
@@ -94,72 +106,95 @@ const account = () => {
         fetchData();
     }, [user]);
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         if (!user) {
             Alert.alert('Login required', 'Please login to update your profile');
-            return;
+            return router.replace('/(modals)/login');
         }
 
-        const updatedUser = {
-            firstname: firstName,
-            lastname: lastName,
-            email: user?.user.email,
-            password: password,
-            phoneNumber: phoneNumber
-        };
+        const userToken = await AsyncStorage.getItem('token')
 
-        // Update user information
-        axios.put(`${base_url}/user/update-user-info`, updatedUser, {
-            headers: {
-                Authorization: token
+        try {
+            const response = await axios.put(`${base_url}/user/update-user-info`,
+                {
+                    firstname: firstName,
+                    lastname: lastName,
+                    email: email,
+                    phoneNumber: phoneNumber,
+                    password: password
+                },
+
+                {
+                    headers: {
+                        Authorization: userToken
+                    }
+                }
+            );
+            if (response.data && response.data.success) {
+                Alert.alert('Update Successful', 'Your profile has been successfully updated!!')
+                console.log('profile update successful!!!')
+            } else {
+                Alert.alert('Error', 'Something went wrong, please try again')
             }
-        })
-            .then(response => {
-
-                Alert.alert('Success', 'Details updated');
-                console.log('User information updated successfully:');
-            })
-            .catch(error => {
-
-                Alert.alert('Error', 'Failed to update profile');
-                console.error('Error updating user information:', error.message);
-            });
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log('Error response:', error.response);
+                if (error.response?.status === 500) {
+                    Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
+                } else if (error.response?.status === 401) {
+                    Alert.alert('Unauthorized', 'Please check your token and try again.');
+                } else {
+                    Alert.alert('Error', `Please Enter your password to confirm change: ${error.message}`);
+                }
+            } else {
+                Alert.alert('Error', 'An unexpected error occurred');
+            }
+        }
     };
 
 
 
-
-    const handleSaveAddress = () => {
+    // Logic to save/update address
+    const handleSaveAddress = async () => {
         if (!user) {
             Alert.alert('Login required', 'Please login to update your address');
             return;
         }
 
+        const userToken = await AsyncStorage.getItem('token')
 
-        const newAddress = {
-            ...addressForm
-        };
-
-        // Logic to save/update address
-        axios.put(`${base_url}/user/update-user-addresses`, newAddress, {
-            headers: {
-                Authorization: token
+        try {
+            const response = await axios.put(`${base_url}/user/update-user-addresses`,
+                {
+                    ...addressForm
+                },
+                {
+                    headers: {
+                        Authorization: userToken
+                    }
+                })
+            if (response.data && response.data.success) {
+                Alert.alert('Success', 'Address successfully updated!!!');
+                console.log('User Address changed', response.data);
+                setAddressModalVisible(false)
+            } else {
+                Alert.alert('Error', 'Failed to change address, please try again')
             }
-        })
-            .then(response => {
-                // Handle success
-                console.log('Address saved/updated successfully:', response.data);
-                Alert.alert('success', 'address added, refresh please');
-                setAddressModalVisible(false);
-                // You may want to update the address state here if needed
-            })
-            .catch(error => {
-                // Handle error
-                console.error('Error saving/updating address:', error);
-                Alert.alert('Error', 'Failed to save/update address');
-            });
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log('Error response:', error.response);
+                if (error.response?.status === 500) {
+                    Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
+                } else if (error.response?.status === 401) {
+                    Alert.alert('Unauthorized', 'Please check your token and try again.');
+                } else {
+                    Alert.alert('Error', `Failed to update address: ${error}`);
+                }
+            } else {
+                Alert.alert('Error', 'An unexpected error occurred');
+            }
+        }
     };
-
     const handleDeleteAddress = () => {
         if (!user) {
             Alert.alert('Login required', 'Please login to delete your address');
@@ -174,13 +209,13 @@ const account = () => {
         // Make a DELETE request to delete the address
         axios.delete(`${base_url}/user/delete-user-address/${address._id}`, {
             headers: {
-                Authorization: token
+                Authorization: token,
             }
         })
             .then(response => {
                 // Handle success
                 console.log('Address deleted successfully:', response.data);
-                Alert.alert('deleted', 'address deleted');
+                Alert.alert('Confirmed', 'Address deleted');
                 setAddress(null); // Clear the address state
             })
             .catch(error => {
@@ -188,7 +223,6 @@ const account = () => {
                 Alert.alert('Error', 'Failed to delete address');
             });
     };
-
 
     const openAddressModal = () => {
         setAddressForm(address || { country: '', state: '', city: '', address1: '', address2: '', zipCode: '', addressType: 'Home' });
@@ -198,12 +232,71 @@ const account = () => {
     const [oldPassword, setOldPassword] = useState("");
     const [newPassword, setNewPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false); // State to manage password visibility
-    const oldPasswordVisible = "bighead"; // just for testing input real logic from backend for user old password
+    const [showPassword, setShowPassword] = useState<boolean>(true); // State to manage password visibility
+    const [showPassword2, setShowPassword2] = useState<boolean>(true);
+    const [showPassword3, setShowPassword3] = useState<boolean>(true);
+    const oldPasswordVisible = "VillajaUser12345"; // just for testing input real logic from backend for user old password
+
+
+    const handleChangePassword = async () => {
+        if (!user) {
+            Alert.alert('Error', 'Please Log in to change password');
+            router.replace('/(modals)/login');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            Alert.alert('Error', 'Please ensure your new password matches with the confirmed password');
+            return;
+        }
+        const userToken = await AsyncStorage.getItem('token');
+
+        try {
+            const response = await axios.put(`${base_url}/user/update-user-password`,
+
+                {
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword,
+                },
+
+                {
+                    headers: {
+                        Authorization: userToken
+                    }
+                }
+            )
+            if (response.data && response.data.success) {
+                Alert.alert('Success', "Your password has been successfully updated!!!");
+                console.log("User's password successfully changed", response.data);
+                setOldPassword("");
+                setNewPassword("");
+                setConfirmPassword("");
+                setPasswordModalVisible(false)
+            } else {
+                Alert.alert('Error', "Failed to change password, please try again")
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log('Error response:', error.response);
+                if (error.response?.status === 500) {
+                    Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
+                } else if (error.response?.status === 401) {
+                    Alert.alert('Unauthorized', 'Please check your token and try again.');
+                } else if (error.response?.status === 400) {
+                    Alert.alert('Error', 'your old password is incorrect')
+                } else {
+                    Alert.alert('Error', `Failed to update password: ${error}`);
+                }
+            } else {
+                Alert.alert('Error', 'An unexpected error occurred');
+            }
+        };
+    }
 
 
     //functionality for user image upload
-    {/*  suspended feature
+    {/*  SUSPENDED FEATURE
      const handleImagePicker = async () => {
         const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (!permissionResult.granted) {
@@ -284,7 +377,7 @@ const account = () => {
                     <Text style={styles.text}>First Name</Text>
                     <View style={styles.textInput}>
                         <TextInput
-                            style={{ top: 8, left: 13, fontSize: 12 }}
+                            style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
                             value={firstName}
                             onChangeText={text => setFirstName(text)}
                             placeholder="First Name"
@@ -296,7 +389,7 @@ const account = () => {
                     <Text style={styles.text}>Last Name</Text>
                     <View style={styles.textInput}>
                         <TextInput
-                            style={{ top: 8, left: 13, fontSize: 12 }}
+                            style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
                             value={lastName}
                             onChangeText={text => setLastName(text)}
                             placeholder="Last Name"
@@ -308,46 +401,71 @@ const account = () => {
                     <Text style={styles.text}>Phone Number</Text>
                     <View style={styles.textInput}>
                         <TextInput
-                            style={{ top: 8, left: 13, fontSize: 12 }}
+                            style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
                             value={phoneNumber}
                             onChangeText={text => setPhoneNumber(text)}
                             placeholder='Phone Number'
-                            keyboardType="phone-pad"
+                            keyboardType='number-pad'
                         />
+                    </View>
+                </View>
+                <View style={styles.inputContainer}>
+                    {/*E-mail Input*/}
+                    <Text style={styles.text}>E-mail</Text>
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                            placeholder='Phone Number'
+                            keyboardType='phone-pad'
+                        />
+                        
                     </View>
                 </View>
 
                 {/*password input/Edit Button*/}
-                <View style={styles.addressInputContainer}>
+                <View style={styles.inputContainer}>
                     <Text style={styles.text}>Password</Text>
                     <View style={styles.addressComponent}>
                         <View style={styles.addressTextInput}>
-                            <Text style={{ top: 15, left: 13, fontSize: 12 }}>{oldPasswordVisible && '*'.repeat(oldPasswordVisible.length)}</Text>
+                            <TextInput
+                                style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
+                                value={password}
+                                onChangeText={text => setPassword(text)}
+                                secureTextEntry={passwordSecure}
+                                placeholder='Enter to confirm change '
+                                keyboardType='default'
+                            />
+                            <TouchableOpacity style={{ position: 'absolute', right: 1, top: 8, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setPasswordSecure(!passwordSecure)}>
+                                <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity onPress={openPasswordModalVisible} style={styles.editButton}>
-                            <Text style={{ color: "#02549290", fontSize: 12, fontWeight: "400" }}>Edit</Text>
+                        <TouchableOpacity onPress={() => setPasswordModalVisible(!passwordModalVisible)} style={styles.editButton}>
+                            <Text style={{ color: "#02549290", fontSize: 12, fontWeight: "400" }}>Change</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
 
                 {/*address input/edit button*/}
                 {address ? (
-                    <View>
-                        <Text>Address:</Text>
-                        <Text>{`${address.address1}, ${address.city}, ${address.country}`}</Text>
-                        <Text>{`Address Type: ${address.addressType}`}</Text>
-                        {/* <Button title="Update Address" onPress={openAddressModal} /> */}
-                        <Button title="Delete Address" onPress={handleDeleteAddress} />
+                    <View style={styles.addressInputContainer}>
+                        <Text style={styles.text}>Address</Text>
+                        <View style={styles.addressComponent}>
+                            <TouchableOpacity onPress={openAddressModal} style={styles.addressTextInput}>
+                                <Text numberOfLines={1} style={{ top: 15, left: 13, fontSize: 12, color: '#00000099', maxWidth: 200 }}>{address.address1}{/** to display users address before editing */} </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleDeleteAddress} style={styles.editButton}>
+                                <Text style={{ color: "#02549290", fontSize: 12, fontWeight: "400" }}>Delete</Text>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 ) : (
                     <View style={styles.addressInputContainer}>
                         <Text style={styles.text}>Address</Text>
                         <View style={styles.addressComponent}>
-                            <View style={styles.addressTextInput}>
-                                <Text style={{ top: 8, left: 13, fontSize: 12 }}> {/** to display users address before editing */} {addressForm.address1}</Text>
-                            </View>
-                            <TouchableOpacity onPress={openAddressModal} style={styles.editButton}>
-                                <Text style={{ color: "#02549290", fontSize: 12, fontWeight: "400" }}>Edit</Text>
+                            <TouchableOpacity onPress={openAddressModal} style={styles.addressTextInput2}>
+                                <Text style={{ top: 15, left: 13, fontSize: 12 }}> {/** to display users address before editing */}{addressForm.address1}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -357,7 +475,7 @@ const account = () => {
 
             {/**confirm change button */}
             <TouchableOpacity
-                style={[styles.btn, { marginHorizontal: 20, marginVertical: 30, }]}
+                style={[styles.btn, { marginHorizontal: 20, marginTop: 90, marginBottom: 30 }]}
                 onPress={handleUpdate}
             >
                 <Text style={styles.btnText}>Confirm Change</Text>
@@ -370,57 +488,68 @@ const account = () => {
                 visible={passwordModalVisible}
                 onRequestClose={() => setPasswordModalVisible(false)}>
                 <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <View style={styles.modalHeader}>
-                            <View style={styles.modalIconContainer}>
-                                <FontAwesome5 name="user-lock" size={25} color="#025492" />
+                    <View style={[styles.modalContent, { height: height - 300 }]}>
+                        <ScrollView showsVerticalScrollIndicator={false}  >
+                            <View style={styles.modalHeader}>
+                                <View>
+                                    <LottieView source={require('../../assets/images/password.json')} autoPlay loop={false} style={{ width: 200, height: 200 }} />
+                                </View>
+                                <Text style={styles.modalHeaderText}>Change Password</Text>
                             </View>
-                            <Text style={styles.modalHeaderText}>Change Password</Text>
-                        </View>
-                        <Text style={styles.p}>To change your password, please fill in the details below. Your new password must contain at least 8 characters, and must have one upper case letter.</Text>
-                        <View style={styles.container3}>
-                            <View style={{ marginBottom: 30 }} >
-                                <Text style={styles.text} >Current Password</Text>
-                                <View style={styles.input3}>
-                                    <TextInput
-                                        style={{ top: 8, left: 13, fontSize: 14 }}
-                                        secureTextEntry={true}
-                                        value={oldPassword}
-                                        onChangeText={(text) => setOldPassword(text)}
-                                    />
+                            <Text style={styles.p}>To change your password, please fill in the details below. Your new password must contain at least 8 characters, and must have one upper case letter.</Text>
+                            <View style={styles.container3}>
+                                <View style={{ marginBottom: 30 }} >
+                                    <Text style={styles.text} >Current Password</Text>
+                                    <View style={styles.input3}>
+                                        <TextInput
+                                            style={{ top: 8, left: 13, fontSize: 14 }}
+                                            secureTextEntry={showPassword}
+                                            value={oldPassword}
+                                            onChangeText={(value) => setOldPassword(value)}
+                                        />
+                                        <TouchableOpacity style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setShowPassword(!showPassword)}>
+                                            <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={{ marginBottom: 30 }} >
+                                    <Text style={styles.text} >New Password</Text>
+                                    <View style={styles.input3}>
+                                        <TextInput
+                                            style={{ top: 8, left: 13, fontSize: 14 }}
+                                            secureTextEntry={showPassword2}
+                                            value={newPassword}
+                                            onChangeText={(value) => setNewPassword(value)}
+                                        />
+                                        <TouchableOpacity style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setShowPassword2(!showPassword2)}>
+                                            <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={{ marginBottom: 30 }} >
+                                    <Text style={styles.text} >Confirm Password</Text>
+                                    <View style={styles.input3}>
+                                        <TextInput
+                                            style={{ top: 8, left: 13, fontSize: 14 }}
+                                            secureTextEntry={showPassword3}
+                                            value={confirmPassword}
+                                            onChangeText={(value) => setConfirmPassword(value)}
+                                        />
+                                        <TouchableOpacity style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setShowPassword3(!showPassword3)}>
+                                            <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={styles.buttonContainer}>
+                                    <TouchableOpacity onPress={handleChangePassword} style={[styles.button3, { marginRight: 20 }]}>
+                                        <Text style={defaultStyles.btnText}>Update</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => setPasswordModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)', marginRight: 20, marginBottom: 30 }]}>
+                                        <Text style={[defaultStyles.btnText, { color: "rgb(255,0,0)" }]}>Cancel</Text>
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                            <View style={{ marginBottom: 30 }} >
-                                <Text style={styles.text} >New Password</Text>
-                                <View style={styles.input3}>
-                                    <TextInput
-                                        style={{ top: 8, left: 13, fontSize: 14 }}
-                                        secureTextEntry={true}
-                                        value={newPassword}
-                                        onChangeText={(text) => setNewPassword(text)}
-                                    />
-                                </View>
-                            </View>
-                            <View style={{ marginBottom: 30 }} >
-                                <Text style={styles.text} >Confirm Password</Text>
-                                <View style={styles.input3}>
-                                    <TextInput
-                                        style={{ top: 8, left: 13, fontSize: 14 }}
-                                        secureTextEntry={true}
-                                        value={confirmPassword}
-                                        onChangeText={(text) => setConfirmPassword(text)}
-                                    />
-                                </View>
-                            </View>
-                            <View style={styles.buttonContainer}>
-                                <TouchableOpacity style={styles.button3}>
-                                    <Text style={defaultStyles.btnText}>Update</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => setPasswordModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)' }]}>
-                                    <Text style={[defaultStyles.btnText, { color: "rgb(255,0,0)" }]}>Cancel</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
+                        </ScrollView>
                     </View>
                 </View>
             </Modal>
@@ -478,26 +607,15 @@ const account = () => {
                             style={styles.input}
                         />
 
-                        {/**Address type drop down selection */}
-                        <Dropdown
-                            style={styles.dropdown}
-                            placeholderStyle={styles.placeholderStyle}
-                            selectedTextStyle={styles.selectedTextStyle}
-                            itemTextStyle={styles.itemTextStyle}
-                            iconStyle={styles.iconStyle}
-                            data={addressTypeData}
-                            maxHeight={300}
-                            labelField="label"
-                            valueField="value"
-                            placeholder="Address Type"
-                            value={addressTypeValue}
-                            onChange={item => {
-                                setAddressTypeValue(item?.value);
-                            }}
-                            dropdownPosition='top'
+                        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Type</Text>
+                        <TextInput
+                            placeholder="Enter address type (home or work)"
+                            value={addressForm.addressType}
+                            onChangeText={text => setAddressForm({ ...addressForm, addressType: text })}
+                            style={styles.input}
                         />
 
-                        {/**continuation of edit address modal */}
+                        { }
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity onPress={handleSaveAddress} style={styles.button3}>
                                 <Text style={defaultStyles.btnText}>Save Address</Text>
@@ -592,7 +710,7 @@ const styles = StyleSheet.create({
     },
     input3: {
         borderWidth: 1,
-        width: width - 70,
+        width: width - 75,
         height: 50,
         top: 5,
         borderColor: "#0000001A",
@@ -604,6 +722,7 @@ const styles = StyleSheet.create({
         left: 20,
         height: 80,
         position: "relative",
+        marginBottom: 30
     },
     addressComponent: {
         flexDirection: "row",
@@ -614,6 +733,15 @@ const styles = StyleSheet.create({
     addressTextInput: {
         borderWidth: 1,
         width: width - 100,
+        height: 50,
+        top: 5,
+        borderColor: "#0000001A",
+        borderRadius: 5,
+        backgroundColor: "#00000005",
+    },
+    addressTextInput2: {
+        borderWidth: 1,
+        width: width - 40,
         height: 50,
         top: 5,
         borderColor: "#0000001A",
@@ -677,7 +805,7 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: '#fff',
         width: '90%',
-        padding: 20,
+        paddingLeft: 20,
         borderRadius: 10,
     },
     addressModalContainer: {
@@ -746,23 +874,14 @@ const styles = StyleSheet.create({
         color: "#00000090"
     },
     modalHeader: {
-        flexDirection: "row",
-        alignItems: "center"
+        justifyContent: 'center',
+        alignItems: "center",
+        paddingRight: 20
     },
     modalHeaderText: {
         fontSize: 22,
-        fontWeight: "700",
+        fontWeight: "500",
         color: "#00000090",
-        fontFamily: "Roboto",
-        marginHorizontal: 30
-    },
-    modalIconContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        width: 50,
-        height: 50,
-        backgroundColor: "#88c7dc",
-        borderRadius: 50,
     },
     modalIcon: {
         width: 30,
@@ -773,8 +892,8 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         maxWidth: 300,
         marginTop: 20,
-        textAlign: "justify",
-
+        textAlign: 'center',
+        paddingRight: 20,
     },
     cancelButton: {
         backgroundColor: '#025492',

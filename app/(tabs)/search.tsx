@@ -25,10 +25,6 @@ const Categories = [
     image:require('../../assets/images/Monitor.png')
   },
   {
-    name:"Camera",
-    image:require('../../assets/images/Camera.png')
-  },
-  {
     name:"Smart Watches",
     image:require('../../assets/images/smw.png')
   },
@@ -55,7 +51,7 @@ const explore: React.FC = () => {
   }
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: "#ffffff", flex: 1}} >
       {/* POSTPONED TILL v1.2 <View style={styles.pageHeader}>
         <TouchableOpacity style={headerSelection === 'Products' ? styles.textContainerActive :styles.textContainer} onPress={() => setHeaderSelection('Products')}>
           <Text style={headerSelection === 'Products' ? styles.textActive :styles.text}>Products</Text>
@@ -113,8 +109,9 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 40,
     paddingBottom: 16,
-    backgroundColor:'#fff'
+    backgroundColor:'#fff',
   },
   pageHeader:{
     paddingTop:24,

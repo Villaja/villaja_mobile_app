@@ -21,7 +21,7 @@ const filter = () => {
     <View style={{flex:1,backgroundColor:Colors.primaryUltraTransparent,paddingBottom:60}}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.priceSection}>
-            <Text style={styles.headerText}>Price(N)</Text>
+            <Text style={styles.headerText}>Price (₦)</Text>
             <View style={{padding:20}}>
                 <RangeSlider
                     // onSlidingStart={(value) => console.log("start:", value)}

@@ -5,7 +5,9 @@ import { Ionicons, AntDesign, Entypo, FontAwesome, Feather } from '@expo/vector-
 import Colors from '../../constants/Colors'
 import { defaultStyles } from '../../constants/Styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import ProductCard from '../../components/ProductCard'
+import ProductCard from '../../components/ProductCard';
+import ProductCard2 from '../../components/ProductCard2'
+import ProductCard3 from '../../components/ProductCard3'
 import { Product } from '../../types/Product'
 import axios, { AxiosResponse } from 'axios'
 import { base_url } from '../../constants/server'
@@ -24,7 +26,7 @@ const catalog = () => {
   const [sortedData, setSortedData] = useState<Array<Product>>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [searchValue,setSearchValue] = useState<string>("")
-  const [productDisplayType,setProductDisplayType] = useState<boolean>(true)
+  const [productDisplayType,setProductDisplayType] = useState<boolean>(false)
   const [sortValue,setSortValue] = useState<string>('New In')
 
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -79,7 +81,7 @@ const catalog = () => {
           && data.originalPrice > parseInt(q.minPrice as string) 
           && data.originalPrice < parseInt(q.maxPrice as string)
           )
-          
+
         setData(products);
         setSortedData(products);
       } catch (error) {
@@ -88,66 +90,102 @@ const catalog = () => {
         setLoading(false);
       }
     };
-  
+
     fetchData();
     setSearchValue(id as any)
-  },[id,q])
+  }, [id, q])
 
   useEffect(() => {
     var products = data.map((product) => product)
     switch (sortValue) {
-          case "Highest Price":
-            products = products.sort((a,b) => b.originalPrice - a.originalPrice)
-            break;
-          case "Lowest Price":
-            products = products.sort((a,b) => a.originalPrice - b.originalPrice)
-            break;
-          case "Best Rating":
-            products = products.sort((a,b) => a.ratings - b.ratings)
-            break;
-        
-          default:
-            break;
-        }
-        setSortedData(products);
+      case "Highest Price":
+        products = products.sort((a, b) => b.originalPrice - a.originalPrice)
+        break;
+      case "Lowest Price":
+        products = products.sort((a, b) => a.originalPrice - b.originalPrice)
+        break;
+      case "Best Rating":
+        products = products.sort((a, b) => a.ratings - b.ratings)
+        break;
 
-  },[sortValue])
+      default:
+        break;
+    }
+    setSortedData(products);
 
-  const renderProductCards = (start:number,end:number) => {
+  }, [sortValue])
+
+  const renderProductCards = (start: number, end: number) => {
     const cardsPerRow = 1;
 
     return (
       <>
-      {
-        sortedData?.length > 0 ?
-        <View>
-        <View style={styles.gridContainer}>
-          {sortedData.map((product, index) => (
-            <View
-              key={product._id}
-              style={[
-                styles.productCard,
-                index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
-              ]}
-            >
-              <ProductCard product={product} />
+        {
+          sortedData?.length > 0 ?
+            <View>
+              <View style={styles.gridContainer}>
+                {sortedData.map((product, index) => (
+                  <View
+                    key={product._id}
+                    style={[
+                      styles.productCard,
+                      index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+                    ]}
+                  >
+                    <ProductCard product={product} />
+                  </View>
+                ))}
+              </View>
             </View>
-          ))}
-        </View>
-      </View> 
 
-      :
-      <View>
-        <Text style={{fontFamily:'roboto-condensed-sb',fontSize:15,textAlign:'center'}}>No Products Found</Text>
-      </View>
-        
-      }
+            :
+            <View>
+              <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 15, textAlign: 'center' }}>No Products Found</Text>
+            </View>
+
+        }
       </>
 
-      
+
 
     );
-            }
+  }
+
+  const renderProductCards2 = (start: number, end: number) => {
+    const cardsPerRow = 1;
+
+    return (
+      <>
+        {
+          sortedData?.length > 0 ?
+            <View>
+              <View style={styles.gridContainer2}>
+                {sortedData.map((product, index) => (
+                  <View
+                    key={product._id}
+                    style={[
+                      styles.productCard,
+                      index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+                    ]}
+                  >
+                    <ProductCard3 product={product} />
+                  </View>
+                ))}
+              </View>
+            </View>
+
+            :
+            <View>
+              <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 15, textAlign: 'center' }}>No Products Found</Text>
+            </View>
+
+        }
+      </>
+
+
+
+    );
+  }
   return (
     <SafeAreaView style={{flex:1,backgroundColor:'#fff',paddingTop:Platform.OS === "android"?30:0}}>
       <View style={styles.headerContainer}>
@@ -203,7 +241,11 @@ const catalog = () => {
           {loading ? (
           <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
           ) : (
-            renderProductCards(0,4)
+            productDisplayType? (
+              renderProductCards(0, 5)
+            ) : (
+              renderProductCards2(0, 5)
+            )
             )}
         </View>
       </ScrollView>
@@ -314,6 +356,12 @@ const styles = StyleSheet.create({
   gridContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    // paddingHorizontal: 8,
+  },
+  gridContainer2: {
+    flexDirection: 'column-reverse',
+    flexWrap: 'nowrap',
     justifyContent: 'space-between',
     // paddingHorizontal: 8,
   },
