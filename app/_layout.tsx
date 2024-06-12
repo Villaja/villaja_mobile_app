@@ -19,6 +19,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 
 
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -95,7 +96,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <TouchableOpacity onPress={() => router.back()}>
@@ -123,7 +124,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <TouchableOpacity onPress={() => router.back()}>
@@ -143,7 +144,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <TouchableOpacity onPress={() => router.back()}>
@@ -163,7 +164,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -186,7 +187,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -209,7 +210,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -232,7 +233,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -250,17 +251,7 @@ function RootLayoutNav() {
                     options={{
                       headerTitle: '',
                       headerShadowVisible: false,
-                      headerLeft: () => (
-                        <TouchableOpacity onPress={() => router.back()}>
-                          <Ionicons name="arrow-back" size={22} color={"#000"} />
-                        </TouchableOpacity>
-                      ),
-                      headerRight: () => (
-                        <TouchableOpacity>
-                          <FontAwesome5 name="bookmark" size={20} color="rgba(0,0,0,0.40)" />
-                        </TouchableOpacity>
-                      )
-
+                      headerShown: false,
                     }}
                   />
                   <Stack.Screen
@@ -294,7 +285,7 @@ function RootLayoutNav() {
                           <TouchableOpacity onPress={() => router.push('/')}>
                             <Ionicons name="arrow-back" size={20} color={"#000"} />
                           </TouchableOpacity>
-                          <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 16 }}>My Orders</Text>
+                          <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 18 }}>My Orders</Text>
                         </View>
                       ),
                     }}
@@ -310,7 +301,7 @@ function RootLayoutNav() {
                           <TouchableOpacity onPress={() => router.back()}>
                             <Ionicons name="arrow-back" size={20} color={"#000"} />
                           </TouchableOpacity>
-                          <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 16 }}>Checkout</Text>
+                          <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 18 }}>Checkout</Text>
                         </View>
                       ),
 
@@ -324,7 +315,7 @@ function RootLayoutNav() {
                       headerTitleAlign: 'left',
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerShadowVisible: false,
                       headerLeft: () => (
@@ -348,7 +339,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -371,7 +362,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -394,7 +385,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -417,7 +408,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -440,7 +431,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -463,7 +454,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -486,7 +477,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -509,7 +500,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -532,7 +523,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -578,7 +569,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -601,7 +592,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -624,7 +615,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -647,7 +638,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -670,7 +661,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -699,7 +690,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -722,7 +713,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -745,7 +736,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -768,7 +759,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <TouchableOpacity onPress={() => router.back()}>
@@ -788,7 +779,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
 
-                        fontSize: 14,
+                        fontSize: 18,
                         fontWeight: "200"
                       },
                       headerLeft: () => (
@@ -812,7 +803,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -835,7 +826,7 @@ function RootLayoutNav() {
                       },
                       headerTitleStyle: {
                         fontFamily: 'roboto-condensed-sb',
-                        fontSize: 16
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -857,7 +848,7 @@ function RootLayoutNav() {
                         backgroundColor: 'transparent'
                       },
                       headerTitleStyle: {
-                        fontSize: 14
+                        fontSize: 18
                       },
                       headerLeft: () => (
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
@@ -895,7 +886,7 @@ function RootLayoutNav() {
                         backgroundColor: 'transparent'
                       },
                       headerTitleStyle: {
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: "500"
                       },
                       headerLeft: () => (

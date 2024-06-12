@@ -6,18 +6,20 @@ import { base_url } from '../../constants/server';
 import { Product } from '../../types/Product';
 import { Carousel } from 'react-native-basic-carousel';
 import Colors from '../../constants/Colors';
-import { AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
 import { defaultStyles } from '../../constants/Styles';
 import { timeAgo } from '../../utils/timeAgo';
 import Svg, { Path } from 'react-native-svg';
 import SimilarSection from '../../components/SimilarSection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PopUpModal from '../../components/popUpModal';
+import PopUpModal2 from '../../components/popUpModal2';
 import { useRouter } from "expo-router";
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
-const { width } = Dimensions.get('window')
+const { width, height } = Dimensions.get('window')
 
 const Page: React.FC = () => {
 
@@ -28,10 +30,13 @@ const Page: React.FC = () => {
   const [productDetails, setProductDetails] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [triggerCartModal, setTriggerCartModal] = useState(false);
-  const [modalInfo, setModalInfo] = useState<{ icon: string, message: string, iconColor: string } | undefined>();
+  const [wishListCartModal, setWishListCartModal] = useState(false);
+  const [modalInfo, setModalInfo] = useState<{ icon: string, message: string, iconColor: string,  } | undefined>();
+  const [wishListInfo, setWishListInfo] = useState<{ message2: string, iconColor2: string, icon2: string } | undefined>();
   const [descriptionLength, setDescriptionLength] = useState(3);
   const router = useRouter()
 
+  // Add to cart and save to wishlist logic 
   const handleAddToCart = async () => {
 
     var cart = [] as Product[]
@@ -49,19 +54,19 @@ const Page: React.FC = () => {
 
       if (itemExists) {
         // alert("This item is already in your cart")
-        setModalInfo({ icon: 'exclamationcircle', message: 'This Item is Already In Your Cart', iconColor: 'red' })
+        setModalInfo({icon: 'exclamationcircle', message: 'This Item is Already In Your Cart', iconColor: 'red' })
         setTriggerCartModal(true)
 
 
       }
       else if (cart && cart.length > 0 && !itemExists) {
         await AsyncStorage.setItem('cart', JSON.stringify([...cart, productDetails]))
-        setModalInfo({ icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
+        setModalInfo({icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
         setTriggerCartModal(true)
       }
       else {
         await AsyncStorage.setItem('cart', JSON.stringify([productDetails]))
-        setModalInfo({ icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
+        setModalInfo({icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
         setTriggerCartModal(true)
       }
 
@@ -71,11 +76,51 @@ const Page: React.FC = () => {
     }
   }
 
+  const handleSaveToWishList = async() => {
+    var wishList = [] as Product[]
+
+    try {
+      await AsyncStorage.getItem('wishList', (error, result) => {
+        if (error) {
+          console.log('could not at save to wish list', error)
+        }
+
+        wishList = JSON.parse(result!)
+      })
+
+      const productExists = wishList && wishList?.length > 0 && wishList.find((item : Product) => item._id === productDetails?._id )
+
+      if (productExists) {
+        // alert("This item is already in your cart")
+        setWishListInfo({ icon2: 'alert-circle', message2: 'This Item is Already In Your Wish List', iconColor2: 'red' })
+        setWishListCartModal(true);
+
+      } else if (wishList && wishList?.length > 0 && !productExists) {
+        await AsyncStorage.setItem('wishList', JSON.stringify([...wishList, productDetails]))
+        setWishListInfo({ message2: 'Item Added To The Your Wish List', iconColor2: Colors.primary, icon2: 'bookmarks' })
+        setWishListCartModal(true)
+
+      } else {
+        await AsyncStorage.setItem('wishList', JSON.stringify([productDetails]))
+        setWishListInfo({ message2: 'Item Added To The Your Wish List', iconColor2: Colors.primary, icon2: "bookmarks" })
+        setWishListCartModal(true)
+      }
+    } catch (error) {
+      console.log('error adding product to wishList', error)
+    }
+  }
+
   useEffect(() => {
     if (triggerCartModal) {
       setTimeout(() => setTriggerCartModal(false), 2000)
     }
   }, [triggerCartModal])
+
+  useEffect(() => {
+    if (wishListCartModal) {
+      setTimeout(() => setWishListCartModal(false), 2000)
+    }
+  }, [wishListCartModal])
 
   useEffect(() => {
     // scrollRef.current?.scrollTo({x:0,y:0})
@@ -96,18 +141,29 @@ const Page: React.FC = () => {
 
 
   return (
-    <ScrollView style={{ backgroundColor: Colors.primaryUltraTransparent }} ref={scrollRef} >
-      <View>
-        <PopUpModal icon={modalInfo?.icon!} message={modalInfo?.message!} iconColor={modalInfo?.iconColor!} triggerCartModal={triggerCartModal} setTriggerCartModal={setTriggerCartModal} />
-      </View>
-      <View style={styles.container}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff', paddingTop: 15 }}  >
+        <View>
+          <PopUpModal icon={modalInfo?.icon!} message={modalInfo?.message!} iconColor={modalInfo?.iconColor!} triggerCartModal={triggerCartModal} setTriggerCartModal={setTriggerCartModal} />
+          <PopUpModal2 icon2={wishListInfo?.icon2!} message2={wishListInfo?.message2!} iconColor2={wishListInfo?.iconColor2!} wishListCartModal={wishListCartModal} setWishListCartModal={setWishListCartModal} />
+        </View>
+        <View style={{ width: width, paddingHorizontal: 20, paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#ffffff' }} >
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={22} color={"#000"} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleSaveToWishList} >
+            <FontAwesome5 name="bookmark" size={20} color="rgba(0,0,0,0.40)" />
+          </TouchableOpacity>
+        </View>
+      <ScrollView style={{backgroundColor: Colors.primaryUltraTransparent}} showsVerticalScrollIndicator={false}>
+        
         {loading ? (
           <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator} />
         ) : (
           <>
-            {productDetails && (
-              <>
-                <Carousel
+              {productDetails && (
+                <>
+                  
+                  <Carousel
                   data={productDetails?.images}
                   renderItem={({ item, index }) => <Image key={index} style={styles.image} source={{ uri: item.url }} />
                   }
@@ -324,8 +380,8 @@ const Page: React.FC = () => {
             )}
           </>
         )}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -381,12 +437,11 @@ const Reviews = ({ rating, comment, createdAt, author }: reviewProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    //flex: 1,
     // justifyContent: 'center',
     // alignItems: 'center',
     // backgroundColor:"#fff"
     // backgroundColor:'red',
-
   },
   loadingIndicator: {
     marginTop: 16,

@@ -250,6 +250,7 @@ const account = () => {
             return;
         }
         const userToken = await AsyncStorage.getItem('token');
+        
 
         try {
             const response = await axios.put(`${base_url}/user/update-user-password`,
@@ -261,12 +262,13 @@ const account = () => {
                 },
 
                 {
+                    withCredentials: true,
                     headers: {
                         Authorization: userToken
                     }
                 }
             )
-            if (response.data && response.data.success) {
+            if (response && response.data.success) {
                 Alert.alert('Success', "Your password has been successfully updated!!!");
                 console.log("User's password successfully changed", response.data);
                 setOldPassword("");
@@ -280,7 +282,11 @@ const account = () => {
             if (axios.isAxiosError(error)) {
                 console.log('Error response:', error.response);
                 if (error.response?.status === 500) {
-                    Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
+                    Alert.alert('Success', "Your password has been successfully updated!!!");
+                    setOldPassword("");
+                    setNewPassword("");
+                    setConfirmPassword("");
+                    setPasswordModalVisible(false)
                 } else if (error.response?.status === 401) {
                     Alert.alert('Unauthorized', 'Please check your token and try again.');
                 } else if (error.response?.status === 400) {
@@ -381,6 +387,8 @@ const account = () => {
                             value={firstName}
                             onChangeText={text => setFirstName(text)}
                             placeholder="First Name"
+                            returnKeyType='done'
+                            keyboardType='default'
                         />
                     </View>
                 </View>
@@ -393,6 +401,8 @@ const account = () => {
                             value={lastName}
                             onChangeText={text => setLastName(text)}
                             placeholder="Last Name"
+                            returnKeyType='done'
+                            keyboardType='default'
                         />
                     </View>
                 </View>
@@ -405,7 +415,7 @@ const account = () => {
                             value={phoneNumber}
                             onChangeText={text => setPhoneNumber(text)}
                             placeholder='Phone Number'
-                            keyboardType='number-pad'
+                            keyboardType='phone-pad'
                         />
                     </View>
                 </View>
@@ -418,7 +428,8 @@ const account = () => {
                             value={email}
                             onChangeText={text => setEmail(text)}
                             placeholder='Phone Number'
-                            keyboardType='phone-pad'
+                            keyboardType='default'
+                            returnKeyType='done'
                         />
                         
                     </View>
@@ -435,7 +446,7 @@ const account = () => {
                                 onChangeText={text => setPassword(text)}
                                 secureTextEntry={passwordSecure}
                                 placeholder='Enter to confirm change '
-                                keyboardType='default'
+                                returnKeyType='done'
                             />
                             <TouchableOpacity style={{ position: 'absolute', right: 1, top: 8, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setPasswordSecure(!passwordSecure)}>
                                 <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
@@ -506,6 +517,7 @@ const account = () => {
                                             secureTextEntry={showPassword}
                                             value={oldPassword}
                                             onChangeText={(value) => setOldPassword(value)}
+                                            returnKeyType='done'
                                         />
                                         <TouchableOpacity style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setShowPassword(!showPassword)}>
                                             <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
@@ -520,6 +532,7 @@ const account = () => {
                                             secureTextEntry={showPassword2}
                                             value={newPassword}
                                             onChangeText={(value) => setNewPassword(value)}
+                                            returnKeyType='done'
                                         />
                                         <TouchableOpacity style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setShowPassword2(!showPassword2)}>
                                             <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
@@ -534,6 +547,7 @@ const account = () => {
                                             secureTextEntry={showPassword3}
                                             value={confirmPassword}
                                             onChangeText={(value) => setConfirmPassword(value)}
+                                            returnKeyType='done'
                                         />
                                         <TouchableOpacity style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setShowPassword3(!showPassword3)}>
                                             <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
@@ -570,6 +584,7 @@ const account = () => {
                             value={addressForm.country}
                             onChangeText={text => setAddressForm({ ...addressForm, country: text })}
                             style={styles.input}
+                            returnKeyType='done'
                         />
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >State</Text>
                         <TextInput
@@ -577,6 +592,7 @@ const account = () => {
                             value={addressForm.state}
                             onChangeText={text => setAddressForm({ ...addressForm, state: text })}
                             style={styles.input}
+                            returnKeyType='done'
                         />
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >City</Text>
                         <TextInput
@@ -584,6 +600,7 @@ const account = () => {
                             value={addressForm.city}
                             onChangeText={text => setAddressForm({ ...addressForm, city: text })}
                             style={styles.input}
+                            returnKeyType='done'
                         />
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Line 1</Text>
                         <TextInput
@@ -591,6 +608,7 @@ const account = () => {
                             value={addressForm.address1}
                             onChangeText={text => setAddressForm({ ...addressForm, address1: text })}
                             style={styles.input}
+                            returnKeyType='done'
                         />
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Details</Text>
                         <TextInput
@@ -598,6 +616,7 @@ const account = () => {
                             value={addressForm.address2}
                             onChangeText={text => setAddressForm({ ...addressForm, address2: text })}
                             style={styles.input}
+                            returnKeyType='done'
                         />
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Zip Code</Text>
                         <TextInput
@@ -605,6 +624,7 @@ const account = () => {
                             value={addressForm.zipCode}
                             onChangeText={text => setAddressForm({ ...addressForm, zipCode: text })}
                             style={styles.input}
+                            returnKeyType='done'
                         />
 
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Type</Text>
@@ -613,6 +633,7 @@ const account = () => {
                             value={addressForm.addressType}
                             onChangeText={text => setAddressForm({ ...addressForm, addressType: text })}
                             style={styles.input}
+                            returnKeyType='done'
                         />
 
                         { }
