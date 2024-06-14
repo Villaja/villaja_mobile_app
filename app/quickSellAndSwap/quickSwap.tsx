@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import * as React from 'react'
+import { useState } from 'react';
 import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
 import { AntDesign } from '@expo/vector-icons'
+import { useQuickSwap } from '../../context/QuickSwapContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface CategoryInterface{
   id:number,
@@ -36,8 +39,13 @@ const { width } = Dimensions.get("window");
 const quickSwap = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState<CategoryInterface | null>(null);
-    const [selectedImages, setSelectedImages] = useState<string[]>([]);
+    const [selectedImages, setSelectedImages] = useState<any[]>([]);
+    const [productName,setProductName] = useState<string>("")
+    const [swapWith,setSwapWith] = useState<string>("")
+    const [moreDetails,setMoreDetails] = useState<string>("")
     const router = useRouter()
+
+    const {setQuickSwapPayload}  = useQuickSwap()
 
     // functionality to render and select categories inside the modal
     const renderCategories = ({ item }:{item:CategoryInterface}) => {
@@ -71,14 +79,19 @@ const quickSwap = () => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
       allowsEditing: true,
-      allowsMultipleSelection: false // denies multiple image selection
+      allowsMultipleSelection: false, // denies multiple image selection
+      base64: true,
     });
 
     if (!result.canceled && result.assets.length > 0) {
-      const newImages = result.assets.map(asset => asset.uri);
+      const newImages = result.assets.map(asset => ({
+            uri: asset.uri,
+            base64: asset.base64,
+            mimeType:asset.mimeType
+        }));
       // Ensure the total number of selected images doesn't exceed 4
       const remainingSlots = 4 - selectedImages.length;
-      const imagesToAdd = newImages.slice(0, remainingSlots);
+      const imagesToAdd = newImages.map(asset => `data:image/${asset.mimeType?.split('/')[1]};base64,`+ asset.base64).slice(0, remainingSlots);
       setSelectedImages(prevImages => [...prevImages, ...imagesToAdd]);
     }
   };
@@ -92,6 +105,22 @@ const quickSwap = () => {
   const removeSelectedImage = (indexToRemove:number) => {
     setSelectedImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
   };
+
+  const handleSwapNextPage = async () => {
+    // return console.log(selectedImages);
+    
+    const payload = {
+        userProductName : productName,
+        userProductCategory: selectedCategory?.name,
+        userProductImages:selectedImages,
+        swapProductName:swapWith,
+        swapProductDetails:moreDetails
+    }
+
+    setQuickSwapPayload(payload)
+    // await AsyncStorage.setItem('swapPayload',JSON.stringify(payload))
+    router.push(`/quickSellAndSwap/postAd2`)}
+
 
       
 
@@ -144,7 +173,8 @@ const quickSwap = () => {
                             {selectedImages.map((uri, index) => (
                               <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
                                 <Image
-                                  source={{ uri: uri }}
+
+                                  source={{ uri: uri.uri }}
                                   style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
                                 />
                               </View>
@@ -168,6 +198,9 @@ const quickSwap = () => {
                             <TextInput
                                 style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                                 placeholder="Product Name"
+                                value={productName}
+                                onChangeText={(text) => setProductName(text)}
+
                             />
                         </View>
                     </View>
@@ -179,6 +212,9 @@ const quickSwap = () => {
                                 style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                                 placeholder="Enter product(s) you want for your product"
                                 keyboardType= 'name-phone-pad'
+                                value={swapWith}
+                                onChangeText={(text) => setSwapWith(text)}
+
                             />
                         </View>
                     </View>
@@ -190,11 +226,18 @@ const quickSwap = () => {
                                 multiline={true}
                                 style={{ top: 3, left: 13, width: 302, fontSize: 12 }}
                                 placeholder="Enter Details"
+                                value={moreDetails}
+                                onChangeText={(text) => setMoreDetails(text)}
                             />
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.button} onPress={() => router.push(`/quickSellAndSwap/postAd2`)} >
+                <TouchableOpacity style={styles.button} 
+                    onPress={() => 
+                        
+                            handleSwapNextPage()
+                    }
+                        >
                     <Text style={styles.buttonText1}>Next</Text>
                     <Ionicons name='arrow-forward-outline' size={18} style={styles.buttonText2} />
                 </TouchableOpacity>

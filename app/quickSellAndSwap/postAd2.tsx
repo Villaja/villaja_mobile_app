@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollView, View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { base_url } from '../../constants/server';
+import axios from 'axios';
+import { useQuickSwap } from '../../context/QuickSwapContext';
 
 
 const { width } = Dimensions.get("window");
@@ -73,6 +77,9 @@ const options7 = [
 
 
 const postAd2 = () => {
+
+    const {quickSwapPayload} = useQuickSwap()
+
     const [selectedValue1, setSelectedValue1] = useState<string | null>(null);
     const [selectedValue2, setSelectedValue2] = useState<string | null>(null);
     const [selectedValue3, setSelectedValue3] = useState<string | null>(null);
@@ -164,6 +171,69 @@ const postAd2 = () => {
         }
         return null;
     };
+
+    const handleSwapRequestSubmit = async () => {
+
+        try
+        {
+        const swapPayloadJSON = quickSwapPayload
+        // const swapPayloadJSON = JSON.parse(swapPayload!)
+        
+        const finalSwapPayload = {
+            ...swapPayloadJSON,
+            screenCondition:selectedValue1,
+            cosmeticsCondition:selectedValue2,
+            comesWith:selectedValue3,
+            userProductCondition:selectedValue4,
+            gadgetCondition:selectedValue4,
+            ramSize:selectedValue5,
+            storageSize:selectedValue6,
+            yearsUsed:selectedValue7,
+            location:selectedValue4,
+            phoneNumber:selectedValue4,
+            userProductPrice:100,
+            swapProductPrice:100,
+
+        }
+
+
+
+        const token = await AsyncStorage.getItem('token')
+        // console.log('quick swap payload',quickSwapPayload);
+        console.log(finalSwapPayload.userProductImages[0].slice(0,30));
+        
+        
+            const response = await axios.post(`${base_url}/quick-swap/create-product`,
+            finalSwapPayload
+                ,
+            {
+                headers: {
+                Authorization: token
+                },
+                withCredentials: true
+            }
+            )
+
+            if(response.data.success)
+                {
+                    return console.log('successfully uploaded swap request');
+                    
+                }
+
+                return console.log('error creating swap request');
+                
+        }
+        catch(e)
+        {
+            console.log('cannot process quick swap',e);
+        }
+        
+    }
+
+
+    useEffect(() => {
+
+    },[])
 
 
     return (
@@ -421,7 +491,7 @@ const postAd2 = () => {
                     />
                 </View>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => handleSwapRequestSubmit()}>
                 <Text style={styles.buttonText1}>Finish</Text>
             </TouchableOpacity>
         </ScrollView>
@@ -436,6 +506,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#ffffff',
         paddingHorizontal: 20
     },
+
     text: {
         fontSize: 13,
         color: "#00000090",

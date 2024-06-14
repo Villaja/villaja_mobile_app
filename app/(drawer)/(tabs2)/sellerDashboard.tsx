@@ -1,5 +1,6 @@
 import { Dimensions, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, ImageSourcePropType } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import Colors from '../../../constants/Colors'
 import { AntDesign, EvilIcons, Feather, Ionicons } from '@expo/vector-icons'
@@ -10,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import Analytics from '../../SellerDashboardComponents/Analytics'
 import Transactions from '../../SellerDashboardComponents/Transactions'
-import { useAuth } from '../../../context/SellerAuthContext'
+// import { useAuth } from '../../../context/SellerAuthContext'
 import { Stack, router } from 'expo-router'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
@@ -40,74 +41,16 @@ const data = {
 };
 
 
-// const swapRequests = [
-//     {
-//         id:1,
-//         name:"Angus McGyver",
-//         image:"https://image.cnbcfm.com/api/v1/image/106452529-1584646955287macbook-air-2020-10.png?v=1584647237&w=929&h=523&vtcrop=y",
-//         date: Date.now(),
-//         avatar:require('../../assets/images/user1.png')
-//     },
-//     {
-//         id:2,
-//         name:"Angus McGyver",
-//         image:"https://fdn.gsmarena.com/imgroot/news/23/09/iphone-15-dummies-colors-video/inline/-1200/gsmarena_001.jpg",
-//         date: Date.now(),
-//         avatar:require('../../assets/images/user1.png')
-//     },
-//     {
-//         id:3,
-//         name:"Angus McGyver",
-//         image:"https://www.digitaltrends.com/wp-content/uploads/2020/12/macbook-air-m1.jpg?resize=625%2C417&p=1",
-//         date: Date.now(),
-//         avatar:require('../../assets/images/user1.png')
-//     }
-// ]
-
-const swapRequests = [] as any
-// const pendingOrders = []
-
-const pendingOrders = [
-    {
-        id: 1,
-        image: 'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
-        name: 'IPhone 14 Pro Max',
-        price: 200000,
-        user: 'Lynn Tanner'
-    },
-    {
-        id: 2,
-        image: 'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
-        name: 'IPhone 14 Pro Max',
-        price: 200000,
-        user: 'Lynn Tanner'
-    },
-    {
-        id: 3,
-        image: 'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
-        name: 'IPhone 14 Pro Max',
-        price: 200000,
-        user: 'Lynn Tanner'
-    },
-    {
-        id: 4,
-        image: 'https://th.bing.com/th/id/OIP.D1x6HuaGwHrCegoqEvR_8gHaHa?w=530&h=530&rs=1&pid=ImgDetMain',
-        name: 'IPhone 14 Pro Max',
-        price: 200000,
-        user: 'Lynn Tanner'
-    },
-]
-
-
-
 const SellerDashboard = () => {
 
     const [seller, setSeller] = useState<any>([])
     const [token, setToken] = useState<string>()
     const [activeTab, setActiveTab] = useState<string>("overview")
     const [loading, setLoading] = useState<boolean>(false)
+    const [swapRequestLoading,setSwapRequestLoading] = useState<boolean>(false)
 
     const [allOrders, setAllOrders] = useState<any>([])
+    const [swapOrders, setSwapOrders] = useState<any>([])
 
 
     const handleGetOrders = async () => {
@@ -128,6 +71,24 @@ const SellerDashboard = () => {
         }
     }
 
+    const handleGetSwapRequests = async () => {
+        try
+        {
+            const response = await axios.get(`${base_url}/quick-swap/get-unsold-products`);
+            if (response.data.success) {
+                setSwapOrders(response.data.unsoldQuickSwapProducts);
+
+            } else {
+                console.error('Failed to fetch unsold quick swap orders');
+            }
+        }
+        catch (error) {
+            console.error('Error fetching quickswap orders:', error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
     useEffect(() => {
         const checkToken = async () => {
             const token = await AsyncStorage.getItem('sellerToken')
@@ -143,6 +104,7 @@ const SellerDashboard = () => {
 
     useEffect(() => {
         handleGetOrders()
+        handleGetSwapRequests()
     }, [seller])
 
 
@@ -175,7 +137,7 @@ const SellerDashboard = () => {
             <ScrollView showsVerticalScrollIndicator={false}>
 
                 <View>
-                    {activeTab === "overview" && <Overview orders={allOrders} />}
+                    {activeTab === "overview" && <Overview orders={allOrders} swapOrders={swapOrders} />}
                     {activeTab === "transactions" && <Transactions />}
                     {activeTab === "analytics" && <Analytics />}
                 </View>
@@ -184,11 +146,11 @@ const SellerDashboard = () => {
     )
 }
 
-const Overview = ({ orders }: { orders: any }) => {
+const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
     const navigation = useNavigation();
     const [multiLine, setMultiLine] = useState(1)
 
-    console.log("orders : ", orders);
+    console.log("swap orders : ", swapOrders);
 
 
     return (
@@ -200,7 +162,7 @@ const Overview = ({ orders }: { orders: any }) => {
                 </TouchableOpacity>
             </View>
             {
-                swapRequests.length > 1 ?
+                swapOrders.length > 0 ?
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={
                         {
                             alignItems: 'center',
@@ -210,18 +172,19 @@ const Overview = ({ orders }: { orders: any }) => {
 
                         }} >
                         {
-                            swapRequests.map((item, index) => (
+                            swapOrders.map((item:any, index:number) => (
                                 <View style={styles.swapContainer} key={index}>
-                                    <Image source={{ uri: item.image }} resizeMode='cover' style={styles.swapImage} />
+                                    <Image source={{ uri: item.userProductImages[0].url }} resizeMode='contain' style={styles.swapImage} />
                                     <View style={styles.infoContainer}>
+
                                         <View style={styles.info}>
-                                            <Image source={item.avatar} resizeMode='cover' style={styles.userImage} />
+                                            <Image source={require('../../../assets/images/user1.png')} resizeMode='cover' style={styles.userImage} />
                                             <View style={styles.infoContact}>
-                                                <Text style={styles.name}>{item.name
+                                                <Text style={styles.name}>{item.userProductName
                                                 }</Text>
-                                                <View style={styles.dateContainer}>
+                                                <View style={styles.dateContainer}>  
                                                     <EvilIcons name='clock' size={14} color="rgba(0,0,0,0.4)" />
-                                                    <Text style={styles.date}> {(new Date(item.date)).toLocaleDateString()}</Text>
+                                                    <Text style={styles.date}> {(new Date(item.createdAt)).toLocaleDateString()}</Text>
                                                 </View>
                                             </View>
                                         </View>
