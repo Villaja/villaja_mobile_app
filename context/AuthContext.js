@@ -64,15 +64,14 @@ const AuthProvider = ({ children }) => {
 
       if (storedLoginTime) {
         const loginTime = JSON.parse(storedLoginTime);
-        const expiryTime = loginTime + 12 * 60 * 60 * 1000; // 12 hours from login time
 
-        if (currentTime >= expiryTime) {
+        if (currentTime >= loginTime) {
           // If the current time is past the expiry time, set a new loginTime
-          await AsyncStorage.setItem('loginTime', JSON.stringify(expiryTime));
+          await AsyncStorage.setItem('loginTime', JSON.stringify(loginTime));
         }
       } else {
-        // If no loginTime is set, set a new one
-        await AsyncStorage.setItem('loginTime', JSON.stringify(currentTime));
+        // If no loginTime is set at all, then set it
+        await AsyncStorage.setItem('loginTime', JSON.stringify(Date.now() + 12 * 60 * 60 * 1000));
       }
 
       dispatch({ type: 'SET_TOKEN', payload: response.data.token });

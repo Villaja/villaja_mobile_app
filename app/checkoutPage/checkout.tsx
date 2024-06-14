@@ -71,7 +71,7 @@ const checkout = () => {
 
   const applyPromoCode = () => {
     if (promoCode === validPromoCode) {
-      if (promoExpiry && Date.now() < promoExpiry) {
+      if (Date.now() < promoExpiry!) {
         {/** subtract product price from promo price and add delivery fees of 2650 */ }
         setPromoPrice(total - promoAmount + 2650)
         setNewPromoPrice(promoPrice);
@@ -146,7 +146,7 @@ const checkout = () => {
             setCheckoutModal(false);
             setOrderSuccessModal(true);
             // toast.success('Order successful!');
-            console.log("order succeded")
+            console.log("order succeeded")
             await AsyncStorage.setItem('cart',JSON.stringify(savedCart));
           } else {
             console.error('Failed to create order');
