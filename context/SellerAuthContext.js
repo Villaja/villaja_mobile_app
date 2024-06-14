@@ -137,26 +137,5 @@ const useAuth = () => {
   return context;
 };
 
-// get All Products of a shop
- const getAllProductsShop = (id) => async (dispatch) => {
-  try {
-    dispatch({
-      type: "getAllProductsShopRequest",
-    });
 
-    const { data } = await axios.get(
-      `${base_url}/product/get-all-products-shop/${id}`
-    );
-    dispatch({
-      type: "getAllProductsShopSuccess",
-      payload: data.products,
-    });
-  } catch (error) {
-    dispatch({
-      type: "getAllProductsShopFailed",
-      payload: error.response.data.message,
-    });
-  }
-};
-
-export { SellerAuthProvider, useAuth, getAllProductsShop };
+export { SellerAuthProvider, useAuth };

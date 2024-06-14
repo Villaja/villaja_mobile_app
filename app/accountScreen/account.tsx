@@ -144,7 +144,8 @@ const account = () => {
                 } else if (error.response?.status === 401) {
                     Alert.alert('Unauthorized', 'Please check your token and try again.');
                 } else {
-                    Alert.alert('Error', `Please Enter your password to confirm change: ${error.message}`);
+                    Alert.alert('Error', `Please Enter your password to confirm change`);
+                    console.log('user password not found', error.message)
                 }
             } else {
                 Alert.alert('Error', 'An unexpected error occurred');

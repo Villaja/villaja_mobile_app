@@ -20,13 +20,12 @@ const CheckoutProductCard = (item:Product) => {
     <View style={styles.container}>
       <View style={styles.topSection}>
         <View style={styles.imageContainer}>
-
-            <Image source={{uri:item.images[0].url}} style={styles.image}  />
+            <Image source={{uri:item.images[0].url}} style={styles.image} />
         </View>
         <View style={{paddingVertical:12.5}}>
             <Text numberOfLines={2} style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>N{item.originalPrice.toLocaleString()}</Text>
-            {item.discountPrice > 0 && <Text style={styles.discount}>N{item.discountPrice}</Text>}
+            <Text style={styles.price}>₦{item.originalPrice.toLocaleString()}</Text>
+            {item.discountPrice > 0 && <Text style={styles.discount}>₦{item.discountPrice}</Text>}
         </View>
       </View>
 

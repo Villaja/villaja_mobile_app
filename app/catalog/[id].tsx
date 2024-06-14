@@ -217,10 +217,14 @@ const catalog = () => {
     };
 
     try {
+      const startTime = new Date().getTime();
       const response = await axios.post('https://villaja-server.onrender.com/api/not-found/create', {
         productName: productName,
         productDescription: moreDetails,
       })
+      const endTime = new Date().getTime();
+    console.log(`Request took ${endTime - startTime} ms`);
+
       if (response.data && response.data.success) {
         Alert.alert('Success', 'Thank you for your feedback');
         setReviewModalVisible(!reviewModalVisible);
@@ -283,7 +287,7 @@ const catalog = () => {
         </ScrollView>
       </View>
 
-      <ScrollView style={{ paddingHorizontal: 20, marginTop: 25 }}>
+      <ScrollView style={productDisplayType? styles.scrollContainer : styles.scrollContainer2}>
         <View>
           {loading ? (
             <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator} />
@@ -408,6 +412,16 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  scrollContainer: {
+    paddingHorizontal: 20, 
+    backgroundColor: Colors.primaryUltraTransparent, 
+    marginTop: 25
+  },
+  scrollContainer2: {
+    paddingHorizontal: 20, 
+    backgroundColor: "#ffffff", 
+    marginTop: 25
+  },
   headerContainer: {
     padding: 20,
     flexDirection: 'row',
@@ -473,7 +487,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 8,
   },
   gridContainer2: {
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
     // paddingHorizontal: 8,

@@ -12,7 +12,7 @@ export default function voucherDetails2() {
 
 
     // Function to generate a random alphanumeric string
-    const generateRandomString = (length) => {
+    const generateRandomString = (length: number) => {
         const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let result = '';
         for (let i = 0; i < length; i++) {
@@ -58,8 +58,8 @@ export default function voucherDetails2() {
         <ScrollView style={styles.mainContainer}>
             <View style={{ height: height - 70 }} >
                 <View style={styles.voucherContainer}>
-                    <View style={styles.imageContainer}>
-                        <Svg width="335" height="93" viewBox="0 0 335 93" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <View>
+                        <Svg width="335" height="93" viewBox="0 0 335 93" fill="none">
                             <Path fill-rule="evenodd" clip-rule="evenodd" d="M0 10C0 4.47715 4.47715 0 10 0H325C330.523 0 335 4.47715 335 10V52.0107C334.834 52.0036 334.668 52 334.5 52C328.149 52 323 57.1487 323 63.5C323 69.8513 328.149 75 334.5 75C334.668 75 334.834 74.9964 335 74.9893V83C335 88.5228 330.523 93 325 93H9.99999C4.47714 93 0 88.5229 0 83V74.9893C6.11931 74.7275 11 69.6837 11 63.5C11 57.3162 6.11931 52.2725 0 52.0107V10Z" fill="#025492" />
                         </Svg>
                         <Image source={require("../../assets/images/Line39.png")} style={{ position: "absolute", top: 62, left: 11 }} />

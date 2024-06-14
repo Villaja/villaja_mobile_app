@@ -236,7 +236,7 @@ const catalog = () => {
           </ScrollView>
       </View>
 
-      <ScrollView style={{paddingHorizontal:20, marginTop: 25}}>
+      <ScrollView style={productDisplayType? styles.scrollContainer : styles.scrollContainer2}>
         <View>
           {loading ? (
           <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
@@ -294,6 +294,16 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     alignItems: 'center',
+  },
+  scrollContainer: {
+    paddingHorizontal: 20, 
+    backgroundColor: Colors.primaryUltraTransparent, 
+    marginTop: 25
+  },
+  scrollContainer2: {
+    paddingHorizontal: 20, 
+    backgroundColor: "#ffffff", 
+    marginTop: 25
   },
   headerContainer:{
     padding:20,
@@ -360,7 +370,6 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 8,
   },
   gridContainer2: {
-    flexDirection: 'column-reverse',
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
     // paddingHorizontal: 8,

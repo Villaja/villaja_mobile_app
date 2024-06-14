@@ -1,65 +1,29 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Clipboard, Dimensions } from "react-native";
 import { Svg, Path } from "react-native-svg";
-import { defaultStyles } from "../../constants/Styles";
 import { useRouter } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const { height } = Dimensions.get("window")
+
+
+const { height, width } = Dimensions.get("window")
 
 export default function voucherDetails() {
     const router = useRouter()
 
-    // Function to generate a random alphanumeric string
-    const generateRandomString = (length) => {
-        const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let result = '';
-        for (let i = 0; i < length; i++) {
-            const randomCode = Math.floor(Math.random() * charset.length);
-            result += charset.charAt(randomCode);
-        }
-        return result;
-    };
-
-    // Function to generate a unique promo code
-    const generatePromoCode = () => {
-        const randomString = generateRandomString(15);
-        const suffix = Math.floor(Math.random() * 5000);
-
-        return `${randomString}-${suffix}`;
-    };
-
-    const [promoCode, setPromoCode] = useState('');
-
-    useEffect(() => {
-        // Check if promo code is already stored in AsyncStorage
-        AsyncStorage.getItem('promoCode').then((storedPromoCode) => {
-            if (storedPromoCode) {
-                // If promo code is already stored, set it
-                setPromoCode(storedPromoCode);
-            } else {
-                // If promo code is not stored, generate a new one and store it
-                const newPromoCode = generatePromoCode();
-                setPromoCode(newPromoCode);
-                AsyncStorage.setItem('promoCode', newPromoCode);
-            }
-        }).catch((error) => {
-            console.error('Error fetching promo code from AsyncStorage:', error);
-        });
-    }, []);
+    const validPromoCode = "VJPR1024";
 
     //function to copy text to clipboard
     const copyToClipboard = () => {
-        Clipboard.setString(promoCode);
+        Clipboard.setString(validPromoCode);
         alert('Promo Code Copied to Clipboard!!');
     };
 
     return (
-        <ScrollView style={styles.mainContainer}>
-            <View style={{ height: height - 70 }} >
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.mainContainer}>
+            <View style={{height: height - 100}} >
                 <View style={styles.voucherContainer}>
-                    <View style={styles.imageContainer}>
-                        <Svg width="335" height="93" viewBox="0 0 335 93" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <View>
+                        <Svg width="335" height="93" viewBox="0 0 335 93" fill="none">
                             <Path fill-rule="evenodd" clip-rule="evenodd" d="M0 10C0 4.47715 4.47715 0 10 0H325C330.523 0 335 4.47715 335 10V52.0107C334.834 52.0036 334.668 52 334.5 52C328.149 52 323 57.1487 323 63.5C323 69.8513 328.149 75 334.5 75C334.668 75 334.834 74.9964 335 74.9893V83C335 88.5228 330.523 93 325 93H9.99999C4.47714 93 0 88.5229 0 83V74.9893C6.11931 74.7275 11 69.6837 11 63.5C11 57.3162 6.11931 52.2725 0 52.0107V10Z" fill="#025492" />
                         </Svg>
                         <Image source={require("../../assets/images/Line39.png")} style={{ position: "absolute", top: 62, left: 11 }} />
@@ -78,7 +42,7 @@ export default function voucherDetails() {
                     </View>
                     <View style={styles.textLine}>
                         <Text style={styles.lineText1}>Voucher Code</Text>
-                        <Text style={styles.lineText2}>{promoCode}</Text>
+                        <Text style={styles.lineText2}>{validPromoCode}</Text>
                     </View>
                     <View style={styles.textLine}>
                         <Text style={styles.lineText1}>Reference</Text>
@@ -93,8 +57,11 @@ export default function voucherDetails() {
                         <Text style={styles.lineText2}>₦10,000</Text>
                     </View>
                 </View>
+                <Text style={{ color: "#00000099", fontSize: 13, textAlign: 'center', paddingHorizontal: 50, marginTop: 50 }} >Click on the button below to copy the code to use upon checkout</Text>
+            </View>
+            <View style={{ paddingHorizontal: 30}} >
                 <TouchableOpacity
-                    style={[styles.btn, { marginHorizontal: 20, marginVertical: 15, marginTop: 80 }]}
+                    style={{ backgroundColor: "#025492", paddingHorizontal: 30, paddingVertical: 15, bottom: 30, borderRadius: 10, justifyContent: "center", alignItems: "center", left: 0, right: 0 }}
                     onPress={copyToClipboard}
                 >
                     <Text style={styles.btnText}>Copy Voucher Code</Text>
@@ -110,10 +77,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#FDFFFF",
     },
     voucherContainer: {
-        flex: 1,
-        top: 15,
         marginHorizontal: 15,
-        paddingVertical: 35,
+        paddingVertical: 15,
         width: 455,
     },
     image1: {
@@ -131,7 +96,7 @@ const styles = StyleSheet.create({
     },
     textContainer: {
         position: "absolute",
-        top: 45,
+        top: 25,
         width: 500,
         paddingHorizontal: 20
     },
@@ -148,11 +113,10 @@ const styles = StyleSheet.create({
 
     },
     section2: {
-        top: 27,
+        marginTop: 50,
         width: 300,
         paddingHorizontal: 20,
-        marginHorizontal: 0,
-        height: 390,
+        height: 190,
         left: 32,
         position: "relative",
     },

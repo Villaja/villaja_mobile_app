@@ -55,12 +55,28 @@ const AuthProvider = ({ children }) => {
       dispatch({ type: 'SET_LOADING', payload: true });
 
       const response = await axios.post(`${base_url}/user/login`, { email, password });
-     
+
       await AsyncStorage.setItem('token', response.data.token);
-     
+
+      // Check if loginTime already exists and is still valid
+      const storedLoginTime = await AsyncStorage.getItem('loginTime');
+      const currentTime = Date.now();
+
+      if (storedLoginTime) {
+        const loginTime = JSON.parse(storedLoginTime);
+        const expiryTime = loginTime + 12 * 60 * 60 * 1000; // 12 hours from login time
+
+        if (currentTime >= expiryTime) {
+          // If the current time is past the expiry time, set a new loginTime
+          await AsyncStorage.setItem('loginTime', JSON.stringify(expiryTime));
+        }
+      } else {
+        // If no loginTime is set, set a new one
+        await AsyncStorage.setItem('loginTime', JSON.stringify(currentTime));
+      }
 
       dispatch({ type: 'SET_TOKEN', payload: response.data.token });
-     
+      
       await getUserDetails(response.data.token);
     } catch (error) {
       console.log('Request Details:', error);

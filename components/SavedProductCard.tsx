@@ -50,11 +50,11 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         borderBottomWidth: 0.3,
         borderBottomColor: "#00000040",
+        backgroundColor: '#ffffff'
     },
     topSection: {
         flexDirection: 'row',
         gap: 18,
-        maxWidth: 120,
     },
     image: {
         width: 83,
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
         color: 'rgba(0,0,0,0.50)',
         marginBottom: 6,
         fontSize: 13,
+        maxWidth: 120,
     },
     price: {
         fontFamily: 'roboto-condensed',

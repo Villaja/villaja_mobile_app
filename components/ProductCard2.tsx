@@ -10,7 +10,7 @@ interface ProductCardProps {
 
 const ProductCard2: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <View style={[styles.container]} key={product._id}>
+    <View style={[styles.container]} key={product.shopId}>
 
 
       <Link href={`/product/${product._id}`} asChild >
