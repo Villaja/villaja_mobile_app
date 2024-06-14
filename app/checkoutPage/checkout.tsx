@@ -74,7 +74,7 @@ const checkout = () => {
       if (Date.now() < promoExpiry!) {
         {/** subtract product price from promo price and add delivery fees of 2650 */ }
         setPromoPrice(total - promoAmount + 2650)
-        setNewPromoPrice(promoPrice);
+        setNewPromoPrice(total - promoAmount + 2650);
         setPromoApplied(true);
         setPromoInputModal(false);
         Alert.alert('Success', 'Promo code accepted!!!')
@@ -262,7 +262,7 @@ const checkout = () => {
             shadowRadius: 4,
 
           }}>
-            <LottieView source={require('../../assets/images/voucher.json')} autoPlay loop={true} style={{ width: 100, height: 100, marginTop: 30, marginBottom: 50 }}  />
+            <LottieView source={require('../../assets/images/voucher2.json')} autoPlay loop={false} style={{ width: 100, height: 100, marginTop: 30, marginBottom: 50 }}  />
             <Text style={{
               fontSize: 18,
               fontWeight: '500',
@@ -321,7 +321,7 @@ const checkout = () => {
             <Text style={[styles.orderSummaryText,{fontSize:18}]}>Total</Text>
             {
               promoApplied ? (
-                <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>₦{newPromoPrice !== undefined ? newPromoPrice.toLocaleString() : promoPrice}</Text>
+                <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>₦{newPromoPrice?.toLocaleString()}</Text>
               ) : (
                 <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>₦{(total+2650).toLocaleString()}</Text>
               )
@@ -392,8 +392,7 @@ const checkout = () => {
      {showPaystack && (
         <Paystack  
         paystackKey="pk_test_ba3974730a50a8f120783a5c097a2b9603129aa7"
-        // amount={total} 
-        amount={100}
+        amount={(promoApplied ? newPromoPrice : total + 2650)!.toFixed(2)} 
         billingEmail={user?.user.email}
         billingName={`${user?.user.firstname} ${user?.user.lastname}`}
         onSuccess={onPaystackSuccess}
