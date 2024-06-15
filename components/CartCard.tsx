@@ -59,7 +59,7 @@ const CartCard = ({item,handleRemoveCart}:{item:Product,handleRemoveCart:(id:str
       <View style={styles.topSection}>
         <Image source={{uri:item.images[0]?.url}} style={styles.image} />
         <View style={{paddingVertical:12.5}}>
-            <Text style={styles.name}>{item.name}</Text>
+            <Text numberOfLines={2} style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>₦{item.originalPrice.toLocaleString()}</Text>
             <Text style={styles.discount}>{item.discountPrice === 0?null:'₦'+item.discountPrice.toLocaleString()}</Text>
         </View>
@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
         fontFamily:'roboto-condensed',
         fontWeight:'500',
         color:'rgba(0,0,0,0.50)',
-        marginBottom:6                                                     
+        marginBottom:6, 
+        maxWidth: 220,                                                   
     },
     price:{
         fontFamily:'roboto-condensed',

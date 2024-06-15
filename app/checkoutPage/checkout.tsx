@@ -18,7 +18,6 @@ import LottieView from "lottie-react-native";
 
 
 
-
 const checkout = () => {
 
     const [total,setTotal] = useState<number>(0)
@@ -27,15 +26,47 @@ const checkout = () => {
     const [showPaystack, setShowPaystack] = useState(false);
     const [checkoutModal,setCheckoutModal] = useState(false)
     const [orderSuccessModal, setOrderSuccessModal] = useState(false);
-    const [promoCode, setPromoCode] = useState('')
-    const [promoPrice, setPromoPrice] = useState<number | undefined>(undefined); 
+    const [promoCode, setPromoCode] = useState('');
     const [newPromoPrice, setNewPromoPrice] = useState<number | undefined>(undefined); 
     const [promoApplied, setPromoApplied] = useState(false);
     const [promoExpiry, setPromoExpiry] = useState<number | null>(null);
-    const [promoInputModal, setPromoInputModal] = useState(false)
+    const [promoInputModal, setPromoInputModal] = useState(false);
+    const [token, setToken] = useState<string>();
+    const [country, setCountry] = useState("");
+    const [state, setState] = useState("");
+    const [address1, setAddress1] = useState("");
     const router = useRouter()
     const { user } = useAuth();
-    const {height, width} = Dimensions.get('window')
+    const {height, width} = Dimensions.get('window');
+
+
+    useEffect(() => {
+      const fetchData = async () => {
+          const storedToken = await AsyncStorage.getItem('token');
+          
+
+          if (user) {
+              // Fetch user details
+              axios.get(`${base_url}/user/getuser`, {
+                  headers: {
+                      Authorization: storedToken
+                  }
+              })
+                  .then(response => {
+                      const userData = response.data.user;
+                      setCountry(userData.addresses[0]?.country)
+                      setState(userData.addresses[0]?.city);
+                      setAddress1(userData.addresses[0]?.address1);
+                  })
+                  .catch(error => {
+                      console.error('Error fetching user details:', error);
+                  });
+          }
+      };
+
+      fetchData();
+  }, [user]);
+    
 
     const handleGetCart = async () => {
         await AsyncStorage.getItem('cart', (err, result) => {
@@ -45,8 +76,8 @@ const checkout = () => {
             return a + (b.discountPrice > 0 ? b.discountPrice : b.originalPrice);
           }, 0);
           
-          setTotal(total)
           setCart(cart);
+          setNewPromoPrice(total);
 
         });
     };
@@ -73,8 +104,7 @@ const checkout = () => {
     if (promoCode === validPromoCode) {
       if (Date.now() < promoExpiry!) {
         {/** subtract product price from promo price and add delivery fees of 2650 */ }
-        setPromoPrice(total - promoAmount + 2650)
-        setNewPromoPrice(total - promoAmount + 2650);
+        setNewPromoPrice(newPromoPrice! - promoAmount + 2650);
         setPromoApplied(true);
         setPromoInputModal(false);
         Alert.alert('Success', 'Promo code accepted!!!')
@@ -86,28 +116,18 @@ const checkout = () => {
     }
   };
 
-  useEffect(() => {
-    if (promoExpiry) {
-      const timer = setTimeout(() => {
-        setPromoApplied(false);
-        setNewPromoPrice(total + 2650);
-        setPromoCode('');
-        Alert.alert('Failed', 'Promo code has expired')
-      }, 12 * 60 * 60 * 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [promoExpiry])
-
-
-
-
+ 
 
   const proceedToPayment = () => {
-    setShowPaystack(true);
+    if (address1 != undefined) {
+      setShowPaystack(true); 
+    } else {
+      Alert.alert('No Address Found!!!', 'Please enter your address before placing an order')
+    }
   };
 
   console.log(user?.user.firstname)
-  console.log(total)
+  console.log(newPromoPrice)
 
   const onPaystackSuccess = async (response: any) => {
     // Handle successful payment
@@ -115,9 +135,13 @@ const checkout = () => {
 
     const order = {
       cart: cart,
-      shippingAddress: '28, soluyi estate, gbagada phase 1, Lagos nigeria', // Replace with actual address
+      shippingAddress: {
+        address: address1,
+        city: state,
+        country: country
+      }, // Replace with actual address
       user: user && user?.user,
-      totalPrice: promoPrice,
+      totalPrice: newPromoPrice! + 2650,
     };
 
         // Add paymentInfo dynamically
@@ -311,19 +335,19 @@ const checkout = () => {
         >Order Summary</Text>
         <View style={styles.orderSummarySection}>
             <Text style={styles.orderSummaryText}>Price</Text>
-            <Text style={styles.orderSummaryPrice}>₦{total.toLocaleString()}</Text>
+            <Text style={styles.orderSummaryPrice}>₦{(newPromoPrice ?? 0).toLocaleString()}</Text>
         </View>
         <View style={styles.orderSummarySection}>
             <Text style={styles.orderSummaryText}>Delivery Fee</Text>
-            <Text style={styles.orderSummaryPrice}>₦2650</Text>
+            <Text style={styles.orderSummaryPrice}>₦2,650</Text>
         </View>
         <View style={[styles.orderSummarySection,{paddingVertical:8}]}>
             <Text style={[styles.orderSummaryText,{fontSize:18}]}>Total</Text>
             {
               promoApplied ? (
-                <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>₦{newPromoPrice?.toLocaleString()}</Text>
+                <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>₦{(newPromoPrice!).toLocaleString()}</Text>
               ) : (
-                <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>₦{(total+2650).toLocaleString()}</Text>
+                <Text style={[styles.orderSummaryText,{color:Colors.primary,fontSize:18}]}>₦{(((newPromoPrice ?? 0) + 2650).toLocaleString())}</Text>
               )
             }
         </View>
@@ -353,9 +377,9 @@ const checkout = () => {
         <View style={styles.addressContentSection}>
             <Ionicons name="location-outline" size={24} color={"#68e349"} />
             {
-              user ? (
+              address1 != undefined ? (
                 <Text style={styles.addressContentText} numberOfLines={1}>
-                  {user?.user.addresses[0]?.address1}
+                  {address1}
                 </Text>
               ) : (
                 <Text style={{
@@ -392,7 +416,7 @@ const checkout = () => {
      {showPaystack && (
         <Paystack  
         paystackKey="pk_test_ba3974730a50a8f120783a5c097a2b9603129aa7"
-        amount={(promoApplied ? newPromoPrice : total + 2650)!.toFixed(2)} 
+        amount={newPromoPrice! + 2650} 
         billingEmail={user?.user.email}
         billingName={`${user?.user.firstname} ${user?.user.lastname}`}
         onSuccess={onPaystackSuccess}

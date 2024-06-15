@@ -3,7 +3,7 @@ import { ScrollView, View, Image, Text} from "react-native";
 
 const getHelp = () => {
     return (
-        <View style={{flex: 1, backgroundColor: "#ffffff"}} >
+        <View style={{flex: 1, backgroundColor: "#ffffff", justifyContent: 'center', alignItems: 'center'}} >
             <View style={{width: 250, height: 160, top: 30, marginHorizontal: 55, justifyContent: "center", alignItems: "center"}}>
                 <Image source={require('../../assets/images/headphone.png')} style={{ height: 58, width: 58 }} />
                 <Text style={{fontSize: 25, textAlign: "center", color: "#00000090", fontWeight: "500", marginVertical: 21}} >Hello, How can we help you?</Text>

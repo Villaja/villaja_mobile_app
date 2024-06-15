@@ -61,7 +61,6 @@ const styles = StyleSheet.create({
         height: 83,
         resizeMode: 'contain',
         borderRadius: 5,
-        borderWidth: StyleSheet.hairlineWidth,
         borderColor: 'rgba(0,0,0,0.05)',
     },
     name: {

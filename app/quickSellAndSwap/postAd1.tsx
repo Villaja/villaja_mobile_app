@@ -79,13 +79,16 @@ const styles = StyleSheet.create({
         color: "#03345450"
     },
     button: {
-        backgroundColor: "#025492",
-        width: '100%',
-        // marginStart: 20,
         height: 50,
+        width: '100%',
         borderRadius: 10,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "#025492",
+        flexDirection: "row",
+        position: 'absolute',
+        bottom: 20,
+        left: 20
     },
     buttonText1: {
         color: "#fff",

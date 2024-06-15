@@ -11,6 +11,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { base_url } from '../../constants/server';
 import LottieView from "lottie-react-native";
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
 
 interface Address {
     _id?: string;
@@ -57,7 +58,9 @@ const account = () => {
     const [state, setState] = useState("");
     const [city, setCity] = useState("");
     const [address2, setAddress2] = useState("");
+    const [address1, setAddress1] = useState("");
     const [zipCode, setZipCode] = useState("");
+    const [addressType, setAddressType] = useState("")
 
 
     const openPasswordModalVisible = () => {
@@ -94,6 +97,12 @@ const account = () => {
                         setPhoneNumber(userData.phoneNumber.toString());
                         setEmail(userData.email);
                         setAddress(userData.addresses.length > 0 ? userData.addresses[0] : null);
+                        setCountry(userData.addresses[0]?.country)
+                        setState(userData.addresses[0]?.city);
+                        setAddress1(userData.addresses[0]?.address1);
+                        setAddress2(userData.addresses[0]?.address2);
+                        setAddressType(userData.addresses[0]?.addressType)
+                        setZipCode(userData.addresses[0]?.zipcode);
                         setLoading(false);
                     })
                     .catch(error => {
@@ -167,7 +176,12 @@ const account = () => {
         try {
             const response = await axios.put(`${base_url}/user/update-user-addresses`,
                 {
-                    ...addressForm
+                    address1: address1,
+                    address2: address2,
+                    country: country,
+                    city: state, //using state useState because there is no state address object to be received by the backend and collecting user's state address is more important than city address 
+                    zipCode: zipCode,
+                    addressType: addressType,
                 },
                 {
                     headers: {
@@ -179,23 +193,25 @@ const account = () => {
                 console.log('User Address changed', response.data);
                 setAddressModalVisible(false)
             } else {
-                Alert.alert('Error', 'Failed to change address, please try again')
+                Alert.alert('Error', 'Failed to change address, please try again');
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.log('Error response:', error.response);
                 if (error.response?.status === 500) {
-                    Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
+                    Alert.alert('Update Failed', 'Please delete your address with the button below before updating.');
                 } else if (error.response?.status === 401) {
                     Alert.alert('Unauthorized', 'Please check your token and try again.');
                 } else {
-                    Alert.alert('Error', `Failed to update address: ${error}`);
+                    Alert.alert('Error', `Failed to update address: ${error.response?.data.message}`);
                 }
             } else {
                 Alert.alert('Error', 'An unexpected error occurred');
             }
         }
     };
+
+
     const handleDeleteAddress = () => {
         if (!user) {
             Alert.alert('Login required', 'Please login to delete your address');
@@ -218,12 +234,20 @@ const account = () => {
                 console.log('Address deleted successfully:', response.data);
                 Alert.alert('Confirmed', 'Address deleted');
                 setAddress(null); // Clear the address state
+                setCountry('');
+                setState('');
+                setAddress1('');
+                setAddress2('');
+                setAddressType('')
+                setZipCode('');
             })
             .catch(error => {
                 console.error('Error deleting address:', error);
                 Alert.alert('Error', 'Failed to delete address');
             });
     };
+
+
 
     const openAddressModal = () => {
         setAddressForm(address || { country: '', state: '', city: '', address1: '', address2: '', zipCode: '', addressType: 'Home' });
@@ -375,7 +399,7 @@ const account = () => {
     </TouchableOpacity> */}
                 </View>
                 <View style={styles.accountNameContainer} >
-                    <Text style={styles.accountName}>{firstName} {lastName}</Text>
+                    <Text style={styles.accountName}>{firstName}{lastName}</Text>
                 </View>
             </View>
             <View style={styles.section2}>
@@ -477,7 +501,7 @@ const account = () => {
                         <Text style={styles.text}>Address</Text>
                         <View style={styles.addressComponent}>
                             <TouchableOpacity onPress={openAddressModal} style={styles.addressTextInput2}>
-                                <Text style={{ top: 15, left: 13, fontSize: 12 }}> {/** to display users address before editing */}{addressForm.address1}</Text>
+                                <Text style={{ top: 15, left: 13, fontSize: 12, color: '#00000099' }}> {/** to display users address before editing */}No Address recorded yet (tap to edit)</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -582,48 +606,48 @@ const account = () => {
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Country</Text>
                         <TextInput
                             placeholder="Enter your country"
-                            value={addressForm.country}
-                            onChangeText={text => setAddressForm({ ...addressForm, country: text })}
+                            value={country}
+                            onChangeText={(value) => setCountry(value)}
                             style={styles.input}
                             returnKeyType='done'
                         />
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >State</Text>
                         <TextInput
                             placeholder="Enter your state"
-                            value={addressForm.state}
-                            onChangeText={text => setAddressForm({ ...addressForm, state: text })}
+                            value={state}
+                            onChangeText={(value) => setState(value)}
                             style={styles.input}
                             returnKeyType='done'
                         />
-                        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >City</Text>
+                        {/* CHECK LINE 177 FOR EXPLANATION <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >City</Text>
                         <TextInput
                             placeholder="Enter your city"
-                            value={addressForm.city}
-                            onChangeText={text => setAddressForm({ ...addressForm, city: text })}
+                            value={city}
+                            onChangeText={(value) => setCity(value)}
                             style={styles.input}
                             returnKeyType='done'
-                        />
+                        />*/}
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Line 1</Text>
                         <TextInput
                             placeholder="Enter your first address"
-                            value={addressForm.address1}
-                            onChangeText={text => setAddressForm({ ...addressForm, address1: text })}
+                            value={address1}
+                            onChangeText={(value) => setAddress1(value)}
                             style={styles.input}
                             returnKeyType='done'
                         />
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Details</Text>
                         <TextInput
                             placeholder="Enter more details of your address, i.e directions"
-                            value={addressForm.address2}
-                            onChangeText={text => setAddressForm({ ...addressForm, address2: text })}
+                            value={address2}
+                            onChangeText={(value) => setAddress2(value)}
                             style={styles.input}
                             returnKeyType='done'
                         />
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Zip Code</Text>
                         <TextInput
                             placeholder="Enter your city zip code"
-                            value={addressForm.zipCode}
-                            onChangeText={text => setAddressForm({ ...addressForm, zipCode: text })}
+                            value={zipCode}
+                            onChangeText={(value) => setZipCode(value)}
                             style={styles.input}
                             returnKeyType='done'
                         />
@@ -631,14 +655,15 @@ const account = () => {
                         <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Address Type</Text>
                         <TextInput
                             placeholder="Enter address type (home or work)"
-                            value={addressForm.addressType}
-                            onChangeText={text => setAddressForm({ ...addressForm, addressType: text })}
+                            value={addressType}
+                            onChangeText={(value) => setAddressType(value)}
                             style={styles.input}
                             returnKeyType='done'
                         />
-
-                        { }
                         <View style={styles.buttonContainer}>
+                            <TouchableOpacity onPress={handleDeleteAddress} style={styles.button5}>
+                                <Text style={[defaultStyles.btnText, { color: '#025492' }]}>Delete Address</Text>
+                            </TouchableOpacity>
                             <TouchableOpacity onPress={handleSaveAddress} style={styles.button3}>
                                 <Text style={defaultStyles.btnText}>Save Address</Text>
                             </TouchableOpacity>
@@ -749,8 +774,7 @@ const styles = StyleSheet.create({
     addressComponent: {
         flexDirection: "row",
         alignItems: "center",
-        width: 320,
-
+        width: width - 40,
     },
     addressTextInput: {
         borderWidth: 1,
@@ -793,11 +817,11 @@ const styles = StyleSheet.create({
         height: 50,
         width: 50,
         top: 5,
+        right: 0,
         borderRadius: 5,
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        marginHorizontal: 270
     },
     textInput2: {
         top: 3.5,
@@ -931,6 +955,14 @@ const styles = StyleSheet.create({
     },
     button3: {
         backgroundColor: "#025492",
+        height: 50,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20
+    },
+    button5: {
+        backgroundColor: "#02549220",
         height: 50,
         borderRadius: 10,
         justifyContent: "center",

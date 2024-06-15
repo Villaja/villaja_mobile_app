@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, StyleSheet, TouchableOpacity, Image, Clipboard} from 'react-native';
+import { View, Text, Alert, StyleSheet, TouchableOpacity, Image, Clipboard, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const {width} = Dimensions.get('window')
 
 const referral = () => {
+    
     
     const [referralCode, setReferralCode] = useState('');
 
@@ -176,8 +178,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        width: "auto",
-        height: 77
+        width: width,
+        height: 77,
+        position: 'absolute',
+        bottom: 0
     },
     codeText1: {
         fontSize: 11,

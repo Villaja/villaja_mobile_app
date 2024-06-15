@@ -30,7 +30,7 @@ const Page = () => {
     try {
       await register(firstname, lastname, phoneNumber, email, password);
       Alert.alert('Verifiy Your Acount', 'please check your email to activate your account with the verification code', [{ text: 'OK' }]);
-      router.replace('/(modals)/otp')
+      router.replace('/(modals)/login')
       // Navigate to the home screen or handle it based on your navigation structure
     } catch (error) {
       Alert.alert('Registration Failed', 'Unable to register. Please try again.', [{ text: 'OK' }]);

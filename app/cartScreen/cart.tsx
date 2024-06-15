@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity,StyleSheet, ScrollView, FlatList, ActivityIndicator,  } from 'react-native'
+import { View, Text, TouchableOpacity,StyleSheet, ScrollView, FlatList, ActivityIndicator, Dimensions  } from 'react-native'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 import Colors from '../../constants/Colors'
@@ -35,6 +35,7 @@ const sampleCartItems = [
 ]
 
 
+
 const cart = () => {
   const { user } = useAuth();
   const router = useRouter()
@@ -42,9 +43,9 @@ const cart = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [activeTab,setActiveTab] = useState<string>('Cart')
   const [cart,setCart] = useState<Array<Product>>([])
-
   const id = user?.user._id
 
+  const {height} = Dimensions.get('window') 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -149,7 +150,17 @@ const cart = () => {
           showsVerticalScrollIndicator={false}
           data={orders}
           keyExtractor={(item) => item._id}
-          ListEmptyComponent={() => <Text>No orders available</Text>}
+          ListEmptyComponent={() => <View>
+            <View style={{ marginTop: height/1/6 , justifyContent: "center", alignItems: "center"}} >
+            <LottieView
+              source={require('../../assets/images/no-result.json')}
+              autoPlay
+              loop
+              style={{ height: 200, width: 200}}
+            />
+          <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 20, color: "#02549296", textAlign: 'center' }}>No Orders Found</Text>
+          </View>
+          </View>}
           renderItem={({ item }) => <OrdersCard key={item._id} order={item} />}
         />
       )}
