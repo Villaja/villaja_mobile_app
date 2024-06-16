@@ -6,10 +6,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { base_url } from '../../constants/server';
 import axios from 'axios';
 import { useQuickSwap } from '../../context/QuickSwapContext';
-import PopUpModal3 from '../../components/popUpModal3';
-import Colors from '../../constants/Colors';
-import { ActivityIndicator } from 'react-native-paper';
-
 
 
 const { width } = Dimensions.get("window");
@@ -98,11 +94,6 @@ const postAd2 = () => {
     const [isFocus5, setIsFocus5] = useState<boolean>(false);
     const [isFocus6, setIsFocus6] = useState<boolean>(false);
     const [isFocus7, setIsFocus7] = useState<boolean>(false);
-    
-    const [loading,setLoading] = useState<boolean>(false)
-    const [modalInfo, setModalInfo] = useState<{ icon: string, message: string, iconColor: string,  } | undefined>();
-    const [triggerCartModal, setTriggerCartModal] = useState(false);
-
 
     const renderLabel1 = () => {
         if (selectedValue1 || isFocus1) {
@@ -182,7 +173,7 @@ const postAd2 = () => {
     };
 
     const handleSwapRequestSubmit = async () => {
-        setLoading(true)
+
         try
         {
         const swapPayloadJSON = quickSwapPayload
@@ -199,6 +190,8 @@ const postAd2 = () => {
             storageSize:selectedValue6,
             yearsUsed:selectedValue7,
             location:selectedValue4,
+            phoneNumber:selectedValue4,
+            userProductPrice:100,
             swapProductPrice:100,
 
         }
@@ -223,29 +216,16 @@ const postAd2 = () => {
 
             if(response.data.success)
                 {
-                    setLoading(false)
-                    setModalInfo({icon: 'checkcircle', message: 'Successfully Uploaded Swap Request', iconColor: Colors.primary })
-                    setTriggerCartModal(true)
                     return console.log('successfully uploaded swap request');
                     
                 }
 
-                setLoading(false)
-                setModalInfo({icon: 'exclamationcircle', message: 'Error Uploading Swap Request', iconColor: 'red' })
-                setTriggerCartModal(true)
                 return console.log('error creating swap request');
                 
         }
         catch(e)
         {
-            setLoading(false)
-            setModalInfo({icon: 'exclamationcircle', message: 'Error Uploading Swap Request', iconColor: 'red' })
-            setTriggerCartModal(true)
             console.log('cannot process quick swap',e);
-        }
-        finally
-        {
-            setLoading(false)
         }
         
     }
@@ -258,9 +238,6 @@ const postAd2 = () => {
 
     return (
         <ScrollView style={styles.pageContainer}>
-            <View>
-                <PopUpModal3 icon={modalInfo?.icon!} message={modalInfo?.message!} iconColor={modalInfo?.iconColor!} triggerCartModal={triggerCartModal} setTriggerCartModal={setTriggerCartModal} />
-            </View>
             <View style={styles.textInputContainer}>
                 <Text style={styles.text} >Screen Condition</Text>
                 <View style={styles.container}>
@@ -276,14 +253,14 @@ const postAd2 = () => {
                         search
                         maxHeight={300}
                         labelField="label"
-                        valueField="label"
+                        valueField="value"
                         placeholder={!isFocus1 ? 'Select screen condition' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue1}
                         onFocus={() => setIsFocus1(true)}
                         onBlur={() => setIsFocus1(false)}
                         onChange={item => {
-                            setSelectedValue1(item.label);
+                            setSelectedValue1(item.value);
                             setIsFocus1(false);
                         }}
                         renderLeftIcon={() => (
@@ -312,14 +289,14 @@ const postAd2 = () => {
                         search
                         maxHeight={300}
                         labelField="label"
-                        valueField="label"
+                        valueField="value"
                         placeholder={!isFocus2 ? 'Select cosmetics condition' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue2}
                         onFocus={() => setIsFocus2(true)}
                         onBlur={() => setIsFocus2(false)}
                         onChange={item => {
-                            setSelectedValue2(item.label);
+                            setSelectedValue2(item.value);
                             setIsFocus2(false);
                         }}
                         renderLeftIcon={() => (
@@ -348,14 +325,14 @@ const postAd2 = () => {
                         search
                         maxHeight={300}
                         labelField="label"
-                        valueField="label"
+                        valueField="value"
                         placeholder={!isFocus3 ? 'Select accessories' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue3}
                         onFocus={() => setIsFocus3(true)}
                         onBlur={() => setIsFocus3(false)}
                         onChange={item => {
-                            setSelectedValue3(item.label);
+                            setSelectedValue3(item.value);
                             setIsFocus3(false);
                         }}
                         renderLeftIcon={() => (
@@ -384,14 +361,14 @@ const postAd2 = () => {
                         search
                         maxHeight={300}
                         labelField="label"
-                        valueField="label"
+                        valueField="value"
                         placeholder={!isFocus4 ? 'Select gadget condition' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue4}
                         onFocus={() => setIsFocus4(true)}
                         onBlur={() => setIsFocus4(false)}
                         onChange={item => {
-                            setSelectedValue4(item.label);
+                            setSelectedValue4(item.value);
                             setIsFocus4(false);
                         }}
                         renderLeftIcon={() => (
@@ -420,14 +397,14 @@ const postAd2 = () => {
                         search
                         maxHeight={300}
                         labelField="label"
-                        valueField="label"
+                        valueField="value"
                         placeholder={!isFocus5 ? 'Select RAM size' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue5}
                         onFocus={() => setIsFocus5(true)}
                         onBlur={() => setIsFocus5(false)}
                         onChange={item => {
-                            setSelectedValue5(item.label);
+                            setSelectedValue5(item.value);
                             setIsFocus5(false);
                         }}
                         renderLeftIcon={() => (
@@ -456,14 +433,14 @@ const postAd2 = () => {
                         search
                         maxHeight={300}
                         labelField="label"
-                        valueField="label"
+                        valueField="value"
                         placeholder={!isFocus6 ? 'Select ROM space' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue6}
                         onFocus={() => setIsFocus6(true)}
                         onBlur={() => setIsFocus6(false)}
                         onChange={item => {
-                            setSelectedValue6(item.label);
+                            setSelectedValue6(item.value);
                             setIsFocus6(false);
                         }}
                         renderLeftIcon={() => (
@@ -493,7 +470,7 @@ const postAd2 = () => {
                         search
                         maxHeight={300}
                         labelField="label"
-                        valueField="label"
+                        valueField="value"
                         placeholder={!isFocus7 ? 'Select the time usage of the product' : '...'}
                         searchPlaceholder="Search..."
                         value={selectedValue7}
@@ -515,11 +492,7 @@ const postAd2 = () => {
                 </View>
             </View>
             <TouchableOpacity style={styles.button} onPress={() => handleSwapRequestSubmit()}>
-                {
-                    loading ? 
-                        <ActivityIndicator size='small' color="#ffffff" />
-                    :
-                    <Text style={styles.buttonText1}>Finish</Text>}
+                <Text style={styles.buttonText1}>Finish</Text>
             </TouchableOpacity>
         </ScrollView>
     )

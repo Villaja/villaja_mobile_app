@@ -7,7 +7,6 @@ import { useRouter } from "expo-router";
 import { AntDesign } from '@expo/vector-icons'
 import { useQuickSwap } from '../../context/QuickSwapContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useAuth } from '../../context/AuthContext';
 
 interface CategoryInterface{
   id:number,
@@ -42,12 +41,10 @@ const quickSwap = () => {
     const [selectedCategory, setSelectedCategory] = useState<CategoryInterface | null>(null);
     const [selectedImages, setSelectedImages] = useState<any[]>([]);
     const [productName,setProductName] = useState<string>("")
-    const [productPrice,setProductPrice] = useState<string>("")
     const [swapWith,setSwapWith] = useState<string>("")
     const [moreDetails,setMoreDetails] = useState<string>("")
     const router = useRouter()
 
-    const {user} = useAuth()
     const {setQuickSwapPayload}  = useQuickSwap()
 
     // functionality to render and select categories inside the modal
@@ -114,13 +111,10 @@ const quickSwap = () => {
     
     const payload = {
         userProductName : productName,
-        userProductPrice:productPrice,
         userProductCategory: selectedCategory?.name,
         userProductImages:selectedImages,
         swapProductName:swapWith,
-        swapProductDetails:moreDetails,
-        phoneNumber:user.phoneNumber,
-        
+        swapProductDetails:moreDetails
     }
 
     setQuickSwapPayload(payload)
@@ -206,19 +200,6 @@ const quickSwap = () => {
                                 placeholder="Product Name"
                                 value={productName}
                                 onChangeText={(text) => setProductName(text)}
-
-                            />
-                        </View>
-                    </View>
-                    <View style={styles.inputContainer}>
-                        {/*Product name input*/}
-                        <Text style={styles.text}>Price</Text>
-                        <View style={styles.textInput}>
-                            <TextInput
-                                style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
-                                placeholder="Product Price"
-                                value={productPrice}
-                                onChangeText={(text) => setProductPrice(text)}
 
                             />
                         </View>
