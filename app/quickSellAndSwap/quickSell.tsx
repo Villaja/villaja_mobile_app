@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import * as React from 'react'
+import { useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput, Dimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useQuickSell } from "../../context/QuickSellContext";
 
 
 const { width } = Dimensions.get("window")
@@ -13,6 +16,7 @@ interface CategoryInterface{
   name:string,
   image:any
 }
+
 
 
 const categoriesData = [
@@ -37,8 +41,12 @@ const categoriesData = [
 const QuickSell = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<CategoryInterface | null>(null);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const router = useRouter()
+  const [selectedImages, setSelectedImages] = useState<any[]>([]);
+  const [productName, setProductName] = useState<string>("");
+  const [price, setPrice] = useState<string>("");
+  const [moreDetails, setMoreDetails] = useState<string>("");
+  const {setQuickSellPayload} = useQuickSell();
+  const router = useRouter();
 
 
   // functionality to render and select categories in modal
@@ -68,27 +76,43 @@ const QuickSell = () => {
         quality: 1,
         allowsEditing: true,
         allowsMultipleSelection: false, // Allows multiple image selection
+        base64: true
       });
 
        // Check if the number of selected images is less than 4
-       if (selectedImages.length >= 4) {
-         alert('You can only upload up to 4 images.');
-         return;
-       }
-
        if (!result.canceled && result.assets.length > 0) {
-        const newImages = result.assets.map(asset => asset.uri);
+        const newImages = result.assets.map(asset => ({
+              uri: asset.uri,
+              base64: asset.base64,
+              mimeType:asset.mimeType
+          }));
         // Ensure the total number of selected images doesn't exceed 4
         const remainingSlots = 4 - selectedImages.length;
-        const imagesToAdd = newImages.slice(0, remainingSlots);
+        const imagesToAdd = newImages.map(asset => `data:image/${asset.mimeType?.split('/')[1]};base64,`+ asset.base64).slice(0, remainingSlots);
         setSelectedImages(prevImages => [...prevImages, ...imagesToAdd]);
       }
+
     };
   
     // Function to clear selected images
     const clearSelectedImages = () => {
       setSelectedImages([]);
     };
+
+
+    const handleQuickSellNextPage = async () => {
+      // return console.log(selectedImages);
+      const payload = {
+          images: selectedImages,
+          name : productName,
+          category: selectedCategory?.name,
+          price: price,
+      }
+      setQuickSellPayload(payload)
+      // await AsyncStorage.setItem('swapPayload',JSON.stringify(payload))
+      router.push(`/quickSellAndSwap/postAd1`)
+    }
+
 
   return (
     <ScrollView style={styles.container}>
@@ -124,7 +148,7 @@ const QuickSell = () => {
         </View>
       </Modal>
       <View style={{ marginBottom: 28 }}>
-        <Text style={{ fontSize: 13, color: "#000000", fontWeight: "500", marginBottom: 5 }}>Add At Least 4 Images</Text>
+        <Text style={{ fontSize: 13, color: "#000000", fontWeight: "500", marginBottom: 5 }}>Add At Least 2 Images</Text>
         <Text style={{ fontSize: 10, color: "#00000050", marginBottom: 10 }}>First image you upload is the title image and must be a clear 1080p downloaded picture, the rest of the pictures should be a live picture of the gadget</Text>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
@@ -139,7 +163,7 @@ const QuickSell = () => {
               {selectedImages.map((uri, index) => (
                 <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
                   <Image
-                    source={{ uri: uri }}
+                    source={{uri}}
                     style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
                   />
                 </View>
@@ -163,6 +187,8 @@ const QuickSell = () => {
               <TextInput
                 style={{ left: 13, width: width - 59, height: 45, fontSize: 12 }}
                 placeholder="Product Name"
+                value={productName}
+                onChangeText={(text) => setProductName(text)}
               />
             </View>
           </View>
@@ -174,6 +200,8 @@ const QuickSell = () => {
                 style={{ left: 13, width: width - 59, height: 45, fontSize: 12 }}
                 placeholder="0.00"
                 keyboardType='numeric'
+                value={price}
+                onChangeText={(text) => setPrice(text)}
               />
             </View>
           </View>
@@ -185,11 +213,13 @@ const QuickSell = () => {
                 multiline={true}
                 style={{ top: 3, left: 13, width: width - 59, fontSize: 12 }}
                 placeholder="Enter Details"
+                value={moreDetails}
+                onChangeText={(text) => setMoreDetails(text)}
               />
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => router.push(`/quickSellAndSwap/postAd1`)} >
+        <TouchableOpacity style={styles.button} onPress={() => handleQuickSellNextPage()} >
           <Text style={styles.buttonText1}>Next</Text>
           <Ionicons name='arrow-forward-outline' size={18} style={styles.buttonText2}/>
         </TouchableOpacity>

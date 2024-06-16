@@ -47,10 +47,12 @@ const SellerDashboard = () => {
     const [token, setToken] = useState<string>()
     const [activeTab, setActiveTab] = useState<string>("overview")
     const [loading, setLoading] = useState<boolean>(false)
-    const [swapRequestLoading,setSwapRequestLoading] = useState<boolean>(false)
+    const [swapRequestLoading,setSwapRequestLoading] = useState<boolean>(false);
+    const [quickSellRequestLoading,setQuickSellRequestLoading] = useState<boolean>(false)
 
     const [allOrders, setAllOrders] = useState<any>([])
     const [swapOrders, setSwapOrders] = useState<any>([])
+    const [quickSellOrders, setQuickSellOrders] = useState<any>([])
 
 
     const handleGetOrders = async () => {
@@ -89,6 +91,22 @@ const SellerDashboard = () => {
         }
     }
 
+    const handleGetQuickSellRequests = async() => {
+        try {
+            const response = await axios.get(`${base_url}/get-all-products-user`);
+            if (response.data.success) {
+                setQuickSellOrders(response.data);
+            } else {
+                console.error('Failed to fetch unsold quick swap orders');
+            }
+        } catch (error) {
+            console.error('Error fetching quick sell orders:', error);
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
     useEffect(() => {
         const checkToken = async () => {
             const token = await AsyncStorage.getItem('sellerToken')
@@ -103,8 +121,9 @@ const SellerDashboard = () => {
     }, [])
 
     useEffect(() => {
-        handleGetOrders()
-        handleGetSwapRequests()
+        handleGetOrders();
+        handleGetSwapRequests();
+        handleGetQuickSellRequests();
     }, [seller])
 
 
@@ -150,11 +169,14 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
     const navigation = useNavigation();
     const [multiLine, setMultiLine] = useState(1)
 
+    console.log("swap orders : ", swapOrders);
+
+
     return (
         <View>
             <View style={styles.swapHeader}>
                 <Text style={styles.headerText}>Swap Now</Text>
-                <TouchableOpacity onPress={() => router.push('/(drawer)/(swapDeals)/SwapDeals')}>
+                <TouchableOpacity>
                     <Text style={styles.headerBtn}>View Swaps</Text>
                 </TouchableOpacity>
             </View>
@@ -185,7 +207,7 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
                                                 </View>
                                             </View>
                                         </View>
-                                        <TouchableOpacity style={styles.swapBtn} onPress={() => router.push(`/(swapDeals)/${item._id}`)}>
+                                        <TouchableOpacity style={styles.swapBtn}>
                                             <Text style={styles.swapText}>Swap Now</Text>
                                             <AntDesign name='arrowright' size={15} color={Colors.primary} />
                                         </TouchableOpacity>

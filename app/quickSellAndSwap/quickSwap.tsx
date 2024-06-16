@@ -154,11 +154,12 @@ const quickSwap = () => {
                         data={categoriesData}
                         renderItem={renderCategories}
                         keyExtractor={(item) => item.id.toString()}
+                        showsVerticalScrollIndicator={false}
                     />
                 </View>
             </Modal>
             <View style={{marginBottom: 28 }}>
-                <Text style={{ fontSize: 13, color: "#000000", fontWeight: "500", marginBottom: 5 }}>Add At Least 4 Images</Text>
+                <Text style={{ fontSize: 13, color: "#000000", fontWeight: "500", marginBottom: 5 }}>Add At Least 2 Images</Text>
                 <Text style={{ fontSize: 10, color: "#00000050", marginBottom: 10 }}>First image you upload is the title image and must be a clear 1080p downloaded picture, the rest of the pictures should be a live picture of the gadget</Text>
                 <View style={{ flexDirection: "row" }}>
                     <TouchableOpacity
@@ -174,7 +175,7 @@ const quickSwap = () => {
                               <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
                                 <Image
 
-                                  source={{ uri: uri.uri }}
+                                  source={{uri}}
                                   style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
                                 />
                               </View>
