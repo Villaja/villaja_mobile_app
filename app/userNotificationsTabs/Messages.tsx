@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, View, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { base_url } from '../../constants/server'
@@ -9,7 +9,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useAuth } from '../../context/SellerAuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
-import { router, useRouter } from 'expo-router'
+import { router, useRouter } from 'expo-router';
+import LottieView from "lottie-react-native";
 
 
 interface Conversation {
@@ -24,13 +25,14 @@ interface Conversation {
 
 
 const Messages = () => {
-    const { isLoading } = useAuth()
+    const { isLoading } = useAuth();
+    const {height} = Dimensions.get('window');
     const [convoLoading, setConvoLoading] = useState<boolean>(true)
     const [conversations, setConversations] = useState<Conversation[] | any>([]);
     const [messages, setMessages] = useState([]);
     const [searchValue, setSearchValue] = useState<string>("")
     const [user, setUser] = useState<any>({});
-    const [token, setToken] = useState<string>();
+    const [token, setToken] = useState<string>()
 
 
     const handleSearch = () => {
@@ -88,7 +90,11 @@ const Messages = () => {
                         ))
 
                             :
-                            <Text>no messages</Text>
+                            <View style={{flex: 1,justifyContent: 'center', alignItems: 'center', marginTop: height/1/8}} >
+                                <LottieView source={require("../../assets/images/no-message.json")} autoPlay loop={true} style={{width: 200, height: 200,}} />
+                                <Text style={{color: '#025492', fontSize: 16, fontWeight: '500', marginBottom: 20}} >No Message Found</Text>
+                                <Text style={{color: '#00000097', fontSize: 13, fontWeight: '500', paddingHorizontal: 50}} >You can text a seller from their profile, accessible through the product details</Text>
+                            </View>
                 }
             </ScrollView>
 

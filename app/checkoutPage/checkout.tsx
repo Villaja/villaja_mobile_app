@@ -141,7 +141,7 @@ const checkout = () => {
         country: country
       }, // Replace with actual address
       user: user && user?.user,
-      totalPrice: newPromoPrice! + 2650,
+      totalPrice: promoApplied? newPromoPrice! : newPromoPrice! + 2650  ,
     };
 
         // Add paymentInfo dynamically
@@ -416,7 +416,7 @@ const checkout = () => {
      {showPaystack && (
         <Paystack  
         paystackKey="pk_test_ba3974730a50a8f120783a5c097a2b9603129aa7"
-        amount={newPromoPrice! + 2650} 
+        amount={promoApplied? newPromoPrice! : newPromoPrice! + 2650} 
         billingEmail={user?.user.email}
         billingName={`${user?.user.firstname} ${user?.user.lastname}`}
         onSuccess={onPaystackSuccess}

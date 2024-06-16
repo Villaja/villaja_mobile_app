@@ -109,7 +109,6 @@ const styles = StyleSheet.create({
         height:83,
         resizeMode:'contain',
         borderRadius:3,
-        borderWidth:StyleSheet.hairlineWidth,
         borderColor:'rgba(0,0,0,0.05)'
     },
     name:{
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
         fontWeight:'500',
         color:'rgba(0,0,0,0.50)',
         marginBottom:6, 
-        maxWidth: 220,                                                   
+        maxWidth: 180,                                                   
     },
     price:{
         fontFamily:'roboto-condensed',
