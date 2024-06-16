@@ -169,14 +169,11 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
     const navigation = useNavigation();
     const [multiLine, setMultiLine] = useState(1)
 
-    console.log("swap orders : ", swapOrders);
-
-
     return (
         <View>
             <View style={styles.swapHeader}>
                 <Text style={styles.headerText}>Swap Now</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => router.push('/(drawer)/(swapDeals)/SwapDeals')}>
                     <Text style={styles.headerBtn}>View Swaps</Text>
                 </TouchableOpacity>
             </View>
@@ -207,7 +204,7 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
                                                 </View>
                                             </View>
                                         </View>
-                                        <TouchableOpacity style={styles.swapBtn}>
+                                        <TouchableOpacity style={styles.swapBtn} onPress={() => router.push(`/(swapDeals)/${item._id}`)}>
                                             <Text style={styles.swapText}>Swap Now</Text>
                                             <AntDesign name='arrowright' size={15} color={Colors.primary} />
                                         </TouchableOpacity>

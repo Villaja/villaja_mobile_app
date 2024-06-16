@@ -31,6 +31,26 @@ export default function otherDrawerScreens () {
                     )
                 }}
              />
+            <Stack.Screen
+                name='SwapDeals'
+                options={{
+                    title: 'Swap Deals',
+                    headerShadowVisible: false,
+                    headerStyle: {
+                        backgroundColor: "#ffffff",
+                    },
+                    headerTitleStyle: {
+                        fontSize: 16
+                    },
+                    headerLeft: () => (
+                        <View>
+                            <TouchableOpacity activeOpacity={0.5} onPress={() => router.back()} style={{marginRight: 20, width: 30, height: 30, borderRadius: 50, justifyContent: "center", alignItems: "center"}} >
+                                <Ionicons name="arrow-back" size={23} color={"#000"} />
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }}
+             />
         </Stack>
     )
 }
