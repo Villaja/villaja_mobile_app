@@ -12,15 +12,18 @@ export default function otherDrawerScreens () {
     return (
         <Stack>
             <Stack.Screen
-                name='SellerProducts'
+                name='SwapDeals'
                 options={{
-                    title: 'My Products',
+                    title: 'Swap Ads',
                     headerShadowVisible: false,
                     headerStyle: {
+                        
                         backgroundColor: "#ffffff",
                     },
                     headerTitleStyle: {
-                        fontSize: 16
+                        fontSize: 18,
+                        fontFamily:"roboto-condensed-sb"
+
                     },
                     headerLeft: () => (
                         <View>
@@ -32,15 +35,19 @@ export default function otherDrawerScreens () {
                 }}
              />
             <Stack.Screen
-                name='SwapDeals'
+                name='[id]'
                 options={{
-                    title: 'Swap Deals',
+                    title: 'Swap',
+                    headerShown:false,
                     headerShadowVisible: false,
                     headerStyle: {
+                        
                         backgroundColor: "#ffffff",
                     },
                     headerTitleStyle: {
-                        fontSize: 16
+                        fontSize: 18,
+                        fontFamily:"roboto-condensed-sb"
+
                     },
                     headerLeft: () => (
                         <View>

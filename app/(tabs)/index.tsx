@@ -50,28 +50,39 @@ const carouselData = [
 
 const categoryData = [
   {
-    name: "Headphones",
-    image: require('../../assets/images/Ellipse29.png')
-  },
-  {
     name: "Phones",
-    image: require('../../assets/images/Phonecatt.png')
+    image: require('../../assets/images/Phonecatt.png'),
+    link:'/categoryCatalog/Phones'
   },
   {
     name: "Laptop",
-    image: require('../../assets/images/laptop.png')
+    image: require('../../assets/images/laptop.png'),
+    link:'/categoryCatalog/Computers'
+
   },
   {
-    name: "Microphone",
-    image: require('../../assets/images/Mic.png')
+    name: "Tablets",
+    image: {uri:"https://m.media-amazon.com/images/I/81rBUAM2NpL._AC_SY450_.jpg"},
+    link:'/categoryCatalog/Tablets'
+
   },
   {
-    name: "Power Bank",
-    image: require('../../assets/images/PB.png')
+    name: "Accessories",
+    image: require('../../assets/images/Mic.png'),
+    link:'/categoryCatalog/Accessories'
+
   },
   {
-    name: "Watch",
-    image: require('../../assets/images/watch.png')
+    name: "Watches",
+    image: require('../../assets/images/watch.png'),
+    link:'/categoryCatalog/Smart Watches'
+
+  },
+  {
+    name: "Gaming",
+    image: require('../../assets/images/videogames.png'),
+    link:'/categoryCatalog/Gaming'
+
   },
 
 
@@ -321,16 +332,17 @@ const index = () => {
             gap: 20,
             paddingHorizontal: 20,
             height: 100,
-            backgroundColor: '#fff'
+            backgroundColor: '#ffffff'
+
 
           }} >
 
           {
             categoryData.map((cat, index) => (
-              <View key={index} style={{ alignItems: 'center' }}>
+              <TouchableOpacity key={index} style={{ alignItems: 'center' }} onPress={() => router.push({ pathname: cat.link, params: { minPrice: "1", maxPrice: "5000000" } })}>
                 <Image source={cat.image} style={{ width: 47, height: 47, borderRadius: 40 }} />
                 <Text style={{ fontFamily: 'roboto-condensed', color: "#00000060", fontSize: 10, fontWeight: "700" }}>{cat.name}</Text>
-              </View>
+              </TouchableOpacity>
             ))
           }
         </ScrollView>
