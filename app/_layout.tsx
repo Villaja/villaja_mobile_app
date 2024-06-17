@@ -607,7 +607,7 @@ function RootLayoutNav() {
                           ),
                         }}
                       />
-                      <Stack.Screen
+                      {/*<Stack.Screen
                         name="quickSellAndSwap/postAd1"
                         options={{
                           // presentation: 'modal',
@@ -629,7 +629,7 @@ function RootLayoutNav() {
                             </View>
                           ),
                         }}
-                      />
+                      />*/}
                       <Stack.Screen
                         name="quickSellAndSwap/quickSwap"
                         options={{

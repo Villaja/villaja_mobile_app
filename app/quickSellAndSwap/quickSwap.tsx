@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
         marginBottom: 43
     },
     section2: {
-        height: 500,
+        height: 620,
         flex: 1,
         top: 23,
     },

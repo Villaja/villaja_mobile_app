@@ -96,6 +96,7 @@ const SellerDashboard = () => {
             const response = await axios.get(`${base_url}/get-all-products-user`);
             if (response.data.success) {
                 setQuickSellOrders(response.data);
+                console.log(response)
             } else {
                 console.error('Failed to fetch unsold quick swap orders');
             }

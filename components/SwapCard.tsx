@@ -15,7 +15,6 @@ const SwapCard: React.FC<any> = ({ product }) => {
         <TouchableOpacity>
           <View style={styles.imgContainer}>
             <Image style={styles.image} source={{ uri: product.userProductImages[0]?.url }} />
-
           </View>
           <Text style={styles.title}>{product.userProductName.length < 30 ? product.userProductName : product.userProductName.slice(0, 30) + '...'}</Text>
           <Text style={styles.price}>{'₦' + (product.userProductPrice === 0 ? product.userProductPrice?.toLocaleString() : product.userProductPrice?.toLocaleString())} </Text>

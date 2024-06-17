@@ -1,45 +1,17 @@
-import React, { useEffect, useState } from 'react'
+/*import React, { useEffect, useState } from 'react'
 import { View, TextInput, Text, Image, StyleSheet, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Dropdown } from "react-native-element-dropdown";
-import { base_url } from '../../constants/server';
-import axios from 'axios';
+
+
 import { useQuickSell } from "../../context/QuickSellContext";
-import AntDesign from '@expo/vector-icons/AntDesign';
+
 
 
 const { width } = Dimensions.get("window");
 
-const options7 = [
-    { label: 'less than a month', value: '33' },
-    { label: '1 month', value: '34' },
-    { label: '2 months', value: '35' },
-    { label: 'quarter of a year', value: '36' },
-    { label: 'half a year', value: '37' },
-    { label: '1 year', value: '38' },
-    { label: '2 years', value: '39' },
-    { label: '3 years', value: '40' },
-    { label: '4 years', value: '41' },
-    { label: '5 years', value: '42' },
-];
-
-const postAd1 = () => {
-    const { quickSellPayload } = useQuickSell();
-    const [selectedValue7, setSelectedValue7] = useState<string | null>(null);
-    const [isFocus7, setIsFocus7] = useState<boolean>(false);
 
 
-    const renderLabel7 = () => {
-        if (selectedValue7 || isFocus7) {
-            return (
-                <Text style={[styles.label, isFocus7 && { color: '#025492' }]}>
-                    Select the time usage of the product
-                </Text>
-            );
-        }
-        return null;
-    };
 
     const handleSwapRequestSubmit = async () => {
 
@@ -71,6 +43,7 @@ const postAd1 = () => {
 
             if (response.data.success) {
                 return console.log('successfully uploaded quick sell request');
+                return Alert.alert('Upload Success', 'Your product has been uploaded successfully, sit back and relax as you make your first sale in minutes');
             }
 
             return console.log('error creating quick sell request');
@@ -100,42 +73,7 @@ const postAd1 = () => {
                     />
                 </View>
             </View>
-            <View style={styles.textInputContainer2}>
-                <Text style={styles.text} >Years Used</Text>
-                <View style={styles.container}>
-                    {renderLabel7()}
-                    <Dropdown
-                        style={[styles.dropdown, isFocus7 && { borderColor: '#025492' }]}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        itemTextStyle={styles.itemTextStyle}
-                        iconStyle={styles.iconStyle}
-                        data={options7}
-                        search
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder={!isFocus7 ? 'Select the time usage of the product' : '...'}
-                        searchPlaceholder="Search..."
-                        value={selectedValue7}
-                        onFocus={() => setIsFocus7(true)}
-                        onBlur={() => setIsFocus7(false)}
-                        onChange={item => {
-                            setSelectedValue7(item.value);
-                            setIsFocus7(false);
-                        }}
-                        renderLeftIcon={() => (
-                            <AntDesign
-                                style={styles.icon2}
-                                color={isFocus7 ? '#02549290' : '#00000090'}
-                                name="Safety"
-                                size={18}
-                            />
-                        )}
-                    />
-                </View>
-            </View>
+            
             <TouchableOpacity style={styles.button} onPress={() => handleSwapRequestSubmit()} >
                 <Text style={styles.buttonText1}>Finish</Text>
             </TouchableOpacity>
@@ -179,10 +117,7 @@ const styles = StyleSheet.create({
         top: 25,
         marginBottom: 28.29
     },
-    textInputContainer2: {
-        top: 25,
-        marginBottom: 440.29
-    },
+    
     icon: {
         
         marginRight: 10,
@@ -261,4 +196,4 @@ const styles = StyleSheet.create({
         marginTop: 2,
         height: 20,
     },
-})
+}) */

@@ -124,36 +124,6 @@ export function CustomDrawerContent(props:any) {
             }}
             
         />
-         <Drawer.Screen
-            name="(swapDeals)"
-            options={{
-                drawerLabel: 'Swap Deals',
-                title: 'Swap Deals',
-                drawerIcon: ({size, color})=>(
-                    <MaterialCommunityIcons name="swap-vertical-circle-outline" size={24} color="white" />
-                ),
-                headerTitle: 'Swap Deals',
-                headerStyle: {
-                    backgroundColor: "#000000"
-                }
-            }}
-            
-        />
-         <Drawer.Screen
-            name="(swapDeals)"
-            options={{
-                drawerLabel: 'Swap Deals',
-                title: 'Swap Deals',
-                drawerIcon: ({size, color})=>(
-                    <MaterialCommunityIcons name="swap-vertical-circle-outline" size={24} color="white" />
-                ),
-                headerTitle: 'Swap Deals',
-                headerStyle: {
-                    backgroundColor: "#000000"
-                }
-            }}
-            
-        />
         {/*<Drawer.Screen
             name=""
             options={{

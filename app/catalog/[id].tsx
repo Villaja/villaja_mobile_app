@@ -292,9 +292,9 @@ const catalog = () => {
           {loading ? (
             <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator} />
           ) : (
-            sortedData.length >= 1 ? (
-                productDisplayType ? renderProductCards(0, 4) : renderProductCards2(0, 4)
-              ) : (
+            sortedData.length > 0 ? 
+                productDisplayType ? renderProductCards(0, 5) : renderProductCards2(0, 5)
+               : 
                 <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} >
                   <View style={{ justifyContent: "center", alignItems: "center"}} >
                   <LottieView
@@ -310,7 +310,7 @@ const catalog = () => {
                 </TouchableOpacity>
                 </View>
               </ScrollView>
-            )
+            
           )}
         </View>
       </ScrollView>

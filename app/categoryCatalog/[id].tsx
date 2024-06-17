@@ -241,11 +241,11 @@ const catalog = () => {
           {loading ? (
           <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
           ) : (
-            productDisplayType? (
+            productDisplayType? 
               renderProductCards(0, 5)
-            ) : (
+             : 
               renderProductCards2(0, 5)
-            )
+            
             )}
         </View>
       </ScrollView>

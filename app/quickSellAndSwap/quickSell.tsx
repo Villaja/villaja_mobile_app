@@ -1,41 +1,59 @@
 import * as React from 'react'
 import { useState } from 'react';
-import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput, Dimensions } from "react-native";
+import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput, Dimensions, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
 import { AntDesign } from '@expo/vector-icons';
+import { Dropdown } from "react-native-element-dropdown";
+import { base_url } from '../../constants/server';
+import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useQuickSell } from "../../context/QuickSellContext";
+import { ActivityIndicator } from 'react-native-paper';
+
+
 
 
 const { width } = Dimensions.get("window")
 
-interface CategoryInterface{
-  id:number,
-  name:string,
-  image:any
+interface CategoryInterface {
+  id: number,
+  name: string,
+  image: any
 }
+
+const options7 = [
+  { label: 'less than a month', value: '33' },
+  { label: '1 month', value: '34' },
+  { label: '2 months', value: '35' },
+  { label: 'quarter of a year', value: '36' },
+  { label: 'half a year', value: '37' },
+  { label: '1 year', value: '38' },
+  { label: '2 years', value: '39' },
+  { label: '3 years', value: '40' },
+  { label: '4 years', value: '41' },
+  { label: '5 years', value: '42' },
+];
 
 
 
 const categoriesData = [
-  {id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
-  {id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
-  {id: 3, name: 'Tablets', image: require('../../assets/images/tabcat.png') },
-  {id: 4, name: 'Phone Accessories', image: require('../../assets/images/phoneacc.png')},
-  {id: 5, name: 'Computer Accessories', image: require('../../assets/images/computeracc.png')},
-  {id: 6, name: 'Computer Monitors', image: require('../../assets/images/Monitor.png')},
-  {id: 7, name: 'Headphones', image: require('../../assets/images/headphonescat.png')},
-  {id: 8, name: 'Laptops', image: require('../../assets/images/laptopcat.png')},
-  {id: 9, name: 'Networking Products', image: require('../../assets/images/networkcat.png')},
-  {id: 10, name: 'Printers & Scanners', image: require('../../assets/images/printercat.png')},
-  {id: 11, name: 'Cameras', image: require('../../assets/images/cameracat.png')},
-  {id: 12, name: 'Security & Surveillance', image: require('../../assets/images/security.png')},
-  {id: 13, name: 'Video Games', image: require('../../assets/images/videogame.jpg')},
-  {id: 14, name: 'Tv', image: require('../../assets/images/tvcat.png')},
-  {id: 15, name: 'Video Game Console', image: require('../../assets/images/ps5.jpg')},
-  {id: 16, name: 'Computer Hardware', image: require('../../assets/images/comphardware.png')}
+  { id: 1, name: 'Mobile Phones', image: require('../../assets/images/phonecat.png') },
+  { id: 2, name: 'Smart Watches and Trackers', image: require('../../assets/images/watchcat.png') },
+  { id: 3, name: 'Tablets', image: require('../../assets/images/tabcat.png') },
+  { id: 4, name: 'Phone Accessories', image: require('../../assets/images/phoneacc.png') },
+  { id: 5, name: 'Computer Accessories', image: require('../../assets/images/computeracc.png') },
+  { id: 6, name: 'Computer Monitors', image: require('../../assets/images/Monitor.png') },
+  { id: 7, name: 'Headphones', image: require('../../assets/images/headphonescat.png') },
+  { id: 8, name: 'Laptops', image: require('../../assets/images/laptopcat.png') },
+  { id: 9, name: 'Networking Products', image: require('../../assets/images/networkcat.png') },
+  { id: 10, name: 'Printers & Scanners', image: require('../../assets/images/printercat.png') },
+  { id: 11, name: 'Cameras', image: require('../../assets/images/cameracat.png') },
+  { id: 12, name: 'Security & Surveillance', image: require('../../assets/images/security.png') },
+  { id: 13, name: 'Video Games', image: require('../../assets/images/videogame.jpg') },
+  { id: 14, name: 'Tv', image: require('../../assets/images/tvcat.png') },
+  { id: 15, name: 'Video Game Console', image: require('../../assets/images/ps5.jpg') },
+  { id: 16, name: 'Computer Hardware', image: require('../../assets/images/comphardware.png') }
 ];
 
 const QuickSell = () => {
@@ -45,12 +63,27 @@ const QuickSell = () => {
   const [productName, setProductName] = useState<string>("");
   const [price, setPrice] = useState<string>("");
   const [moreDetails, setMoreDetails] = useState<string>("");
-  const {setQuickSellPayload} = useQuickSell();
+  const [address, setAddress] = useState<string>("");
+  const [number, setNumber] = useState<string>("");
+  const [selectedValue7, setSelectedValue7] = useState<string | null>(null);
+  const [isFocus7, setIsFocus7] = useState<boolean>(false);
+  const [loading,setLoading] = useState<boolean>(false)
   const router = useRouter();
 
 
+  const renderLabel7 = () => {
+    if (selectedValue7 || isFocus7) {
+      return (
+        <Text style={[styles.label, isFocus7 && { color: '#025492' }]}>
+          Select the time usage of the product
+        </Text>
+      );
+    }
+    return null;
+  };
+
   // functionality to render and select categories in modal
-  const renderCategories = ({ item }:{item:CategoryInterface}) => {
+  const renderCategories = ({ item }: { item: CategoryInterface }) => {
     return (
       <TouchableOpacity
         style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}
@@ -63,69 +96,118 @@ const QuickSell = () => {
             <Image source={item.image} style={{ width: 50, height: 50, marginRight: 10 }} />
             <Text style={{ fontSize: 12, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{item.name}</Text>
           </View>
-          <Ionicons name='chevron-forward-outline' size={20} style={{ color: "#00000050"}} />
+          <Ionicons name='chevron-forward-outline' size={20} style={{ color: "#00000050" }} />
         </View>
       </TouchableOpacity>
     );
   }
 
-     // functionality to select and upload product images
-     const pickImage = async () => {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        quality: 1,
-        allowsEditing: true,
-        allowsMultipleSelection: false, // Allows multiple image selection
-        base64: true
-      });
+       // functionality to select and upload product images
+  const pickImage = async () => {
+    // Check if the number of selected images is less than 4
+    if (selectedImages.length >= 4) {
+      alert('You can only upload up to 4 images.');
+      return;
+    }
 
-       // Check if the number of selected images is less than 4
-       if (!result.canceled && result.assets.length > 0) {
-        const newImages = result.assets.map(asset => ({
-              uri: asset.uri,
-              base64: asset.base64,
-              mimeType:asset.mimeType
-          }));
-        // Ensure the total number of selected images doesn't exceed 4
-        const remainingSlots = 4 - selectedImages.length;
-        const imagesToAdd = newImages.map(asset => `data:image/${asset.mimeType?.split('/')[1]};base64,`+ asset.base64).slice(0, remainingSlots);
-        setSelectedImages(prevImages => [...prevImages, ...imagesToAdd]);
-      }
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      allowsEditing: true,
+      allowsMultipleSelection: false, // denies multiple image selection
+      base64: true,
+    });
 
+    if (!result.canceled && result.assets.length > 0) {
+      const newImages = result.assets.map(asset => ({
+            uri: asset.uri,
+            base64: asset.base64,
+            mimeType:asset.mimeType
+        }));
+      // Ensure the total number of selected images doesn't exceed 4
+      const remainingSlots = 4 - selectedImages.length;
+      const imagesToAdd = newImages.map(asset => `data:image/${asset.mimeType?.split('/')[1]};base64,`+ asset.base64).slice(0, remainingSlots);
+      setSelectedImages(prevImages => [...prevImages, ...imagesToAdd]);
+    }
+  };
+
+  // Function to clear selected images
+  const clearSelectedImages = () => {
+    setSelectedImages([]);
+  };
+  
+    // Function to remove a single selected image
+    const removeSelectedImage = (indexToRemove:number) => {
+      setSelectedImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
     };
   
-    // Function to clear selected images
-    const clearSelectedImages = () => {
-      setSelectedImages([]);
-    };
 
 
-    const handleQuickSellNextPage = async () => {
-      // return console.log(selectedImages);
-      const payload = {
+  // function to handle product upload
+  const handleQuickSellUpload = async() => {
+    setLoading(true)
+    const token = await AsyncStorage.getItem('token')
+    try {
+      const response = await axios.post(`${base_url}/quick-sell/create-product`, 
+        {
           images: selectedImages,
-          name : productName,
-          category: selectedCategory?.name,
+          name: productName,
           price: price,
+          description: moreDetails,
+          category: selectedCategory?.name,
+          condition: selectedValue7,
+          location: address,
+          phoneNumber: number
+        },
+
+        {
+          headers: {
+            Authorization: token
+          },
+          withCredentials: true
+        }
+
+      )
+      if (response.data.success) {
+        setLoading(false)
+        Alert.alert('Upload Success', 'Your product has been uploaded successfully, sit back and relax as you make your first sale in minutes');
+        console.log('quick sell product upload success');
+        router.replace('/(tabs)/QuickSell');
+      } else {
+        Alert.alert('Error', 'Something went wrong, please try again')
       }
-      setQuickSellPayload(payload)
-      // await AsyncStorage.setItem('swapPayload',JSON.stringify(payload))
-      router.push(`/quickSellAndSwap/postAd1`)
+    } catch (error) {
+      setLoading(false)
+      if (axios.isAxiosError(error)) {
+        console.log('Error response:', error.response);
+        if (error.response?.status === 500) {
+            Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
+            console.log(error.message)
+        } else if (error.response?.status === 401) {
+            Alert.alert('Unauthorized', 'Please check your token and try again.');
+        } else {
+            Alert.alert('Error', `Something went wrong, please try again`);
+            console.log('Something went wrong, please try again', error.message)
+        }
+    } else {
+        Alert.alert('Error', 'An unexpected error occurred');
     }
+    }
+  }
 
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.pageContainer}>
       <TouchableOpacity style={styles.category} onPress={() => setModalVisible(true)}>
         {selectedCategory ? (
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Image source={selectedCategory.image} style={{ width: 60, height: 60, borderTopLeftRadius: 5, borderBottomLeftRadius: 5 }} />
-            <View style={{width: 265, alignItems: "center"}}>
-            <Text style={{ fontSize: 14, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{selectedCategory.name}</Text>
+            <View style={{ width: 265, alignItems: "center" }}>
+              <Text style={{ fontSize: 14, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000090", fontWeight: "500" }}>{selectedCategory.name}</Text>
             </View>
           </View>
         ) : (
-          <View style={{ flexDirection: "row", alignItems: "center",width:'100%', justifyContent: "space-between" }}>
+          <View style={{ flexDirection: "row", alignItems: "center", width: '100%', justifyContent: "space-between" }}>
             <View style={{ flexDirection: "row", alignItems: "center", marginLeft: 20 }}>
               <Text style={{ fontSize: 14, color: "#FF0000", fontWeight: "900" }}>*</Text>
               <Text style={{ fontSize: 14, color: "#00000050", fontWeight: "500", marginLeft: 5 }}>Select Category</Text>
@@ -160,23 +242,23 @@ const QuickSell = () => {
           <View style={{ flex: 1 }}>
             {selectedImages.length > 0 ? (
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
-              {selectedImages.map((uri, index) => (
-                <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
-                  <Image
-                    source={{uri}}
-                    style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
-                  />
-                </View>
-              ))}
-            </View>
+                {selectedImages.map((uri, index) => (
+                  <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
+                    <Image
+                      source={{ uri }}
+                      style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
+                    />
+                  </View>
+                ))}
+              </View>
             ) : (
               <Image source={require('../../assets/images/watchcat.png')} style={{ width: 114, height: 79, borderRadius: 10 }} />
             )}
-             {selectedImages.length > 0 && (
-                <TouchableOpacity onPress={clearSelectedImages} style={{ marginLeft: 175 }} >
-                  <AntDesign name='delete' size={18} color='#FF0000' />
-                </TouchableOpacity>
-              )}
+            {selectedImages.length > 0 && (
+              <TouchableOpacity onPress={clearSelectedImages} style={{ marginLeft: 175 }} >
+                <AntDesign name='delete' size={18} color='#FF0000' />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
         <View style={styles.section2}>
@@ -206,6 +288,32 @@ const QuickSell = () => {
             </View>
           </View>
           <View style={styles.inputContainer}>
+            {/*Location input*/}
+            <Text style={styles.text}>Address</Text>
+            <View style={styles.textInput}>
+              <TextInput
+                style={{ left: 13, width: width - 59, height: 45, fontSize: 12 }}
+                placeholder="enter your pickup address"
+                keyboardType='default'
+                value={address}
+                onChangeText={(text) => setAddress(text)}
+              />
+            </View>
+          </View>
+          <View style={styles.inputContainer}>
+            {/*Phone number input*/}
+            <Text style={styles.text}>Phone Number</Text>
+            <View style={styles.textInput}>
+              <TextInput
+                style={{ left: 13, width: width - 59, height: 45, fontSize: 12 }}
+                placeholder="Enter your active phone number"
+                keyboardType='numeric'
+                value={number}
+                onChangeText={(text) => setNumber(text)}
+              />
+            </View>
+          </View>
+          <View style={styles.inputContainer}>
             {/*More Details input*/}
             <Text style={styles.text}>More Details</Text>
             <View style={styles.textInput2}>
@@ -219,9 +327,49 @@ const QuickSell = () => {
             </View>
           </View>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() => handleQuickSellNextPage()} >
-          <Text style={styles.buttonText1}>Next</Text>
-          <Ionicons name='arrow-forward-outline' size={18} style={styles.buttonText2}/>
+        <View style={styles.textInputContainer2}>
+          <Text style={styles.text} >Years Used</Text>
+          <View style={styles.container}>
+            {renderLabel7()}
+            <Dropdown
+              style={[styles.dropdown, isFocus7 && { borderColor: '#025492' }]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              itemTextStyle={styles.itemTextStyle}
+              iconStyle={styles.iconStyle}
+              data={options7}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus7 ? 'Select the time usage of the product' : '...'}
+              searchPlaceholder="Search..."
+              value={selectedValue7}
+              onFocus={() => setIsFocus7(true)}
+              onBlur={() => setIsFocus7(false)}
+              onChange={item => {
+                setSelectedValue7(item.value);
+                setIsFocus7(false);
+              }}
+              dropdownPosition='top'
+              renderLeftIcon={() => (
+                <AntDesign
+                  style={styles.icon2}
+                  color={isFocus7 ? '#02549290' : '#00000090'}
+                  name="Safety"
+                  size={18}
+                />
+              )}
+            />
+          </View>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={() =>handleQuickSellUpload()} >
+          {
+            loading ?
+            <ActivityIndicator size='small' color="#ffffff" />
+            :
+            <Text style={styles.buttonText1}>Finish</Text>}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -231,10 +379,10 @@ const QuickSell = () => {
 export default QuickSell;
 
 const styles = StyleSheet.create({
-  container: {
+  pageContainer: {
     flex: 1,
     backgroundColor: "#ffffff",
-    paddingHorizontal:20
+    paddingHorizontal: 20
   },
   category: {
     flexDirection: "row",
@@ -250,13 +398,14 @@ const styles = StyleSheet.create({
     marginBottom: 43
   },
   section2: {
-    height: 500,
+    height: 640,
     flex: 1,
     top: 23,
   },
   inputContainer: {
     height: 80,
-    position: "relative"
+    position: "relative",
+    marginBottom: 10
   },
   text: {
     fontSize: 13,
@@ -319,5 +468,64 @@ const styles = StyleSheet.create({
   buttonText2: {
     color: "#fff",
     marginLeft: 10
-  }
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 12,
+    color: "#00000050"
+  },
+  container: {
+    paddingVertical: 10,
+    marginEnd: 16,
+    width: width - 40
+  },
+  dropdown: {
+    height: 60,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    backgroundColor: "#00000009"
+  },
+  placeholderStyle: {
+    fontSize: 12,
+    color: "#00000070",
+    marginVertical: 10,
+    height: 20,
+    top: 1.5
+  },
+  selectedTextStyle: {
+    fontSize: 12,
+    color: "#000000",
+    paddingVertical: 5,
+    height: 30,
+    top: 1.5
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 12,
+    color: "#00000090"
+  },
+  itemTextStyle: {
+    color: "#00000070",
+    fontSize: 12
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  icon2: {
+    marginRight: 5,
+    marginTop: 2,
+    height: 20,
+  },
+  textInputContainer2: {
+    
+    marginBottom: 40.29
+  },
 })
