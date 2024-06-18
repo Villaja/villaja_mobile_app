@@ -67,7 +67,7 @@ const QuickSell = () => {
   const [number, setNumber] = useState<string>("");
   const [selectedValue7, setSelectedValue7] = useState<string | null>(null);
   const [isFocus7, setIsFocus7] = useState<boolean>(false);
-  const [loading,setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter();
 
 
@@ -102,7 +102,7 @@ const QuickSell = () => {
     );
   }
 
-       // functionality to select and upload product images
+  // functionality to select and upload product images
   const pickImage = async () => {
     // Check if the number of selected images is less than 4
     if (selectedImages.length >= 4) {
@@ -120,13 +120,13 @@ const QuickSell = () => {
 
     if (!result.canceled && result.assets.length > 0) {
       const newImages = result.assets.map(asset => ({
-            uri: asset.uri,
-            base64: asset.base64,
-            mimeType:asset.mimeType
-        }));
+        uri: asset.uri,
+        base64: asset.base64,
+        mimeType: asset.mimeType
+      }));
       // Ensure the total number of selected images doesn't exceed 4
       const remainingSlots = 4 - selectedImages.length;
-      const imagesToAdd = newImages.map(asset => `data:image/${asset.mimeType?.split('/')[1]};base64,`+ asset.base64).slice(0, remainingSlots);
+      const imagesToAdd = newImages.map(asset => `data:image/${asset.mimeType?.split('/')[1]};base64,` + asset.base64).slice(0, remainingSlots);
       setSelectedImages(prevImages => [...prevImages, ...imagesToAdd]);
     }
   };
@@ -135,20 +135,20 @@ const QuickSell = () => {
   const clearSelectedImages = () => {
     setSelectedImages([]);
   };
-  
-    // Function to remove a single selected image
-    const removeSelectedImage = (indexToRemove:number) => {
-      setSelectedImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
-    };
-  
+
+  // Function to remove a single selected image
+  const removeSelectedImage = (indexToRemove: number) => {
+    setSelectedImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
+  };
+
 
 
   // function to handle product upload
-  const handleQuickSellUpload = async() => {
+  const handleQuickSellUpload = async () => {
     setLoading(true)
     const token = await AsyncStorage.getItem('token')
     try {
-      const response = await axios.post(`${base_url}/quick-sell/create-product`, 
+      const response = await axios.post(`${base_url}/quick-sell/create-product`,
         {
           images: selectedImages,
           name: productName,
@@ -181,17 +181,17 @@ const QuickSell = () => {
       if (axios.isAxiosError(error)) {
         console.log('Error response:', error.response);
         if (error.response?.status === 500) {
-            Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
-            console.log(error.message)
+          Alert.alert('Server Error', `An error occurred on the server. Please try again later, ${error.response?.data.message}`);
+          console.log(error.message)
         } else if (error.response?.status === 401) {
-            Alert.alert('Unauthorized', 'Please check your token and try again.');
+          Alert.alert('Unauthorized', 'Please check your token and try again.');
         } else {
-            Alert.alert('Error', `Something went wrong, please try again`);
-            console.log('Something went wrong, please try again', error.message)
+          Alert.alert('Error', `${error.response?.data.message}`);
+          console.log('Something went wrong, please try again', error.message)
         }
-    } else {
+      } else {
         Alert.alert('Error', 'An unexpected error occurred');
-    }
+      }
     }
   }
 
@@ -364,12 +364,12 @@ const QuickSell = () => {
             />
           </View>
         </View>
-        <TouchableOpacity style={styles.button} onPress={() =>handleQuickSellUpload()} >
+        <TouchableOpacity style={styles.button} onPress={() => handleQuickSellUpload()} >
           {
             loading ?
-            <ActivityIndicator size='small' color="#ffffff" />
-            :
-            <Text style={styles.buttonText1}>Finish</Text>}
+              <ActivityIndicator size='small' color="#ffffff" />
+              :
+              <Text style={styles.buttonText1}>Finish</Text>}
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -525,7 +525,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   textInputContainer2: {
-    
+
     marginBottom: 40.29
   },
 })

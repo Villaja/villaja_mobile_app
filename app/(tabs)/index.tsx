@@ -55,7 +55,7 @@ const categoryData = [
     link:'/categoryCatalog/Phones'
   },
   {
-    name: "Laptop",
+    name: "Laptops",
     image: require('../../assets/images/laptop.png'),
     link:'/categoryCatalog/Computers'
 

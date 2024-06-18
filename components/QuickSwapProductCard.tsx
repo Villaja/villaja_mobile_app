@@ -4,28 +4,28 @@ import { AntDesign } from "@expo/vector-icons";
 import  Colors  from "../constants/Colors";
 import { Product } from '../types/Product';
 
-interface QuickSellProductCardProps {
+interface QuickSwapProductCardProps {
     product: any;
-    handleDeleteQuickSellProducts: (productId: string) => void;
+    handleDeleteQuickSwapProducts: (productId: string) => void;
   }
 
 
-const QuickSellProductCard: React.FC<QuickSellProductCardProps> = ({product, handleDeleteQuickSellProducts}) => {
+const QuickSwapProductCard: React.FC<QuickSwapProductCardProps> = ({product, handleDeleteQuickSwapProducts}) => {
   return (
     <View style={styles.container} key={product._id} >
             <View style={styles.wrapper}  >
                 <View style={styles.productWrapper} >
-                    <Image source={{ uri: product.images[0]?.url }} style={styles.image} />
+                    <Image source={{ uri: product.userProductImages[0]?.url }} style={styles.image} />
                     <View style={styles.productInfo} >
-                        <Text numberOfLines={2} style={styles.productName} >{product.name}</Text>
-                        <Text style={styles.productPrice} >₦{product.price.toLocaleString()}</Text>
+                        <Text numberOfLines={2} style={styles.productName} >{product.userProductName}</Text>
+                        <Text style={styles.productPrice} >₦{product.userProductPrice.toLocaleString()}</Text>
                         <Text style={styles.productDiscountPrice} >₦0</Text>
                     </View>
                 </View>
                 {/*<TouchableOpacity style={styles.editButton} >
                     <Text style={styles.editButtonText} >Edit Product</Text>
                 </TouchableOpacity>*/}
-                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteQuickSellProducts(product._id)} >
+                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDeleteQuickSwapProducts(product._id)} >
                     <Text style={styles.deleteButtonText} >Remove Product</Text>
                 </TouchableOpacity>
             </View>
@@ -124,5 +124,5 @@ const styles = StyleSheet.create({
 })
 
 
-export default QuickSellProductCard
+export default QuickSwapProductCard
 

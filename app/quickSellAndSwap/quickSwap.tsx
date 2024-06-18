@@ -212,7 +212,7 @@ const quickSwap = () => {
                         </View>
                     </View>
                     <View style={styles.inputContainer}>
-                        {/*Product name input*/}
+                        {/*Price input*/}
                         <Text style={styles.text}>Price</Text>
                         <View style={styles.textInput}>
                             <TextInput
@@ -220,7 +220,7 @@ const quickSwap = () => {
                                 placeholder="Product Price"
                                 value={productPrice}
                                 onChangeText={(text) => setProductPrice(text)}
-
+                                keyboardType='number-pad'
                             />
                         </View>
                     </View>
