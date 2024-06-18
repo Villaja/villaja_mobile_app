@@ -7,6 +7,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from "../../context/SellerAuthContext";
 import { Link, useRouter } from 'expo-router';
+import Colors from '../../constants/Colors';
 
 
 const { width } = Dimensions.get('window')
@@ -64,7 +65,12 @@ const sellerRegister = () => {
   const [accessoriesNiche, setAccessoriesNiche] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState("");
   const [backgroundImage, setBackgroundImage] = useState("");
-  const {submit, isLoading, error, seller} = useAuth()
+  const [password, setPassword] = useState('');
+
+
+  const [passwordVisible, setPasswordVisisble] = useState<boolean>(true)
+  const [confirmPasswordVisible, setConfirmPasswordVisisble] = useState<boolean>(true)
+  const {register, isLoading, error, seller} = useAuth()
   const router = useRouter()
 
   const renderStates = (item) => {
@@ -130,12 +136,14 @@ const sellerRegister = () => {
 
     const handleGetStartedButton = async () => {
       try {
-        await submit(shopName, handler, handlerPhoneNumber, shopEmailAddress, shopAddress,
-          addressState, zipCode, phonesNiche, laptopNiche, tabletsNiche, accessoriesNiche,
-          profileImage, backgroundImage
-        )
+        // await submit(shopName, handler, handlerPhoneNumber, shopEmailAddress, shopAddress,
+        //   addressState, zipCode, phonesNiche, laptopNiche, tabletsNiche, accessoriesNiche,
+        //   profileImage, backgroundImage
+        // )
+        // the backend endpoint does not store most of these values
+        await register(shopName, shopEmailAddress, password, shopAddress, profileImage, handlerPhoneNumber, zipCode)
         Alert.alert('Verify Your Account', 'Please check your e-mail to activate your account with the verification code', [{text: "OK"}]);
-        router.replace('/(modals)/otp')
+        router.replace('/sellerAuthScreens/SellerLogin')
       } catch (error) {
         Alert.alert('Registration Failed', 'Unable to register, please try again', [{text: "OK"}]); 
         console.log(error)
@@ -195,6 +203,25 @@ const sellerRegister = () => {
             />
           </View>
         </View>
+        <View style={styles.inputContainer}>
+            <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15, color: 'rgba(0,0,0,0.70)' }}>Password</Text>
+            <View style={styles.textInput}>
+            <TextInput style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }} secureTextEntry={passwordVisible} placeholder='Enter Your Password' value={password} returnKeyType="done"
+              onChangeText={(text) => setPassword(text)} placeholderTextColor={'rgba(0,0,0,0.20)'} />
+            <TouchableOpacity style={{ position: 'absolute', right: 6, top: 36 }} onPress={() => setPasswordVisisble(oldvalue => !oldvalue)}>
+              <AntDesign name="eye" size={18} color={Colors.grey} />
+            </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15, color: 'rgba(0,0,0,0.70)' }}>Confirm Password</Text>
+            <View style={styles.textInput}>
+            <TextInput style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }} returnKeyType="done" secureTextEntry={confirmPasswordVisible} placeholder='Confirm Your Password' placeholderTextColor={'rgba(0,0,0,0.20)'} />
+            <TouchableOpacity style={{ position: 'absolute', right: 6, top: 36 }} onPress={() => setConfirmPasswordVisisble(oldvalue => !oldvalue)}>
+              <AntDesign name="eye" size={18} color={Colors.grey} />
+            </TouchableOpacity>
+            </View>
+          </View>
         <View style={styles.inputContainer}>
           {/*shop address input*/}
           <Text style={styles.text}>Shop Address</Text>

@@ -70,25 +70,27 @@ const SellerAuthProvider = ({ children }) => {
     }
   };
 
-//   const register = async (firstname, lastname, phoneNumber, email, password) => {
-//     try {
-//       dispatch({ type: 'SET_LOADING', payload: true });
-
-//       const response = await axios.post(`https://api-villaja.cyclic.app/api/user/register`, { firstname, lastname, email, phoneNumber, password });
 
 
-//       dispatch({ type: 'SET_TOKEN', payload: response.data.token });
-//       await AsyncStorage.setItem('token', response.data.token);
+  const register = async (name, email, password, address, avatar, phoneNumber, zipCode) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+
+      const response = await axios.post(`${base_url}/shop/create-shop`, { name, email, password, address, avatar, phoneNumber, zipCode });
+
+
+      dispatch({ type: 'SET_TOKEN', payload: response.data.token });
+      await AsyncStorage.setItem('token', response.data.token);
 
      
-//       console.log("register success")
-//     } catch (error) {
-//       console.error('Registration failed:', error);
-//       dispatch({ type: 'SET_ERROR', payload: 'Registration failed' });
-//     } finally {
-//       dispatch({ type: 'SET_LOADING', payload: false });
-//     }
-//   };
+      console.log("register success")
+    } catch (error) {
+      console.error('Registration failed:', error.response.data);
+      dispatch({ type: 'SET_ERROR', payload: 'Registration failed' });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  };
 
   const getSellerDetails = async (token) => {
     try {
@@ -120,6 +122,7 @@ const SellerAuthProvider = ({ children }) => {
     <SellerAuthContext.Provider
       value={{
         ...state,
+        register,
         login,
         logout,
       }}
@@ -139,3 +142,5 @@ const useAuth = () => {
 
 
 export { SellerAuthProvider, useAuth };
+
+

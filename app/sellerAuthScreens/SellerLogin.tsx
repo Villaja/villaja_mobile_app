@@ -76,7 +76,7 @@ const SellerLogin = () => {
             onPress={(isChecked: boolean) => { setToggleCheckBox(isChecked) }}
           />
 
-          <Link href={'/(modals)/forgotPassword'}>
+          <Link href={'/(modals)/forgotPassword?user_type=shop'}>
             <Text style={{ color: Colors.grey, textDecorationLine: 'underline', fontSize: 10, fontFamily: 'roboto-condensed' }}>Forgot Your Password?</Text>
           </Link>
         </View>
@@ -87,7 +87,7 @@ const SellerLogin = () => {
           </TouchableOpacity>
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: "#00000050", fontWeight: "500" }}>Don't have and account?</Text>
-            <Link href='/(modals)/register'> <Text style={{ fontFamily: 'roboto-condensed-sb', color: Colors.primary }}>Sign Up</Text></Link>
+            <Link href='/sellerAuthScreens/sellerRegister'> <Text style={{ fontFamily: 'roboto-condensed-sb', color: Colors.primary }}>Sign Up</Text></Link>
           </View>
         </View>
 

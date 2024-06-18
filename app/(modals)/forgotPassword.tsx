@@ -2,11 +2,14 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from '../../constants/Colors'
-import { Link } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 
 const Page = () => {
   const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(false)
   const [passwordVisible,setPasswordVisisble] = useState<boolean>(true)
+  const { user_type } = useLocalSearchParams();
+  console.log('Here', user_type)
+
 
   return (
     <View style={styles.container}>
@@ -15,7 +18,7 @@ const Page = () => {
       <Text style={styles.headerInfo}>To Change Your Password, Please Select Method Of Recovery</Text>
       </View>
     
-    <Link href={'/(modals)/recovery'} style={{marginVertical: 30,alignSelf:'center',flexGrow:1}}>
+    <Link href={`/(modals)/recovery?user_type=${user_type}`} style={{marginVertical: 30,alignSelf:'center',flexGrow:1}}>
       <TouchableOpacity >
         <Image source={require('../../assets/images/email.png')} style={{width: 320, height: 143}} />
       </TouchableOpacity>
