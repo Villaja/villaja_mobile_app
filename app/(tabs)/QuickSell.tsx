@@ -41,7 +41,8 @@ const QuickSell = () => {
             setProductExists(false)
           }
         } else {
-          return router.replace('/modals/login')
+          router.replace('/(modals)/login')
+          Alert.alert('Hello', 'Please log in to sell or swap a used product')
         }
       } catch (error) {
         setProductExists(false)
@@ -93,7 +94,8 @@ const QuickSell = () => {
             setSwapProductExists(false)
           }
         } else {
-          return router.replace('/modals/login')
+          router.replace('/(modals)/login');
+          Alert.alert('Hello', 'Please log in to sell or swap a used product');
         }
       } catch (error) {
         setSwapProductExists(false)
