@@ -28,63 +28,192 @@ const testUser = {
 const carouselData = [
   {
     id: 1,
-    device: "Apple Watch Gen 2",
-    store: 'Apple Store',
-    image: require('../../assets/images/new-smartwatch-balancing-with-hand.jpg')
+    device: "Your Everyday Phone!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads3.jpg'),
+    link:'/categoryCatalog/Phones'
+  },
+  {
+    id: 2,
+    device: "Track Your Health!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads5.jpg'),
+    link:'/categoryCatalog/Smart Watches'
+  },
+  {
+    id: 3,
+    device: "For Office and School!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads12.jpg'),
+    link:'/categoryCatalog/Tablets'
+  },
+  {
+    id: 4,
+    device: "Escape The Noise!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/sonyheadphones.png'),
+    link:'/categoryCatalog/Earphones and Headphones'
+  },
+  {
+    id: 5,
+    device: "Phones That Match Your Lifestyle!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads.jpg'),
+    link:'/categoryCatalog/Phones'
+  },
+
+  {
+    id: 6,
+    device: "Find Your Ideal Phone!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads2.jpg'),
+    link:'/categoryCatalog/Phones'
+  },
+
+  {
+    id: 7,
+    device: "No Light Again!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads19.jpg'),
+    link:'/categoryCatalog/Chargers and More'
+  },
+  
+
+  {
+    id: 8,
+    device: "Perfect Sound, Perfect Podcast!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads8.jpg'),
+    link:'/categoryCatalog/Phones'
+  },
+
+  {
+    id: 9,
+    device: "Relax, Take A Break!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads14.jpg'),
+    link:'/categoryCatalog/Gaming'
+  },
+
+  {
+    id: 10,
+    device: "Not A Playstation Fan!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads18.jpg'),
+    link:'/categoryCatalog/Gaming'
+  },
+]
+
+const carouselData2 = [
+  {
+    id: 1,
+    device: "For Android Fans!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads20.jpg'),
+    link:'/categoryCatalog/Phones'
+  },
+
+  {
+    id: 2,
+    device: "For School and Work!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads9.jpg'),
+    link:'/categoryCatalog/Tablets'
+  },
+
+  {
+    id: 3,
+    device: "Immersive Sounds!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads21.jpg'),
+    link:'/categoryCatalog/Speakers'
+  },
+  {
+    id: 4,
+    device: "Upgrade Your Setup!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads22.jpg'),
+    link:'/categoryCatalog/Speakers'
+  },
+  {
+    id: 5,
+    device: "Sleek Cases And Covers!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads23.jpg'),
+    link:'/categoryCatalog/Cases and Covers'
   },
   {
     id: 6,
-    device: "Apple Vision Pro",
-    store: 'Apple Store',
-    image: require('../../assets/images/portrait_base__bwsgtdddcl7m_large.jpg')
+    device: "Selfie Sticks And Stands!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads24.jpg'),
+    link:'/categoryCatalog/Stands and lights'
   },
   {
     id: 7,
-    device: "Sony Wh1000xm4",
-    store: 'Sony Store',
-    image: require('../../assets/images/sonyheadphones.png')
-
-
-  }
+    device: "Relax And Have Fun!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads13.jpg'),
+    link:'/categoryCatalog/Gaming Accessories'
+  },
+  {
+    id: 8,
+    device: "Hard Drives And Flash Drives!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads25.jpg'),
+    link:'/categoryCatalog/Storage'
+  },
+  {
+    id: 9,
+    device: "Styluses And Pens!",
+    store: 'Villaja Store',
+    image: require('../../assets/images/phonesads26.jpg'),
+    link:'/categoryCatalog/Stylus and tablets'
+  },
 ]
 
 const categoryData = [
   {
+    id: 1,
     name: "Phones",
     image: require('../../assets/images/Phonecatt.png'),
     link:'/categoryCatalog/Phones'
   },
   {
+    id: 2,
     name: "Laptops",
     image: require('../../assets/images/laptop.png'),
     link:'/categoryCatalog/Computers'
 
   },
   {
+    id: 3,
     name: "Tablets",
     image: {uri:"https://m.media-amazon.com/images/I/81rBUAM2NpL._AC_SY450_.jpg"},
     link:'/categoryCatalog/Tablets'
 
   },
   {
+    id: 4,
     name: "Accessories",
     image: require('../../assets/images/Mic.png'),
     link:'/categoryCatalog/Accessories'
 
   },
   {
+    id: 5,
     name: "Watches",
     image: require('../../assets/images/watch.png'),
     link:'/categoryCatalog/Smart Watches'
 
   },
   {
+    id: 6, 
     name: "Gaming",
     image: require('../../assets/images/videogames.png'),
     link:'/categoryCatalog/Gaming'
 
   },
-
 
 ]
 
@@ -303,23 +432,22 @@ const index = () => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false} >
 
-
         <View>
           <Carousel
             data={carouselData}
             style={{ backgroundColor: '#fff' }}
-            renderItem={({ item, index }) => <View key={index}>
-
+            renderItem={({ item }) =>
+            (<View key={item.id}>
               <Image source={item.image} style={{ height: 211, width: "100%", }} resizeMode='cover' />
               <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100, fontSize: 12 }}>{item.store}</Text>
               <Text style={{ fontSize: 17, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '400', left: 20, top: 25, color: '#fff', zIndex: 100 }}>{item.device}</Text>
-              <TouchableOpacity style={styles.buyNowBtn}>
-                <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 9.92}}>BUY NOW</Text>
+              <TouchableOpacity style={styles.buyNowBtn} onPress={() => router.push({ pathname: item.link, params: { minPrice: "1", maxPrice: "5000000" } })}>
+                <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 9.92 }}>View Offers</Text>
                 <AntDesign name="arrowright" size={11} color={"#ffffff"} />
               </TouchableOpacity>
-            </View>}
+            </View>)}
             itemWidth={width}
-            // onSnapItem={(item) => console.log(item)}
+            onSnapToItem={(item) => console.log(item)}
             pagination
             autoplay
           />
@@ -371,12 +499,15 @@ const index = () => {
 
             }} >
             {
-              carouselData.map((cat, index) => (
+              carouselData2.map((cat, index) => (
                 <TouchableOpacity activeOpacity={1} key={index} style={{ alignItems: 'center', borderRadius: 5, overflow: 'hidden' }}>
                   <Image source={cat.image} style={{ width: 302, height: 406.02, borderRadius: 5 }} />
                   <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
                   <Text style={{ fontSize: 18.9, fontWeight: "500", fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
-
+                  <TouchableOpacity style={styles.buyNowBtn2} onPress={() => router.push({ pathname: cat.link, params: { minPrice: "1", maxPrice: "5000000" } })}>
+                <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 9.92}}>View Offers</Text>
+                <AntDesign name="arrowright" size={11} color={"#ffffff"} />
+              </TouchableOpacity>
                 </TouchableOpacity>
               ))
             }
@@ -449,6 +580,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'absolute',
     right: 30,
+    bottom: 15,
+
+  },
+  buyNowBtn2: {
+    backgroundColor: "#02549290",
+    width: 92,
+    borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    height: 30,
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 20,
     bottom: 15,
 
   },

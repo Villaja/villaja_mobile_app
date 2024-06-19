@@ -102,6 +102,8 @@ const cart = () => {
     {
       console.log(err);
       
+    } finally {
+      setLoading(false)
     }
     
   }
@@ -127,7 +129,7 @@ const cart = () => {
         activeTab==='Cart'?
       <ScrollView showsVerticalScrollIndicator={false} style={{padding:20,gap:16}}>
         {
-          cart && cart.length > 0? cart.map((item) => (
+          loading ? (<ActivityIndicator size={'small'} color={Colors.primary} />) : (cart && cart.length > 0? cart.map((item) => (
             <CartCard item={item} key={item._id}  handleRemoveCart={handleRemoveFromCart} />
             
           ))
@@ -138,7 +140,7 @@ const cart = () => {
             <TouchableOpacity style={[defaultStyles.btn,{paddingHorizontal:20}]} onPress={() => router.push('/')}>
               <Text style={[defaultStyles.btnText, {paddingHorizontal: 50}]}>Continue Shopping</Text>
             </TouchableOpacity>
-          </View>
+          </View>)
         }
       </ScrollView>
       :activeTab === 'Orders'?

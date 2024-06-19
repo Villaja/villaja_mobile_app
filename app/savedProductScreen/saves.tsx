@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, Alert, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, ScrollView, Alert, Dimensions, ActivityIndicator } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'expo-router';
@@ -58,6 +58,8 @@ const saves = () => {
         } catch (error) {
             console.log('error fetching wishlist', error)
             Alert.alert('Error', `could not fetch wish list: ${error}`)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -73,18 +75,18 @@ const saves = () => {
     return (
         <ScrollView style={styles.container} >
             {
-                saves && saves.length > 0 ? saves.map((item) => (
+                loading ? <ActivityIndicator size={'small'} color={Colors.primary} /> : saves && saves.length > 0 ? saves.map((item) => (
                     <SavedProductCard product={item} key={item._id} handleRemoveWishList={handleRemoveWishList} />
-                )) 
-                
-                :
-                <View style={{justifyContent: 'center', alignItems: 'center', marginTop: height/1/6}} >
-                    <LottieView source={require('../../assets/images/wishlist.json')} autoPlay loop={true}  style={{width: 150, height: 200, marginBottom: 40}} />
-                    <Text style={{fontSize: 16, color: '#00000090', fontWeight: '700', marginBottom: 20}} >No Saved Product yet</Text>
-                    <TouchableOpacity style={{paddingVertical: 14, paddingHorizontal: 35, backgroundColor: "#025492", borderRadius: 10}} onPress={() => router.push('/')} >
-                        <Text style={{color: '#ffffff', fontWeight: '500', fontSize: 14}} >Continue Shopping</Text>
-                    </TouchableOpacity>
-                </View>
+                ))
+
+                    :
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: height / 1 / 6 }} >
+                        <LottieView source={require('../../assets/images/wishlist.json')} autoPlay loop={true} style={{ width: 150, height: 200, marginBottom: 40 }} />
+                        <Text style={{ fontSize: 16, color: '#00000090', fontWeight: '700', marginBottom: 20 }} >No Saved Product yet</Text>
+                        <TouchableOpacity style={{ paddingVertical: 14, paddingHorizontal: 35, backgroundColor: "#025492", borderRadius: 10 }} onPress={() => router.push('/')} >
+                            <Text style={{ color: '#ffffff', fontWeight: '500', fontSize: 14 }} >Continue Shopping</Text>
+                        </TouchableOpacity>
+                    </View>
             }
         </ScrollView>
     )
