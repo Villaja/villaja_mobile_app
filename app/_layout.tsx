@@ -173,7 +173,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -196,7 +196,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -219,7 +219,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -242,7 +242,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -286,7 +286,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
 
                               <TouchableOpacity onPress={() => router.push('/')}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                               <Text style={{ fontFamily: 'roboto-condensed-sb', color: '#000', fontSize: 18 }}>My Orders</Text>
                             </View>
@@ -325,7 +325,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -348,7 +348,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -371,7 +371,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -394,7 +394,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -417,7 +417,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -440,7 +440,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -463,7 +463,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -486,7 +486,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -509,7 +509,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -532,7 +532,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -578,7 +578,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -601,7 +601,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -624,7 +624,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -647,7 +647,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -670,7 +670,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -699,7 +699,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -722,7 +722,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -745,7 +745,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -789,7 +789,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -812,7 +812,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -835,7 +835,7 @@ function RootLayoutNav() {
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -856,7 +856,7 @@ function RootLayoutNav() {
                           headerLeft: () => (
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -895,7 +895,7 @@ function RootLayoutNav() {
                           headerLeft: () => (
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
                               <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={20} color={"#000"} />
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
                               </TouchableOpacity>
                             </View>
                           ),
@@ -917,7 +917,7 @@ function RootLayoutNav() {
                         headerLeft: () => (
                           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
                             <TouchableOpacity onPress={() => router.back()}>
-                              <Ionicons name="arrow-back" size={20} color={"#000"} />
+                              <Ionicons name="arrow-back" size={22} color={"#000"} />
                             </TouchableOpacity>
                           </View>
                         ),

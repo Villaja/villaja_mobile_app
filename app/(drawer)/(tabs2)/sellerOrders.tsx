@@ -1,29 +1,87 @@
-import { StyleSheet, Text, View, TouchableOpacity, Button, SafeAreaView, Platform, Pressable } from 'react-native';
-import React, { useState } from 'react';
-import { Router, useRouter } from "expo-router";
-import { useAuth } from '../../../context/SellerAuthContext';
-import Colors from '../../../constants/Colors';
+import React, { useState, useEffect } from 'react'
+import { ScrollView, View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Dimensions } from "react-native";
+import SellerOrderCard from "../../../components/SellerOrderCard";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { base_url } from '../../../constants/server';
+import { useRouter } from "expo-router";
+import LottieView from "lottie-react-native";
+import Colors from "../../../constants/Colors";
+import index from '../../(tabs)';
 
 const sellerOrders = () => {
-  const router = useRouter()
-  const { logout } = useAuth()
+  const [seller, setSeller] = useState<any>([]);
+  const [token, setToken] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [allOrders, setAllOrders] = useState<any>([]);
+  const router = useRouter();
+  const {height} = Dimensions.get('window')
 
-  const handleLogout = async () => {
-    await logout()
-    router.replace('/')
-  }
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem('sellerToken')
+      const seller = await AsyncStorage.getItem('seller')
+
+      if (!token) return router.replace('/sellerAuthScreens/SellerLogin')
+      setSeller(JSON.parse(seller!).seller)
+      setToken(token)
+    }
+
+    checkToken()
+  }, []);
+
+
+  const handleGetOrders = async () => {
+    try {
+
+      const response = await axios.get(`${base_url}/order/get-seller-all-orders/${seller._id}`);
+      if (response.data.success) {
+        setAllOrders(response.data.orders);
+
+      } else {
+        console.error('Failed to fetch orders');
+      }
+
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetOrders();
+  }, [seller])
 
   return (
-    
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Button title='seller register' onPress={() => router.push('/sellerAuthScreens/sellerRegister')} />
-      <Button title='seller profile' onPress={() => router.push('/otherSellerDashBoardScreens/sellerProfile')} />
-      <Button title='Logout' onPress={() => handleLogout()} />
-      <Button title='seller Otp ' onPress={() => router.push('/sellerAuthScreens/sellerOtp')} />
-    </View>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.container} >
+      {
+        loading ? (<ActivityIndicator size="small" color={Colors.primary} style={{ marginVertical: 36 }} />) : (
+          allOrders.length > 1 ?
+            (
+              allOrders.map((order: any) => (
+                <View key={order._id}>
+                  <SellerOrderCard order={order} />
+                </View>
+              ))
+            ) : (
+              <View style={{ marginTop: height/1/3, padding: 20, gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                <LottieView source={require('../../../assets/images/not-available.json')} autoPlay loop={true} style={{ width: 50, height: 50 }} />
+                <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15 }}>No Swap Requests</Text>
+              </View>
+            )
+        )
+      }
+    </ScrollView>
   )
 }
 
-export default sellerOrders
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff'
+  }
+})
 
-const styles = StyleSheet.create({})
+export default sellerOrders

@@ -111,9 +111,9 @@ const Page: React.FC = () => {
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={22} color={"#000"} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSaveToWishList} >
+          {/* SUSPENDED FEATURE <TouchableOpacity onPress={handleSaveToWishList} >
             <FontAwesome5 name="bookmark" size={20} color="rgba(0,0,0,0.40)" />
-          </TouchableOpacity>
+          </TouchableOpacity>*/}
         </View>
       <ScrollView style={{backgroundColor: Colors.primaryUltraTransparent}} showsVerticalScrollIndicator={false}>
         
@@ -144,8 +144,8 @@ const Page: React.FC = () => {
                     <Text style={styles.title}>{productDetails?.userProductName}</Text>
                     <Text style={styles.price}>₦{productDetails?.userProductPrice.toLocaleString()}</Text>
                     
-                    <View style={{ flexDirection: 'row', gap: 8, paddingVertical: 16 }}>
-                      <TouchableOpacity style={[defaultStyles.btn, { flexBasis: '49%' }]} ><Text style={[defaultStyles.btnText, { fontSize: 16, fontFamily: 'roboto-condensed' }]}>Message For Swap</Text></TouchableOpacity>
+                    <View style={{ flexDirection: 'row', gap: 8, paddingVertical: 10 }}>
+                      <TouchableOpacity style={{backgroundColor: '#025492', paddingVertical: 15, paddingHorizontal: 20, borderRadius: 10}} ><Text style={[defaultStyles.btnText, { fontSize: 14, fontFamily: 'roboto-condensed' }]}>Message For Swap</Text></TouchableOpacity>
                     </View>
                   </View>
 
@@ -225,7 +225,7 @@ const Page: React.FC = () => {
                     }
                   </View>
 
-                  <View style={{ marginTop: 8, paddingHorizontal: 20, paddingVertical: 30, gap: 15, backgroundColor: '#fff' }}>
+                  {/*<View style={{ marginTop: 8, paddingHorizontal: 20, paddingVertical: 30, gap: 15, backgroundColor: '#fff' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                       <Text style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Profile</Text>
                       <TouchableOpacity onPress={() => router.push('/accountScreen/merchantProfile')} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, }}>
@@ -244,7 +244,7 @@ const Page: React.FC = () => {
                         <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 14 }}>{productDetails?.shop?.name}</Text>
                       </View>
                     </View>
-                  </View>
+                  </View>*/}
 
 
                   
@@ -328,7 +328,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   title: {
-    fontSize: 15,
+    fontSize: 17,
     fontFamily: 'roboto-condensed',
     textTransform: 'capitalize',
     color: '#00000090',
@@ -339,11 +339,11 @@ const styles = StyleSheet.create({
     marginVertical: 8,
   },
   price: {
-    fontSize: 30,
+    fontSize: 25,
     color: Colors.primary,
     fontFamily: 'roboto-condensed-sb',
     letterSpacing: 1,
-    paddingVertical: 8
+    paddingVertical: 5
   },
   shopName: {
     fontSize: 16,

@@ -12,9 +12,9 @@ export default function otherDrawerScreens () {
     return (
         <Stack>
             <Stack.Screen
-                name='SwapDeals'
+                name='QuickSellDeals'
                 options={{
-                    title: 'Quick Swap Deals',
+                    title: 'Quick Sell Deals',
                     headerShadowVisible: false,
                     headerStyle: {
                         

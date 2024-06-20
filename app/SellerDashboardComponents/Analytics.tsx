@@ -1,8 +1,18 @@
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
-import { AntDesign, EvilIcons, Feather } from '@expo/vector-icons'
-import Colors from '../../constants/Colors'
-import { BarChart, PieChart } from 'react-native-chart-kit'
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import React, {useState, useEffect} from 'react';
+import { AntDesign, EvilIcons, Feather } from '@expo/vector-icons';
+import Colors from '../../constants/Colors';
+import { BarChart, PieChart } from 'react-native-chart-kit';
+import { Order } from '../../types/Order';
+import { Link } from "expo-router";
+import { useRouter } from "expo-router";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { base_url } from '../../constants/server';
+
+interface SellerOrdersCardProps {
+    order: Order
+}
 
 const {width} = Dimensions.get('window')
 
@@ -65,7 +75,51 @@ const PieChartData = [
   
 ];
 
-export default function Analytics() {
+const Analytics = () => {
+  const [seller, setSeller] = useState<any>([]);
+  const [token, setToken] = useState<string>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [allOrders, setAllOrders] = useState<any>([]);
+  const router = useRouter();
+  
+
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = await AsyncStorage.getItem('sellerToken')
+      const seller = await AsyncStorage.getItem('seller')
+
+      if (!token) return router.replace('/sellerAuthScreens/SellerLogin')
+      setSeller(JSON.parse(seller!).seller)
+      setToken(token)
+    }
+
+    checkToken()
+  }, []);
+
+  const totalSales = seller?.availableBalance?.toFixed(2) || "0.00"
+
+  const handleGetOrders = async () => {
+    try {
+
+      const response = await axios.get(`${base_url}/order/get-seller-all-orders/${seller._id}`);
+      if (response.data.success) {
+        setAllOrders(response.data.orders);
+
+      } else {
+        console.error('Failed to fetch orders');
+      }
+
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleGetOrders();
+  }, [seller])
+
   return (
     <View style={styles.container}>
       <View style={styles.analyticsTop}>
@@ -75,7 +129,7 @@ export default function Analytics() {
             {/* no earnings screen to navigate to <AntDesign name='arrowright' color={'#11263C'} size={18}/>*/}
           </View>
           <View style={styles.analyticsBoxText}>
-            <Text style={styles.analyticsBoxMainText}>₦51,858</Text>
+            <Text style={styles.analyticsBoxMainText}>₦{totalSales.toLocaleString()}</Text>
             <Text style={styles.analyticsBoxPercentageText}>+55%</Text>
           </View>
           <View style={styles.analyticsBoxBottom}>
@@ -86,10 +140,12 @@ export default function Analytics() {
         <View style={styles.analyticsBox}>
           <View style={styles.analyticsBoxAction}>
             <AntDesign name='adduser' color={'#3699FF'} size={20}/>
+            <TouchableOpacity onPress={() => router.push('/(drawer)/(tabs2)/sellerOrders')} >
             <AntDesign name='arrowright' color={'#11263C'} size={18}/>
+            </TouchableOpacity>
           </View>
           <View style={styles.analyticsBoxText}>
-            <Text style={styles.analyticsBoxMainText}>1,858</Text>
+            <Text style={styles.analyticsBoxMainText}>{loading ? <ActivityIndicator size="small" color={Colors.primary} /> : allOrders.length }</Text>
             <Text style={styles.analyticsBoxPercentageText}>+55%</Text>
           </View>
           <View style={styles.analyticsBoxBottom}>
@@ -107,7 +163,7 @@ export default function Analytics() {
                             <AntDesign name='arrowright' size={15} color={Colors.grey} />
                         </View>
                         <View style={styles.salesMain}>
-                            <Text style={styles.totalSalesPrice}>₦534,987,34</Text>
+                            <Text style={styles.totalSalesPrice}>₦{totalSales.toLocaleString()}</Text>
                             <View style={styles.salesDate}>
                                 <Text style={styles.totalSalesDate}>12-Sep-22 To Date</Text>
                                 <Feather name='calendar' size={11} color={'rgba(0,0,0,0.6)'} />
@@ -148,7 +204,7 @@ export default function Analytics() {
                             <AntDesign name='arrowright' size={15} color={Colors.grey} />
                         </View>
                         <View style={styles.salesMain}>
-                            <Text style={styles.totalSalesPrice}>₦534,987,34</Text>
+                            <Text style={styles.totalSalesPrice}>₦{totalSales.toLocaleString()}</Text>
                             <View style={styles.salesDate}>
                                 <Text style={styles.totalSalesDate}>12-Sep-22 To Date</Text>
                                 <Feather name='calendar' size={11} color={'rgba(0,0,0,0.6)'} />
@@ -185,6 +241,7 @@ export default function Analytics() {
     </View>
   )
 }
+
 
 const styles = StyleSheet.create({
   container:{
@@ -321,3 +378,5 @@ const styles = StyleSheet.create({
 
     }
 })
+
+export default Analytics

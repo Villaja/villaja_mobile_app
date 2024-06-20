@@ -1,22 +1,19 @@
-import { Dimensions, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, ImageSourcePropType } from 'react-native'
-import * as React from 'react'
-import { useEffect, useState } from 'react'
-import { StatusBar } from 'expo-status-bar'
-import Colors from '../../../constants/Colors'
-import { AntDesign, EvilIcons, Feather, Ionicons } from '@expo/vector-icons'
-import {
-    BarChart,
-} from "react-native-chart-kit";
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, ImageSourcePropType, ActivityIndicator } from 'react-native'
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import Colors from '../../../constants/Colors';
+import { AntDesign, EvilIcons, Feather, Ionicons } from '@expo/vector-icons';
+import { BarChart } from "react-native-chart-kit";
 import { useNavigation } from '@react-navigation/native';
-
-import Analytics from '../../SellerDashboardComponents/Analytics'
-import Transactions from '../../SellerDashboardComponents/Transactions'
+import Analytics from '../../SellerDashboardComponents/Analytics';
+import Transactions from '../../SellerDashboardComponents/Transactions';
 // import { useAuth } from '../../../context/SellerAuthContext'
-import { Stack, router } from 'expo-router'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import axios from 'axios'
-import { ActivityIndicator } from 'react-native-paper'
-import { base_url } from '../../../constants/server'
+import { Stack, router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { base_url } from '../../../constants/server';
+import LottieView from "lottie-react-native";
 
 
 const { width } = Dimensions.get('window')
@@ -42,17 +39,71 @@ const data = {
 
 
 const SellerDashboard = () => {
+    const [seller, setSeller] = useState<any>([]);
+    const [activeTab, setActiveTab] = useState<string>("overview");
 
-    const [seller, setSeller] = useState<any>([])
-    const [token, setToken] = useState<string>()
-    const [activeTab, setActiveTab] = useState<string>("overview")
-    const [loading, setLoading] = useState<boolean>(false)
-    const [swapRequestLoading,setSwapRequestLoading] = useState<boolean>(false);
-    const [quickSellRequestLoading,setQuickSellRequestLoading] = useState<boolean>(false)
 
-    const [allOrders, setAllOrders] = useState<any>([])
-    const [swapOrders, setSwapOrders] = useState<any>([])
-    const [quickSellOrders, setQuickSellOrders] = useState<any>([])
+    useEffect(() => {
+        const checkToken = async () => {
+            const token = await AsyncStorage.getItem('sellerToken');
+            const seller = await AsyncStorage.getItem('seller');
+
+            if (!token) return router.replace('/sellerAuthScreens/SellerLogin');
+            setSeller(JSON.parse(seller!).seller);
+        }
+
+        checkToken();
+    }, [])
+
+
+
+
+    return (
+        <View style={styles.container}>
+            <Stack.Screen
+                options={{
+                    headerLeft: () => (
+                        <View style={styles.headerDashboardLeft}>
+
+                            <Image source={{ uri: seller?.avatar?.url }} resizeMode='contain' style={styles.sellerProfilePic} />
+                            <Text style={{ color: "#fff", fontSize: 10, marginBottom: 5 }}>{seller?.name}</Text>
+                        </View>
+                    ),
+                }}
+            />
+
+            <View style={styles.tabs}>
+                <TouchableOpacity style={activeTab === "overview" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('overview')}>
+                    <Text style={activeTab === "overview" ? styles.activeText : styles.tabText} >Overview</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={activeTab === "withdraw" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('withdraw')}>
+                    <Text style={activeTab === "withdraw" ? styles.activeText : styles.tabText}>Withdraw</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={activeTab === "analytics" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('analytics')}>
+                    <Text style={activeTab === "analytics" ? styles.activeText : styles.tabText}>Analytics</Text>
+                </TouchableOpacity>
+            </View>
+
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View>
+                    {activeTab === "overview" && <Overview />}
+                    {activeTab === "withdraw" && <Transactions />}
+                    {activeTab === "analytics" && <Analytics />}
+                </View>
+            </ScrollView>
+        </View>
+    )
+}
+
+const Overview = () => {
+    const navigation = useNavigation();
+    const [multiLine, setMultiLine] = useState(1);
+    const [seller, setSeller] = useState<any>([]);
+    const [token, setToken] = useState<string>();
+    const [loading, setLoading] = useState<boolean>(true);
+    const [swapOrders, setSwapOrders] = useState<any>([]);
+    const [allOrders, setAllOrders] = useState<any>([]);
+
 
 
     const handleGetOrders = async () => {
@@ -74,8 +125,7 @@ const SellerDashboard = () => {
     }
 
     const handleGetSwapRequests = async () => {
-        try
-        {
+        try {
             const response = await axios.get(`${base_url}/quick-swap/get-unsold-products`);
             if (response.data.success) {
                 setSwapOrders(response.data.unsoldQuickSwapProducts);
@@ -88,23 +138,6 @@ const SellerDashboard = () => {
             console.error('Error fetching quickswap orders:', error);
         } finally {
             setLoading(false);
-        }
-    }
-
-    const handleGetQuickSellRequests = async() => {
-        try {
-            const response = await axios.get(`${base_url}/get-all-products-user`);
-            if (response.data.success) {
-                setQuickSellOrders(response.data);
-                console.log(response)
-            } else {
-                console.error('Failed to fetch unsold quick swap orders');
-            }
-        } catch (error) {
-            console.error('Error fetching quick sell orders:', error);
-
-        } finally {
-            setLoading(false)
         }
     }
 
@@ -124,51 +157,10 @@ const SellerDashboard = () => {
     useEffect(() => {
         handleGetOrders();
         handleGetSwapRequests();
-        handleGetQuickSellRequests();
     }, [seller])
 
+    const totalSales = seller?.availableBalance?.toFixed(2) || "0.00"
 
-    return (
-        <View style={styles.container}>
-            <Stack.Screen
-                options={{
-                    headerLeft: () => (
-                        <View style={styles.headerDashboardLeft}>
-
-                            <Image source={{ uri: seller?.avatar?.url }} resizeMode='contain' style={styles.sellerProfilePic} />
-                            <Text style={{ color: "#fff", fontSize: 10, marginBottom: 5 }}>{seller?.name}</Text>
-                        </View>
-                    ),
-                }}
-            />
-
-            <View style={styles.tabs}>
-                <TouchableOpacity style={activeTab === "overview" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('overview')}>
-                    <Text style={activeTab === "overview" ? styles.activeText : styles.tabText} >Overview</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={activeTab === "transactions" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('transactions')}>
-                    <Text style={activeTab === "transactions" ? styles.activeText : styles.tabText}>Transactions</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={activeTab === "analytics" ? styles.activeTab : styles.tab} onPress={() => setActiveTab('analytics')}>
-                    <Text style={activeTab === "analytics" ? styles.activeText : styles.tabText}>Analytics</Text>
-                </TouchableOpacity>
-            </View>
-
-            <ScrollView showsVerticalScrollIndicator={false}>
-
-                <View>
-                    {activeTab === "overview" && <Overview orders={allOrders} swapOrders={swapOrders} />}
-                    {activeTab === "transactions" && <Transactions />}
-                    {activeTab === "analytics" && <Analytics />}
-                </View>
-            </ScrollView>
-        </View>
-    )
-}
-
-const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
-    const navigation = useNavigation();
-    const [multiLine, setMultiLine] = useState(1)
 
     return (
         <View>
@@ -179,7 +171,7 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
                 </TouchableOpacity>
             </View>
             {
-                swapOrders.length > 0 ?
+                loading ? <ActivityIndicator size="small" color={Colors.primary} style={{ marginVertical: 36 }} /> : swapOrders.length > 0 ?
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={
                         {
                             alignItems: 'center',
@@ -189,7 +181,7 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
 
                         }} >
                         {
-                            swapOrders.map((item:any, index:number) => (
+                            swapOrders.map((item: any, index: number) => (
                                 <View style={styles.swapContainer} key={index}>
                                     <Image source={{ uri: item.userProductImages[0].url }} resizeMode='contain' style={styles.swapImage} />
                                     <View style={styles.infoContainer}>
@@ -197,9 +189,8 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
                                         <View style={styles.info}>
                                             <Image source={require('../../../assets/images/user1.png')} resizeMode='cover' style={styles.userImage} />
                                             <View style={styles.infoContact}>
-                                                <Text style={styles.name}>{item.userProductName
-                                                }</Text>
-                                                <View style={styles.dateContainer}>  
+                                                <Text numberOfLines={1} style={styles.name}>{item.userProductName}</Text>
+                                                <View style={styles.dateContainer}>
                                                     <EvilIcons name='clock' size={14} color="rgba(0,0,0,0.4)" />
                                                     <Text style={styles.date}> {(new Date(item.createdAt)).toLocaleDateString()}</Text>
                                                 </View>
@@ -217,7 +208,7 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
                     </ScrollView>
                     :
                     <View style={{ height: 200, padding: 20, gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        <AntDesign name='frowno' size={20} color={Colors.primary} />
+                        <LottieView source={require('../../../assets/images/not-available.json')} autoPlay loop={true} style={{ width: 50, height: 50 }} />
                         <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15 }}>No Swap Requests</Text>
                     </View>
 
@@ -237,8 +228,8 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
 
                 <View style={styles.orderSection}>
                     {
-                        orders.length > 1 ?
-                            orders
+                       loading ? <ActivityIndicator size="small" color={Colors.primary} style={{ marginVertical: 36 }} /> : allOrders.length > 1 ?
+                            allOrders
                                 .filter((od: any) => od.status != "Delivered")
                                 .slice(0, 4)
                                 // .filter((od:any) => od.status === "Delivered" )
@@ -258,9 +249,9 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
 
                             :
 
-                            <View style={{ gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                                <AntDesign name='frowno' size={25} color={Colors.primary} />
-                                <Text style={{ fontFamily: 'roboto-condensed', fontSize: 17 }}>No Pending Orders</Text>
+                            <View style={{ height: 200, padding: 20, gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                                <LottieView source={require('../../../assets/images/not-available.json')} autoPlay loop={true} style={{ width: 50, height: 50 }} />
+                                <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15 }}>No Swap Requests</Text>
                             </View>
                     }
                 </View>
@@ -276,7 +267,7 @@ const Overview = ({ orders,swapOrders }: { orders: any,swapOrders:any }) => {
                             <AntDesign name='arrowright' size={15} color={Colors.grey} />
                         </View>
                         <View style={styles.salesMain}>
-                            <Text style={styles.totalSalesPrice}>₦534,987,34</Text>
+                            <Text style={styles.totalSalesPrice}>₦{totalSales.toLocaleString()}</Text>
                             <View style={styles.salesDate}>
                                 <Text style={styles.totalSalesDate}>12-Sep-22 To Date</Text>
                                 <Feather name='calendar' size={11} color={'rgba(0,0,0,0.6)'} />
@@ -424,7 +415,8 @@ const styles = StyleSheet.create({
         fontFamily: 'roboto-condensed-sb',
         fontSize: 12,
         lineHeight: 15,
-        letterSpacing: -0.18
+        letterSpacing: -0.18,
+        maxWidth: 150
     },
     dateContainer: {
         flexDirection: 'row',

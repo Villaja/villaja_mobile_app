@@ -107,7 +107,7 @@ const carouselData = [
 const carouselData2 = [
   {
     id: 1,
-    device: "For Android Fans!",
+    device: "Android Fans!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads20.jpg'),
     link:'/categoryCatalog/Phones'
@@ -115,7 +115,7 @@ const carouselData2 = [
 
   {
     id: 2,
-    device: "For School and Work!",
+    device: "School and Work!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads9.jpg'),
     link:'/categoryCatalog/Tablets'
@@ -537,7 +537,7 @@ const index = () => {
               // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
               renderSkeletonLoader(0, 4)
             ) : (
-              renderProductCards2(32, 36)
+              renderProductCards2(32, 40)
             )}
           </View>
         </View>
@@ -558,7 +558,7 @@ const index = () => {
               // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
               renderSkeletonLoader(0, 4)
             ) : (
-              renderProductCards3(40, 44)
+              renderProductCards3(41, 144)
             )}
           </View>
         </View>

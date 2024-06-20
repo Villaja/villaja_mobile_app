@@ -112,7 +112,7 @@ export function CustomDrawerContent(props:any) {
          <Drawer.Screen
             name="(swapDeals)"
             options={{
-                drawerLabel: 'Swap Deals',
+                drawerLabel: 'Quick Swap Deals',
                 title: 'Swap Deals',
                 drawerIcon: ({size, color})=>(
                     <MaterialCommunityIcons name="swap-vertical-circle-outline" size={24} color="white" />
@@ -124,21 +124,11 @@ export function CustomDrawerContent(props:any) {
             }}
             
         />
-        {/*<Drawer.Screen
-            name=""
-            options={{
-                drawerLabel: 'Swap Deals',
-                title: 'Swap Deals',
-                drawerIcon: ({size, color})=>(
-                    <AntDesign name="swap" size={size} color={color} />
-                )
-
-            }}
-        />
+        
         <Drawer.Screen
-            name=""
+            name="(quickSellDeals)"
             options={{
-                drawerLabel: 'Quick Sale',
+                drawerLabel: 'Quick Sell Deals',
                 title: 'Quick Sale',
                 drawerIcon: ({size, color})=>(
                     <MaterialIcons name="speed" size={size} color={color} />
@@ -146,6 +136,7 @@ export function CustomDrawerContent(props:any) {
 
             }}
         />
+        {/*
         <Drawer.Screen
             name=""
             options={{

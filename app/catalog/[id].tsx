@@ -241,7 +241,7 @@ const catalog = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#fff', paddingTop: Platform.OS === "android" ? 30 : 0 }}>
       <View style={styles.headerContainer}>
         <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back-outline" size={16} color={"#000"} />
+          <Ionicons name="arrow-back-outline" size={22} color={"#000"} />
         </TouchableOpacity>
         <View style={styles.searchWrapper}>
           <AntDesign name='search1' size={18} color={Colors.grey} style={styles.searchIcon} />

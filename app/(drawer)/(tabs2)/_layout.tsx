@@ -90,7 +90,16 @@ const Layout = () => {
       <Tabs.Screen
         name="sellerOrders"
         options={{
-
+          headerTitle:"Orders",
+          headerShown: true,
+          headerTitleAlign:'center',
+          headerTitleStyle:{
+            fontFamily:'roboto-condensed-sb',
+            fontSize:16,
+            letterSpacing: -0.24,
+            lineHeight: 18,
+            fontWeight: "700",
+          },
           tabBarLabel: 'Orders',
           tabBarIcon: ({ size, color }) => <MaterialCommunityIcons name="text-box-check-outline" size={20} color={color} />,
 

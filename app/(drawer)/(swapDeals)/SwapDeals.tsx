@@ -11,6 +11,7 @@ import axios, { Axios, AxiosResponse } from 'axios';
 import { Skeleton } from '@rneui/themed';
 import { Ionicons, Entypo, FontAwesome, Feather, AntDesign } from "@expo/vector-icons";
 import SwapCard from '../../../components/SwapCard';
+import SwapCard2 from '../../../components/SwapCard2';
 import Colors from '../../../constants/Colors';
 import { defaultStyles } from '../../../constants/Styles';
 
@@ -145,7 +146,7 @@ const swapDeals = () => {
                 index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
               ]}
             >
-              <SwapCard product={product} />
+              <SwapCard2 product={product} />
             </View>
           ))}
         </View>
@@ -170,18 +171,18 @@ const swapDeals = () => {
             <Entypo name='list' size={20} color='#00000090' />
           )}
         </TouchableOpacity>
-        <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '42.5%', borderWidth: 1, borderColor: "#00000010" }}>
+        {/*TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '42.5%', borderWidth: 1, borderColor: "#00000010" }}>
           <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 4 }}>
             <FontAwesome name="sort" size={15} color="#00000070" />
             <Text style={{ fontSize: 15, color: "#00000070" }}>Sort</Text>
           </View>
-        </TouchableOpacity>
+        </>
         <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '42.5%', borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#00000010" }}>
           <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 4 }}>
             <Feather name="filter" size={15} color="#00000070" />
             <Text style={{ fontSize: 15, color: "#00000070" }}>Filter</Text>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
       </View>
       <View style={{ paddingHorizontal: 20, backgroundColor: "#FAFBFD" }}>
         <View style={{ marginTop: 20, backgroundColor: "#FAFBFD" }}>
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff"
   },
   gridContainer: {
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
     // paddingHorizontal: 8,

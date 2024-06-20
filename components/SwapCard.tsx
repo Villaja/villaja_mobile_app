@@ -16,7 +16,7 @@ const SwapCard: React.FC<any> = ({ product }) => {
           <View style={styles.imgContainer}>
             <Image style={styles.image} source={{ uri: product.userProductImages[0]?.url }} />
           </View>
-          <Text style={styles.title}>{product.userProductName.length < 30 ? product.userProductName : product.userProductName.slice(0, 30) + '...'}</Text>
+          <Text numberOfLines={2} style={styles.title}>{product.userProductName.length < 30 ? product.userProductName : product.userProductName.slice(0, 30) + '...'}</Text>
           <Text style={styles.price}>{'₦' + (product.userProductPrice === 0 ? product.userProductPrice?.toLocaleString() : product.userProductPrice?.toLocaleString())} </Text>
           <Text style={styles.discountPrice}></Text>
           {/* <Text style={styles.shopName}>{product.shop?.name}</Text> */}
@@ -57,9 +57,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'roboto-condensed-sb',
     color: '#00000080',
-    marginTop: 7,
-    marginBottom: 9,
-    minHeight: 30
+    marginTop: 30,
+    maxWidth: 280,
   },
   price: {
     fontSize: 17,
