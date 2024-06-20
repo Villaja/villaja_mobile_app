@@ -57,7 +57,7 @@ const sellerOrders = () => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container} >
       {
-        loading ? (<ActivityIndicator size="small" color={Colors.primary} style={{ marginVertical: 36 }} />) : (
+        loading ? (<ActivityIndicator size="small" color={Colors.primary} style={{ marginTop: height/1/3 }} />) : (
           allOrders.length > 1 ?
             (
               allOrders.map((order: any) => (
@@ -80,7 +80,7 @@ const sellerOrders = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
   }
 })
 

@@ -12,7 +12,7 @@ const SellerOrderCard: React.FC<SellerOrdersCardProps> = ({ order }) => {
     const router = useRouter();
 
     return (
-        <TouchableOpacity style={{ marginHorizontal: 20, borderBottomWidth: 3, borderBottomColor: '#00000005', flexDirection: 'row', alignItems: 'center', gap: 10 }} key={order._id} onPress={() => router.push(`/order/${order._id}`)} >
+        <TouchableOpacity style={{ marginHorizontal: 20, borderBottomWidth: 3, borderBottomColor: '#00000005', flexDirection: 'row', alignItems: 'center', gap: 10 }} key={order._id} onPress={() => router.push(`/approveOrder/${order._id}`)} >
             <Image source={{ uri: order.cart[0].images[0].url }} style={{ width: 93, height: 93, marginVertical: 10, borderRadius: 3 }} resizeMode='contain' />
             <View>
                 <Text style={{ fontFamily: 'roboto-condensed-m', fontSize: 14, color: '#828282', maxWidth: 200 }} numberOfLines={1} >{order.cart[0].name}</Text>

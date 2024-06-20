@@ -92,13 +92,16 @@ const Page = () => {
                     </View>
                     <View>
                       <Text style={{fontSize: 13, color: '#00000080'}} >Order Status</Text>
-                      <Text style={{fontSize: 14, fontWeight: '700', color: 'green'}} >{orderDetails.paymentInfo.status}</Text>
+                      <Text style={{ fontSize: 14, fontWeight: '700', color: 'green' }} >{orderDetails.paymentInfo.status}</Text>
                     </View>
                   </View>
-                  <View style={{ paddingHorizontal: 20, justifyContent: 'center', alignItems: 'center' }} >
-                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                      <Text style={{fontSize: 13, color: '#00000080'}} >Quantity</Text>
-                      <Text style={{fontSize: 14, fontWeight: '700', color: '#00000099'}} >{orderDetails.cart[0].stock}</Text>
+                  <View style={{ paddingHorizontal: 20 }} >
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
+                      {/* THIS FEATURE IS ONLY NEEDED FOR THE SELLER OF THE PRODUCT <View style={{justifyContent: 'center', alignItems: 'center'}} >
+                        <Text style={{ fontSize: 13, color: '#00000080' }} >Quantity</Text>
+                        <Text style={{ fontSize: 14, fontWeight: '700', color: '#00000099' }} >{orderDetails.cart[0].stock}</Text>
+                      </View>*/}
+                      <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >You would receive an email progress alert once it is on its way</Text>
                     </View>
                   </View>
                 </View>

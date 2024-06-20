@@ -447,7 +447,7 @@ const index = () => {
               </TouchableOpacity>
             </View>)}
             itemWidth={width}
-            onSnapToItem={(item) => console.log(item)}
+            //onSnapToItem={(item) => console.log(item)}
             pagination
             autoplay
           />
