@@ -128,7 +128,7 @@ function RootLayoutNav() {
                             fontSize: 18
                           },
                           headerLeft: () => (
-                            <TouchableOpacity onPress={() => router.back()}>
+                            <TouchableOpacity onPress={() => router.replace('/')}>
                               <Ionicons name="close-outline" size={20} />
                             </TouchableOpacity>
                           ),
@@ -793,6 +793,26 @@ function RootLayoutNav() {
                         }}
                       />
 
+                      <Stack.Screen
+                        name="accountScreen/[id]"
+                        options={{
+                          // presentation: 'modal',
+                          title: "Merchant's Profile",
+                          headerShadowVisible: false,
+                          headerStyle: {
+                            backgroundColor: 'transparent'
+                          },
+                          headerTitleStyle: {
+                            fontSize: 18
+                          },
+                          headerLeft: () => (
+                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
+                              <TouchableOpacity onPress={() => router.back()}>
+                                <Ionicons name="arrow-back" size={22} color={"#000"} />
+                              </TouchableOpacity>
+                            </View>
+                          ),
+                        }} />
                       <Stack.Screen
                         name="accountScreen/merchantProfile"
                         options={{

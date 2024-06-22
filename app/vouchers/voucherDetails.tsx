@@ -20,7 +20,7 @@ export default function voucherDetails() {
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.mainContainer}>
-            <View style={{height: height - 100}} >
+            <View style={{height: height - 100,alignItems:'center'}} >
                 <View style={styles.voucherContainer}>
                     <View>
                         <Svg width="335" height="93" viewBox="0 0 335 93" fill="none">
@@ -77,9 +77,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#FDFFFF",
     },
     voucherContainer: {
-        marginHorizontal: 15,
+        // marginHorizontal: 15,
         paddingVertical: 15,
-        width: 455,
+        width: 335,
     },
     image1: {
         width: 335,
@@ -114,10 +114,10 @@ const styles = StyleSheet.create({
     },
     section2: {
         marginTop: 50,
-        width: 300,
-        paddingHorizontal: 20,
+        width:"100%",
+        paddingHorizontal: 40,
         height: 190,
-        left: 32,
+        // left: 32,
         position: "relative",
     },
     textLine: {

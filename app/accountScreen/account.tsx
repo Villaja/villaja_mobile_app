@@ -686,15 +686,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff"
     },
     userIconContainer: {
-        top: 28,
-
-        height: 180
+        // top: 28,
+        flexDirection:'row',
+        justifyContent:'center',
+        // height: 180
     },
     userIcon: {
         top: 30,
         height: 150,
         width: 150,
-        marginHorizontal: 106,
+        // marginHorizontal: 106,
         borderRadius: 150,
 
     },
@@ -724,9 +725,9 @@ const styles = StyleSheet.create({
     accountNameContainer: {
         position: "relative",
         top: 40,
-        width: 200,
+        // width: 200,
         flex: 1,
-        marginHorizontal: 84,
+        // marginHorizontal: 84,
         justifyContent: "center",
         alignItems: "center"
     },

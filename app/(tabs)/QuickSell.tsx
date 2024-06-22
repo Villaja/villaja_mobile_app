@@ -22,11 +22,9 @@ const QuickSell = () => {
   const [swapProductExists, setSwapProductExists] = useState(false)
 
   //function to fetch QUICK SELL products for the user
-  useEffect(() => {
-    const fetchQuickSellProducts = async () => {
+  const fetchQuickSellProducts = async () => {
       const token = await AsyncStorage.getItem('token');
       try {
-        if (user) {
           const response = await axios.get(`${base_url}/quick-sell/get-all-products-user`,
             {
               headers: {
@@ -40,10 +38,7 @@ const QuickSell = () => {
             console.log('Failed to fetch unsold quick sell orders')
             setProductExists(false)
           }
-        } else {
-          router.replace('/(modals)/login')
-          Alert.alert('Hello', 'Please log in to sell or swap a used product')
-        }
+        
       } catch (error) {
         setProductExists(false)
         let errorMessage = 'An unknown error occurred';
@@ -69,16 +64,11 @@ const QuickSell = () => {
       }
     }
 
-    fetchQuickSellProducts();
-  }, [user, router]);
-
-
   //function to fetch QUICK SWAP products for the user
-  useEffect(() => {
-    const fetchQuickSwapProducts = async () => {
+  const fetchQuickSwapProducts = async () => 
+      {
       const token = await AsyncStorage.getItem('token');
       try {
-        if (user) {
           const response = await axios.get(`${base_url}/quick-swap/get-user-products`,
             {
               headers: {
@@ -93,10 +83,7 @@ const QuickSell = () => {
             console.log('Failed to fetch unsold quick swap orders')
             setSwapProductExists(false)
           }
-        } else {
-          router.replace('/(modals)/login');
-          Alert.alert('Hello', 'Please log in to sell or swap a used product');
-        }
+        
       } catch (error) {
         setSwapProductExists(false)
         if (axios.isAxiosError(error)) {
@@ -118,7 +105,17 @@ const QuickSell = () => {
       }
     }
 
-    fetchQuickSwapProducts();
+  useEffect(() => {
+    if(user)
+      {
+        fetchQuickSellProducts();
+        fetchQuickSwapProducts();
+      }
+      else
+      {
+        router.replace('/(modals)/login');
+        Alert.alert('Hello', 'Please log in to sell or swap a used product');
+      }
   }, [user, router]);
 
 

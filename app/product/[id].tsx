@@ -325,7 +325,7 @@ const Page: React.FC = () => {
                   <View style={{ marginTop: 8, paddingHorizontal: 20, paddingVertical: 30, gap: 15, backgroundColor: '#fff' }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                       <Text style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Profile</Text>
-                      <TouchableOpacity onPress={() => router.push('/accountScreen/merchantProfile')} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, }}>
+                      <TouchableOpacity onPress={() => router.push(`/accountScreen/${productDetails?.shop._id}`)} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, }}>
                         <Text style={{ fontFamily: 'roboto-condensed', fontSize: 12, color: Colors.primary }}>View Profile</Text>
                         <MaterialIcons name='keyboard-arrow-right' color={Colors.primary} size={16} />
                       </TouchableOpacity>

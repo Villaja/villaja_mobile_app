@@ -7,7 +7,12 @@ import { useRouter } from "expo-router";
 function voucherList() {
     const router = useRouter()
     return (
-        <ScrollView style={styles.mainContainer}>
+        <ScrollView style={styles.mainContainer} contentContainerStyle={
+            {
+
+                alignItems:'center',
+            }
+        }>
             <TouchableOpacity style={styles.voucherContainer} onPress={() => router.push('/vouchers/voucherDetails')}>
                 <View>
                     <Svg width="335" height="93" viewBox="0 0 335 93" fill="none">
@@ -45,13 +50,14 @@ export default voucherList
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        backgroundColor: "#ffffff"
+        backgroundColor: "#ffffff",
     },
     voucherContainer: {
         top: 10,
-        marginHorizontal: 15,
+        // marginHorizontal: 15,
         paddingVertical: 35,
-        width: 455,
+        width: 335,
+        // justifyContent:'center'
     },
     image1: {
         width: 335,

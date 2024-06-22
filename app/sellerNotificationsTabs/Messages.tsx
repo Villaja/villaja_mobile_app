@@ -128,7 +128,7 @@ const Messages = () => {
                         ))
 
                             :
-                            <Text>no messages</Text>
+                            <Text style={{marginHorizontal:'auto',fontFamily:'roboto-condensed',marginVertical:20}}>no messages</Text>
                 }
             </ScrollView>
 
