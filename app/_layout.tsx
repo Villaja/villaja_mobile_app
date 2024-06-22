@@ -15,9 +15,9 @@ import { SellerAuthProvider } from '../context/SellerAuthContext';
 import { OrdersProvider } from '../context/OrderContext';
 import { SellerProvider } from '../context/SellerContext';
 import { QuickSwapProvider } from '../context/QuickSwapContext';
-import { QuickSellProvider } from "../context/QuickSellContext";
 import { PaperProvider } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { ProductUploadProvider } from "../context/ProductUpload";
 
 
 
@@ -76,13 +76,11 @@ function RootLayoutNav() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <PaperProvider>
-
         <SellerProvider>
-
           <AuthProvider>
             <SellerAuthProvider>
               <QuickSwapProvider>
-                <QuickSellProvider>
+                <ProductUploadProvider>
                   <OrdersProvider>
                     <Stack>
                       {/* <Stack.Screen name="(Seller)" options={{ headerShown: false }} /> */}
@@ -772,30 +770,6 @@ function RootLayoutNav() {
                         }}
                       />
                       <Stack.Screen
-                        name="otherSellerDashBoardScreens/sellerProfile"
-                        options={{
-                          // presentation: 'modal',
-                          title: "Your Profile",
-                          headerShadowVisible: false,
-                          headerStyle: {
-                            backgroundColor: 'transparent'
-                          },
-                          headerTitleStyle: {
-
-                            fontSize: 18,
-                            fontWeight: "200"
-                          },
-                          headerLeft: () => (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-
-                              <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={22} color={"#000"} />
-                              </TouchableOpacity>
-                            </View>
-                          ),
-                        }}
-                      />
-                      <Stack.Screen
                         name="sellerAuthScreens/sellerOtp"
                         options={{
                           // presentation: 'modal',
@@ -818,29 +792,7 @@ function RootLayoutNav() {
                           ),
                         }}
                       />
-                      <Stack.Screen
-                        name="otherSellerDashBoardScreens/editSellerProfile"
-                        options={{
-                          // presentation: 'modal',
-                          title: 'Account',
-                          headerShadowVisible: false,
-                          headerStyle: {
-                            backgroundColor: 'transparent'
-                          },
-                          headerTitleStyle: {
-                            fontFamily: 'roboto-condensed-sb',
-                            fontSize: 18
-                          },
-                          headerLeft: () => (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
 
-                              <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={22} color={"#000"} />
-                              </TouchableOpacity>
-                            </View>
-                          ),
-                        }}
-                      />
                       <Stack.Screen
                         name="accountScreen/merchantProfile"
                         options={{
@@ -945,18 +897,12 @@ function RootLayoutNav() {
                         }} />
                     </Stack>
                   </OrdersProvider>
-                </QuickSellProvider>
+                </ProductUploadProvider>
               </QuickSwapProvider>
             </SellerAuthProvider>
-
           </AuthProvider>
         </SellerProvider>
-
       </PaperProvider>
-
-
     </GestureHandlerRootView>
-
-
   );
 }

@@ -35,7 +35,19 @@ export default function MyStack() {
       />
       <Stack.Screen
         name="editSellerProfile"
-        options={{ title: 'Edit Profile' }}
+        options={{
+          // presentation: 'modal',
+          title: 'Edit Profile',
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: '#ffffff'
+          },
+          headerTitleStyle: {
+            fontFamily: 'roboto-condensed-sb',
+            fontSize: 18
+          },
+
+        }}
       />
     </Stack>
   );

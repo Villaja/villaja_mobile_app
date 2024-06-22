@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
-import { ScrollView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
+import { ScrollView, View, Text, TextInput, Image, StyleSheet, TouchableOpacity, Dimensions, Alert, ActivityIndicator } from 'react-native'
 import { useSeller } from '../../context/SellerContext';
 import { Dropdown } from "react-native-element-dropdown";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from "expo-router";
-
+import { useProductUpload } from "../../context/ProductUpload";
+import { useAuth } from "../../context/SellerAuthContext";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import { base_url } from '../../constants/server';
 const { width } = Dimensions.get("window")
+
+
 
 const options = [
   { label: 'Brand New', value: '1' },
@@ -16,10 +22,10 @@ const options = [
 ];
 
 const options2 = [
-  { label: 'No Faults', value: '1' },
-  { label: 'Small Crack', value: '2' },
-  { label: 'Minor Crack', value: '3' },
-  { label: 'Huge Crack', value: '4' },
+  { label: 'Headphones', value: '1' },
+  { label: 'Charger and cable', value: '2' },
+  { label: 'Original Box', value: '3' },
+  { label: 'No accessories', value: '4' }
 ];
 
 const options3 = [
@@ -103,14 +109,16 @@ const options8 = [
 ]
 
 const addProducts = () => {
-  const { addValue } = useSeller()
-  const router = useRouter()
+  const router = useRouter();
+  const {seller} = useAuth();
+  const {productUploadPayload} = useProductUpload();
   const [brandName, setBrandName] = useState("");
   const [modelName, setModelName] = useState("");
-  const [mainCamera, setMainCamera] = useState("");
-  const [batteryCapacity, setBatteryCapacity] = useState("");
+  const [weight, setWeight] = useState("");
+  const [serialNumber, setSerialNumber] = useState("");
+  //const [batteryCapacity, setBatteryCapacity] = useState("");
   const [gadgetCondition, setGadgetCondition] = useState<string | null>(null);
-  const [otherConditions, setOtherConditions] = useState<string | null>(null);
+  const [comesWith, setComesWith] = useState<string | null>(null);
   const [storageCapacity, setStorageCapacity] = useState<string | null>(null);
   const [ramSize, setRamSize] = useState<string | null>(null);
   const [displayType, setDisplayType] = useState<string | null>(null);
@@ -125,6 +133,7 @@ const addProducts = () => {
   const [isFocus6, setIsFocus6] = useState<boolean>(false);
   const [isFocus7, setIsFocus7] = useState<boolean>(false);
   const [isFocus8, setIsFocus8] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const renderLabel1 = () => {
     if (gadgetCondition || isFocus1) {
@@ -137,7 +146,7 @@ const addProducts = () => {
   };
 
   const renderLabel2 = () => {
-    if (otherConditions || isFocus2) {
+    if (comesWith || isFocus2) {
       return (
         <Text style={[styles.label, isFocus2 && { color: "#025492" }]}>
           Select other conditions
@@ -207,25 +216,69 @@ const addProducts = () => {
   };
 
 
+  const shopId = seller?.seller._id
 
 
 
-  const handleScreenSubmit = () => {
-    addValue({
-      brandName,
-      modelName,
-      mainCamera,
-      batteryCapacity,
-      gadgetCondition,
-      otherConditions,
-      storageCapacity,
-      ramSize,
-      displayType,
-      simCard,
-      operatingSystem,
-      warranty,
-    })
-  };
+  const handleProductUploadSubmit = async() => {
+    setLoading(true);
+  
+    try {
+      const productUploadPayloadJSON = productUploadPayload
+
+      const finalProductUploadPayload = {
+        ...productUploadPayloadJSON,
+        brand: brandName,
+        model: modelName,
+        condition: gadgetCondition,
+        inTheBox: comesWith,
+        internalMemory: storageCapacity,
+        memorySize: ramSize,
+        serialNumber: serialNumber,
+        cellularTechnology: simCard,
+        os: operatingSystem,
+        tags: warranty
+      }
+
+      const token = await AsyncStorage.getItem('sellerToken');
+
+      const response = await axios.post(`${base_url}/product/create-product`,
+        finalProductUploadPayload,
+
+        {
+          headers: {
+            Authorization: token,
+          },
+          withCredentials: true
+        }
+      )
+
+      if (response.data.success) {
+        Alert.alert('Upload Success', 'Your product has been successfully uploaded');
+        setLoading(false);
+        router.replace('/(drawer)/(tabs2)/sellerDashboard')
+      } else {
+        setLoading(false)
+        return console.log('error creating swap request');
+      }
+    } catch (error) {
+      setLoading(false);
+      if (axios.isAxiosError(error)) {
+        console.log('Error response:', error.response);
+        if (error.response?.status === 500) {
+            Alert.alert('Update Failed', 'Please delete your address with the button below before updating.');
+        } else if (error.response?.status === 401) {
+            Alert.alert('Unauthorized', 'Please check your token and try again.');
+        } else {
+            Alert.alert('Error', `Failed to upload product: ${error.response?.data.message}`);
+        }
+    } else {
+        Alert.alert('Error', 'An unexpected error occurred');
+    }
+    } finally {
+      setLoading(false)
+    }
+  }
 
 
 
@@ -277,7 +330,7 @@ const addProducts = () => {
               onFocus={() => setIsFocus1(true)}
               onBlur={() => setIsFocus1(false)}
               onChange={item => {
-                setGadgetCondition(item.value);
+                setGadgetCondition(item.label);
                 setIsFocus1(false);
               }}
               renderLeftIcon={() => (
@@ -293,7 +346,7 @@ const addProducts = () => {
         </View>
         <View style={styles.inputContainer}>
           {/*other conditions input*/}
-          <Text style={styles.text}>Other Conditions</Text>
+          <Text style={styles.text}>Comes With</Text>
           <View style={styles.dropdownInput}>
             {renderLabel2()}
             <Dropdown
@@ -308,13 +361,13 @@ const addProducts = () => {
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder={!isFocus2 ? 'Select other conditions' : '...'}
+              placeholder={!isFocus2 ? 'Select product extras' : '...'}
               searchPlaceholder="Search..."
-              value={otherConditions}
+              value={comesWith}
               onFocus={() => setIsFocus2(true)}
               onBlur={() => setIsFocus2(false)}
               onChange={item => {
-                setOtherConditions(item.value);
+                setComesWith(item.label);
                 setIsFocus2(false);
               }}
               renderLeftIcon={() => (
@@ -351,7 +404,7 @@ const addProducts = () => {
               onFocus={() => setIsFocus3(true)}
               onBlur={() => setIsFocus3(false)}
               onChange={item => {
-                setStorageCapacity(item.value);
+                setStorageCapacity(item.label);
                 setIsFocus3(false);
               }}
               renderLeftIcon={() => (
@@ -389,7 +442,7 @@ const addProducts = () => {
               onFocus={() => setIsFocus4(true)}
               onBlur={() => setIsFocus4(false)}
               onChange={item => {
-                setRamSize(item.value);
+                setRamSize(item.label);
                 setIsFocus4(false);
               }}
               renderLeftIcon={() => (
@@ -406,23 +459,25 @@ const addProducts = () => {
         </View>
         <View style={styles.inputContainer}>
           {/*main camera input*/}
-          <Text style={styles.text}>Main Camera</Text>
+          <Text style={styles.text}>Serial Number</Text>
           <View style={styles.textInput}>
             <TextInput
               style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }}
-              placeholder="48MP/12MP or type 'None' if product has none...."
-              onChangeText={(value) => setMainCamera(value)}
+              placeholder="Enter the product's serial (this will not be displayed)"
+              value={serialNumber}
+              onChangeText={(value) => setSerialNumber(value)}
             />
           </View>
         </View>
         <View style={styles.inputContainer}>
           {/*Resolution input*/}
-          <Text style={styles.text}>Screen Resolution</Text>
+          <Text style={styles.text}>Weight</Text>
           <View style={styles.textInput}>
             <TextInput
               style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }}
-              placeholder="1920 X 1080 or type 'None' if product has none...."
-              onChangeText={(value) => setMainCamera(value)}
+              placeholder="Enter the weight of the product"
+              value={weight}
+              onChangeText={(value) => setWeight(value)}
             />
           </View>
         </View>
@@ -449,7 +504,7 @@ const addProducts = () => {
               onFocus={() => setIsFocus5(true)}
               onBlur={() => setIsFocus5(false)}
               onChange={item => {
-                setDisplayType(item.value);
+                setDisplayType(item.label);
                 setIsFocus5(false);
               }}
               renderLeftIcon={() => (
@@ -487,7 +542,7 @@ const addProducts = () => {
               onFocus={() => setIsFocus6(true)}
               onBlur={() => setIsFocus6(false)}
               onChange={item => {
-                setSimCard(item.value);
+                setSimCard(item.label);
                 setIsFocus6(false);
               }}
               renderLeftIcon={() => (
@@ -524,7 +579,7 @@ const addProducts = () => {
               onFocus={() => setIsFocus7(true)}
               onBlur={() => setIsFocus7(false)}
               onChange={item => {
-                setOperatingSystem(item.value);
+                setOperatingSystem(item.label);
                 setIsFocus7(false);
               }}
               renderLeftIcon={() => (
@@ -562,7 +617,7 @@ const addProducts = () => {
               onFocus={() => setIsFocus8(true)}
               onBlur={() => setIsFocus8(false)}
               onChange={item => {
-                setWarranty(item.value);
+                setWarranty(item.label);
                 setIsFocus8(false);
               }}
               renderLeftIcon={() => (
@@ -577,8 +632,8 @@ const addProducts = () => {
             />
           </View>
         </View>
-        <View style={styles.inputContainer}>
-          {/*Battery capacity input*/}
+        {/*<View style={styles.inputContainer}>
+          Battery capacity input
           <Text style={styles.text}>Battery Capacity</Text>
           <View style={styles.textInput}>
             <TextInput
@@ -587,11 +642,14 @@ const addProducts = () => {
               onChangeText={(value) => setBatteryCapacity(value)}
             />
           </View>
-        </View>
+        </View>*/}
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/sellerAddProductScreen/productPromotion')} >
-        <Text style={styles.buttonText1}>Next</Text>
-        <AntDesign name="arrowright" size={12} color="#ffffff" />
+      <TouchableOpacity style={styles.button} onPress={() => handleProductUploadSubmit()} >
+        {
+          loading ?
+            <ActivityIndicator size='small' color="#ffffff" />
+            :
+            <Text style={styles.buttonText1}>Finish</Text>}
       </TouchableOpacity>
     </ScrollView>
   )

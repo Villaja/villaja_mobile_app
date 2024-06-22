@@ -133,7 +133,7 @@ const carouselData2 = [
     device: "Upgrade Your Setup!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads22.jpg'),
-    link:'/categoryCatalog/Speakers'
+    link:'/categoryCatalog/Keyboards and Mice'
   },
   {
     id: 5,

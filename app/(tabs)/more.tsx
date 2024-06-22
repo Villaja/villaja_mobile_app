@@ -21,7 +21,7 @@ function more() {
     };
 
     const handleLogout = async () => {
-        await logout()
+        await logout();
         router.replace('/');
     };
     return (

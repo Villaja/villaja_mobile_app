@@ -7,25 +7,17 @@ import { useRouter } from 'expo-router';
 import { defaultStyles } from '../../../constants/Styles'
 import * as ImagePicker from 'expo-image-picker';
 import { Dropdown } from 'react-native-element-dropdown';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { useAuth } from "../../../context/SellerAuthContext";
 import { base_url } from '../../../constants/server';
+import LottieView from "lottie-react-native";
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
+import Colors from '../../../constants/Colors';
 
-interface Address {
-    _id?: string;
-    country: string;
-    state: string;
-    city: string;
-    address1: string;
-    address2: string;
-    zipCode: string;
-    addressType: string;
-};
 
 const testUser = {
     id: 1,
     name: "Tony Danza",
-    image: require("../../../assets/images/user2.png")
+    Image: require('../../../assets/images/user2.png')
 };
 
 const addressTypeData = [
@@ -34,133 +26,253 @@ const addressTypeData = [
     { label: 'Others', value: '3' }
 ];
 
-const { width } = Dimensions.get("window")
+const { width, height } = Dimensions.get("window")
+
 
 const editSellerProfile = () => {
-    const { shop } = useAuth();
-    const [seller, setSeller] = useState<any>([])
     const router = useRouter();
-    const [loading, setLoading] = useState<boolean>(true);
-    const [shopName, setShopName] = useState('');
-    const [about, setAbout] = useState(3);
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [password, setPassword] = useState('');
+    const [seller, setSeller] = useState<any>([]);
     const [token, setToken] = useState<string>();
-    const [address, setAddress] = useState<Address | null>(null);
-    const [addressTypeValue, setAddressTypeValue] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [shopName, setShopName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordSecure, setPasswordSecure] = useState(true);
+    const [address, setAddress] = useState('');
+    const [addressTypeValue, setAddressTypeValue] = useState<string | null>(null);
     const [addressModalVisible, setAddressModalVisible] = useState(false);
     const [passwordModalVisible, setPasswordModalVisible] = useState(false);
-    const [sellerImage, setSellerImage] = useState("");
-    const [oldPassword, setOldPassword] = useState("");
-    const [newPassword, setNewPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false); // State to manage password visibility
-    const oldPasswordVisible = "bighead"; // just for testing input real logic from backend for user old password
+    const [zipCode, setZipCode] = useState('');
+    const [selectedImages, setSelectedImages] = useState<string[]>([]);
+    const [description, setDescription] = useState("")
 
 
-    //fetch seller token 
+
+    //fetch seller details 
     useEffect(() => {
-        const fetchSellerDetails = async () => {
+        const fetchToken = async () => {
             const token = await AsyncStorage.getItem('sellerToken');
-            const seller = await AsyncStorage.getItem('seller');
+            const seller = await AsyncStorage.getItem('seller')
 
             if (!token) return router.replace('/sellerAuthScreens/SellerLogin')
-            setToken(token);
-            setSeller(JSON.parse(seller!).seller);
-
-            if (seller) {
-                axios.get(`${base_url}/shop/getSeller`, {
-                    headers: {
-                        Authorization: token,
-                    },
-                })
-                    .then(response => {
-                        const sellerData = response.data.seller;
-                        setShopName(sellerData.name);
-                        setAbout(sellerData.description);
-
-                    })
-            }
+            setSeller(JSON.parse(seller!).seller)
+            setToken(token)
         }
+
+        fetchToken()
     }, [])
 
 
-    // fetch shop information
+   // Functionality to select and upload a product image
+   const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      allowsEditing: true,
+      allowsMultipleSelection: false, // Denies multiple image selection
+      base64: true,
+    });
 
-
-    //
-
-
-
-    //functionality for user image upload
-    const handleImagePicker = async () => {
-        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (!permissionResult.granted) {
-            Alert.alert('Permission Denied', 'You need to grant Villaja permission to access the camera roll to upload an image.');
-            return;
-        }
-
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            quality: 1,
-        });
-
-        if (!result.canceled) {
-            setSellerImage(result.uri);
-            // You can now upload 'result.uri' to the backend database here
-        }
-    };
-
-    let displayImage;
-    if (!sellerImage) {
-        displayImage = testUser.image;
-    } else {
-        displayImage = { uri: sellerImage };
+    if (!result.canceled && result.assets.length > 0) {
+      const asset = result.assets[0];
+      const newImage = `data:image/${asset.mimeType?.split('/')[1]};base64,${asset.base64}`;
+      setSelectedImages([newImage]); // Reset and store the new image
     }
+  };
+
+
 
     const openPasswordModalVisible = () => {
         setPasswordModalVisible(true)
     }
-    const [addressForm, setAddressForm] = useState<Address>({
-        country: '',
-        state: '',
-        city: '',
-        address1: '',
-        address2: '',
-        zipCode: '',
-        addressType: 'Home',
-    });
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const storedToken = await AsyncStorage.getItem('sellerToken');
+
+            if (seller) {
+                // Fetch user details
+                axios.get(`${base_url}/shop/getSeller`, {
+                    headers: {
+                        Authorization: storedToken
+                    }
+                })
+                    .then(response => {
+                        const userData = response.data.seller;
+                        setShopName(userData.name);
+                        setPhoneNumber(userData.phoneNumber.toString());
+                        setEmail(userData.email);
+                        setAddress(userData.address ? userData.address : '');
+                        setZipCode(userData.zipCode ? userData.zipCode : '');
+                        setDescription(userData.description);
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching seller details:', error);
+                        setLoading(false);
+                    });
+            }
+        };
+
+        fetchData();
+    }, [seller]);
+
+    //functionality to handle seller profile update
+    const updateProfile = async () => {
+        const token = await AsyncStorage.getItem('sellerToken');
+        
+        try {
+            if (seller) {
+                const response = await axios.put(`${base_url}/shop/update-seller-info`, 
+                    {
+                        name: shopName,
+                        description: description,
+                        address: address,
+                        phoneNumber: phoneNumber,
+                        zipCode: zipCode
+                    },
+
+                    {
+                        headers: {
+                            Authorization: token
+                        }
+                    }
+                );
+                if (response.data.success) {
+                    Alert.alert('Success', 'Your shop profile has been successfully updated!!');
+                    console.log('shop profile successfully updated')
+                } else {
+                    Alert.alert('Error', 'Failed to update shop profile, please try again');
+                }
+            } else {
+                router.push('/sellerAuthScreens/SellerLogin');
+                Alert.alert('Unauthorized', 'Please log in to continue')
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log('Error response:', error.response);
+                if (error.response?.status === 500) {
+                    Alert.alert('Update Failed', 'Please delete your address with the button below before updating.');
+                } else if (error.response?.status === 401) {
+                    Alert.alert('Unauthorized', 'Please check your token and try again.');
+                } else {
+                    Alert.alert('Error', `Failed to update shop profile: ${error.response?.data.message}`);
+                }
+            } else {
+                Alert.alert('Error', 'An unexpected error occurred');
+            }
+        }
+    }
+
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPassword, setShowPassword] = useState<boolean>(true); // State to manage password visibility
+    const [showPassword2, setShowPassword2] = useState<boolean>(true);
+    const [showPassword3, setShowPassword3] = useState<boolean>(true);
+    const oldPasswordVisible = "VillajaUser12345"; // just for testing input real logic from backend for user old password
+
+
+{/*    const handleChangePassword = async () => {
+        if (!seller) {
+            Alert.alert('Error', 'Please Log in to change password');
+            router.replace('/(modals)/login');
+            return;
+        }
+
+        if (newPassword !== confirmPassword) {
+            Alert.alert('Error', 'Please ensure your new password matches with the confirmed password');
+            return;
+        }
+        const sellerToken = await AsyncStorage.getItem('sellerToken');
+        
+
+        try {
+            const response = await axios.post(`${base_url}/shop/reset-password`,
+
+                {
+                    oldPassword: oldPassword,
+                    newPassword: newPassword,
+                    confirmPassword: confirmPassword,
+                },
+
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: sellerToken
+                    }
+                }
+            )
+            if (response && response.data.success) {
+                Alert.alert('Success', "Your password has been successfully updated!!!");
+                console.log("User's password successfully changed", response.data);
+                setOldPassword("");
+                setNewPassword("");
+                setConfirmPassword("");
+                setPasswordModalVisible(false)
+            } else {
+                Alert.alert('Error', "Failed to change password, please try again")
+            }
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log('Error response:', error.response);
+                if (error.response?.status === 500) {
+                    Alert.alert('Success', "Your password has been successfully updated!!!");
+                    setOldPassword("");
+                    setNewPassword("");
+                    setConfirmPassword("");
+                    setPasswordModalVisible(false)
+                } else if (error.response?.status === 401) {
+                    Alert.alert('Unauthorized', 'Please check your token and try again.');
+                } else if (error.response?.status === 400) {
+                    Alert.alert('Error', 'your old password is incorrect')
+                } else {
+                    Alert.alert('Error', `Failed to update password: ${error}`);
+                }
+            } else {
+                Alert.alert('Error', 'An unexpected error occurred');
+            }
+        };
+    }*/}
 
     const openAddressModal = () => {
-        setAddressForm(address || { country: '', state: '', city: '', address1: '', address2: '', zipCode: '', addressType: 'Home' });
         setAddressModalVisible(true);
     };
+
+    const imageSource = selectedImages.length > 0
+        ? { uri: selectedImages[0] }  // Display the first image from selectedImages
+        : seller?.avatar?.url
+            ? { uri: seller.avatar.url }  // Display the seller's avatar
+            : testUser.Image;
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container} >
             <View>
-                {/*user image*/}
+                {/*seller image*/}
                 <View style={styles.userIconContainer}>
-                    <Image source={testUser.image} resizeMode='contain' style={styles.userIcon} />
-                    <TouchableOpacity style={styles.cameraContainer} onPress={handleImagePicker} >
+                    <Image source={imageSource} style={styles.userIcon} />
+                    <TouchableOpacity style={styles.cameraContainer} onPress={pickImage} >
                         <Ionicons name="camera-outline" size={23} color={"#ffffff"} style={styles.cameraIcon} />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.accountNameContainer} >
-                    <Text style={styles.accountName}>Ademoyinwa Fasiku</Text>
+                    <Text style={styles.accountName}>{seller.name}</Text>
                 </View>
             </View>
-            <View style={styles.section2} >
+            <View style={styles.section2}>
                 <View style={styles.inputContainer}>
-                    {/*First name input*/}
+                    {/*Shop name input*/}
                     <Text style={styles.text}>Shop Name</Text>
                     <View style={styles.textInput}>
                         <TextInput
-                            style={{ top: 8, left: 13, fontSize: 12 }}
+                            style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
                             value={shopName}
-                            onChangeText={text => setShopName(text)}
                             placeholder="First Name"
+                            returnKeyType='done'
+                            keyboardType='default'
                         />
                     </View>
                 </View>
@@ -169,28 +281,167 @@ const editSellerProfile = () => {
                     <Text style={styles.text}>Phone Number</Text>
                     <View style={styles.textInput}>
                         <TextInput
-                            style={{ top: 8, left: 13, fontSize: 12 }}
+                            style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
                             value={phoneNumber}
                             onChangeText={text => setPhoneNumber(text)}
                             placeholder='Phone Number'
-                            keyboardType="phone-pad"
+                            keyboardType='phone-pad'
                         />
                     </View>
                 </View>
+                <View style={styles.inputContainer}>
+                    {/*E-mail Input*/}
+                    <Text style={styles.text}>E-mail</Text>
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                            placeholder='Phone Number'
+                            keyboardType='default'
+                            returnKeyType='done'
+                        />
 
-                {/*password input/Edit Button*/}
-                <View style={styles.addressInputContainer}>
-                    <Text style={styles.text}>Password</Text>
-                    <View style={styles.addressComponent}>
-                        <View style={styles.addressTextInput}>
-                            <Text style={{ top: 15, left: 13, fontSize: 12 }}>{oldPasswordVisible && '*'.repeat(oldPasswordVisible.length)}</Text>
+                    </View>
+                </View>
+
+                {/*address input/edit button*/}
+         
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.text}>Address</Text>
+                        <View style={styles.addressComponent}>
+                            <View style={styles.addressTextInput2}>
+                                <TextInput
+                                    style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
+                                    value={address}
+                                    onChangeText={text => setAddress(text)}
+                                    returnKeyType='done'
+                                    placeholder='No address recorded yet'
+                                />
+                            </View>
                         </View>
-                        <TouchableOpacity onPress={openPasswordModalVisible} style={styles.editButton}>
-                            <Text style={{ color: "#02549290", fontSize: 12, fontWeight: "400" }}>Edit</Text>
-                        </TouchableOpacity>
+                    </View>
+      
+
+                {/**Zip Code Input*/}
+                <View style={styles.inputContainer}>
+                    {/*Shop name input*/}
+                    <Text style={styles.text}>Zip Code</Text>
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{ top: 8, left: 13, fontSize: 12, color: '#00000099' }}
+                            value={zipCode}
+                            onChangeText={(value) => setZipCode(value)}
+                            placeholder="Enter your shop location zip code"
+                            returnKeyType='done'
+                            keyboardType='default'
+                        />
+                    </View>
+                </View>
+                <View style={styles.addressInputContainer}>
+                    {/*More Details input*/}
+                    <Text style={styles.text}>Shop Description</Text>
+                    <View style={styles.textInput3}>
+                        <TextInput
+                            multiline={true}
+                            style={{ top: 3, left: 13, width: width - 59, fontSize: 12 }}
+                            placeholder="Describe what your shop is about"
+                            value={description}
+                            onChangeText={(text) => setDescription(text)}
+                        />
                     </View>
                 </View>
             </View>
+
+            {/**confirm change button */}
+            <TouchableOpacity
+                style={[styles.btn, { marginHorizontal: 20, marginTop: 90, marginBottom: 30 }]}
+                onPress={updateProfile}
+            >
+                <Text style={styles.btnText}>Submit</Text>
+            </TouchableOpacity>
+            {/*<TouchableOpacity
+                style={[styles.btn, { backgroundColor: Colors.primaryTransparent, marginHorizontal: 20, marginBottom: 30 }]}
+                onPress={() => setPasswordModalVisible(!passwordModalVisible)}
+            >
+                <Text style={{fontSize: 14, fontFamily: 'roboto-condensed-sb', color: '#025492'}}>Change Password</Text>
+            </TouchableOpacity>*/}
+
+            {/**edit password button modal  */}
+            <Modal
+                animationType='slide'
+                transparent={true}
+                visible={passwordModalVisible}
+                onRequestClose={() => setPasswordModalVisible(false)}>
+                <View style={styles.modalContainer}>
+                    <View style={[styles.modalContent, { height: height - 300 }]}>
+                        <ScrollView showsVerticalScrollIndicator={false}  >
+                            <View style={styles.modalHeader}>
+                                <View>
+                                    <LottieView source={require('../../../assets/images/password.json')} autoPlay loop={false} style={{ width: 200, height: 200 }} />
+                                </View>
+                                <Text style={styles.modalHeaderText}>Change Password</Text>
+                            </View>
+                            <Text style={styles.p}>To change your password, please fill in the details below. Your new password must contain at least 8 characters, and must have one upper case letter.</Text>
+                            <View style={styles.container3}>
+                                <View style={{ marginBottom: 30 }} >
+                                    <Text style={styles.text} >Current Password</Text>
+                                    <View style={styles.input3}>
+                                        <TextInput
+                                            style={{ top: 8, left: 13, fontSize: 14 }}
+                                            secureTextEntry={showPassword}
+                                            value={oldPassword}
+                                            onChangeText={(text) => setOldPassword(text)}
+                                            returnKeyType='done'
+                                        />
+                                        <TouchableOpacity style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }} onPress={() => setShowPassword(!showPassword)}>
+                                            <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={{ marginBottom: 30 }} >
+                                    <Text style={styles.text} >New Password</Text>
+                                    <View style={styles.input3}>
+                                        <TextInput
+                                            style={{ top: 8, left: 13, fontSize: 14 }}
+                                            returnKeyType='done'
+                                            value={newPassword}
+                                            onChangeText={(text) => setNewPassword(text)}
+                                            secureTextEntry={showPassword2}                        
+                                        />
+                                        <TouchableOpacity onPress={() => setShowPassword2(!showPassword2)} style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }}>
+                                            <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={{ marginBottom: 30 }} >
+                                    <Text style={styles.text} >Confirm Password</Text>
+                                    <View style={styles.input3}>
+                                        <TextInput
+                                            style={{ top: 8, left: 13, fontSize: 14 }}
+                                            value={confirmPassword}
+                                            returnKeyType='done'
+                                            secureTextEntry={showPassword3}
+                                            onChangeText={(text) => setConfirmPassword(text)}
+                                        />
+                                        <TouchableOpacity onPress={() => setShowPassword3(!showPassword3)} style={{ position: 'absolute', right: 1, top: 10, width: 40, height: 30, justifyContent: "center", alignItems: "center" }}>
+                                            <AntDesign name="eye" size={18} style={{ color: "#00000080" }} />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={styles.buttonContainer}>
+                                    <TouchableOpacity  style={[styles.button3, { marginRight: 20 }]}>
+                                        <Text style={defaultStyles.btnText}>Update</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={() => setPasswordModalVisible(false)} style={[defaultStyles.btn, { backgroundColor: 'rgba(255,0,0,0.05)', marginRight: 20, marginBottom: 30 }]}>
+                                        <Text style={[defaultStyles.btnText, { color: "rgb(255,0,0)" }]}>Cancel</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
+                        </ScrollView>
+                    </View>
+                </View>
+            </Modal>
         </ScrollView>
     )
 }
@@ -204,32 +455,32 @@ const styles = StyleSheet.create({
     },
     userIconContainer: {
         top: 28,
-        height: 180
+        width: 200,
+        height: 180,
+        alignSelf: 'center'
     },
     userIcon: {
         top: 30,
         height: 150,
         width: 150,
-        marginHorizontal: 106,
+        alignSelf: 'center',
         borderRadius: 150,
-
     },
     cameraContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#025491",
-        width: 35,
-        marginHorizontal: 212,
-        position: "absolute",
-        top: 144,
-        borderRadius: 5,
+       position: 'absolute',
+       bottom: 5,
+       left: 140,
+       width: 42,
+       height: 41,
+       paddingBottom: 3,
+       borderRadius: 5,
+       backgroundColor: '#025492',
+       justifyContent: 'center',
+       alignItems: 'center'
     },
     cameraIcon: {
-        width: 95,
-        left: 36.5,
-        top: 1,
-        paddingVertical: 5,
+        width: 22,
+        height: 22,
     },
     accountName: {
         color: "#242124",
@@ -247,7 +498,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     section2: {
-        height: 500,
+        height: 700,
         flex: 1,
         top: 57,
     },
@@ -273,7 +524,7 @@ const styles = StyleSheet.create({
     },
     input3: {
         borderWidth: 1,
-        width: width - 70,
+        width: width - 75,
         height: 50,
         top: 5,
         borderColor: "#0000001A",
@@ -285,16 +536,25 @@ const styles = StyleSheet.create({
         left: 20,
         height: 80,
         position: "relative",
+        marginBottom: 30
     },
     addressComponent: {
         flexDirection: "row",
         alignItems: "center",
-        width: 320,
-
+        width: width - 40,
     },
     addressTextInput: {
         borderWidth: 1,
         width: width - 100,
+        height: 50,
+        top: 5,
+        borderColor: "#0000001A",
+        borderRadius: 5,
+        backgroundColor: "#00000005",
+    },
+    addressTextInput2: {
+        borderWidth: 1,
+        width: width - 40,
         height: 50,
         top: 5,
         borderColor: "#0000001A",
@@ -324,17 +584,26 @@ const styles = StyleSheet.create({
         height: 50,
         width: 50,
         top: 5,
+        right: 0,
         borderRadius: 5,
         justifyContent: "center",
         alignItems: "center",
         position: "absolute",
-        marginHorizontal: 270
     },
     textInput2: {
         top: 3.5,
         flex: 1,
         paddingHorizontal: 15
     },
+    textInput3: {
+        borderWidth: 1,
+        width: width - 40,
+        height: 220,
+        top: 5,
+        borderColor: "#0000001A",
+        borderRadius: 5,
+        backgroundColor: "#00000005"
+      },
     btn: {
         backgroundColor: "#025492",
         height: 50,
@@ -344,7 +613,7 @@ const styles = StyleSheet.create({
         top: 5
     },
     btnText: {
-        color: "#fff",
+        color: "#ffffff",
         fontSize: 14,
         fontFamily: "roboto-condensed-sb",
     },
@@ -358,7 +627,7 @@ const styles = StyleSheet.create({
     modalContent: {
         backgroundColor: '#fff',
         width: '90%',
-        padding: 20,
+        paddingLeft: 20,
         borderRadius: 10,
     },
     addressModalContainer: {
@@ -427,23 +696,14 @@ const styles = StyleSheet.create({
         color: "#00000090"
     },
     modalHeader: {
-        flexDirection: "row",
-        alignItems: "center"
+        justifyContent: 'center',
+        alignItems: "center",
+        paddingRight: 20
     },
     modalHeaderText: {
         fontSize: 22,
-        fontWeight: "700",
+        fontWeight: "500",
         color: "#00000090",
-        fontFamily: "Roboto",
-        marginHorizontal: 30
-    },
-    modalIconContainer: {
-        justifyContent: "center",
-        alignItems: "center",
-        width: 50,
-        height: 50,
-        backgroundColor: "#88c7dc",
-        borderRadius: 50,
     },
     modalIcon: {
         width: 30,
@@ -454,8 +714,8 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         maxWidth: 300,
         marginTop: 20,
-        textAlign: "justify",
-
+        textAlign: 'center',
+        paddingRight: 20,
     },
     cancelButton: {
         backgroundColor: '#025492',
@@ -471,6 +731,14 @@ const styles = StyleSheet.create({
     },
     button3: {
         backgroundColor: "#025492",
+        height: 50,
+        borderRadius: 10,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 20
+    },
+    button5: {
+        backgroundColor: "#02549220",
         height: 50,
         borderRadius: 10,
         justifyContent: "center",

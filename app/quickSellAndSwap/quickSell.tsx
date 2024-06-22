@@ -231,7 +231,7 @@ const QuickSell = () => {
       </Modal>
       <View style={{ marginBottom: 28 }}>
         <Text style={{ fontSize: 13, color: "#000000", fontWeight: "500", marginBottom: 5 }}>Add At Least 2 Images</Text>
-        <Text style={{ fontSize: 10, color: "#00000050", marginBottom: 10 }}>First image you upload is the title image and must be a clear 1080p downloaded picture, the rest of the pictures should be a live picture of the gadget</Text>
+        <Text style={{ fontSize: 10, color: "#00000050", marginBottom: 10 }}>First image you upload is the title image and must be a clear 1080p downloaded picture, the rest of the pictures should be a live picture of the gadget. Ensure each picture is less than 10MB of size.</Text>
         <View style={{ flexDirection: "row" }}>
           <TouchableOpacity
             style={{ width: 114, height: 79, backgroundColor: "#02549220", borderRadius: 10, justifyContent: "center", alignItems: "center", marginRight: 10 }}

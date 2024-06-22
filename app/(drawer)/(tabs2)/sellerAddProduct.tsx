@@ -5,7 +5,9 @@ import { useSeller } from '../../../context/SellerContext';
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import axios from 'axios';
-import { AntDesign } from '@expo/vector-icons'
+import { AntDesign } from '@expo/vector-icons';
+import { useProductUpload } from "../../../context/ProductUpload";
+import { useAuth } from "../../../context/SellerAuthContext";
 
 const {width} = Dimensions.get("window")
 
@@ -16,35 +18,40 @@ interface Category{
 }
 
 const categoriesData = [
-  { id: 1, name: 'Mobile Phones', image: require('../../../assets/images/phonecat.png') },
-  { id: 2, name: 'Smart Watches and Trackers', image: require('../../../assets/images/watchcat.png') },
-  { id: 3, name: 'Tablets', image: require('../../../assets/images/tabcat.png') },
-  { id: 4, name: 'Phone Accessories', image: require('../../../assets/images/phoneacc.png') },
-  { id: 5, name: 'Computer Accessories', image: require('../../../assets/images/computeracc.png') },
-  { id: 6, name: 'Computer Monitors', image: require('../../../assets/images/Monitor.png') },
-  { id: 7, name: 'Headphones', image: require('../../../assets/images/headphonescat.png') },
-  { id: 8, name: 'Laptops', image: require('../../../assets/images/laptopcat.png') },
-  { id: 9, name: 'Networking Products', image: require('../../../assets/images/networkcat.png') },
-  { id: 10, name: 'Printers & Scanners', image: require('../../../assets/images/printercat.png') },
-  { id: 11, name: 'Cameras', image: require('../../../assets/images/cameracat.png') },
-  { id: 12, name: 'Security & Surveillance', image: require('../../../assets/images/security.png') },
-  { id: 13, name: 'Video Games', image: require('../../../assets/images/videogame.jpg') },
-  { id: 14, name: 'Tv', image: require('../../../assets/images/tvcat.png') },
-  { id: 15, name: 'Video Game Console', image: require('../../../assets/images/ps5.jpg') },
-  { id: 16, name: 'Computer Hardware', image: require('../../../assets/images/comphardware.png') }
+  { id: 1, name: 'Mobile Phones', image: require('../../../assets/images/phonecat.png') }, 
+  { id: 2, name: 'Smart Watches and Trackers', image: require('../../../assets/images/watchcat.png') }, 
+  { id: 3, name: 'Tablets', image: require('../../../assets/images/tabcat.png') }, 
+  { id: 4, name: 'Accessories', image: require('../../../assets/images/phoneacc.png') }, 
+  { id: 5, name: 'Stands and lights', image: require('../../../assets/images/computeracc.png') },
+  { id: 6, name: 'Laptop Bags', image: require('../../../assets/images/Monitor.png') }, 
+  { id: 7, name: 'Earphones and Headphones', image: require('../../../assets/images/headphonescat.png') }, 
+  { id: 8, name: 'Laptops', image: require('../../../assets/images/laptopcat.png') }, 
+  { id: 9, name: 'Cases and Covers', image: require('../../../assets/images/networkcat.png') },
+  { id: 10, name: 'Stylus and tablets', image: require('../../../assets/images/printercat.png') },
+  { id: 11, name: 'Microphones', image: require('../../../assets/images/cameracat.png') }, 
+  { id: 12, name: 'Security and Surveillance', image: require('../../../assets/images/security.png') },
+  { id: 13, name: 'Speakers', image: require('../../../assets/images/videogame.jpg') },
+  { id: 14, name: 'Chargers and More', image: require('../../../assets/images/tvcat.png') }, 
+  { id: 15, name: 'Gaming Accessories', image: require('../../../assets/images/ps5.jpg') },
+  { id: 16, name: 'Keyboard and Mice', image: require('../../../assets/images/comphardware.png') } 
 ];
 
 const sellerAddProduct = () => {
-  const { addValue } = useSeller()
+  const { seller } = useAuth();
+  const { setProductUploadPayload } = useProductUpload();
   const [name, setName] = useState<string>("");
   const [originalPrice, setOriginalPrice] = useState<string>("");
   const [discountPrice, setDiscountPrice] = useState<string>("");
-  const [quantity, setQuantity] = useState<string>("");
+  const [stock, setStock] = useState<number | null>(null);
+  const [color, setColor] = useState<string>("");
   const [productDetails, setProductDetails] = useState<string>("")
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
-  const router = useRouter()
+  const router = useRouter();
+
+
+  const shopId = seller?.seller._id
 
 
   // functionality to select and upload product images
@@ -58,15 +65,20 @@ const sellerAddProduct = () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
-      allowsMultipleSelection: false, // denies multiple image selection
       allowsEditing: true,
+      allowsMultipleSelection: false, // denies multiple image selection
+      base64: true,
     });
 
     if (!result.canceled && result.assets.length > 0) {
-      const newImages = result.assets.map(asset => asset.uri);
+      const newImages = result.assets.map(asset => ({
+        uri: asset.uri,
+        base64: asset.base64,
+        mimeType: asset.mimeType
+      }));
       // Ensure the total number of selected images doesn't exceed 4
       const remainingSlots = 4 - selectedImages.length;
-      const imagesToAdd = newImages.slice(0, remainingSlots);
+      const imagesToAdd = newImages.map(asset => `data:image/${asset.mimeType?.split('/')[1]};base64,` + asset.base64).slice(0, remainingSlots);
       setSelectedImages(prevImages => [...prevImages, ...imagesToAdd]);
     }
   };
@@ -77,9 +89,10 @@ const sellerAddProduct = () => {
   };
 
   // Function to remove a single selected image
-  const removeSelectedImage = (indexToRemove:number) => {
+  const removeSelectedImage = (indexToRemove: number) => {
     setSelectedImages(prevImages => prevImages.filter((_, index) => index !== indexToRemove));
   };
+
 
 
   // functionality to render and select categories inside the modal
@@ -102,17 +115,28 @@ const sellerAddProduct = () => {
     );
   };
 
-  const handleSubmit = () => {
-    addValue({
-      name,
-      originalPrice,
-      discount: discountPrice || 0,
-      quantity,
-      productDetails,
-      selectedImages,
-      selectedCategory
-    })
-  };
+
+  const handleNextUploadPage = async () => {
+    const payload = {
+      name: name,
+      description: productDetails,
+      category: selectedCategory?.name,
+      originalPrice: originalPrice,
+      discountPrice: discountPrice,
+      stock: stock,
+      shopId: shopId,
+      colorList: [
+        {
+          color: color,
+          stock: stock,
+          images: selectedImages
+        }
+      ]
+    };
+
+    setProductUploadPayload (payload);
+    router.push('/sellerAddProductScreen/addProducts')
+  }
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -151,7 +175,7 @@ const sellerAddProduct = () => {
         </Modal>
         <View style={{ marginHorizontal: 20, marginBottom: 28 }}>
           <Text style={{ fontSize: 13, color: "#000000", fontWeight: "500", marginBottom: 5 }}>Add At Least 4 Images</Text>
-          <Text style={{ fontSize: 10, color: "#00000050", marginBottom: 10 }}>First image you upload is the title image and must be a clear 1080p downloaded picture likewise the rest of the 3 images of the gadget</Text>
+          <Text style={{ fontSize: 10, color: "#00000050", marginBottom: 10 }}>First image you upload is the title image and must be a clear 1080p downloaded picture likewise the rest of the 3 images of the gadget. Ensure each picture is less than 10MB of size.</Text>
           <View style={{ flexDirection: "row" }}>
             <TouchableOpacity
               style={{ width: 114, height: 79, backgroundColor: "#02549220", borderRadius: 10, justifyContent: "center", alignItems: "center", marginRight: 10 }}
@@ -165,7 +189,7 @@ const sellerAddProduct = () => {
                 {selectedImages.map((uri, index) => (
                   <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
                     <Image
-                      source={{ uri: uri }}
+                      source={{ uri }}
                       style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
                     />
                   </View>
@@ -190,6 +214,7 @@ const sellerAddProduct = () => {
                 <TextInput
                   style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="Product Name"
+                  value={name}
                   onChangeText={(value) => setName(value)}
                 />
               </View>
@@ -202,6 +227,7 @@ const sellerAddProduct = () => {
                   style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="₦0.00"
                   keyboardType= 'number-pad'
+                  value={originalPrice}
                   onChangeText={(value) => setOriginalPrice(value)}
                 />
               </View>
@@ -214,6 +240,7 @@ const sellerAddProduct = () => {
                  style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="₦0.00"
                   keyboardType= 'number-pad'
+                  value={discountPrice}
                   onChangeText={(value) => setDiscountPrice(value)}
                 />
               </View>
@@ -226,7 +253,21 @@ const sellerAddProduct = () => {
                   style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="Enter amount of product in stock"
                   keyboardType='number-pad'
-                  onChangeText={(value) => setQuantity(value)}
+                  value={stock !== null ? stock.toString() : '' }
+                  onChangeText={(value) => setStock(value ? parseInt(value) : null)}
+                />
+              </View>
+            </View>
+            <View style={styles.inputContainer}>
+              {/*Color input*/}
+              <Text style={styles.text}>Product Color</Text>
+              <View style={styles.textInput}>
+                <TextInput
+                  style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
+                  placeholder="Enter color of the product"
+                  keyboardType='default'
+                  value={color}
+                  onChangeText={(value) => setColor(value)}
                 />
               </View>
             </View>
@@ -237,13 +278,14 @@ const sellerAddProduct = () => {
                 <TextInput
                   multiline={true}
                   style={{ top: 3, left: 13, width: width - 61, fontSize: 12 }}
-                  placeholder="Enter Details"
+                  placeholder="Enter your product description, e.g. brief description about the product from the manufacturer."
+                  value={productDetails}
                   onChangeText={(value) => setProductDetails(value)}
                 />
               </View>
             </View>
           </View>
-          <TouchableOpacity style={styles.button} onPress={() => router.push ('/sellerAddProductScreen/addProducts')}>
+          <TouchableOpacity style={styles.button} onPress={() => handleNextUploadPage()}>
             <Text style={styles.buttonText1}>Next</Text>
             <AntDesign name="arrowright" size={12} color="#ffffff" />
           </TouchableOpacity>
@@ -279,10 +321,9 @@ const styles = StyleSheet.create({
     height: 500,
     flex: 1,
     top: 23,
-    marginBottom: 100
+    marginBottom: 200
   },
   inputContainer: {
-
     height: 80,
     position: "relative"
   },
@@ -338,7 +379,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#025492",
     flexDirection: "row",
-    gap: 10
+    gap: 10,
+    marginTop: 20
   },
   buttonText1: {
     color: "#fff",

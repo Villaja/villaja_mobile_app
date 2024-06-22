@@ -107,7 +107,7 @@ const Messages = () => {
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 20 }}>
                 {/* Display seller's information */}
                 {seller && (
-                    <TouchableOpacity style={styles.messageItemContainer} onPress={() => router.push('/otherSellerDashBoardScreens/sellerProfile')}>
+                    <TouchableOpacity style={styles.messageItemContainer} onPress={() => router.push('/(drawer)/(profile)/sellerProfile')}>
                         <View style={styles.messageItemleft}>
                             <Image source={seller?.avatar?.url ? { uri: seller.avatar.url } : require("../../assets/images/user2.png")} style={styles.messageAvatar} resizeMode='contain' />
                             <View style={styles.messageItemInfo}>

@@ -1,4 +1,4 @@
-import React from 'react'
+/*import React from 'react'
 import { ScrollView, View, Text } from "react-native";
 
 const QuickSellDeals = () => {
@@ -9,4 +9,4 @@ const QuickSellDeals = () => {
   )
 }
 
-export default QuickSellDeals
+export default QuickSellDeals */

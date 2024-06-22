@@ -221,7 +221,7 @@ const Overview = () => {
                         <Ionicons name='warning' color={"#ff9818"} size={20} />
                         <Text style={styles.headerText}>Pending Orders</Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => router.push('/(drawer)/(tabs2)/sellerOrders') } >
                         <Text style={styles.headerBtn}>View Orders</Text>
                     </TouchableOpacity>
                 </View>
@@ -234,7 +234,7 @@ const Overview = () => {
                                 .slice(0, 4)
                                 // .filter((od:any) => od.status === "Delivered" )
                                 .map((order: any, index: number) => (
-                                    <TouchableOpacity style={styles.orderCard} key={index}>
+                                    <TouchableOpacity style={styles.orderCard} key={index} onPress={() => router.push(`/approveOrder/${order._id}`)}>
                                         <View style={styles.orderCardLeft}>
                                             <Image source={{ uri: order.cart[0].images[0].url }} resizeMode='contain' style={styles.orderImg} />
                                             <View style={styles.orderInfo}>

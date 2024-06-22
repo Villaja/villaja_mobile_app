@@ -150,30 +150,7 @@ const merchantProfile = () => {
     
 
     //Create new conversation Logic to send message to seller
-    const sendMessageHandler = async() => {
-        try {
-            if (user && userToken) {
-                const userId = user._id;
-                const sellerId = seller._id;
-                const groupTitle = user._id + seller._id
-                await axios
-                .post(`${base_url}/conversation/create-new-conversation`, {
-                    groupTitle,
-                    userId,
-                    sellerId,
-                })
-                .then((response)=> {
-                    
-                    console.log("created")
-                })
-                .catch((error)=> {
-                    console.log(error)
-                });
-            } 
-        } catch (error) {
-            console.log(error)
-        }
-    }
+
 
 
 
@@ -208,7 +185,7 @@ const merchantProfile = () => {
                         <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Accessories</Text>
                     </View>
                 </View>
-                <TouchableOpacity onPress={sendMessageHandler} style={{backgroundColor: "#025492", height: 38, width: 125, justifyContent: "center", alignItems: "center", marginTop: 20, borderRadius: 8}} >
+                <TouchableOpacity style={{backgroundColor: "#025492", height: 38, width: 125, justifyContent: "center", alignItems: "center", marginTop: 20, borderRadius: 8}} >
                     <Text style={{color:"#ffffff", fontSize: 13, fontWeight: "500" }} >Message</Text>
                 </TouchableOpacity>
                 <View style={{ marginTop: 40 }} >

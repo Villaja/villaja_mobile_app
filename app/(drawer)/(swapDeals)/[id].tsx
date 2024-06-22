@@ -208,7 +208,7 @@ const Page: React.FC = () => {
 
                   <View style={{ marginTop: 8, paddingHorizontal: 20, paddingVertical: 15, gap: 8, backgroundColor: '#fff' }}>
                     <Text style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)", fontWeight: "700" }}>Description</Text>
-                    <Text numberOfLines={descriptionLength} style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)" }} >{productDetails.swapProductDetails}</Text>
+                    <Text numberOfLines={descriptionLength} style={{ fontSize: 13, fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)" }} >{productDetails?.swapProductDetails}</Text>
                     {
                       descriptionLength === 100 ?
 

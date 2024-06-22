@@ -59,7 +59,7 @@ const account = () => {
     const [city, setCity] = useState("");
     const [address2, setAddress2] = useState("");
     const [address1, setAddress1] = useState("");
-    const [zipCode, setZipCode] = useState("");
+    const [zipCode, setZipCode] = useState('');
     const [addressType, setAddressType] = useState("")
 
 
@@ -102,7 +102,7 @@ const account = () => {
                         setAddress1(userData.addresses[0]?.address1);
                         setAddress2(userData.addresses[0]?.address2);
                         setAddressType(userData.addresses[0]?.addressType)
-                        setZipCode(userData.addresses[0]?.zipcode);
+                        setZipCode(userData.addresses[0]?.zipCode);
                         setLoading(false);
                     })
                     .catch(error => {

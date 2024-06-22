@@ -9,6 +9,7 @@ import Drawer from "expo-router/drawer";
 import { Feather, FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useAuth } from '../../context/SellerAuthContext';
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export function CustomDrawerContent(props:any) {
@@ -124,7 +125,7 @@ export function CustomDrawerContent(props:any) {
             }}
             
         />
-        
+       {/*  
         <Drawer.Screen
             name="(quickSellDeals)"
             options={{
@@ -136,11 +137,11 @@ export function CustomDrawerContent(props:any) {
 
             }}
         />
-        {/*
+       
         <Drawer.Screen
             name=""
             options={{
-                drawerLabel: 'About',
+                drawerLabel: 'Ads',
                 title: 'About',
                 drawerIcon: ({size, color})=>(
                     <MaterialCommunityIcons name="advertisements-off" size={size} color={color} />

@@ -211,8 +211,8 @@ const postAd2 = () => {
         
         
             const response = await axios.post(`${base_url}/quick-swap/create-product`,
-            finalSwapPayload
-                ,
+            finalSwapPayload,
+            
             {
                 headers: {
                 Authorization: token
