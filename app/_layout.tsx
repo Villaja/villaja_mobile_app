@@ -266,6 +266,14 @@ function RootLayoutNav() {
                         }}
                       />
                       <Stack.Screen
+                        name='sellerProducts/[id]'
+                        options={{
+                          headerTitle: '',
+                          headerShadowVisible: false,
+                          headerShown: false,
+                        }}
+                      />
+                      <Stack.Screen
                         name='categoryCatalog/[id]'
                         options={{
                           headerTitle: '',

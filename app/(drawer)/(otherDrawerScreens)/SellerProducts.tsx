@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Image, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { base_url } from "../../../constants/server";
 import { Product } from '../../../types/Product';
-import ProductCard2 from "../../../components/ProductCard2";
-import ProductCard from "../../../components/ProductCard";
+import SellerProductCard2 from "../../../components/sellerProductCard2";
+import SellerProductCard from "../../../components/SellerProductCard";
 import ProductCard3 from "../../../components/ProductCard3";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, router, useRouter } from 'expo-router';
@@ -40,7 +40,7 @@ const sellerProducts = () => {
         },
       });
 
-      const first10Products = response.data.products.slice(0, 50);
+      const first10Products = response.data.products;
       setProducts(first10Products);
     } catch (error) {
       let errorMessage = 'An unknown error occurred';
@@ -101,7 +101,7 @@ const sellerProducts = () => {
     );
   };
 
-  const renderProductCards = (start: number, end: number) => {
+  const renderProductCards = () => {
     const cardsPerRow = 2;
 
     return (
@@ -115,7 +115,7 @@ const sellerProducts = () => {
                 index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
               ]}
             >
-              <ProductCard product={product} />
+              <SellerProductCard product={product} />
             </View>
           ))}
         </View>
@@ -123,7 +123,7 @@ const sellerProducts = () => {
     );
   };
 
-  const renderProductCards2 = (start: number, end: number) => {
+  const renderProductCards2 = () => {
     const cardsPerRow = 2;
 
     return (
@@ -137,7 +137,7 @@ const sellerProducts = () => {
                 index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
               ]}
             >
-              <ProductCard2 product={product} />
+              <SellerProductCard2 product={product} />
             </View>
           ))}
         </View>
@@ -177,7 +177,7 @@ const sellerProducts = () => {
             renderSkeletonLoader(0, 16)
             // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
           ) : (
-            viewType ? renderProductCards2(0, 1) : renderProductCards(0, 1)
+            viewType ? renderProductCards2() : renderProductCards()
           )}
         </View>
       </View>
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff"
   },
   gridContainer: {
-    flexDirection: 'column-reverse',
+    flexDirection: 'column',
     flexWrap: 'nowrap',
     justifyContent: 'space-between',
     // paddingHorizontal: 8,

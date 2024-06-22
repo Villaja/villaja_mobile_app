@@ -57,13 +57,13 @@ const sellerRegister = () => {
   const [handlerPhoneNumber, setHandlerPhoneNumber] = useState("");
   const [shopEmailAddress, setShopEmailAddress] = useState("");
   const [shopAddress, setShopAddress] = useState("")
-  const [addressState, setAddressState] = useState(null);
+  const [addressState, setAddressState] = useState('');
   const [zipCode, setZipCode] = useState("");
   const [phonesNiche, setPhonesNiche] = useState<boolean>(false);
   const [laptopNiche, setLaptopNiche] = useState<boolean>(false);
   const [tabletsNiche, setTabletsNiche] = useState<boolean>(false);
   const [accessoriesNiche, setAccessoriesNiche] = useState<boolean>(false);
-  const [profileImage, setProfileImage] = useState("");
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [backgroundImage, setBackgroundImage] = useState("");
   const [password, setPassword] = useState('');
 
@@ -73,7 +73,7 @@ const sellerRegister = () => {
   const {register, isLoading, error, seller} = useAuth()
   const router = useRouter()
 
-  const renderStates = (item) => {
+  const renderStates = (item: any) => {
     return (
       <View style={styles.item} >
         <Text style={styles.textItem} >{item.label}</Text>
@@ -82,57 +82,22 @@ const sellerRegister = () => {
   };
 
   // Function to request permission and launch image picker for profile picture
-  const handleImagePicker = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert(
-        'Permission Denied',
-        'You need to grant permission to access the camera roll to upload an image.'
-      );
-      return;
-    }
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+      allowsEditing: true,
+      allowsMultipleSelection: false, // Denies multiple image selection
+      base64: true,
+    });
 
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        quality: 1,
-      });
-
-      if (!result.canceled) {
-        setProfileImage(result.uri);
-      }
-    } catch (error) {
-      console.error('Error picking image:', error);
+    if (!result.canceled && result.assets.length > 0) {
+      const asset = result.assets[0];
+      const newImage = `data:image/${asset.mimeType?.split('/')[1]};base64,${asset.base64}`;
+      setSelectedImages([newImage]); // Reset and store the new image
     }
   };
 
-    // Function to request permission and launch image picker for background picture
-    const handleImagePicker2 = async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          'Permission Denied',
-          'You need to grant permission to access the camera roll to upload an image.'
-        );
-        return;
-      }
-  
-      try {
-        const result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsEditing: true,
-          allowsMultipleSelection: false,
-          quality: 1,
-        });
-  
-        if (!result.canceled) {
-          setBackgroundImage(result.uri);
-        }
-      } catch (error) {
-        console.error('Error picking image:', error);
-      }
-    };
 
     const handleGetStartedButton = async () => {
       try {
@@ -141,7 +106,7 @@ const sellerRegister = () => {
         //   profileImage, backgroundImage
         // )
         // the backend endpoint does not store most of these values
-        await register(shopName, shopEmailAddress, password, shopAddress, profileImage, handlerPhoneNumber, zipCode)
+        await register(shopName, shopEmailAddress, password, shopAddress, selectedImages, handlerPhoneNumber, zipCode)
         Alert.alert('Verify Your Account', 'Please check your e-mail to activate your account with the verification code', [{text: "OK"}]);
         router.replace('/sellerAuthScreens/SellerLogin')
       } catch (error) {
@@ -251,7 +216,7 @@ const sellerRegister = () => {
             searchPlaceholder="Search..."
             value={addressState}
             onChange={item => {
-              setAddressState(item.value);
+              setAddressState(item.label);
             }}
             renderItem={renderStates}
           />
@@ -350,26 +315,12 @@ const sellerRegister = () => {
             width: width - 252, height: 63.31, justifyContent: "center", alignItems: "center",
             backgroundColor: "#02549210", borderRadius: 5, borderWidth: 1,
             borderColor: "#02549250", borderStyle: "dashed",
-          }} onPress={handleImagePicker} >
+          }} onPress={pickImage} >
             <EvilIcons name="camera" size={25} color="#025492" />
             <Text style={{ fontSize: 8.79, color: "#00000040", textAlign: "center", marginTop: 5 }} >Click to upload profile picture</Text>
           </TouchableOpacity>
         </View>
-        {profileImage && <Image source={{ uri: profileImage }} style={{ width: 200, height: 200, marginBottom: 50 }} />}
-      </View>
-      <View style={{ marginHorizontal: 20, marginBottom: 33.69 }} >
-        <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Background Image</Text>
-        <TouchableOpacity style={{
-          width: width - 40, height: 63.31, justifyContent: "center", alignItems: "center",
-          backgroundColor: "#02549210", borderRadius: 5, borderWidth: 1,
-          borderColor: "#02549250", borderStyle: "dashed",
-        }} onPress={handleImagePicker2} >
-          <EvilIcons name="camera" size={25} color="#025492" />
-          <Text style={{ fontSize: 8.79, color: "#00000040", textAlign: "center", marginTop: 5 }} >Click to upload background image</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{justifyContent: "center", alignItems: "center", marginBottom: 20}} >
-      {backgroundImage && <Image source={{ uri: backgroundImage }} style={{ width: 200, height: 200 }} />}
+        {selectedImages && <Image source={{ uri: selectedImages[0] }} style={{ width: 200, height: 200, marginBottom: 50 }} />}
       </View>
       <TouchableOpacity style={styles.button} onPress={handleGetStartedButton} >
         <Text style={styles.buttonText1}>Get Started</Text>

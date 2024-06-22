@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
+import { View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable } from 'react-native';
 import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
 import { base_url } from '../../constants/server';
@@ -16,7 +16,6 @@ import PopUpModal from '../../components/popUpModal';
 import PopUpModal2 from '../../components/popUpModal2';
 import { useRouter } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useAuth } from "../../context/AuthContext";
 
 
 
@@ -26,8 +25,7 @@ const Page: React.FC = () => {
 
 
 
-  const scrollRef = useRef<ScrollView>(null);
-  const {user} = useAuth();
+  const scrollRef = useRef<ScrollView>(null)
   const { id } = useLocalSearchParams<{ id: string }>();
   const [productDetails, setProductDetails] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -141,47 +139,6 @@ const Page: React.FC = () => {
     fetchProductDetails();
   }, [id]);
 
-  const sendMessage = async () => {
-    try {
-      if (user) {
-        const groupTitle = productDetails?._id + user?.user._id;
-        const userId = user?.user._id;
-        const sellerId = productDetails?.shop._id;
-        const response = await axios.post(`${base_url}/conversation/create-new-conversation`, 
-          {
-            groupTitle,
-            userId,
-            sellerId,
-          }
-        )
-
-        if (response.data.success) {
-          router.push({pathname:`/userNotificationsTabs/${response.data.conversation._id}`});
-          console.log('conversation created');
-        } else {
-          console.log('an error occurred')
-        }
-      } else {
-        router.push('/(modals)/login');
-        Alert.alert('Unauthorized', 'you have to be signed in to send a message')
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log('Error response:', error.response);
-        if (error.response?.status === 500) {
-            Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
-        } else if (error.response?.status === 401) {
-            Alert.alert('Unauthorized', 'Please check your token and try again.');
-        } else {
-            Alert.alert('Error', `an error occurred`);
-            console.log('user password not found', error.message)
-        }
-    } else {
-        Alert.alert('Error', 'An unexpected error occurred');
-    }
-    }
-  }
-
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff', paddingTop: 15 }}  >
@@ -205,7 +162,14 @@ const Page: React.FC = () => {
           <>
               {productDetails && (
                 <>
-                  
+                  <View style={{flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 5, alignSelf: 'flex-end', marginRight: 20}} >
+                    <TouchableOpacity style={{paddingVertical: 10, paddingHorizontal: 24, backgroundColor: '#025492', borderRadius: 2}} >
+                        <Text style={{fontSize: 12, fontFamily: 'roboto-condensed-sb', color: '#ffffff'}} >Edit Product</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{paddingVertical: 10, paddingHorizontal: 24, backgroundColor: Colors.redTransparent, borderRadius: 2}} >
+                        <Text style={{fontSize: 12, fontFamily: 'roboto-condensed-sb', color: Colors.red}} >Delete Product</Text>
+                    </TouchableOpacity>
+                  </View>
                   <Carousel
                   data={productDetails?.images}
                   renderItem={({ item, index }) => <Image key={index} style={styles.image} source={{ uri: item.url }} />
@@ -263,7 +227,7 @@ const Page: React.FC = () => {
 
                     <View style={{ flexDirection: 'row', gap: 8, paddingVertical: 16 }}>
                       <TouchableOpacity style={[defaultStyles.btn, { flexBasis: '49%' }]} onPress={() => handleAddToCart()}><Text style={[defaultStyles.btnText, { fontSize: 16, fontFamily: 'roboto-condensed' }]}>Add To Cart</Text></TouchableOpacity>
-                      <TouchableOpacity style={[defaultStyles.btnStyleBorder, { flexBasis: '49%' }]}><Text style={[defaultStyles.btnText, { fontSize: 16, fontFamily: 'roboto-condensed', color: Colors.primary }]} onPress={sendMessage}>Message Seller</Text></TouchableOpacity>
+                      <TouchableOpacity style={[defaultStyles.btnStyleBorder, { flexBasis: '49%' }]}><Text style={[defaultStyles.btnText, { fontSize: 16, fontFamily: 'roboto-condensed', color: Colors.primary }]}>Message Seller</Text></TouchableOpacity>
                     </View>
                   </View>
 
@@ -335,6 +299,10 @@ const Page: React.FC = () => {
                       <View style={{ gap: 4, flexBasis: '49%' }}>
                           <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2 }}>WEIGHT</Text>
                           <Text style={{ fontFamily: 'roboto-condensed', textTransform: 'capitalize', fontSize: 15 }}>{productDetails?.weight || 'N/A'}</Text>
+                        </View>
+                        <View style={{ gap: 4, flexBasis: '49%' }}>
+                          <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2 }}>SERIAL NUMBER</Text>
+                          <Text style={{ fontFamily: 'roboto-condensed', textTransform: 'capitalize', fontSize: 15 }}>{productDetails?.serialNumber || 'N/A'}</Text>
                         </View>
                       </View>
                     </View>

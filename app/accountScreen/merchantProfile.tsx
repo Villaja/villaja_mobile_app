@@ -77,7 +77,7 @@ const merchantProfile = () => {
                     },
                 });
     
-                const first10Products = response.data.products.slice(0, 50);
+                const first10Products = response.data.products.slice(-30);
                 setProducts(first10Products)
     
             } catch (error) {

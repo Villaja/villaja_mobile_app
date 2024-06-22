@@ -8,12 +8,12 @@ interface ProductCardProps {
   product: Product;
 }
 
-const ProductCard2: React.FC<ProductCardProps> = ({ product }) => {
+const SellerProductCard2: React.FC<ProductCardProps> = ({ product }) => {
   return (
-    <View style={[styles.container]} key={product.shop._id}>
+    <View style={[styles.container]} key={product.shopId}>
 
 
-      <Link href={`/product/${product._id}`} asChild >
+      <Link href={`/sellerProducts/${product._id}`} asChild >
         <TouchableOpacity style={styles.topSection}>
           <View style={styles.imgContainer}>
             <Image style={styles.image} source={{ uri: product.images[0]?.url }} />
@@ -111,4 +111,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProductCard2;
+export default SellerProductCard2;

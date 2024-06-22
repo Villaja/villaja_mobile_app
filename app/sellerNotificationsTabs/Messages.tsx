@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, View, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { base_url } from '../../constants/server'
@@ -9,7 +9,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useAuth } from '../../context/SellerAuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
-import { router, useRouter } from 'expo-router'
+import { router, useRouter } from 'expo-router';
+import LottieView from "lottie-react-native";
 
 
 interface Conversation {
@@ -37,6 +38,7 @@ const Messages = () => {
         
     }
 
+    const {height} = Dimensions.get('window')
     useEffect(() => {
         const getConversation = async () => {
             try {
@@ -128,7 +130,11 @@ const Messages = () => {
                         ))
 
                             :
-                            <Text>no messages</Text>
+                            <View style={{flex: 1,justifyContent: 'center', alignItems: 'center', marginTop: height/1/8}} >
+                                <LottieView source={require("../../assets/images/no-message.json")} autoPlay loop={true} style={{width: 200, height: 200,}} />
+                                <Text style={{color: '#025492', fontSize: 16, fontWeight: '500', marginBottom: 20}} >No Message Found</Text>
+                                <Text style={{color: '#00000097', fontSize: 13, fontWeight: '500', paddingHorizontal: 50}} >You will get an inbox  here when a customer texts you</Text>
+                            </View>
                 }
             </ScrollView>
 

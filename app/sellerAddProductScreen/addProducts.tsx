@@ -108,6 +108,12 @@ const options8 = [
   { label: '12 months & above', value: '8' }
 ]
 
+const options9 = [
+  { label: 'Bluetooth Only', value: '1' },
+  { label: 'Wi-fi Only', value: '2' },
+  { label: 'Bluetooth and Wi-fi', value: '3' },
+];
+
 const addProducts = () => {
   const router = useRouter();
   const {seller} = useAuth();
@@ -124,6 +130,7 @@ const addProducts = () => {
   const [displayType, setDisplayType] = useState<string | null>(null);
   const [simCard, setSimCard] = useState<string | null>(null);
   const [operatingSystem, setOperatingSystem] = useState<string | null>(null);
+  const [connectivityTechnology, setConnectivityTechnology] = useState<string | null>(null);
   const [warranty, setWarranty] = useState<string | null>(null);
   const [isFocus1, setIsFocus1] = useState<boolean>(false);
   const [isFocus2, setIsFocus2] = useState<boolean>(false);
@@ -133,6 +140,7 @@ const addProducts = () => {
   const [isFocus6, setIsFocus6] = useState<boolean>(false);
   const [isFocus7, setIsFocus7] = useState<boolean>(false);
   const [isFocus8, setIsFocus8] = useState<boolean>(false);
+  const [isFocus9, setIsFocus9] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const renderLabel1 = () => {
@@ -215,6 +223,16 @@ const addProducts = () => {
     }
   };
 
+  const renderLabel9 = () => {
+    if (connectivityTechnology || isFocus9) {
+      return (
+        <Text style={[styles.label, isFocus9 && { color: "#025492" }]}>
+          Select connectivity technology
+        </Text>
+      )
+    }
+  };
+
 
   const shopId = seller?.seller._id
 
@@ -237,7 +255,9 @@ const addProducts = () => {
         serialNumber: serialNumber,
         cellularTechnology: simCard,
         os: operatingSystem,
-        tags: warranty
+        tags: warranty,
+        displaySize: displayType,
+        connectivityTechnology: connectivityTechnology
       }
 
       const token = await AsyncStorage.getItem('sellerToken');
@@ -458,6 +478,44 @@ const addProducts = () => {
           </View>
         </View>
         <View style={styles.inputContainer}>
+          {/*Connectivity Technology input*/}
+          <Text style={styles.text}>Connectivity Technology</Text>
+          <View style={styles.dropdownInput}>
+            {renderLabel9()}
+            <Dropdown
+              style={[styles.dropdown, isFocus9 && { borderColor: '#025492' }]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              itemTextStyle={styles.itemTextStyle}
+              iconStyle={styles.iconStyle}
+              data={options9}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={!isFocus9 ? 'Select connectivity technology' : '...'}
+              searchPlaceholder="Search..."
+              value={connectivityTechnology}
+              onFocus={() => setIsFocus9(true)}
+              onBlur={() => setIsFocus9(false)}
+              onChange={item => {
+                setConnectivityTechnology(item.label);
+                setIsFocus9(false);
+              }}
+              renderLeftIcon={() => (
+                <AntDesign
+                  style={styles.icon2}
+                  color={isFocus9 ? '#02549290' : '#00000090'}
+                  name="Safety"
+                  size={18}
+                />
+              )}
+              dropdownPosition='top'
+            />
+          </View>
+        </View>
+        <View style={styles.inputContainer}>
           {/*main camera input*/}
           <Text style={styles.text}>Serial Number</Text>
           <View style={styles.textInput}>
@@ -573,7 +631,7 @@ const addProducts = () => {
               maxHeight={300}
               labelField="label"
               valueField="value"
-              placeholder={!isFocus7 ? 'Select sim card type and condition' : '...'}
+              placeholder={!isFocus7 ? 'Select the OS of the product (if any)' : '...'}
               searchPlaceholder="Search..."
               value={operatingSystem}
               onFocus={() => setIsFocus7(true)}
