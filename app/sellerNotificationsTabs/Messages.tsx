@@ -137,7 +137,6 @@ const Messages = () => {
                             </View>
                 }
             </ScrollView>
-
         </View>
     )
 }
