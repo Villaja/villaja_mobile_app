@@ -55,13 +55,22 @@ const SellerAuthProvider = ({ children }) => {
       dispatch({ type: 'SET_LOADING', payload: true });
 
       const response = await axios.post(`${base_url}/shop/login-shop`, { email, password });
-     
-      await AsyncStorage.setItem('sellerToken', response.data.token);
+      
+      if(response.data.success)
+        {
+          await AsyncStorage.setItem('sellerToken', response.data.token);
+          dispatch({ type: 'SET_TOKEN', payload: response.data.token });
+          await getSellerDetails(response.data.token);
+
+
+        }
+        else
+        {
+          dispatch({ type: 'SET_ERROR', payload: response.data.message });
+        }
      
 
-      dispatch({ type: 'SET_TOKEN', payload: response.data.token });
      
-      await getSellerDetails(response.data.token);
     } catch (error) {
       console.log('Request Details:', error);
       dispatch({ type: 'SET_ERROR', payload: 'Login failed' });
@@ -78,12 +87,17 @@ const SellerAuthProvider = ({ children }) => {
 
       const response = await axios.post(`${base_url}/shop/create-shop`, { name, email, password, address, avatar, phoneNumber, zipCode });
 
+      if(response.data.success)
+      {
+        dispatch({ type: 'SET_TOKEN', payload: response.data.token });
+        await AsyncStorage.setItem('token', response.data.token);
+        console.log("register success")
+      }
+      else
+      {
+      dispatch({ type: 'SET_ERROR', payload: response.data.message });
 
-      dispatch({ type: 'SET_TOKEN', payload: response.data.token });
-      await AsyncStorage.setItem('token', response.data.token);
-
-     
-      console.log("register success")
+      }
     } catch (error) {
       console.error('Registration failed:', error.response.data);
       dispatch({ type: 'SET_ERROR', payload: 'Registration failed' });

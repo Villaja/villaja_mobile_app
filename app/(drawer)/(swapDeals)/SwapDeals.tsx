@@ -17,6 +17,7 @@ import { defaultStyles } from '../../../constants/Styles';
 
 const swapDeals = () => {
   const [products, setProducts] = useState<Array<any>>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Array<any>>([]);
   const [seller, setSeller] = useState<any>([]);
   const [token, setToken] = useState<string>();
   const [loading, setLoading] = useState<boolean>(true);
@@ -47,6 +48,7 @@ const swapDeals = () => {
       const response = await axios.get(`${base_url}/quick-swap/get-unsold-products`);
             if (response.data.success) {
                 setProducts(response.data.unsoldQuickSwapProducts);
+                setFilteredProducts(response.data.unsoldQuickSwapProducts);
                 
             } else {
                 console.error('Failed to fetch unsold quick swap orders');
@@ -85,6 +87,12 @@ const swapDeals = () => {
     }
   }, [seller, token]);
 
+
+  useEffect(() => {
+    setFilteredProducts(
+      products.filter((product) => product.userProductName.toLowerCase().includes(searchValue.toLowerCase())))
+  },[searchValue])
+
   const renderSkeletonLoader = (start: number, end: number) => {
     const cardsPerRow = 2;
 
@@ -116,7 +124,7 @@ const swapDeals = () => {
     return (
       <View>
         <View style={styles.gridContainer2}>
-          {products.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <View
               key={product._id}
               style={[
@@ -138,7 +146,7 @@ const swapDeals = () => {
     return (
       <View>
         <View style={styles.gridContainer}>
-          {products.map((product, index) => (
+          {filteredProducts.map((product, index) => (
             <View
               key={product._id}
               style={[
