@@ -35,7 +35,7 @@ const Recovery = () => {
             const result = await response.json()
 
             if (response.ok) {
-                Alert.alert('Success', 'OTP has been sent to your email.')
+                Alert.alert('Success', 'a password reset link has been sent to your email.')
                 user_type==='shop' ? router.push('/sellerAuthScreens/SellerLogin') : router.push('/(modals)/login')
             } else {
                 Alert.alert('Error', result.message || 'Something went wrong. Please try again.')

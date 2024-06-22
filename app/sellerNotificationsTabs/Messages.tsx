@@ -1,4 +1,4 @@
-import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, TextInput, View, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { base_url } from '../../constants/server'
@@ -9,7 +9,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useAuth } from '../../context/SellerAuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
-import { router, useRouter } from 'expo-router'
+import { router, useRouter } from 'expo-router';
+import LottieView from "lottie-react-native";
 
 
 interface Conversation {
@@ -37,6 +38,7 @@ const Messages = () => {
         
     }
 
+    const {height} = Dimensions.get('window')
     useEffect(() => {
         const getConversation = async () => {
             try {
@@ -128,10 +130,9 @@ const Messages = () => {
                         ))
 
                             :
-                            <Text style={{marginHorizontal:'auto',fontFamily:'roboto-condensed',marginVertical:20}}>no messages</Text>
+
                 }
             </ScrollView>
-
         </View>
     )
 }
