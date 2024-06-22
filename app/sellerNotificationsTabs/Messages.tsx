@@ -130,7 +130,11 @@ const Messages = () => {
                         ))
 
                             :
-
+                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: height / 1 / 8 }} >
+                                <LottieView source={require("../../assets/images/no-message.json")} autoPlay loop={true} style={{ width: 200, height: 200, }} />
+                                <Text style={{ color: '#025492', fontSize: 16, fontWeight: '500', marginBottom: 20 }} >No Message Found</Text>
+                                <Text style={{ color: '#00000097', fontSize: 13, fontWeight: '500', paddingHorizontal: 50 }} >You can text a seller from their profile, accessible through the product details</Text>
+                            </View>
                 }
             </ScrollView>
         </View>

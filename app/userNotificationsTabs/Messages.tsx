@@ -131,6 +131,7 @@ const MessageItem = ({ data, me, searchValue }: { data: Conversation, me: string
         };
         getUser();
     }, []);
+    
     return (
         <View>
 
