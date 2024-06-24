@@ -29,6 +29,7 @@ const Chat = () => {
   const [images, setImages] = useState<any>([])
   const scrollRef = useRef<any>(null)
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [seller,setSeller] = useState<any>({})
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -140,6 +141,27 @@ const Chat = () => {
     getMessage();
   }, [id])
 
+
+  const getSellerInfo = async(id:string) => {
+    try {
+            const response = await axios.get(`${base_url}/shop/get-shop-info/${id}`)
+
+            if(response.data.success)
+            {
+                setSeller(response.data.shop)
+            }
+            else
+            {
+                console.log("could not get seller information");   
+            }  
+    }
+    catch(e)
+    {
+      console.log("error retrieving seller info: ",e);
+      
+    }
+  }
+
   useEffect(() => {
     const getConversation = async () => {
 
@@ -154,6 +176,7 @@ const Chat = () => {
           }
         )
         setConversation(response.data.conversation)
+        getSellerInfo(response.data.conversation.members[1])
       }
       catch (err) {
         console.log("error retrieving conversation", err);
@@ -161,6 +184,8 @@ const Chat = () => {
       }
 
     }
+
+    getConversation()
   }, [id])
 
   return (
@@ -171,8 +196,8 @@ const Chat = () => {
             <Ionicons name='arrow-back-sharp' size={20} color={"#000"} />
           </TouchableOpacity>
           <View style={styles.userInfo}>
-            <Image source={require("../../assets/images/user2.png")} style={styles.userInfoImg} resizeMode='contain' />
-            <Text style={styles.userInfoText}>{userName}</Text>
+            <Image source={{uri:seller.avatar?.url}} style={styles.userInfoImg} resizeMode='contain' />
+            <Text style={styles.userInfoText}>{seller.name}</Text>
           </View>
         </View>
 
@@ -188,7 +213,7 @@ const Chat = () => {
                 <View key={msg._id}>
                   <View style={[styles.messageBubble]}>
                     {msg.text && <Text style={styles.msgText}>{msg.text}</Text>}
-                    <Text style={styles.date}>{moment(msg.createdAt).fromNow()}</Text>
+                    <Text style={styles.dateSender}>{moment(msg.createdAt).fromNow()}</Text>
 
                   </View>
                   {msg.images ? (
@@ -198,7 +223,7 @@ const Chat = () => {
                         resizeMode="cover"
                         style={styles.messageImage}
                       />
-                      <Text style={styles.date}>{moment(msg.createdAt).fromNow()}</Text>
+                      <Text style={styles.dateSender}>{moment(msg.createdAt).fromNow()}</Text>
                     </View>
                   ) : null}
                 </View>
@@ -256,7 +281,8 @@ const styles = StyleSheet.create({
   },
   userInfoImg: {
     width: 40,
-    height: 40
+    height: 40,
+    borderRadius:40
   },
   userInfo: {
     flexDirection: 'row',
@@ -292,6 +318,16 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingVertical: 13,
     alignSelf: 'flex-start',
+  },
+  dateSender: {
+    fontSize: 10,
+    color: 'rgba(0,0,0,0.5)',
+    // color:'#000',
+    position: 'absolute',
+    left:0,
+    // right: 6,
+    bottom: -15,
+    fontFamily: 'roboto-condensed'
   },
   date: {
     fontSize: 10,

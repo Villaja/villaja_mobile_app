@@ -19,7 +19,7 @@ const ProductCard3: React.FC<ProductCardProps> = ({ product }) => {
           </View>
           <Text style={styles.title}>{product.name}</Text>
           <Text style={styles.price}>{'₦' + (product.discountPrice === 0 ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
-          <Text style={styles.discountPrice}>{product.discountPrice !== 0 ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
+          <Text style={styles.discountPrice}>{product.discountPrice !== 0 && product.originalPrice != product.discountPrice ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>                        
           {/* <Text style={styles.shopName}>{product.shop?.name}</Text> */}
 
         </TouchableOpacity>

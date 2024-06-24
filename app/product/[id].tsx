@@ -263,7 +263,7 @@ const Page: React.FC = () => {
 
                     <View style={{ flexDirection: 'row', gap: 8, paddingVertical: 16 }}>
                       <TouchableOpacity style={[defaultStyles.btn, { flexBasis: '49%' }]} onPress={() => handleAddToCart()}><Text style={[defaultStyles.btnText, { fontSize: 16, fontFamily: 'roboto-condensed' }]}>Add To Cart</Text></TouchableOpacity>
-                      <TouchableOpacity style={[defaultStyles.btnStyleBorder, { flexBasis: '49%' }]}><Text style={[defaultStyles.btnText, { fontSize: 16, fontFamily: 'roboto-condensed', color: Colors.primary }]} onPress={sendMessage}>Message Seller</Text></TouchableOpacity>
+                      <TouchableOpacity style={[defaultStyles.btnStyleBorder, { flexBasis: '49%' }]} onPress={sendMessage}><Text style={[defaultStyles.btnText, { fontSize: 16, fontFamily: 'roboto-condensed', color: Colors.primary }]} >Message Seller</Text></TouchableOpacity>
                     </View>
                   </View>
 

@@ -8,6 +8,12 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { base_url } from '../../constants/server';
 import LottieView from "lottie-react-native";
 
+const statusColor = new Map([
+  ['delivered', 'green'],
+  ['cancelled', 'red'],
+  ['processing', 'orange']
+])
+
 
 
 const Page = () => {
@@ -92,7 +98,7 @@ const Page = () => {
                     </View>
                     <View>
                       <Text style={{fontSize: 13, color: '#00000080'}} >Order Status</Text>
-                      <Text style={{ fontSize: 14, fontWeight: '700', color: 'green' }} >{orderDetails.paymentInfo.status}</Text>
+                      <Text style={{ fontSize: 14, fontWeight: '700', color: statusColor.get(orderDetails.status.toLowerCase()) }} >{orderDetails.status}</Text>
                     </View>
                   </View>
                   <View style={{ paddingHorizontal: 20 }} >

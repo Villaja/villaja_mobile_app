@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
 import { base_url } from '../../../constants/server';
@@ -16,6 +16,7 @@ import PopUpModal from '../../../components/popUpModal';
 import PopUpModal2 from '../../../components/popUpModal2';
 import { useRouter } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAuth } from '../../../context/SellerAuthContext';
 
 
 
@@ -26,6 +27,7 @@ const Page: React.FC = () => {
 
 
   const scrollRef = useRef<ScrollView>(null)
+  const {seller} = useAuth()
   const { id } = useLocalSearchParams<{ id: string }>();
   const [productDetails, setProductDetails] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -35,6 +37,49 @@ const Page: React.FC = () => {
   const [wishListInfo, setWishListInfo] = useState<{ message2: string, iconColor2: string, icon2: string } | undefined>();
   const [descriptionLength, setDescriptionLength] = useState(3);
   const router = useRouter()
+
+  const sendMessage = async () => {
+    try {
+      if (productDetails.user) {
+        const groupTitle = productDetails?._id + productDetails.user;
+        const userId = productDetails.user;
+        const sellerId = seller._id;
+        const response = await axios.post(`${base_url}/conversation/create-new-conversation`, 
+          {
+            groupTitle,
+            userId,
+            sellerId,
+          }
+        )
+
+        if (response.data.success) {
+          router.push({pathname:`/sellerNotificationsTabs/${response.data.conversation._id}`});
+          console.log('conversation created');
+        } else {
+          console.log('an error occurred')
+        }
+      } else {
+        router.push('/(modals)/login');
+        Alert.alert('Unauthorized', 'you have to be signed in to send a message')
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log('Error response:', error.response);
+        if (error.response?.status === 500) {
+            Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
+        } else if (error.response?.status === 401) {
+            Alert.alert('Unauthorized', 'Please check your token and try again.');
+        } else {
+            Alert.alert('Error', `an error occurred`);
+            console.log('user password not found', error.message)
+        }
+    } else {
+      console.log(error);
+      
+        Alert.alert('Error', 'An unexpected error occurred');
+    }
+    }
+  }
 
 
 
@@ -145,7 +190,7 @@ const Page: React.FC = () => {
                     <Text style={styles.price}>₦{productDetails?.userProductPrice.toLocaleString()}</Text>
                     
                     <View style={{ flexDirection: 'row', gap: 8, paddingVertical: 10 }}>
-                      <TouchableOpacity style={{backgroundColor: '#025492', paddingVertical: 15, paddingHorizontal: 20, borderRadius: 10}} ><Text style={[defaultStyles.btnText, { fontSize: 14, fontFamily: 'roboto-condensed' }]}>Message For Swap</Text></TouchableOpacity>
+                      <TouchableOpacity style={{backgroundColor: '#025492', paddingVertical: 15, paddingHorizontal: 20, borderRadius: 10}} onPress={sendMessage} ><Text style={[defaultStyles.btnText, { fontSize: 14, fontFamily: 'roboto-condensed' }]}>Message For Swap</Text></TouchableOpacity>
                     </View>
                   </View>
 
