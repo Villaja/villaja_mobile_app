@@ -21,16 +21,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </View>
           <Text style={styles.title}>{product.name.length < 30 ? product.name : product.name.slice(0, 30) + '...'}</Text>
           <Text style={styles.price}>{'₦' + (product.discountPrice === 0 ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
-          <Text style={styles.discountPrice}>{product.discountPrice !== 0 ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
+          <Text style={styles.discountPrice}>{product.discountPrice !== 0 && product.originalPrice != product.discountPrice ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
           {/* <Text style={styles.shopName}>{product.shop?.name}</Text> */}
 
         </TouchableOpacity>
       </Link>
+      {
+        product.discountPrice && product.originalPrice != product.discountPrice ?
+
       <Text style={styles.discountPercentage}>
         {
-          product.discountPrice && (((product.originalPrice - product.discountPrice) / product.originalPrice) * 100).toFixed()
+          (((product.originalPrice - product.discountPrice) / product.originalPrice) * 100).toFixed()
         }%
       </Text>
+
+      :
+      null
+      }
+
 
 
     </View>

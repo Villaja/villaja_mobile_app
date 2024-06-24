@@ -185,9 +185,9 @@ const merchantProfile = () => {
                         <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Accessories</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={{backgroundColor: "#025492", height: 38, width: 125, justifyContent: "center", alignItems: "center", marginTop: 20, borderRadius: 8}} >
+                {/* <TouchableOpacity style={{backgroundColor: "#025492", height: 38, width: 125, justifyContent: "center", alignItems: "center", marginTop: 20, borderRadius: 8}} >
                     <Text style={{color:"#ffffff", fontSize: 13, fontWeight: "500" }} >Message</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <View style={{ marginTop: 40 }} >
                     <Text style={{ fontSize: 12, color: "#00000070", lineHeight: 15.2, letterSpacing: -0.18, fontWeight: "700" }} >About this merchant</Text>
                     <Text numberOfLines={about} style={{ marginTop: 6, fontSize: 11, color: "#00000070", lineHeight: 15, letterSpacing: -0.18 }} >{seller?.description}</Text>

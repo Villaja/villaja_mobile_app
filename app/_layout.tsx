@@ -823,7 +823,8 @@ function RootLayoutNav() {
                             backgroundColor: 'transparent'
                           },
                           headerTitleStyle: {
-                            fontSize: 18
+                            fontSize: 18,
+                            fontFamily:"roboto-condensed-sb"
                           },
                           headerLeft: () => (
                             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>

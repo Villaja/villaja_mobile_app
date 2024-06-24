@@ -173,11 +173,11 @@ const cart = () => {
           <Text style={{fontFamily:'roboto-condensed',color:'rgba(0,0,0,0.35)'}}>History</Text>
           {/* POSTPONED TILL V2.1 <TouchableOpacity><Text style={{fontFamily:'roboto-condensed',color:Colors.primary}}>Clear History</Text></TouchableOpacity>*/}
         </View>
-        {
+        {/* {
           sampleCartItems && sampleCartItems.map((item) => (
             <OrderHistoryCard key={item.id}  {...item} />
           ))
-        }
+        } */}
       </ScrollView>
       }
 
