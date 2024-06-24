@@ -15,69 +15,70 @@ import { ActivityIndicator } from 'react-native-paper';
 const { width } = Dimensions.get("window");
 
 const options = [
-    { label: 'No Crack', value: '1' },
-    { label: 'Small Crack', value: '2' },
-    { label: 'Minor Crack', value: '3' },
-    { label: 'Huge Crack', value: '4' },
+    { label: 'No Crack', value: 'No Crack' },
+    { label: 'Small Crack', value: 'Small Crack' },
+    { label: 'Minor Crack', value: 'Minor Crack' },
+    { label: 'Huge Crack', value: 'Huge Crack' },
 ];
 
 const options2 = [
-    { label: 'No scratches, dents or chips', value: '5' },
-    { label: 'Some scratches, dents, and chips', value: '6' },
-    { label: 'Major Cracks and dents', value: '7' },
+    { label: 'No scratches, dents or chips', value: 'No scratches, dents or chips' },
+    { label: 'Some scratches, dents, and chips', value: 'Some scratches, dents, and chips' },
+    { label: 'Major Cracks and dents', value: 'Major Cracks and dents' },
 ];
 
 const options3 = [
-    { label: 'Headphones', value: '8' },
-    { label: 'Charger and cable', value: '9' },
-    { label: 'Original Box', value: '10' },
-    { label: 'No accessories', value: '11' }
+    { label: 'Headphones', value: 'Headphones' },
+    { label: 'Charger and cable', value: 'Charger and cable' },
+    { label: 'Original Box', value: 'Original Box' },
+    { label: 'No accessories', value: 'No accessories' }
 ];
 
 const options4 = [
-    { label: 'New', value: '12' },
-    { label: 'Open Box', value: '13' },
-    { label: 'Uk Used', value: '14' },
-    { label: 'Fairly used', value: '15' },
-    { label: 'For parts', value: '16' }
+    { label: 'New', value: 'New' },
+    { label: 'Open Box', value: 'Open Box' },
+    { label: 'Uk Used', value: 'Uk Used' },
+    { label: 'Fairly used', value: 'Fairly used' },
+    { label: 'For parts', value: 'For parts' }
 ];
 
 const options5 = [
-    { label: 'None', value: '1' },
-    { label: '2GB', value: '2' },
-    { label: '4GB', value: '3' },
-    { label: '6GB', value: '4' },
-    { label: '8GB', value: '5' },
-    { label: '10GB', value: '6' },
-    { label: '12GB', value: '77' },
-    { label: '16GB', value: '8' },
-    { label: '32GB', value: '9' }
+    { label: 'None', value: 'None' },
+    { label: '2GB', value: '2GB' },
+    { label: '4GB', value: '4GB' },
+    { label: '6GB', value: '6GB' },
+    { label: '8GB', value: '8GB' },
+    { label: '10GB', value: '10GB' },
+    { label: '12GB', value: '12GB' },
+    { label: '16GB', value: '16GB' },
+    { label: '32GB', value: '32GB' }
 ];
 
 const options6 = [
-    { label: 'None', value: '1' },
-    { label: '64GB', value: '2' },
-    { label: '100GB', value: '3' },
-    { label: '128GB', value: '4' },
-    { label: '250GB', value: '5' },
-    { label: '512GB', value: '6' },
-    { label: '800GB', value: '7' },
-    { label: '1TB', value: '8' },
-    { label: '2TB & more', value: '9' },
+    { label: 'None', value: 'None' },
+    { label: '64GB', value: '64GB' },
+    { label: '100GB', value: '100GB' },
+    { label: '128GB', value: '128GB' },
+    { label: '250GB', value: '250GB' },
+    { label: '512GB', value: '512GB' },
+    { label: '800GB', value: '800GB' },
+    { label: '1TB', value: '1TB' },
+    { label: '2TB & more', value: '2TB & more' }
 ];
 
 const options7 = [
-    { label: 'less than a month', value: '33' },
-    { label: '1 month', value: '34' },
-    { label: '2 months', value: '35' },
-    { label: 'quarter of a year', value: '36' },
-    { label: 'half a year', value: '37' },
-    { label: '1 year', value: '38' },
-    { label: '2 years', value: '39' },
-    { label: '3 years', value: '40' },
-    { label: '4 years', value: '41' },
-    { label: '5 years', value: '42' },
+    { label: 'less than a month', value: 'less than a month' },
+    { label: '1 month', value: '1 month' },
+    { label: '2 months', value: '2 months' },
+    { label: 'quarter of a year', value: 'quarter of a year' },
+    { label: 'half a year', value: 'half a year' },
+    { label: '1 year', value: '1 year' },
+    { label: '2 years', value: '2 years' },
+    { label: '3 years', value: '3 years' },
+    { label: '4 years', value: '4 years' },
+    { label: '5 years', value: '5 years' }
 ];
+
 
 
 const postAd2 = () => {

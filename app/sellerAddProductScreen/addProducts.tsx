@@ -14,105 +14,106 @@ const { width } = Dimensions.get("window")
 
 
 const options = [
-  { label: 'Brand New', value: '1' },
-  { label: 'Open Box', value: '2' },
-  { label: 'Refurbished', value: '3' },
-  { label: 'Uk-used', value: '4' },
-  { label: 'Pre-owned', value: '5' },
+  { label: 'Brand New', value: 'Brand New' },
+  { label: 'Open Box', value: 'Open Box' },
+  { label: 'Refurbished', value: 'Refurbished' },
+  { label: 'Uk-used', value: 'Uk-used' },
+  { label: 'Pre-owned', value: 'Pre-owned' },
 ];
 
 const options2 = [
-  { label: 'Headphones', value: '1' },
-  { label: 'Charger and cable', value: '2' },
-  { label: 'Original Box', value: '3' },
-  { label: 'No accessories', value: '4' }
+  { label: 'Headphones', value: 'Headphones' },
+  { label: 'Charger and cable', value: 'Charger and cable' },
+  { label: 'Original Box', value: 'Original Box' },
+  { label: 'No accessories', value: 'No accessories' }
 ];
 
 const options3 = [
-  { label: 'None', value: '1' },
-  { label: '64GB', value: '2' },
-  { label: '100GB', value: '3' },
-  { label: '128GB', value: '4' },
-  { label: '250GB', value: '5' },
-  { label: '512GB', value: '6' },
-  { label: '800GB', value: '7' },
-  { label: '1TB', value: '8' },
-  { label: '2TB & more', value: '9' },
+  { label: 'None', value: 'None' },
+  { label: '64GB', value: '64GB' },
+  { label: '100GB', value: '100GB' },
+  { label: '128GB', value: '128GB' },
+  { label: '250GB', value: '250GB' },
+  { label: '512GB', value: '512GB' },
+  { label: '800GB', value: '800GB' },
+  { label: '1TB', value: '1TB' },
+  { label: '2TB & more', value: '2TB & more' },
 ];
 
 const options4 = [
-  { label: 'None', value: '1' },
-  { label: '2GB', value: '2' },
-  { label: '4GB', value: '3' },
-  { label: '6GB', value: '4' },
-  { label: '8GB', value: '5' },
-  { label: '10GB', value: '6' },
-  { label: '12GB', value: '7' },
-  { label: '16GB', value: '8' },
-  { label: '32GB', value: '9' }
+  { label: 'None', value: 'None' },
+  { label: '2GB', value: '2GB' },
+  { label: '4GB', value: '4GB' },
+  { label: '6GB', value: '6GB' },
+  { label: '8GB', value: '8GB' },
+  { label: '10GB', value: '10GB' },
+  { label: '12GB', value: '12GB' },
+  { label: '16GB', value: '16GB' },
+  { label: '32GB', value: '32GB' }
 ];
 
 const options5 = [
-  { label: 'None', value: '1' },
-  { label: 'LCD', value: '2' },
-  { label: 'LED', value: '3' },
-  { label: 'OLED', value: '4' },
-  { label: 'AMOLED', value: '5' },
-  { label: 'QLED', value: '6' },
-  { label: 'PLASMA', value: '7' },
-  { label: 'CRT', value: '8' },
-  { label: 'E-ink', value: '9' },
-  { label: 'Micro-LED', value: '10' },
-  { label: 'Mini-LED', value: '11' },
+  { label: 'None', value: 'None' },
+  { label: 'LCD', value: 'LCD' },
+  { label: 'LED', value: 'LED' },
+  { label: 'OLED', value: 'OLED' },
+  { label: 'AMOLED', value: 'AMOLED' },
+  { label: 'QLED', value: 'QLED' },
+  { label: 'PLASMA', value: 'PLASMA' },
+  { label: 'CRT', value: 'CRT' },
+  { label: 'E-ink', value: 'E-ink' },
+  { label: 'Micro-LED', value: 'Micro-LED' },
+  { label: 'Mini-LED', value: 'Mini-LED' },
 ];
 
 const options6 = [
-  { label: 'None', value: '1' },
-  { label: 'Nano Sim Factory Unlocked', value: '2' },
-  { label: 'Dual Sim Factory Unlocked', value: '3' },
-  { label: 'e-Sim Factory Unlocked', value: '4' },
-  { label: 'Nano Sim Factory Locked', value: '5' },
-  { label: 'Dual Sim Factory Locked', value: '6' },
-  { label: 'e-Sim Factory Locked', value: '7' },
+  { label: 'None', value: 'None' },
+  { label: 'Nano Sim Factory Unlocked', value: 'Nano Sim Factory Unlocked' },
+  { label: 'Dual Sim Factory Unlocked', value: 'Dual Sim Factory Unlocked' },
+  { label: 'e-Sim Factory Unlocked', value: 'e-Sim Factory Unlocked' },
+  { label: 'Nano Sim Factory Locked', value: 'Nano Sim Factory Locked' },
+  { label: 'Dual Sim Factory Locked', value: 'Dual Sim Factory Locked' },
+  { label: 'e-Sim Factory Locked', value: 'e-Sim Factory Locked' },
 ];
 
 const options7 = [
-  { label: 'None', value: '1' },
-  { label: 'Android OS', value: '2' },
-  { label: 'IOS', value: '3' },
-  { label: 'Mac OS', value: '4' },
-  { label: 'Windows xp OS', value: '5' },
-  { label: 'Windows Vista OS', value: '6' },
-  { label: 'Windows 7 OS', value: '7' },
-  { label: 'Windows 7 Professional OS', value: '8' },
-  { label: 'Windows 8 OS', value: '9' },
-  { label: 'Windows 10 OS', value: '10' },
-  { label: 'Windows 10 Education OS', value: '11' },
-  { label: 'Windows 10 Pro OS', value: '12' },
-  { label: 'Windows 11 Home OS', value: '13' },
-  { label: 'Windows 11 Pro OS', value: '14' },
-  { label: 'Linux OS', value: '15' },
-  { label: 'Chrome OS', value: '16' },
-  { label: 'Ubuntu OS', value: '17' },
-  { label: 'FreeDOS', value: '18' },
+  { label: 'None', value: 'None' },
+  { label: 'Android OS', value: 'Android OS' },
+  { label: 'IOS', value: 'IOS' },
+  { label: 'Mac OS', value: 'Mac OS' },
+  { label: 'Windows xp OS', value: 'Windows xp OS' },
+  { label: 'Windows Vista OS', value: 'Windows Vista OS' },
+  { label: 'Windows 7 OS', value: 'Windows 7 OS' },
+  { label: 'Windows 7 Professional OS', value: 'Windows 7 Professional OS' },
+  { label: 'Windows 8 OS', value: 'Windows 8 OS' },
+  { label: 'Windows 10 OS', value: 'Windows 10 OS' },
+  { label: 'Windows 10 Education OS', value: 'Windows 10 Education OS' },
+  { label: 'Windows 10 Pro OS', value: 'Windows 10 Pro OS' },
+  { label: 'Windows 11 Home OS', value: 'Windows 11 Home OS' },
+  { label: 'Windows 11 Pro OS', value: 'Windows 11 Pro OS' },
+  { label: 'Linux OS', value: 'Linux OS' },
+  { label: 'Chrome OS', value: 'Chrome OS' },
+  { label: 'Ubuntu OS', value: 'Ubuntu OS' },
+  { label: 'FreeDOS', value: 'FreeDOS' },
 ];
 
 const options8 = [
-  { label: 'None', value: '1' },
-  { label: '2 months', value: '2' },
-  { label: '4 months', value: '3' },
-  { label: '6 months', value: '4' },
-  { label: '8 months', value: '5' },
-  { label: '10 months', value: '6' },
-  { label: '12 months', value: '7' },
-  { label: '12 months & above', value: '8' }
+  { label: 'None', value: 'None' },
+  { label: '2 months', value: '2 months' },
+  { label: '4 months', value: '4 months' },
+  { label: '6 months', value: '6 months' },
+  { label: '8 months', value: '8 months' },
+  { label: '10 months', value: '10 months' },
+  { label: '12 months', value: '12 months' },
+  { label: '12 months & above', value: '12 months & above' }
 ]
 
 const options9 = [
-  { label: 'Bluetooth Only', value: '1' },
-  { label: 'Wi-fi Only', value: '2' },
-  { label: 'Bluetooth and Wi-fi', value: '3' },
+  { label: 'Bluetooth Only', value: 'Bluetooth Only' },
+  { label: 'Wi-fi Only', value: 'Wi-fi Only' },
+  { label: 'Bluetooth and Wi-fi', value: 'Bluetooth and Wi-fi' },
 ];
+
 
 const addProducts = () => {
   const router = useRouter();
@@ -257,7 +258,8 @@ const addProducts = () => {
         os: operatingSystem,
         tags: warranty,
         displaySize: displayType,
-        connectivityTechnology: connectivityTechnology
+        connectivityTechnology: connectivityTechnology,
+        weight: weight
       }
 
       const token = await AsyncStorage.getItem('sellerToken');
