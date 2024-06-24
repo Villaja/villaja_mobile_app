@@ -68,7 +68,7 @@ const sellerOrders = () => {
             ) : (
               <View style={{ marginTop: height/1/3, padding: 20, gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <LottieView source={require('../../../assets/images/not-available.json')} autoPlay loop={true} style={{ width: 50, height: 50 }} />
-                <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15 }}>No Orders</Text>
+                <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15 }}>No Order Found</Text>
               </View>
             )
         )

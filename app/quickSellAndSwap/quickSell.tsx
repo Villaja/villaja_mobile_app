@@ -23,16 +23,16 @@ interface CategoryInterface {
 }
 
 const options7 = [
-  { label: 'less than a month', value: '33' },
-  { label: '1 month', value: '34' },
-  { label: '2 months', value: '35' },
-  { label: 'quarter of a year', value: '36' },
-  { label: 'half a year', value: '37' },
-  { label: '1 year', value: '38' },
-  { label: '2 years', value: '39' },
-  { label: '3 years', value: '40' },
-  { label: '4 years', value: '41' },
-  { label: '5 years', value: '42' },
+  { label: 'less than a month', value: 'less than a month' },
+  { label: '1 month', value: '1 month' },
+  { label: '2 months', value: '2 months' },
+  { label: 'quarter of a year', value: 'quarter of a year' },
+  { label: 'half a year', value: 'half a year' },
+  { label: '1 year', value: '1 year' },
+  { label: '2 years', value: '2 years' },
+  { label: '3 years', value: '3 years' },
+  { label: '4 years', value: '4 years' },
+  { label: '5 years', value: '5 years' }
 ];
 
 

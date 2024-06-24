@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "villaja_mobile_app",
-    "slug": "villaja_mobile_app",
+    "name": "Villaja Shopping",
+    "slug": "Villaja Shopping",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/appicon2.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/images/splash-screen2.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#025492"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/appicon2.png",
         "backgroundColor": "#ffffff"
       }
     },

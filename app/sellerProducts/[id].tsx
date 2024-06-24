@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable } from 'react-native';
+import { View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
 import { base_url } from '../../constants/server';
@@ -14,7 +14,7 @@ import SimilarSection from '../../components/SimilarSection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import PopUpModal from '../../components/popUpModal';
 import PopUpModal2 from '../../components/popUpModal2';
-import { useRouter } from "expo-router";
+import { useRouter, Link } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 
@@ -139,6 +139,46 @@ const Page: React.FC = () => {
     fetchProductDetails();
   }, [id]);
 
+  const deleteSellerProducts = async () => {
+    const token = await AsyncStorage.getItem('sellerToken');
+
+    try {
+      const response = await axios.delete(`${base_url}/product/delete-shop-product/${id}`, 
+        {
+          headers: {
+            Authorization: token
+          }
+        });
+      if (response.data.success) {
+        router.push('/(drawer)/(otherDrawerScreens)/SellerProducts');
+        Alert.alert('Confirmed', 'This product has been deleted successfully');
+      } else {
+        console.log('An error occurred')
+      }
+    } catch (error) {
+      let errorMessage = 'An unknown error occurred';
+
+      // Axios error
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          // The request was made and the server responded with a status code that falls out of the range of 2xx
+          errorMessage = error.response.data?.message || error.response.statusText || 'Error in response';
+        } else if (error.request) {
+          // The request was made but no response was received
+          errorMessage = 'No response received from server';
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          errorMessage = error.message;
+        }
+      } else if (error instanceof Error) {
+        // Generic Error object
+        errorMessage = error.message;
+      }
+
+      Alert.alert('Error deleting products', errorMessage);
+      console.log('Error deleting products', error);
+    }
+  }
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff', paddingTop: 15 }}  >
@@ -163,10 +203,12 @@ const Page: React.FC = () => {
               {productDetails && (
                 <>
                   <View style={{flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 5, alignSelf: 'flex-end', marginRight: 20}} >
-                    <TouchableOpacity style={{paddingVertical: 10, paddingHorizontal: 24, backgroundColor: '#025492', borderRadius: 2}} >
+                  <Link href={`/editSellerProducts/${productDetails._id}`} asChild >
+                    <TouchableOpacity  style={{paddingVertical: 10, paddingHorizontal: 24, backgroundColor: '#025492', borderRadius: 2}} >
                         <Text style={{fontSize: 12, fontFamily: 'roboto-condensed-sb', color: '#ffffff'}} >Edit Product</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{paddingVertical: 10, paddingHorizontal: 24, backgroundColor: Colors.redTransparent, borderRadius: 2}} >
+                    </Link>
+                    <TouchableOpacity onPress={deleteSellerProducts} style={{paddingVertical: 10, paddingHorizontal: 24, backgroundColor: Colors.redTransparent, borderRadius: 2}} >
                         <Text style={{fontSize: 12, fontFamily: 'roboto-condensed-sb', color: Colors.red}} >Delete Product</Text>
                     </TouchableOpacity>
                   </View>

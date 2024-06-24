@@ -105,8 +105,8 @@ const merchantProfile = () => {
                     },
                 });
     
-                const first10Products = response.data.products.slice(0, 50);
-                setProducts(first10Products)
+                const last50Products = response.data.products.slice(-50);
+                setProducts(last50Products)
     
             } catch (error) {
                 console.error('Error fetching products', error);
