@@ -286,18 +286,6 @@ function RootLayoutNav() {
                         }}
                       />
                       <Stack.Screen
-                        name='editSellerProducts2/[id]'
-                        options={{
-                          headerTitle: 'Edit Product',
-                          headerTitleAlign: 'left',
-                          headerTitleStyle: {
-                            fontFamily: 'roboto-condensed-sb',
-                            fontSize: 18
-                          },
-                          headerShadowVisible: false,
-                        }}
-                      />
-                      <Stack.Screen
                         name='categoryCatalog/[id]'
                         options={{
                           headerTitle: '',
