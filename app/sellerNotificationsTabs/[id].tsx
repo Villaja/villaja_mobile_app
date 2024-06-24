@@ -9,7 +9,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import moment from 'moment'
 import * as ImagePicker from 'expo-image-picker';
 import LottieView from "lottie-react-native";
-import { ActivityIndicator } from 'react-native-paper'
 
 
 interface Conversation {
@@ -24,8 +23,6 @@ interface Conversation {
 
 const Chat = () => {
   const { id, userName } = useLocalSearchParams()
-  const [user,setUser] = useState<any>({})
-  const [loading,setLoading] = useState<boolean>(true)
   const [conversation, setConversation] = useState<Conversation | null>(null)
   const [messages, setMessages] = useState<any>([])
   const [newMessage, setNewMessage] = useState<string>("")
@@ -147,26 +144,6 @@ const Chat = () => {
     getMessage();
   }, [id])
 
-  const getUserInfo = async(id:string) => {
-    try {
-            const response = await axios.get(`${base_url}/user/user-info/${id}`)
-
-            if(response.data.success)
-            {
-                setUser(response.data.user)
-            }
-            else
-            {
-                console.log("could not get user information");   
-            }  
-    }
-    catch(e)
-    {
-      console.log("error retrieving user info: ",e);
-      
-    }
-  }
-
   useEffect(() => {
     const getConversation = async () => {
 
@@ -181,31 +158,17 @@ const Chat = () => {
           }
         )
         setConversation(response.data.conversation)
-        getUserInfo(response.data.conversation.members[0])
-
       }
       catch (err) {
         console.log("error retrieving conversation", err);
 
       }
-      finally
-      {
-        setLoading(false)
-      }
 
     }
-    getConversation()
   }, [id])
 
   return (
     <SafeAreaView style={styles.container}>
-      {
-        loading ? 
-          <View style={Platform.OS === 'android' ? { flex: 1, paddingTop: 40 } : { flex: 1 }}>
-            <ActivityIndicator size={'small'} color={Colors.primary} style={{marginVertical:50}} />
-
-          </View>
-        :
       <View style={Platform.OS === 'android' ? { flex: 1, paddingTop: 40 } : { flex: 1 }}>
         <View style={styles.chatHeader}>
           <TouchableOpacity onPress={() => router.back()}>
@@ -213,7 +176,7 @@ const Chat = () => {
           </TouchableOpacity>
           <View style={styles.userInfo}>
             <Image source={require("../../assets/images/user2.png")} style={styles.userInfoImg} resizeMode='contain' />
-            <Text style={styles.userInfoText}>{user.firstname ? user?.firstname+" "+user?.lastname : ""}</Text>
+            <Text style={styles.userInfoText}>{userName}</Text>
           </View>
         </View>
 
@@ -274,9 +237,6 @@ const Chat = () => {
           </View>
         </KeyboardAvoidingView>
       </View>
-
-      }
-
     </SafeAreaView>
   );
 };
