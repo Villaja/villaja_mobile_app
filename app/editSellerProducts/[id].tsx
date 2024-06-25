@@ -927,7 +927,7 @@ const sellerAddProduct: React.FC = () => {
         </View>*/}
       </View>
           <TouchableOpacity style={styles.button} onPress={() => updateProductDetails()}>
-            <Text style={styles.buttonText1}>Next</Text>
+            <Text style={styles.buttonText1}>Finish</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

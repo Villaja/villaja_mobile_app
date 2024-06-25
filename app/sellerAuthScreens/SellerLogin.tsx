@@ -1,5 +1,4 @@
 import { View, StyleSheet, TextInput, Text, TouchableOpacity, Image, Alert, ScrollView } from 'react-native';
-import CheckBox from '@react-native-community/checkbox';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { useWarmUpBrowser } from '../../hooks/useWarmUpBrowser';
 import { defaultStyles } from '../../constants/Styles'

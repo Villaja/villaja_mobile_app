@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Alert, StyleSheet, TouchableOpacity, Image, Clipboard, Dimensions} from 'react-native';
+import { View, Text, Alert, StyleSheet, TouchableOpacity, Image, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Clipboard from 'expo-clipboard';
+
 
 const {width} = Dimensions.get('window')
 
@@ -40,7 +42,7 @@ const referral = () => {
 
     const handleShareReferralCode = async () => {
         try {
-            await Clipboard.setString(referralCode);
+            await Clipboard.setStringAsync(referralCode);
             Alert.alert('Referral Code Copied', 'Your referral code has been copied to the clipboard.');
         } catch (error) {
             console.error('Error copying referral code to clipboard:', error);

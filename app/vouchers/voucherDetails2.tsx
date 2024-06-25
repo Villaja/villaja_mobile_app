@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Clipboard, Dimensions } from "react-native";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from "react-native";
 import { Svg, SvgXml, Path, Line } from "react-native-svg";
 import { defaultStyles } from "../../constants/Styles";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Clipboard from 'expo-clipboard';
 
 const { height } = Dimensions.get("window")
 
@@ -51,7 +52,7 @@ export default function voucherDetails2() {
 
     //function to copy text to clipboard
     const copyToClipboard = () => {
-        Clipboard.setString(promoCode);
+        Clipboard.setStringAsync(promoCode);
         alert('Promo Code Copied to Clipboard!!');
     };
     return (

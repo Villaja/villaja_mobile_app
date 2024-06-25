@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Clipboard, Dimensions } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, StyleSheet, Dimensions } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import { useRouter } from "expo-router";
-
+import * as Clipboard from 'expo-clipboard';
 
 
 const { height, width } = Dimensions.get("window")
@@ -14,7 +14,7 @@ export default function voucherDetails() {
 
     //function to copy text to clipboard
     const copyToClipboard = () => {
-        Clipboard.setString(validPromoCode);
+        Clipboard.setStringAsync(validPromoCode);
         alert('Promo Code Copied to Clipboard!!');
     };
 
