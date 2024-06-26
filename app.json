@@ -4,7 +4,7 @@
     "slug": "villaja-shopping",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/appicon2.png",
+    "icon": "./assets/images/play_store_512.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/appicon2.png",
+        "foregroundImage": "./assets/images/play_store_512.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
