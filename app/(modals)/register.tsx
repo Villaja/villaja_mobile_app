@@ -104,7 +104,7 @@ const Page = () => {
           />
         </View>
 
-        <View style={{ marginTop: 15, gap: 13 }}>
+        <View style={{ marginTop: 15, marginBottom: 45, gap: 13 }}>
           <TouchableOpacity style={defaultStyles.btn} onPress={handleRegister}>
             <Text style={defaultStyles.btnText}>{isLoading ? 'Loading...' : 'Contnue'}</Text>
           </TouchableOpacity>
@@ -114,7 +114,7 @@ const Page = () => {
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 2, marginVertical: 16 }}>
+        {/*<View style={{ flexDirection: 'row', alignItems: 'center', gap: 2, marginVertical: 16 }}>
           <View style={{ borderBottomColor: Colors.grey, borderBottomWidth: StyleSheet.hairlineWidth, flexGrow: 1 }}></View>
           <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: Colors.grey }}>OR</Text>
           <View style={{ borderBottomColor: Colors.grey, borderBottomWidth: StyleSheet.hairlineWidth, flexGrow: 1 }}></View>
@@ -138,10 +138,7 @@ const Page = () => {
             <Image source={require('../../assets/images/facebook.png')} style={{ width: 15, height: 15 }} />
             <Text style={[defaultStyles.btnText, { color: '#00000080', fontFamily: 'roboto-condensed', fontWeight: "700", fontSize: 13 }]}>Login With Facebook</Text>
           </TouchableOpacity>
-        </View>
-
-
-
+        </View>*/}
       </View>
     </ScrollView>
   );
