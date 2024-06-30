@@ -80,7 +80,7 @@ const Page = () => {
           </Link>
         </View>
 
-        <View style={{ marginTop: 85, gap: 13 }}>
+        <View style={{ marginTop: 35, gap: 13 }}>
           <TouchableOpacity style={defaultStyles.btn} onPress={handleLogin}>
             <Text style={defaultStyles.btnText}>{isLoading ? 'Loading...' : 'Login'}</Text>
           </TouchableOpacity>

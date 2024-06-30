@@ -159,7 +159,7 @@ const Overview = () => {
         handleGetSwapRequests();
     }, [seller])
 
-    const totalSales = seller?.availableBalance?.toFixed(2) || "0.00"
+    const totalSales = seller?.availableBalance?.toLocaleString() || "0.00"
 
 
     return (
