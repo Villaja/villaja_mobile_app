@@ -267,7 +267,7 @@ const Overview = () => {
                             <AntDesign name='arrowright' size={15} color={Colors.grey} />
                         </View>
                         <View style={styles.salesMain}>
-                            <Text style={styles.totalSalesPrice}>₦{totalSales.toLocaleString()}</Text>
+                            <Text style={styles.totalSalesPrice}>₦{totalSales}</Text>
                             <View style={styles.salesDate}>
                                 <Text style={styles.totalSalesDate}>12-Sep-22 To Date</Text>
                                 <Feather name='calendar' size={11} color={'rgba(0,0,0,0.6)'} />

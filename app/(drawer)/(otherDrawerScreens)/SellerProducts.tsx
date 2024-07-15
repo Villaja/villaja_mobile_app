@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Image, StyleSheet, Text, TextInput, View, ScrollView, TouchableOpacity, Dimensions, Alert } from "react-native";
 import { base_url } from "../../../constants/server";
 import { Product } from '../../../types/Product';
@@ -10,6 +10,7 @@ import { Stack, router, useRouter } from 'expo-router';
 import axios, { Axios, AxiosResponse } from 'axios';
 import { Skeleton } from '@rneui/themed';
 import { Ionicons, Entypo, FontAwesome, Feather } from "@expo/vector-icons";
+import { useFocusEffect } from '@react-navigation/native';
 
 const sellerProducts = () => {
   const [products, setProducts] = useState<Array<Product>>([]);
@@ -33,6 +34,7 @@ const sellerProducts = () => {
 
   // Fetch seller products logic
   const fetchProducts = async () => {
+    setLoading(true);
     try {
       const response: AxiosResponse<{ products: Product[] }> = await axios.get(`${base_url}/product/get-all-products-shop/${seller._id}`, {
         headers: {
@@ -43,38 +45,33 @@ const sellerProducts = () => {
       const first10Products = response.data.products;
       setProducts(first10Products);
     } catch (error) {
-      let errorMessage = 'An unknown error occurred';
-
-      // Axios error
       if (axios.isAxiosError(error)) {
-        if (error.response) {
-          // The request was made and the server responded with a status code that falls out of the range of 2xx
-          errorMessage = error.response.data?.message || error.response.statusText || 'Error in response';
-        } else if (error.request) {
-          // The request was made but no response was received
-          errorMessage = 'No response received from server';
+        console.log('Error response:', error.response);
+        if (error.response?.status === 500) {
+            Alert.alert('Error fetching products', 'Please check your network and try again');
+        } else if (error.response?.status === 401) {
+            Alert.alert('Unauthorized', 'Please login and try again.');
+        } else if (error.response?.status === 502) {
+          console.log(error)
         } else {
-          // Something happened in setting up the request that triggered an Error
-          errorMessage = error.message;
+            Alert.alert('Error', `Failed to update address: ${error.response?.data.message}`);
         }
-      } else if (error instanceof Error) {
-        // Generic Error object
-        errorMessage = error.message;
-      }
-
-      Alert.alert('Error fetching products', errorMessage);
-      console.log('Error fetching products', error);
+    } else {
+        Alert.alert('Error', 'An unexpected error occurred');
+    }
     } finally {
       setLoading(false);
     }
   };
 
   // Fetch seller product after token and sellerId confirmation
-  useEffect(() => {
-    if (seller && token) {
-      fetchProducts();
-    }
-  }, [seller, token]);
+  useFocusEffect(
+    useCallback(() => {
+      if (seller && token) {
+        fetchProducts();
+      }
+    }, [seller, token])
+  );
 
   const renderSkeletonLoader = (start: number, end: number) => {
     const cardsPerRow = 2;

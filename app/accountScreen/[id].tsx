@@ -13,16 +13,6 @@ import { Skeleton } from '@rneui/themed'
 import { useAuth } from "../../context/AuthContext";
 import Toast from 'react-native-toast-message';
 
-interface Conversation {
-    _id: string;
-    groupTitle: string;
-    members: Array<string>;
-    createdAt: any;
-    updatedAt: Date;
-    lastMessage: string;
-    lastMessageId: string;
-  }
-
 
 const { width } = Dimensions.get("window");
 

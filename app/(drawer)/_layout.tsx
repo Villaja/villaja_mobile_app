@@ -125,30 +125,7 @@ export function CustomDrawerContent(props:any) {
             }}
             
         />
-       {/*  
-        <Drawer.Screen
-            name="(quickSellDeals)"
-            options={{
-                drawerLabel: 'Quick Sell Deals',
-                title: 'Quick Sale',
-                drawerIcon: ({size, color})=>(
-                    <MaterialIcons name="speed" size={size} color={color} />
-                )
 
-            }}
-        />
-       
-        <Drawer.Screen
-            name=""
-            options={{
-                drawerLabel: 'Ads',
-                title: 'About',
-                drawerIcon: ({size, color})=>(
-                    <MaterialCommunityIcons name="advertisements-off" size={size} color={color} />
-                )
-
-            }}
-        />         */}
         
     </Drawer>
   }

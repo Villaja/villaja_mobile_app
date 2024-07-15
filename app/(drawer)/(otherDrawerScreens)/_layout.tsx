@@ -6,7 +6,7 @@ import { useNavigation, useRouter } from 'expo-router';
 import { DrawerActions } from '@react-navigation/native'
 import { Ionicons } from "@expo/vector-icons";
 
-export default function otherDrawerScreens () {
+export default function otherDrawerScreens() {
     const navigation = useNavigation();
     const router = useRouter();
     return (
@@ -24,33 +24,21 @@ export default function otherDrawerScreens () {
                     },
                     headerLeft: () => (
                         <View>
-                            <TouchableOpacity activeOpacity={0.5} onPress={() => router.back()} style={{marginRight: 20, width: 30, height: 30, borderRadius: 50, justifyContent: "center", alignItems: "center"}} >
+                            <TouchableOpacity activeOpacity={0.5} onPress={() => router.back()} style={{ marginRight: 20, width: 30, height: 30, borderRadius: 50, justifyContent: "center", alignItems: "center" }} >
                                 <Ionicons name="arrow-back" size={23} color={"#000"} />
                             </TouchableOpacity>
                         </View>
-                    )
+                    ),
                 }}
-             />
+            />
             <Stack.Screen
-                name='SwapDeals'
+                name='[id]'
                 options={{
-                    title: 'Swap Deals',
+                    headerTitle: '',
                     headerShadowVisible: false,
-                    headerStyle: {
-                        backgroundColor: "#ffffff",
-                    },
-                    headerTitleStyle: {
-                        fontSize: 16
-                    },
-                    headerLeft: () => (
-                        <View>
-                            <TouchableOpacity activeOpacity={0.5} onPress={() => router.back()} style={{marginRight: 20, width: 30, height: 30, borderRadius: 50, justifyContent: "center", alignItems: "center"}} >
-                                <Ionicons name="arrow-back" size={23} color={"#000"} />
-                            </TouchableOpacity>
-                        </View>
-                    )
+                    headerShown: false,
                 }}
-             />
+            />
         </Stack>
     )
 }

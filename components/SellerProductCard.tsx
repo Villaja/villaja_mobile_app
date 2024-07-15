@@ -13,7 +13,7 @@ const SellerProductCard: React.FC<ProductCardProps> = ({ product }) => {
     <View style={[styles.container]} key={product._id}>
 
 
-      <Link href={`/sellerProducts/${product._id}`} asChild >
+      <Link href={`${product._id}`} asChild >
         <TouchableOpacity>
           <View style={styles.imgContainer}>
             <Image style={styles.image} source={{ uri: product.images[0]?.url }} />

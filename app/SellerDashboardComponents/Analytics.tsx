@@ -129,7 +129,7 @@ const Analytics = () => {
             {/* no earnings screen to navigate to <AntDesign name='arrowright' color={'#11263C'} size={18}/>*/}
           </View>
           <View style={styles.analyticsBoxText}>
-            <Text style={styles.analyticsBoxMainText}>₦{totalSales.toLocaleString()}</Text>
+            <Text style={styles.analyticsBoxMainText}>₦{totalSales}</Text>
             <Text style={styles.analyticsBoxPercentageText}>+55%</Text>
           </View>
           <View style={styles.analyticsBoxBottom}>
@@ -163,7 +163,7 @@ const Analytics = () => {
                             <AntDesign name='arrowright' size={15} color={Colors.grey} />
                         </View>
                         <View style={styles.salesMain}>
-                            <Text style={styles.totalSalesPrice}>₦{totalSales.toLocaleString()}</Text>
+                            <Text style={styles.totalSalesPrice}>₦{totalSales}</Text>
                             <View style={styles.salesDate}>
                                 <Text style={styles.totalSalesDate}>12-Sep-22 To Date</Text>
                                 <Feather name='calendar' size={11} color={'rgba(0,0,0,0.6)'} />
@@ -204,7 +204,7 @@ const Analytics = () => {
                             <AntDesign name='arrowright' size={15} color={Colors.grey} />
                         </View>
                         <View style={styles.salesMain}>
-                            <Text style={styles.totalSalesPrice}>₦{totalSales.toLocaleString()}</Text>
+                            <Text style={styles.totalSalesPrice}>₦{totalSales}</Text>
                             <View style={styles.salesDate}>
                                 <Text style={styles.totalSalesDate}>12-Sep-22 To Date</Text>
                                 <Feather name='calendar' size={11} color={'rgba(0,0,0,0.6)'} />

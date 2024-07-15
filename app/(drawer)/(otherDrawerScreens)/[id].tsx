@@ -2,18 +2,18 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, ActivityIndicator, Image, StyleSheet, ScrollView, FlatList, Dimensions, TouchableOpacity, Modal, Pressable, Alert } from 'react-native';
 import axios from 'axios';
 import { useLocalSearchParams } from 'expo-router';
-import { base_url } from '../../constants/server';
-import { Product } from '../../types/Product';
+import { base_url } from '../../../constants/server';
+import { Product } from '../../../types/Product';
 import { Carousel } from 'react-native-basic-carousel';
-import Colors from '../../constants/Colors';
+import Colors from '../../../constants/Colors';
 import { AntDesign, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons, FontAwesome5 } from '@expo/vector-icons';
-import { defaultStyles } from '../../constants/Styles';
-import { timeAgo } from '../../utils/timeAgo';
+import { defaultStyles } from '../../../constants/Styles';
+import { timeAgo } from '../../../utils/timeAgo';
 import Svg, { Path } from 'react-native-svg';
-import SimilarSection from '../../components/SimilarSection';
+import SimilarSection from '../../../components/SimilarSection';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import PopUpModal from '../../components/popUpModal';
-import PopUpModal2 from '../../components/popUpModal2';
+import PopUpModal from '../../../components/popUpModal';
+import PopUpModal2 from '../../../components/popUpModal2';
 import { useRouter, Link } from "expo-router";
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -150,7 +150,7 @@ const Page: React.FC = () => {
           }
         });
       if (response.data.success) {
-        router.push('/(drawer)/(otherDrawerScreens)/SellerProducts');
+        router.back()
         Alert.alert('Confirmed', 'This product has been deleted successfully');
       } else {
         console.log('An error occurred')
@@ -202,7 +202,7 @@ const Page: React.FC = () => {
           <>
               {productDetails && (
                 <>
-                  <View style={{flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 5, alignSelf: 'flex-end', marginRight: 20}} >
+                  <View style={{flexDirection: 'row', gap: 10, alignItems: 'center', marginBottom: 25, alignSelf: 'flex-end', marginRight: 20}} >
                   <Link href={`/editSellerProducts/${productDetails._id}`} asChild >
                     <TouchableOpacity  style={{paddingVertical: 10, paddingHorizontal: 24, backgroundColor: '#025492', borderRadius: 2}} >
                         <Text style={{fontSize: 12, fontFamily: 'roboto-condensed-sb', color: '#ffffff'}} >Edit Product</Text>
