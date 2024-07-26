@@ -2,12 +2,9 @@ import { useRouter } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View, useColorScheme, StyleSheet, Text } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
-import { FontAwesome5, Ionicons } from '@expo/vector-icons';
-import Colors from '../constants/Colors';
+import { View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
-import ModalHeaderText from '../components/ModalHeaderText';
 import { StatusBar } from 'react-native';
 import React from 'react';
 import { AuthProvider } from '../context/AuthContext';
@@ -18,6 +15,8 @@ import { QuickSwapProvider } from '../context/QuickSwapContext';
 import { PaperProvider } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ProductUploadProvider } from "../context/ProductUpload";
+import { usePushNotifications } from "./usePushNotifications";
+
 
 
 
@@ -70,8 +69,14 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const router = useRouter();
+  const {expoPushToken, notification} = usePushNotifications();
+  const data = JSON.stringify(notification, undefined, 2);
+  console.log("setting up notifications");
+  console.log(data);
+  console.log(expoPushToken?.data ?? "")
 
-  const [isSeller, setIsSeller] = useState<boolean>(true)
+  const [isSeller, setIsSeller] = useState<boolean>(true);
+
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>

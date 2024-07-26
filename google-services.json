@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "998364533016",
+    "project_id": "villaja-mobile-app-9a86e",
+    "storage_bucket": "villaja-mobile-app-9a86e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:998364533016:android:34d2a3c57852fc35130e6d",
+        "android_client_info": {
+          "package_name": "com.daniel_fasiku.villajashopping"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB3PQY1_4_Y6K6pJGF2UA6vP_u3dgg_dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

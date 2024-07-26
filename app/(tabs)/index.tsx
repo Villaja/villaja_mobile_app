@@ -11,9 +11,12 @@ import ProductCard2 from '../../components/ProductCard2';
 import ProductCard3 from '../../components/ProductCard3';
 // import InsetShadow from "react-native-inset-shadow";
 import { useAuth } from '../../context/AuthContext'
-import { Redirect, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { Skeleton } from '@rneui/themed'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from "expo-notifications";
+import { registerBackgroundTask } from "../backgroundTask";
+
+
 
 
 
@@ -370,6 +373,82 @@ const index = () => {
 
     );
   };
+
+
+
+  // INITIAL SCHEDULE FOR MARKETING CONTENT UPON APP LAUNCH 
+  useEffect(() => {
+    const handleSellAndSwapNotificationScheduleAndLogin = async () => {
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Claim Your Promo Voucher Now",
+          body: "Get ₦10,000 free on your first order, active for 12hrs",
+          sound: true,
+          priority: "max",
+          vibrate: [250,250],
+          data: {url: '/vouchers/voucherDetails'}
+        },
+        trigger: {
+          seconds: 20,
+        },
+      });
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Sell and Swap Your Used Devices in Less Time",
+          body: "List your products now!!!",
+          sound: true,
+          priority: "max",
+          vibrate: [250, 250],
+        },
+        trigger: {
+          seconds: 600,
+        },
+      });
+  
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Buy Your Device With Ease At Your Fingertips",
+          body: "Get your phones, chargers and earphones and much more!!!",
+          sound: true,
+          priority: "max",
+          vibrate: [250, 250],
+        },
+        trigger: {
+          seconds: 1200,
+        }
+      });
+  
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Always Get What you Ordered",
+          body: "Safest Payment System Ever",
+          sound: true,
+          priority: "max",
+          vibrate: [250, 250],
+        },
+        trigger: {
+          seconds: 1800,
+        }
+      });
+  
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "Enjoy Best Prices",
+          body: "Connect with gadget sellers and buy what you want",
+          sound: true,
+          priority: "max",
+          vibrate: [250, 250],
+        },
+        trigger: {
+          seconds: 2400,
+        }
+      })
+    };
+
+    handleSellAndSwapNotificationScheduleAndLogin();
+    registerBackgroundTask();
+  }, [])
+  
 
  {/* suspended feature
   useEffect(() => {
