@@ -389,7 +389,7 @@ const index = () => {
           data: {url: '/vouchers/voucherDetails'}
         },
         trigger: {
-          seconds: 20,
+          seconds: 300,
         },
       });
       await Notifications.scheduleNotificationAsync({

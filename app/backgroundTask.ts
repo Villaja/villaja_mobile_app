@@ -85,7 +85,7 @@ TaskManager.defineTask(NOTIFICATION_TASK, async ({ data, error }) => {
 export const registerBackgroundTask = async () => {
     try {
         await BackgroundFetch.registerTaskAsync(NOTIFICATION_TASK, {
-            minimumInterval: 10800,
+            minimumInterval: 10800, // 3 hours interval in seconds
             stopOnTerminate: false,
             startOnBoot: true,
         });

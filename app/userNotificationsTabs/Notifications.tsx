@@ -1,8 +1,8 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View, Dimensions } from 'react-native'
 import React, { useState, useEffect } from 'react';
-import { usePushNotifications } from "../usePushNotifications";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notification from "expo-notifications";
+import LottieView from "lottie-react-native";
 
 
 const mockNotifications = [
@@ -40,8 +40,8 @@ const mockNotifications = [
 
 
 const Notifications = () => {
-    const { expoPushToken, notification } = usePushNotifications();
     const [notificationList, setNotificationList] = useState<Notification.Notification[]>([]);
+    const { height } = Dimensions.get("window")
 
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const Notifications = () => {
 
     return (
         <View style={styles.container}>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ gap: 5 }}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[notificationList.length > 0 ? { gap: 5 } : { gap: 5, justifyContent: "center", alignItems: "center", marginTop: height / 1 / 60 }]}>
                 {
                     notificationList.length > 0 ? (
                         notificationList.slice().reverse().map((notification, index) => (
@@ -76,8 +76,9 @@ const Notifications = () => {
                             </View>
                         ))
                     ) : (
-                        <View>
-                            <Text>You have no notification</Text>
+                        <View style={{ justifyContent: "center", alignItems: "center" }} >
+                            <LottieView source={require('../../assets/images/Animation - 1722072178194.json')} loop={false} autoPlay style={{ width: 400, height: 400 }} />
+                            <Text style={{ fontSize: 16, fontWeight: "500", color: "#00000080" }} >You have no notification</Text>
                         </View>
                     )
                 }
