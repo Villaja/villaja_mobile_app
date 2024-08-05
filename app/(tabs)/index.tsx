@@ -15,6 +15,8 @@ import { useRouter } from 'expo-router'
 import { Skeleton } from '@rneui/themed'
 import * as Notifications from "expo-notifications";
 import { registerBackgroundTask } from "../backgroundTask";
+import VoucherAds from "../../components/VoucherPopup";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 
@@ -34,35 +36,35 @@ const carouselData = [
     device: "Your Everyday Phone!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads3.jpg'),
-    link:'/categoryCatalog/Phones'
+    link: '/categoryCatalog/Phones'
   },
   {
     id: 2,
     device: "Track Your Health!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads5.jpg'),
-    link:'/categoryCatalog/Smart Watches'
+    link: '/categoryCatalog/Smart Watches'
   },
   {
     id: 3,
     device: "For Office and School!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads12.jpg'),
-    link:'/categoryCatalog/Tablets'
+    link: '/categoryCatalog/Tablets'
   },
   {
     id: 4,
     device: "Escape The Noise!",
     store: 'Villaja Store',
     image: require('../../assets/images/sonyheadphones.png'),
-    link:'/categoryCatalog/Earphones and Headphones'
+    link: '/categoryCatalog/Earphones and Headphones'
   },
   {
     id: 5,
     device: "Phones That Match Your Lifestyle!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads.jpg'),
-    link:'/categoryCatalog/Phones'
+    link: '/categoryCatalog/Phones'
   },
 
   {
@@ -70,7 +72,7 @@ const carouselData = [
     device: "Find Your Ideal Phone!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads2.jpg'),
-    link:'/categoryCatalog/Phones'
+    link: '/categoryCatalog/Phones'
   },
 
   {
@@ -78,16 +80,16 @@ const carouselData = [
     device: "No Light Again!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads19.jpg'),
-    link:'/categoryCatalog/Chargers and More'
+    link: '/categoryCatalog/Chargers and More'
   },
-  
+
 
   {
     id: 8,
     device: "Perfect Sound, Perfect Podcast!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads8.jpg'),
-    link:'/categoryCatalog/Phones'
+    link: '/categoryCatalog/Phones'
   },
 
   {
@@ -95,7 +97,7 @@ const carouselData = [
     device: "Relax, Take A Break!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads14.jpg'),
-    link:'/categoryCatalog/Gaming'
+    link: '/categoryCatalog/Gaming'
   },
 
   {
@@ -103,7 +105,7 @@ const carouselData = [
     device: "Not A Playstation Fan!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads18.jpg'),
-    link:'/categoryCatalog/Gaming'
+    link: '/categoryCatalog/Gaming'
   },
 ]
 
@@ -113,7 +115,7 @@ const carouselData2 = [
     device: "Android Fans!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads20.jpg'),
-    link:'/categoryCatalog/Phones'
+    link: '/categoryCatalog/Phones'
   },
 
   {
@@ -121,7 +123,7 @@ const carouselData2 = [
     device: "School and Work!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads9.jpg'),
-    link:'/categoryCatalog/Tablets'
+    link: '/categoryCatalog/Tablets'
   },
 
   {
@@ -129,49 +131,49 @@ const carouselData2 = [
     device: "Immersive Sounds!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads21.jpg'),
-    link:'/categoryCatalog/Speakers'
+    link: '/categoryCatalog/Speakers'
   },
   {
     id: 4,
     device: "Upgrade Your Setup!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads22.jpg'),
-    link:'/categoryCatalog/Keyboards and Mice'
+    link: '/categoryCatalog/Keyboards and Mice'
   },
   {
     id: 5,
     device: "Sleek Cases And Covers!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads23.jpg'),
-    link:'/categoryCatalog/Cases and Covers'
+    link: '/categoryCatalog/Cases and Covers'
   },
   {
     id: 6,
     device: "Selfie Sticks And Stands!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads24.jpg'),
-    link:'/categoryCatalog/Stands and lights'
+    link: '/categoryCatalog/Stands and lights'
   },
   {
     id: 7,
     device: "Relax And Have Fun!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads13.jpg'),
-    link:'/categoryCatalog/Gaming Accessories'
+    link: '/categoryCatalog/Gaming Accessories'
   },
   {
     id: 8,
     device: "Hard Drives And Flash Drives!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads25.jpg'),
-    link:'/categoryCatalog/Storage'
+    link: '/categoryCatalog/Storage'
   },
   {
     id: 9,
     device: "Styluses And Pens!",
     store: 'Villaja Store',
     image: require('../../assets/images/phonesads26.jpg'),
-    link:'/categoryCatalog/Stylus and tablets'
+    link: '/categoryCatalog/Stylus and tablets'
   },
 ]
 
@@ -180,41 +182,41 @@ const categoryData = [
     id: 1,
     name: "Phones",
     image: require('../../assets/images/Phonecatt.png'),
-    link:'/categoryCatalog/Phones'
+    link: '/categoryCatalog/Phones'
   },
   {
     id: 2,
     name: "Laptops",
     image: require('../../assets/images/laptop.png'),
-    link:'/categoryCatalog/Computers'
+    link: '/categoryCatalog/Computers'
 
   },
   {
     id: 3,
     name: "Tablets",
-    image: {uri:"https://m.media-amazon.com/images/I/81rBUAM2NpL._AC_SY450_.jpg"},
-    link:'/categoryCatalog/Tablets'
+    image: { uri: "https://m.media-amazon.com/images/I/81rBUAM2NpL._AC_SY450_.jpg" },
+    link: '/categoryCatalog/Tablets'
 
   },
   {
     id: 4,
     name: "Accessories",
     image: require('../../assets/images/Mic.png'),
-    link:'/categoryCatalog/Accessories'
+    link: '/categoryCatalog/Accessories'
 
   },
   {
     id: 5,
     name: "Watches",
     image: require('../../assets/images/watch.png'),
-    link:'/categoryCatalog/Smart Watches'
+    link: '/categoryCatalog/Smart Watches'
 
   },
   {
-    id: 6, 
+    id: 6,
     name: "Gaming",
     image: require('../../assets/images/videogames.png'),
-    link:'/categoryCatalog/Gaming'
+    link: '/categoryCatalog/Gaming'
 
   },
 
@@ -235,7 +237,8 @@ const index = () => {
   const router = useRouter();
   const [data, setData] = useState<Array<Product>>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [userImage, setUserImage] = useState('')
+  const [userImage, setUserImage] = useState('');
+  const [voucherPopUpVisible, setVoucherPopUpVisible] = useState(false)
 
 
 
@@ -243,7 +246,7 @@ const index = () => {
     const fetchData = async () => {
       try {
         const response: AxiosResponse<{ products: Product[] }> = await axios.get(
-          `${base_url}/product/get-all-products` 
+          `${base_url}/product/get-all-products`
         );
 
         // Get the first 10 products
@@ -376,7 +379,7 @@ const index = () => {
 
 
 
-  // INITIAL SCHEDULE FOR MARKETING CONTENT UPON APP LAUNCH 
+  // INITIAL NOTIFICATION SCHEDULE FOR MARKETING CONTENT UPON APP LAUNCH 
   useEffect(() => {
     const handleSellAndSwapNotificationScheduleAndLogin = async () => {
       await Notifications.scheduleNotificationAsync({
@@ -385,8 +388,8 @@ const index = () => {
           body: "Get ₦10,000 free on your first order, active for 12hrs",
           sound: true,
           priority: "max",
-          vibrate: [250,250],
-          data: {url: '/vouchers/voucherDetails'}
+          vibrate: [250, 250],
+          data: { url: '/vouchers/voucherDetails' }
         },
         trigger: {
           seconds: 300,
@@ -404,7 +407,7 @@ const index = () => {
           seconds: 600,
         },
       });
-  
+
       await Notifications.scheduleNotificationAsync({
         content: {
           title: "Buy Your Device With Ease At Your Fingertips",
@@ -417,7 +420,7 @@ const index = () => {
           seconds: 1200,
         }
       });
-  
+
       await Notifications.scheduleNotificationAsync({
         content: {
           title: "Always Get What you Ordered",
@@ -430,7 +433,7 @@ const index = () => {
           seconds: 1800,
         }
       });
-  
+
       await Notifications.scheduleNotificationAsync({
         content: {
           title: "Enjoy Best Prices",
@@ -448,9 +451,9 @@ const index = () => {
     handleSellAndSwapNotificationScheduleAndLogin();
     registerBackgroundTask();
   }, [])
-  
 
- {/* suspended feature
+
+  {/* suspended feature
   useEffect(() => {
     fetchUserImage();
   }, []);
@@ -470,10 +473,29 @@ const index = () => {
   const displayImage = userImage ? { uri: userImage } : testUser.image;
 */}
 
+  useEffect(() => {
+    const checkFirstTimeUser = async() => {
+      try {
+        const hasSeenVoucher = await AsyncStorage.getItem('hasSeenVoucher');
+        if (hasSeenVoucher !== 'true') {
+          setVoucherPopUpVisible(true);
+          await AsyncStorage.setItem('hasSeenVoucher', 'true')
+        } else {
+          setVoucherPopUpVisible(false);
+        }
+      } catch (error) {
+        console.error('could not fetch promo status', error);
+      }
+    }
+
+    checkFirstTimeUser();
+  }, []);
+  
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primaryUltraTransparent, paddingTop: Platform.OS === 'android' ? 30 : 0 }}>
       {/* <Redirect href={'/(tabs2)/sellerAddProduct'} /> */}
+      <VoucherAds visible={voucherPopUpVisible} onClose={() => setVoucherPopUpVisible(!voucherPopUpVisible)} route={() => router.push(`/vouchers/voucherDetails`)} />
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 8, }} >
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 9 }}>
           <Image source={testUser.image} resizeMode='contain' style={{ width: 50, top: 1, height: 50, borderRadius: 40 }} />
@@ -567,7 +589,7 @@ const index = () => {
         </View>
         <View>
           <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginHorizontal: 20 }}>Selected for you</Text>
-          <ScrollView horizontal overScrollMode="never" showsHorizontalScrollIndicator={false} style={{ marginTop: 10, marginBottom: 20, height: 406.02}} contentContainerStyle={
+          <ScrollView horizontal overScrollMode="never" showsHorizontalScrollIndicator={false} style={{ marginTop: 10, marginBottom: 20, height: 406.02 }} contentContainerStyle={
             {
               alignItems: 'center',
               gap: 4,
@@ -584,9 +606,9 @@ const index = () => {
                   <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
                   <Text style={{ fontSize: 18.9, fontWeight: "500", fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
                   <TouchableOpacity style={styles.buyNowBtn2} onPress={() => router.push({ pathname: cat.link, params: { minPrice: "1", maxPrice: "5000000" } })}>
-                <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 9.92}}>View Offers</Text>
-                <AntDesign name="arrowright" size={11} color={"#ffffff"} />
-              </TouchableOpacity>
+                    <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 9.92 }}>View Offers</Text>
+                    <AntDesign name="arrowright" size={11} color={"#ffffff"} />
+                  </TouchableOpacity>
                 </TouchableOpacity>
               ))
             }
@@ -595,7 +617,7 @@ const index = () => {
 
         <View style={{ paddingHorizontal: 20 }}>
           <View>
-          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginBottom: 10 }}>Best price offers</Text>
+            <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginBottom: 10 }}>Best price offers</Text>
             {loading ? (
               // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
               renderSkeletonLoader(0, 4)
@@ -604,7 +626,7 @@ const index = () => {
             )}
           </View>
         </View>
-        <View style={{ width:'100%', height: 150, backgroundColor: "#02549210", marginBottom: 20 }} >
+        <View style={{ width: '100%', height: 150, backgroundColor: "#02549210", marginBottom: 20 }} >
           <View style={{ marginHorizontal: 20, marginVertical: 15 }} >
             <Text style={{ fontSize: 12, color: "#00000090", marginBottom: 5, fontWeight: "400" }} >Top Picks For You Today</Text>
             <Text style={{ fontSize: 30, color: "#000000", fontWeight: "700" }} >Buy Your Favorite Tech Product Now</Text>
@@ -625,14 +647,14 @@ const index = () => {
           <View style={styles.imageText} >
             <Text style={styles.text1}> BECOME A VERIFIED</Text>
             <Text style={styles.text2}>Merchant On Villaja</Text>
-            <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/sellerAuthScreens/SellerLogin') } >
+            <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/sellerAuthScreens/SellerLogin')} >
               <Text style={styles.gtText} >Get Started</Text>
             </TouchableOpacity>
           </View>
         </View>
         <View style={{ paddingHorizontal: 20 }}>
           <View>
-          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginBottom: 10 }}>Most Viewed Products</Text>
+            <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, fontWeight: "700", color: '#00000080', marginBottom: 10 }}>Most Viewed Products</Text>
             {loading ? (
               // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
               renderSkeletonLoader(0, 4)

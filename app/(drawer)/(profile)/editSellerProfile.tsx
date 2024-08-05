@@ -242,11 +242,8 @@ const editSellerProfile = () => {
         setAddressModalVisible(true);
     };
 
-    const imageSource = selectedImages.length > 0
-        ? { uri: selectedImages[0] }  // Display the first image from selectedImages
-        : seller?.avatar?.url
-            ? { uri: seller.avatar.url }  // Display the seller's avatar
-            : testUser.Image;
+    const imageSource = selectedImages.length > 0 ? { uri: selectedImages[0] } : seller?.avatar?.url ? { uri: seller.avatar.url } : testUser.Image; // Display the first image from selectedImages
+    
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container} >
@@ -373,7 +370,7 @@ const editSellerProfile = () => {
                 transparent={true}
                 visible={passwordModalVisible}
                 onRequestClose={() => setPasswordModalVisible(false)}>
-                <View style={styles.modalContainer}>
+                <View style={styles.modalContainer}  >
                     <View style={[styles.modalContent, { height: height - 300 }]}>
                         <ScrollView showsVerticalScrollIndicator={false}  >
                             <View style={styles.modalHeader}>
