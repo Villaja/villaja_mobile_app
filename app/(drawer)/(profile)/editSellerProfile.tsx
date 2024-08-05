@@ -243,6 +243,11 @@ const editSellerProfile = () => {
     };
 
     const imageSource = selectedImages.length > 0 ? { uri: selectedImages[0] } : seller?.avatar?.url ? { uri: seller.avatar.url } : testUser.Image; // Display the first image from selectedImages
+
+    const passwordModalVisibilitySwitch = () => {
+        setPasswordModalVisible(!passwordModalVisible);
+        return true
+    }
     
 
     return (
@@ -370,7 +375,7 @@ const editSellerProfile = () => {
                 transparent={true}
                 visible={passwordModalVisible}
                 onRequestClose={() => setPasswordModalVisible(false)}>
-                <View style={styles.modalContainer}  >
+                <View style={styles.modalContainer} onStartShouldSetResponder={passwordModalVisibilitySwitch} >
                     <View style={[styles.modalContent, { height: height - 300 }]}>
                         <ScrollView showsVerticalScrollIndicator={false}  >
                             <View style={styles.modalHeader}>
