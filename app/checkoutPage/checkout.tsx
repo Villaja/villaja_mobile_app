@@ -8,7 +8,6 @@ import OrderHistoryCard from '../../components/OrderHistoryCard'
 import CheckoutProductCard from '../../components/CheckoutProductCard'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Product } from '../../types/Product'
-import PaystackWebView from 'react-native-paystack-webview';
 import { useAuth } from '../../context/AuthContext'
 import axios from 'axios'
 import  { Paystack }  from 'react-native-paystack-webview';
@@ -415,7 +414,7 @@ const checkout = () => {
 
      {showPaystack && (
         <Paystack  
-        paystackKey="pk_test_ba3974730a50a8f120783a5c097a2b9603129aa7"
+        paystackKey="pk_live_f5d8cd9c059579b4592ba6b28e9090d9bd887438"
         amount={promoApplied? newPromoPrice! : newPromoPrice! + 2650} 
         billingEmail={user?.user.email}
         billingName={`${user?.user.firstname} ${user?.user.lastname}`}
@@ -423,6 +422,7 @@ const checkout = () => {
         onCancel={onPaystackClose}
         activityIndicatorColor="green"
         autoStart={true}
+        channels={['bank', 'card', 'mobile_money', 'qr', 'ussd']}
       />
       )}
     </View>
