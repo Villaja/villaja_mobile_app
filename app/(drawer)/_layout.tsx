@@ -9,7 +9,7 @@ import Drawer from "expo-router/drawer";
 import { Feather, FontAwesome, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import { useAuth } from '../../context/SellerAuthContext';
 import { useRouter } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 
 
 export function CustomDrawerContent(props:any) {

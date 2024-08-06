@@ -38,7 +38,7 @@ const data = {
 const PieChartData = [
   {
     name: "Phones",
-    population: 23,
+    population: 1,
     color: "#165BAA",
     legendFontColor: "#7F7F7F",
     legendFontSize: 12,
@@ -46,28 +46,28 @@ const PieChartData = [
   },
   {
     name: "Laptops",
-    population: 18,
+    population: 1,
     color: "#A155B9",
     legendFontColor: "#7F7F7F",
     legendFontSize: 12
   },
   {
     name: "Speaker",
-    population: 14,
+    population: 1,
     color: "#F765A3",
     legendFontColor: "#7F7F7F",
     legendFontSize: 12
   },
   {
     name: "Watch",
-    population: 10,
+    population: 1,
     color: "#16BFD6",
     legendFontColor: "#7F7F7F",
     legendFontSize: 12
   },
   {
     name: "Others",
-    population: 35,
+    population: 1,
     color: "#1DDD8D",
     legendFontColor: "#7F7F7F",
     legendFontSize: 12
@@ -85,15 +85,26 @@ const Analytics = () => {
 
   useEffect(() => {
     const checkToken = async () => {
-      const token = await AsyncStorage.getItem('sellerToken')
-      const seller = await AsyncStorage.getItem('seller')
+      try {
+        const token = await AsyncStorage.getItem('sellerToken');
+        const response = await axios.get(`${base_url}/shop/getSeller`, {
+          headers: {
+            Authorization: token
+          }
+        })
 
-      if (!token) return router.replace('/sellerAuthScreens/SellerLogin')
-      setSeller(JSON.parse(seller!).seller)
-      setToken(token)
+        if (!token) {
+          router.replace('/sellerAuthScreens/SellerLogin');
+          return
+        };
+        setSeller(response.data.seller);
+        setToken(token)
+      } catch (error) {
+        console.log("Error fetching seller details", error)
+      }
     }
 
-    checkToken()
+    checkToken();
   }, []);
 
   const totalSales = seller?.availableBalance?.toLocaleString() || "0.00"
@@ -130,7 +141,7 @@ const Analytics = () => {
           </View>
           <View style={styles.analyticsBoxText}>
             <Text style={styles.analyticsBoxMainText}>₦{totalSales}</Text>
-            <Text style={styles.analyticsBoxPercentageText}>+55%</Text>
+            { totalSales !== "0.00" && <Text style={styles.analyticsBoxPercentageText}>+55%</Text>}
           </View>
           <View style={styles.analyticsBoxBottom}>
             <Text style={styles.analyticsBoxBottomText}>Total Earnings</Text>
@@ -146,7 +157,7 @@ const Analytics = () => {
           </View>
           <View style={styles.analyticsBoxText}>
             <Text style={styles.analyticsBoxMainText}>{loading ? <ActivityIndicator size="small" color={Colors.primary} /> : allOrders.length }</Text>
-            <Text style={styles.analyticsBoxPercentageText}>+55%</Text>
+            { allOrders !== undefined && <Text style={styles.analyticsBoxPercentageText}>+55%</Text>}
           </View>
           <View style={styles.analyticsBoxBottom}>
             <Text style={styles.analyticsBoxBottomText}>Total Orders</Text>

@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Text, TouchableOpacity, Alert, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Alert, ScrollView, Modal } from 'react-native';
 import { useWarmUpBrowser } from '../../hooks/useWarmUpBrowser';
 import { defaultStyles } from '../../constants/Styles';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import React from 'react';
 import { useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import TermsAndCondition from "../../components/TermsAndCondition";
 
 
 
@@ -21,6 +22,7 @@ const Page = () => {
   const [phoneNumber, setPhonenumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [termsModal, setTermsModal] = useState(true)
 
 
   const [passwordVisible, setPasswordVisisble] = useState<boolean>(true)
@@ -29,7 +31,7 @@ const Page = () => {
   const handleRegister = async () => {
     try {
       await register(firstname, lastname, phoneNumber, email, password);
-      Alert.alert('Verifiy Your Acount', 'please check your email to activate your account with the verification code, possibly check your spam folder', [{ text: 'OK' }]);
+      Alert.alert('Verify Your Account', 'please check your email to activate your account with the verification code, possibly check your spam folder', [{ text: 'OK' }]);
       router.replace('/(modals)/login')
       // Navigate to the home screen or handle it based on your navigation structure
     } catch (error) {
@@ -42,7 +44,13 @@ const Page = () => {
     if (user) {
       router.replace('/(tabs)')
     }
-  })
+  });
+
+  const activateTermsAndConditions = () => {
+    setTermsModal(true);
+  };
+
+  console.log(termsModal)
 
 
 
@@ -91,7 +99,7 @@ const Page = () => {
           {error && <Text style={{ color: 'red', marginTop: 10, marginBottom: 10 }}>{error}</Text>}
         </View>
 
-        <View style={{ marginVertical: 6, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{ marginVertical: 6, flexDirection: 'row', justifyContent: 'flex-start', gap: 20, alignItems: 'center' }}>
           <BouncyCheckbox
             size={18}
             fillColor={Colors.primary}
@@ -102,8 +110,13 @@ const Page = () => {
             textStyle={{ fontFamily: "roboto-condensed", fontSize: 9, }}
             onPress={(isChecked: boolean) => { setToggleCheckBox(isChecked) }}
           />
+          <TouchableOpacity onPress={activateTermsAndConditions} >
+            <Text style={{ color: "#025492", fontFamily: 'roboto-condensed-sb', fontWeight: "500" }} >Read</Text>
+          </TouchableOpacity>
         </View>
-
+        {termsModal && toggleCheckBox && (
+          <TermsAndCondition visible={termsModal} onClose={() => setTermsModal(false)}/>
+        )}
         <View style={{ marginTop: 15, marginBottom: 45, gap: 13 }}>
           <TouchableOpacity style={defaultStyles.btn} onPress={handleRegister}>
             <Text style={defaultStyles.btnText}>{isLoading ? 'Loading...' : 'Contnue'}</Text>
