@@ -13,70 +13,42 @@ TaskManager.defineTask(NOTIFICATION_TASK, async ({ data, error }) => {
         return;
     };
 
-    await Notifications.scheduleNotificationAsync({
-        content: {
+    const notifications = [
+        {
             title: "Claim Your Promo Voucher Now",
-            body: "Get ₦10,000 free on your first order, active for 12hrs",
-            sound: true,
-            priority: "max",
-            vibrate: [250, 250],
-            data: { url: '/vouchers/voucherDetails' }
+            body: "Get ₦10,000 free on your first order, active for 12hrs"
         },
-        trigger: {
-            seconds: 20,
-        },
-    });
-    await Notifications.scheduleNotificationAsync({
-        content: {
+        {
             title: "Sell and Swap Your Used Devices in Less Time",
             body: "List your products now!!!",
-            sound: true,
-            priority: "max",
-            vibrate: [250, 250],
         },
-        trigger: {
-            seconds: 600,
-        },
-    });
-
-    await Notifications.scheduleNotificationAsync({
-        content: {
+        {
             title: "Buy Your Device With Ease At Your Fingertips",
             body: "Get your phones, chargers and earphones and much more!!!",
-            sound: true,
-            priority: "max",
-            vibrate: [250, 250],
         },
-        trigger: {
-            seconds: 1200,
-        }
-    });
-
-    await Notifications.scheduleNotificationAsync({
-        content: {
+        {
             title: "Always Get What you Ordered",
             body: "Safest Payment System Ever",
-            sound: true,
-            priority: "max",
-            vibrate: [250, 250],
         },
-        trigger: {
-            seconds: 1800,
-        }
-    });
-
-    await Notifications.scheduleNotificationAsync({
-        content: {
+        {
             title: "Enjoy Best Prices",
             body: "Connect with gadget sellers and buy what you want",
+        }
+    ];
+
+    const notification = notifications[Math.floor(Math.random() * notifications.length)];
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: notification.title,
+            body: notification.body,
             sound: true,
             priority: "max",
-            vibrate: [250, 250],
+            vibrate: [250,250],
         },
         trigger: {
-            seconds: 2400,
+            seconds: 10
         }
-    });
+    })
 
     return BackgroundFetch.BackgroundFetchResult.NewData
 });

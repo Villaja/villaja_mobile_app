@@ -27,7 +27,8 @@
         "android.permission.RECORD_AUDIO"
       ],
       "package": "com.daniel_fasiku.villajashopping",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 4
     },
     "web": {
       "bundler": "metro",
