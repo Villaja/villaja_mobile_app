@@ -24,8 +24,9 @@ const CheckoutProductCard = (item:Product) => {
         </View>
         <View style={{paddingVertical:12.5}}>
             <Text numberOfLines={2} style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>₦{item.originalPrice.toLocaleString()}</Text>
-            {item.discountPrice > 0 && <Text style={styles.discount}>₦{item.discountPrice}</Text>}
+            <Text style={styles.price}>{'₦' + (item.discountPrice === 0 || item.discountPrice === null ? item.originalPrice?.toLocaleString() : item.discountPrice?.toLocaleString())} </Text>
+          <Text style={styles.discount}>{item.discountPrice !== 0 && item.discountPrice !== null ? '₦' + (item.originalPrice?.toLocaleString() || '') : null}</Text>
+
         </View>
       </View>
 

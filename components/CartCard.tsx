@@ -57,11 +57,11 @@ const CartCard = ({item,handleRemoveCart}:{item:Product,handleRemoveCart:(id:str
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
-        <Image source={{uri:item.images[0]?.url}} style={styles.image} />
-        <View style={{paddingVertical:12.5}}>
-            <Text numberOfLines={2} style={styles.name}>{item.name}</Text>
-            <Text style={styles.price}>₦{item.originalPrice.toLocaleString()}</Text>
-            <Text style={styles.discount}>{item.discountPrice === 0?null:'₦'+item.discountPrice.toLocaleString()}</Text>
+        <Image source={{ uri: item.images[0]?.url }} style={styles.image} />
+        <View style={{ paddingVertical: 12.5 }}>
+          <Text numberOfLines={2} style={styles.name}>{item.name}</Text>
+          <Text style={styles.price}>{'₦' + (item.discountPrice === 0 || item.discountPrice === null ? item.originalPrice?.toLocaleString() : item.discountPrice?.toLocaleString())} </Text>
+          <Text style={styles.discount}>{item.discountPrice !== 0 && item.discountPrice !== null ? '₦' + (item.originalPrice?.toLocaleString() || '') : null}</Text>
         </View>
       </View>
 

@@ -20,8 +20,9 @@ const SavedProductCard: React.FC<ProductCardProps> = ({ product, handleRemoveWis
                             <Image source={{ uri: product.images[0]?.url }} style={styles.image} />
                             <View style={{ marginLeft: 18 }}>
                                 <Text numberOfLines={2} style={styles.name}>{product.name}</Text>
-                                <Text style={styles.price}>₦{product.originalPrice.toLocaleString()}</Text>
-                                <Text style={styles.discount}>{product.discountPrice === 0 ? null : '₦' + product.discountPrice.toLocaleString()}</Text>
+                                <Text style={styles.price}>{'₦' + (product.discountPrice === 0 || product.discountPrice === null ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
+                                <Text style={styles.discount}>{product.discountPrice !== 0 && product.discountPrice !== null ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
+
                             </View>
                         </View>
                     </TouchableOpacity>

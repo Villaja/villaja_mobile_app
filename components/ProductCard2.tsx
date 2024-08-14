@@ -19,8 +19,8 @@ const ProductCard2: React.FC<ProductCardProps> = ({ product }) => {
             <Image style={styles.image} source={{ uri: product.images[0]?.url }} />
             <View style={{ marginLeft: 18 }}>
               <Text style={styles.title}>{product.name.length < 30 ? product.name : product.name.slice(0, 30) + '...'}</Text>
-              <Text style={styles.price}>{'₦' + (product.discountPrice === 0 ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
-              <Text style={styles.discountPrice}>{product.discountPrice !== 0 && product.originalPrice != product.discountPrice ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>              
+              <Text style={styles.price}>{'₦' + (product.discountPrice === 0 || product.discountPrice === null ? product.originalPrice?.toLocaleString() : product.discountPrice?.toLocaleString())} </Text>
+              <Text style={styles.discountPrice}>{product.discountPrice !== 0 && product.discountPrice !== null ? '₦' + (product.originalPrice?.toLocaleString() || '') : null}</Text>
             </View>
 
           </View>

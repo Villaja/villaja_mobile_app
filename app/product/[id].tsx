@@ -239,7 +239,7 @@ const Page: React.FC = () => {
                       </View>
                     </View>
                     <Text style={styles.title}>{productDetails?.name}</Text>
-                    <Text style={styles.price}>₦{productDetails?.originalPrice.toLocaleString()}</Text>
+                    <Text style={styles.price}>₦{productDetails?.discountPrice === 0 || productDetails?.discountPrice === null ? productDetails?.originalPrice?.toLocaleString() : productDetails?.discountPrice?.toLocaleString()}</Text>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 3 }}>
                       {
                         productDetails?.ratings ?

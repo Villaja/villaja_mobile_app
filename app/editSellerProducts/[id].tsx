@@ -290,7 +290,7 @@ const sellerAddProduct: React.FC = () => {
                 setName(response.data.product.name);
                 setProductDetails(response.data.product.description);
                 setOriginalPrice(response.data.product.originalPrice.toString());
-                setDiscountPrice(response.data.product.discountPrice.toString());
+                setDiscountPrice(response.data.product.discountPrice?.toString());
                 setStock(response.data.product.stock.toString());
                 setColor(response.data.product.colorList.color);
                 setBrandName(response.data.product.brand);
