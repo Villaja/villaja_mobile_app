@@ -471,7 +471,7 @@ const sellerAddProduct: React.FC = () => {
               <View style={styles.textInput}>
                 <TextInput
                  style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
-                  placeholder="₦0.00"
+                  placeholder="₦0.00, if none skip"
                   keyboardType= 'number-pad'
                   value={discountPrice}
                   onChangeText={(value) => setDiscountPrice(value)}

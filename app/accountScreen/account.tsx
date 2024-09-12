@@ -399,7 +399,7 @@ const account = () => {
     </TouchableOpacity> */}
                 </View>
                 <View style={styles.accountNameContainer} >
-                    <Text style={styles.accountName}>{firstName} {lastName}</Text>
+                    <Text style={styles.accountName}>{`${firstName}` + " " + `${lastName}` }</Text>
                 </View>
             </View>
             <View style={styles.section2}>

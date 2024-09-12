@@ -505,9 +505,7 @@ const index = () => {
 
                 <>
                   <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.30)', fontSize: 12 }}>Welcome To Villaja</Text>
-                  <Text numberOfLines={1} style={styles.userName}>
-                    {user?.user.firstname} {user?.user.lastname}
-                  </Text>
+                  <Text numberOfLines={1} style={styles.userName}>{`${user?.user.firstname}`+ " " + `${user?.user.lastname}`}</Text>
                 </>
               ) : (
 
