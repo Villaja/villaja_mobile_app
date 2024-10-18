@@ -1,3 +1,4 @@
+/*
 import * as React from 'react'
 import { useState } from 'react';
 import { View, ScrollView, Text, Image, TouchableOpacity, StyleSheet, Modal, FlatList, TextInput, Dimensions } from "react-native";
@@ -199,7 +200,7 @@ const quickSwap = () => {
                 </View>
                 <View style={styles.section2}>
                     <View style={styles.inputContainer}>
-                        {/*Product name input*/}
+                        //Product name input
                         <Text style={styles.text}>Name</Text>
                         <View style={styles.textInput}>
                             <TextInput
@@ -212,7 +213,7 @@ const quickSwap = () => {
                         </View>
                     </View>
                     <View style={styles.inputContainer}>
-                        {/*Price input*/}
+                        //Price input
                         <Text style={styles.text}>Price</Text>
                         <View style={styles.textInput}>
                             <TextInput
@@ -225,7 +226,7 @@ const quickSwap = () => {
                         </View>
                     </View>
                     <View style={styles.inputContainer}>
-                        {/*swap with input*/}
+                        //swap with input
                         <Text style={styles.text}>Swap With?</Text>
                         <View style={styles.textInput}>
                             <TextInput
@@ -239,7 +240,7 @@ const quickSwap = () => {
                         </View>
                     </View>
                     <View style={styles.inputContainer}>
-                        {/*More Details input*/}
+                        //More Details input
                         <Text style={styles.text}>More Details</Text>
                         <View style={styles.textInput2}>
                             <TextInput
@@ -360,3 +361,4 @@ const styles = StyleSheet.create({
         marginLeft: 10
     }
 })
+*/

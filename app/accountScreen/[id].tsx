@@ -4,7 +4,7 @@ import { MaterialIcons, MaterialCommunityIcons, Ionicons, FontAwesome, Feather, 
 import { timeAgo } from '../../utils/timeAgo';
 import { base_url } from "../../constants/server";
 import { Product } from '../../types/Product';
-import ProductCard2 from "../../components/ProductCard2";
+import ProductCard3 from "../../components/ProductCard3";
 import ProductCard from "../../components/ProductCard";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -24,7 +24,7 @@ const testUser = {
 
 const merchantProfile = () => {
 
-    const {id} = useLocalSearchParams()
+    const { id } = useLocalSearchParams()
 
     const router = useRouter()
     const [user, setUser] = useState<any>({});
@@ -33,29 +33,25 @@ const merchantProfile = () => {
     const [seller, setSeller] = useState<any>([]);
     const [token, setToken] = useState<string>();
     const [userToken, setUserToken] = useState<string>();
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [viewType, setViewType] = useState<boolean>(true)
 
-    const fetchSeller  = async () => {
-        try
-        {
+    const fetchSeller = async () => {
+        setLoading(true)
+        try {
             const response = await axios.get(`${base_url}/shop/get-shop-info/${id}`)
 
-            if(response.data.success)
-            {
+            if (response.data.success) {
                 setSeller(response.data.shop)
             }
-            else
-            {
-                console.log("could not get seller information");   
+            else {
+                console.log("could not get seller information");
             }
         }
-        catch(e)
-        {
-                console.log("error fetching seller information",e);   
+        catch (e) {
+            console.log("error fetching seller information", e);
         }
-        finally
-        {
+        finally {
             setLoading(false)
         }
     }
@@ -85,25 +81,26 @@ const merchantProfile = () => {
         fetchSeller()
     }, [])
 
-        // fetch shop products functionality
+    // fetch shop products functionality
 
-        const fetchProducts = async () => {
-            try {
-                const response: AxiosResponse<{ products: Product[] }> = await axios.get(`${base_url}/product/get-all-products-shop/${seller._id}`, {
-                    headers: {
-                        Authorization: token,
-                    },
-                });
-    
-                const last50Products = response.data.products.slice(-50);
-                setProducts(last50Products)
-    
-            } catch (error) {
-                console.error('Error fetching products', error);
-            } finally {
-                setLoading(false)
-            }
-        };
+    const fetchProducts = async () => {
+        setLoading(true)
+        try {
+            const response: AxiosResponse<{ products: Product[] }> = await axios.get(`${base_url}/product/get-all-products-shop/${seller._id}`, {
+                headers: {
+                    Authorization: token,
+                },
+            });
+
+            const last50Products = response.data.products.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+            setProducts(last50Products)
+
+        } catch (error) {
+            console.error('Error fetching products', error);
+        } finally {
+            setLoading(false)
+        }
+    };
 
     // finally fetch product after token confirmation
     useEffect(() => {
@@ -113,13 +110,39 @@ const merchantProfile = () => {
     }, [seller, token]);
 
 
-
+    // List View Skeleton Loader
     const renderSkeletonLoader = (start: number, end: number) => {
-        const cardsPerRow = 2;
+        const cardsPerRow = 1;
 
         return (
             <View>
                 <View style={styles.gridContainer2}>
+                    {Array(40).fill(0).slice(start, end).map((_, index) => (
+                        <View
+                            key={index}
+                            style={[
+                                styles.productCard,
+                                index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+                            ]}
+                        >
+                            <Skeleton skeletonStyle={{
+                                backgroundColor: 'rgba(0,0,0,0.10)',
+                                borderRadius: 5,
+                            }} animation="pulse" width={width - 40} height={103} />
+                        </View>
+                    ))}
+                </View>
+            </View>
+        );
+    };
+
+    // Grid View Skeleton Loader
+    const renderSkeletonLoader2 = (start: number, end: number) => {
+        const cardsPerRow = 2;
+
+        return (
+            <View>
+                <View style={styles.gridContainer3}>
                     {Array(40).fill(0).slice(start, end).map((_, index) => (
                         <View
                             key={index}
@@ -139,55 +162,84 @@ const merchantProfile = () => {
         );
     };
 
-
+    // List View Product Render
     const renderProductCards = (start: number, end: number) => {
-        const cardsPerRow = 2;
+        const cardsPerRow = 1;
 
         return (
             <View>
-                <View style={styles.gridContainer}>
-                    {products.map((product, index) => (
-                        <View
-                            key={product._id}
-                            style={[
-                                styles.productCard,
-                                index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
-                            ]}
-                        >
-                            <ProductCard2 product={product} />
-                        </View>
-                    ))}
+                <View style={products.length > 0 ? styles.gridContainer : styles.noProductsContainer}>
+                    {
+                        products.length > 0 ? (
+                            products.map((product, index) => (
+                                <View
+                                    key={product._id}
+                                    style={[
+                                        styles.productCard,
+                                        index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+                                    ]}
+                                >
+                                    <ProductCard3 product={product} />
+                                </View>
+                            ))
+                        ) : (
+                            <Text>No products found</Text>
+                        )
+                    }
                 </View>
             </View>
 
         );
     };
 
-    //fetch user token to ensure user is logged in before sending a message 
+    // Grid View Product Render
+    const renderProductCards2 = (start: number, end: number) => {
+        const cardsPerRow = 1;
 
-    
+        return (
+            <View>
+                <View style={products.length > 0 ? styles.gridContainer3 : styles.noProductsContainer}>
+                    {
+                        products.length > 0 ? (
+                            products.map((product, index) => (
+                                <View
+                                    key={product._id}
+                                    style={[
+                                        styles.productCard,
+                                        index % cardsPerRow === cardsPerRow - 1 ? styles.lastCardInRow : null,
+                                    ]}
+                                >
+                                    <ProductCard product={product} />
+                                </View>
+                            ))
+                        ) : (
+                            <Text>No products found</Text>
+                        )
+                    }
+                </View>
+            </View>
 
-    //Create new conversation Logic to send message to seller
-
-
-
+        );
+    };
 
 
 
 
     return (
         <ScrollView style={styles.container} >
-            <View style={{ width: width , height: 78, marginBottom: 34 }} >
-                <Image source={require('../../assets/images/The-Ultimate-Guide-to-Online-Sales-Tax-2023.png')}  style={{ width: width , height: 100, }} />
+            <View style={{ width: width, height: 78, marginBottom: 34 }} >
+                <Image source={require('../../assets/images/The-Ultimate-Guide-to-Online-Sales-Tax-2023.png')} style={{ width: width, height: 100, }} />
             </View>
             <View style={{ width: 95, height: 90.48, flexDirection: "row", justifyContent: "center", alignItems: "center", marginHorizontal: 20, position: "absolute", marginTop: 53 }} >
-                <View style={{ width: 95, height: 90.48, marginTop: 50, borderRadius: 50, justifyContent: "center", alignItems: "center", backgroundColor: "#02549290", }} >
+                <View style={{ width: 95, height: 90.48, marginTop: 50, borderRadius: 50, justifyContent: "center", alignItems: "center", borderColor: "#02549290", borderWidth: 2 }} >
                     <Image source={seller?.avatar?.url ? { uri: seller.avatar.url } : testUser.image} style={{ width: 92, height: 87.48, borderRadius: 50 }} />
                 </View>
                 <MaterialIcons name="verified" size={18} color="green" style={{ alignSelf: "flex-end", right: 25, bottom: -19 }} />
             </View>
-            <Text style={{ marginLeft: 50, fontSize: 14, fontWeight: "500", alignSelf: "center" }} >{seller?.name}</Text>
-            <Text style={{ marginLeft: 40, alignSelf: "center", marginBottom: 37, flexDirection: 'row', justifyContent: "center", alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 10, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={12} color={"rgba(0,0,0,0.50)"} /> 5 months on Villaja</Text>
+            <View style={{ marginLeft: 50, alignSelf: "center"}} >
+                <Text style={{ fontSize: 14, fontWeight: "500" }} >{seller?.name}</Text>
+                <Text style={{ marginBottom: 37, flexDirection: 'row', alignSelf: "center", justifyContent: "center", alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 10, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={12} color={"rgba(0,0,0,0.50)"} /> 5 months on Villaja</Text>
+            </View>
             <View style={{ marginHorizontal: 20, marginTop: 12 }} >
                 <View style={{ flexDirection: "row", gap: 8 }} >
                     <View style={{ width: 53, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
@@ -208,7 +260,7 @@ const merchantProfile = () => {
                 </TouchableOpacity> */}
                 <View style={{ marginTop: 40 }} >
                     <Text style={{ fontSize: 12, color: "#00000070", lineHeight: 15.2, letterSpacing: -0.18, fontWeight: "700" }} >About this merchant</Text>
-                    <Text numberOfLines={about} style={{ marginTop: 6, fontSize: 11, color: "#00000070", lineHeight: 15, letterSpacing: -0.18 }} >{seller?.description}</Text>
+                    <Text numberOfLines={about} style={{ marginTop: 6, fontSize: 11, color: "#00000070", lineHeight: 15, letterSpacing: -0.18 }} >{seller?.description || "No description available for this merchant"}</Text>
                     {
                         about === 100 ?
                             <TouchableOpacity onPress={() => setAbout(3)} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, alignSelf: 'flex-end' }}>
@@ -227,7 +279,7 @@ const merchantProfile = () => {
             </View>
             <View style={{ height: 3, width: width + 10, backgroundColor: "#00000010", marginTop: 40 }} ></View>
             <View style={{ flexDirection: "row", height: 50 }} >
-                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '15%', borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#00000010" }} onPress={() => setViewType(!viewType) } >
+                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '15%', borderTopWidth: 1, borderBottomWidth: 1, borderColor: "#00000010" }} onPress={() => setViewType(!viewType)} >
                     {
                         viewType ?
                             <Ionicons name="grid-outline" size={20} color="#00000090" />
@@ -235,7 +287,7 @@ const merchantProfile = () => {
                             <Entypo name='list' size={20} color='#00000090' />
                     }
                 </TouchableOpacity>
-                <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '42.5%', borderWidth: 1, borderColor: "#00000010" }} >
+                {/* SUSPENDED FEATURE <TouchableOpacity style={{ justifyContent: "center", alignItems: "center", flexBasis: '42.5%', borderWidth: 1, borderColor: "#00000010" }} >
                     <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", gap: 4 }} >
                         <FontAwesome name="sort" size={15} color="#00000070" />
                         <Text style={{ fontSize: 15, color: "#00000070" }} >Sort</Text>
@@ -246,15 +298,15 @@ const merchantProfile = () => {
                         <Feather name="filter" size={15} color="#00000070" />
                         <Text style={{ fontSize: 15, color: "#00000070" }} >Filter</Text>
                     </View>
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
             </View>
-            <View style={{ paddingHorizontal: 20, backgroundColor: "#FAFBFD" }}>
-                <View style={{ marginTop: 20, backgroundColor: "#FAFBFD" }} >
+            <View style={{ paddingHorizontal: 20, backgroundColor: products.length > 0 ? "#FAFBFD" : "#fff" }}>
+                <View style={{ marginTop: 20, backgroundColor: products.length > 0 ? "#FAFBFD" : "#fff" }} >
                     {loading ? (
-                        renderSkeletonLoader(0, 16)
+                        viewType ? renderSkeletonLoader(0, 16) : renderSkeletonLoader2(0, 16)
                         // <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator}  />
                     ) : (
-                        renderProductCards(0, 1)
+                        viewType ? renderProductCards(0, 1) : renderProductCards2(0, 1)
                     )}
                 </View>
             </View>
@@ -274,16 +326,28 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     gridContainer: {
-        flexDirection: 'column-reverse',
+        flexDirection: 'column',
         flexWrap: 'nowrap',
         justifyContent: 'space-between',
         // paddingHorizontal: 8,
     },
     gridContainer2: {
+        flexDirection: 'column',
+        flexWrap: 'nowrap',
+        justifyContent: 'space-between',
+        width: width,
+        // paddingHorizontal: 8,
+    },
+    gridContainer3: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         // paddingHorizontal: 8,
+    },
+    noProductsContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     productCard: {
         flexBasis: '48%',

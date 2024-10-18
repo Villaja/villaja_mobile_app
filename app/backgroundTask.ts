@@ -46,7 +46,7 @@ TaskManager.defineTask(NOTIFICATION_TASK, async ({ data, error }) => {
             vibrate: [250,250],
         },
         trigger: {
-            seconds: 10
+            seconds: 0,
         }
     })
 
@@ -57,7 +57,7 @@ TaskManager.defineTask(NOTIFICATION_TASK, async ({ data, error }) => {
 export const registerBackgroundTask = async () => {
     try {
         await BackgroundFetch.registerTaskAsync(NOTIFICATION_TASK, {
-            minimumInterval: 7200, // 3 hours interval in seconds
+            minimumInterval: 5400, // 1 hour 30 minutes interval in seconds
             stopOnTerminate: false,
             startOnBoot: true,
         });

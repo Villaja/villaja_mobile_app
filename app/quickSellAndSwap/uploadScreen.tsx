@@ -17,13 +17,16 @@ const uploadScreen = () => {
         </View>
         <Ionicons name='chevron-forward-outline' size={20} style={styles.icon} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.quickSell} onPress={() => router.push(`/quickSellAndSwap/quickSwap`)}>
+      {/*** POSTPONED FEATURE
+        <TouchableOpacity style={styles.quickSell} onPress={() => router.push(`/quickSellAndSwap/quickSwap`)}>
         <View style={styles.textContainer}>
           <Text style={styles.text1}>Quick Swap</Text>
           <Text style={styles.text2}>Swap Your Products With Other Merchant On Villaja and Negotiate To Get What You Want</Text>
         </View>
         <Ionicons name='chevron-forward-outline' size={20} style={styles.icon} />
       </TouchableOpacity>
+      */
+      }
       <View style={styles.imageContainer}>
         <Image source={require('../../assets/images/merchant.png')} style={styles.image} />
         <View style={styles.imageText}>
