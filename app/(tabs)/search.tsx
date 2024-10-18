@@ -232,11 +232,10 @@ const styles = StyleSheet.create({
   merchantContainer: {
     paddingTop: 10,
     paddingBottom: 16,
+    paddingHorizontal: 12,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 9
+    justifyContent: "space-between"
   },
   pageHeader: {
     paddingTop: 24,
