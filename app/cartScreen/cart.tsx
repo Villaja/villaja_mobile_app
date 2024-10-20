@@ -106,10 +106,7 @@ const cart = () => {
       setLoading(false)
     }
     
-  }
-
-
-
+  };
 
 
   return (

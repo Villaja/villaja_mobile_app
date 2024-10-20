@@ -100,8 +100,8 @@ const Page = () => {
                 <ActivityIndicator size="small" color="#025492" />
             ) : (
                 <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
-                    <View style={{ paddingHorizontal: 20 }} >
-                        <Image source={require('../../assets/images/amico.png')} style={{ height: 240, width: 290, marginTop: 65, alignSelf: "center", marginBottom: 23 }} />
+                    <View>
+                        <Image source={{uri: orderDetails?.cart[0]?.images[0].url}} style={{ height: 190, width: 150, marginTop: 65, alignSelf: "center", marginBottom: 23 }} />
                     </View>
                     {
                         orderDetails ? (
@@ -125,8 +125,8 @@ const Page = () => {
                                 </View>
                                 <View style={{ paddingHorizontal: 20, justifyContent: 'center', alignItems: 'center' }} >
                                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                        <Text style={{ fontSize: 13, color: '#00000080' }} >Available Stock</Text>
-                                        <Text style={{ fontSize: 14, fontWeight: '700', color: '#00000099' }} >{orderDetails.cart[0].stock}</Text>
+                                        <Text style={{ fontSize: 13, color: '#00000080' }} >Product Color</Text>
+                                        <Text style={{ fontSize: 14, fontWeight: '700', color: "#00000099" }} >{orderDetails.cart[0].color || "unavailable"}</Text>
                                     </View>
                                 </View>
                                 <TouchableOpacity 

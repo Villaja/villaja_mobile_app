@@ -85,6 +85,8 @@ const checkout = () => {
         handleGetCart();
       }, []);
 
+      console.log(cart);
+
   //Product Promo functionality
   const validPromoCode = 'VJPR1024';
   const promoAmount = 10000;

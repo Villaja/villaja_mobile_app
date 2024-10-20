@@ -38,9 +38,107 @@ const Page: React.FC = () => {
   const [wishListInfo, setWishListInfo] = useState<{ message2: string, iconColor2: string, icon2: string } | undefined>();
   const [descriptionLength, setDescriptionLength] = useState(3);
   const [colorSelector, setColorSelector] = useState({ colorPosition: "firstColor", index: 0 })
-  const router = useRouter()
+  const router = useRouter();
+
+
+  // Fetch product details
+  useEffect(() => {
+    // scrollRef.current?.scrollTo({x:0,y:0})
+    setLoading(true)
+    const fetchProductDetails = async () => {
+      try {
+        const response = await axios.get(`${base_url}/product/get-product-details/${id}`);
+        setProductDetails(response.data.product);
+      } catch (error) {
+        console.error('Error fetching product details:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductDetails();
+  }, [id]);
+
+  //get all 3 color variations
+  const [firstColor, secondColor, thirdColor] = productDetails?.colorList || [];
 
   // Add to cart and save to wishlist logic 
+  const cartData = {
+    _id: productDetails?._id,
+    name: productDetails?.name,
+    description: productDetails?.description,
+    category: productDetails?.category,
+    tags: productDetails?.tags,
+    originalPrice: productDetails?.originalPrice,
+    discountPrice: productDetails?.discountPrice,
+    stock: productDetails?.stock,
+    condition: productDetails?.condition,
+    aboutProduct: productDetails?.aboutProduct,
+    brand: productDetails?.brand,
+    model: productDetails?.model,
+    displaySize: productDetails?.displaySize,
+    color: productDetails?.colorList[colorSelector.index]?.color,
+    os: productDetails?.os,
+    memorySize: productDetails?.memorySize,
+    internalMemory: productDetails?.internalMemory,
+    cellularTechnology: productDetails?.cellularTechnology,
+    connectivityTechnology: productDetails?.connectivityTechnology,
+    simCard: productDetails?.simCard,
+    dimensions: productDetails?.dimensions,
+    serialNumber: productDetails?.serialNumber,
+    weight: productDetails?.weight,
+    inTheBox: productDetails?.inTheBox,
+    minDelivery: productDetails?.minDelivery,
+    maxDelivery: productDetails?.maxDelivery,
+    colorList: productDetails?.colorList,
+    images: productDetails?.colorList[colorSelector.index]?.images,
+    ratings: productDetails?.ratings,
+    shopId: productDetails?.shopId,
+    shop: productDetails?.shop,
+    sold_out: productDetails?.sold_out,
+    createdAt: productDetails?.createdAt,
+    reviews: productDetails?.reviews,
+    isSavedForLater: productDetails?.isSavedForLater,
+    __v: productDetails?.__v,
+  };
+  const wishListData = {
+    _id: productDetails?._id,
+    name: productDetails?.name,
+    description: productDetails?.description,
+    category: productDetails?.category,
+    tags: productDetails?.tags,
+    originalPrice: productDetails?.originalPrice,
+    discountPrice: productDetails?.discountPrice,
+    stock: productDetails?.stock,
+    condition: productDetails?.condition,
+    aboutProduct: productDetails?.aboutProduct,
+    brand: productDetails?.brand,
+    model: productDetails?.model,
+    displaySize: productDetails?.displaySize,
+    color: productDetails?.color,
+    os: productDetails?.os,
+    memorySize: productDetails?.memorySize,
+    internalMemory: productDetails?.internalMemory,
+    cellularTechnology: productDetails?.cellularTechnology,
+    connectivityTechnology: productDetails?.connectivityTechnology,
+    simCard: productDetails?.simCard,
+    dimensions: productDetails?.dimensions,
+    serialNumber: productDetails?.serialNumber,
+    weight: productDetails?.weight,
+    inTheBox: productDetails?.inTheBox,
+    minDelivery: productDetails?.minDelivery,
+    maxDelivery: productDetails?.maxDelivery,
+    colorList: productDetails?.colorList,
+    images: productDetails?.images,
+    ratings: productDetails?.ratings,
+    shopId: productDetails?.shopId,
+    shop: productDetails?.shop,
+    sold_out: productDetails?.sold_out,
+    createdAt: productDetails?.createdAt,
+    reviews: productDetails?.reviews,
+    isSavedForLater: productDetails?.isSavedForLater,
+    __v: productDetails?.__v,
+  };
   const handleAddToCart = async () => {
 
     var cart = [] as Product[]
@@ -54,7 +152,7 @@ const Page: React.FC = () => {
         cart = JSON.parse(result!)
       })
 
-      const itemExists = cart && cart?.length > 0 && cart.find((item: Product) => item._id === productDetails?._id)
+      const itemExists = cart && cart?.length > 0 && cart.find((item: Product) => item._id === cartData?._id)
 
       if (itemExists) {
         // alert("This item is already in your cart")
@@ -64,12 +162,12 @@ const Page: React.FC = () => {
 
       }
       else if (cart && cart.length > 0 && !itemExists) {
-        await AsyncStorage.setItem('cart', JSON.stringify([...cart, productDetails]))
+        await AsyncStorage.setItem('cart', JSON.stringify([...cart, cartData]))
         setModalInfo({ icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
         setTriggerCartModal(true)
       }
       else {
-        await AsyncStorage.setItem('cart', JSON.stringify([productDetails]))
+        await AsyncStorage.setItem('cart', JSON.stringify([cartData]))
         setModalInfo({ icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
         setTriggerCartModal(true)
       }
@@ -92,7 +190,7 @@ const Page: React.FC = () => {
         wishList = JSON.parse(result!)
       })
 
-      const productExists = wishList && wishList?.length > 0 && wishList.find((item: Product) => item._id === productDetails?._id)
+      const productExists = wishList && wishList?.length > 0 && wishList.find((item: Product) => item._id === wishListData?._id)
 
       if (productExists) {
         // alert("This item is already in your cart")
@@ -100,12 +198,12 @@ const Page: React.FC = () => {
         setWishListCartModal(true);
 
       } else if (wishList && wishList?.length > 0 && !productExists) {
-        await AsyncStorage.setItem('wishList', JSON.stringify([...wishList, productDetails]))
+        await AsyncStorage.setItem('wishList', JSON.stringify([...wishList, wishListData]))
         setWishListInfo({ message2: 'Item Added To The Your Wish List', iconColor2: Colors.primary, icon2: 'bookmarks' })
         setWishListCartModal(true)
 
       } else {
-        await AsyncStorage.setItem('wishList', JSON.stringify([productDetails]))
+        await AsyncStorage.setItem('wishList', JSON.stringify([wishListData]))
         setWishListInfo({ message2: 'Item Added To The Your Wish List', iconColor2: Colors.primary, icon2: "bookmarks" })
         setWishListCartModal(true)
       }
@@ -125,23 +223,6 @@ const Page: React.FC = () => {
       setTimeout(() => setWishListCartModal(false), 2000)
     }
   }, [wishListCartModal])
-
-  useEffect(() => {
-    // scrollRef.current?.scrollTo({x:0,y:0})
-    setLoading(true)
-    const fetchProductDetails = async () => {
-      try {
-        const response = await axios.get(`${base_url}/product/get-product-details/${id}`);
-        setProductDetails(response.data.product);
-      } catch (error) {
-        console.error('Error fetching product details:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProductDetails();
-  }, [id]);
 
   const sendMessage = async () => {
     try {
@@ -184,11 +265,6 @@ const Page: React.FC = () => {
     }
   };
 
-  console.log(productDetails?.colorList.length);
-
-  //get all 3 color variations
-  const [firstColor, secondColor, thirdColor] = productDetails?.colorList || [];
-
   //display current color variation
   const displayCurrentColor = () => {
     if (colorSelector.colorPosition === "firstColor") {
@@ -197,6 +273,17 @@ const Page: React.FC = () => {
       return secondColor?.color
     } else {
       return thirdColor?.color
+    }
+  };
+
+  // display color variation stock
+  const displayColorVariationStock = () => {
+    if (colorSelector.colorPosition === "firstColor") {
+      return firstColor?.stock
+    } else if (colorSelector.colorPosition === "secondColor") {
+      return secondColor?.stock
+    } else {
+      return thirdColor?.stock
     }
   }
 
@@ -251,10 +338,10 @@ const Page: React.FC = () => {
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
                       <Text style={{ flexDirection: 'row', alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 12, color: 'rgba(0,0,0,0.50)', marginBottom: 8 }}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> {timeAgo(productDetails?.shop.createdAt)} on Villaja</Text>
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                        <View style={{ padding: 3, borderRadius: 12, backgroundColor: productDetails?.stock > 5 ? 'rgba(0,255,0,0.10)' : 'rgba(255,0,0,0.10)' }}>
-                          <AntDesign name='exclamationcircleo' size={9} color={productDetails?.stock > 5 ? 'green' : 'red'} />
+                        <View style={{ padding: 3, borderRadius: 12, backgroundColor: displayColorVariationStock() > 5 ? 'rgba(0,255,0,0.10)' : 'rgba(255,0,0,0.10)' }}>
+                          <AntDesign name='exclamationcircleo' size={9} color={displayColorVariationStock() > 5 ? 'green' : 'red'} />
                         </View>
-                        <Text style={{ fontFamily: 'roboto-condensed', fontSize: 12, color: productDetails?.stock > 5 ? 'green' : 'red' }}>{productDetails?.stock} units left</Text>
+                        <Text style={{ fontFamily: 'roboto-condensed', fontSize: 12, color: displayColorVariationStock() > 5 ? 'green' : 'red' }}>{displayColorVariationStock()} units left</Text>
                       </View>
                     </View>
                     <Text style={styles.title}>{productDetails?.name}</Text>

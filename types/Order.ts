@@ -71,6 +71,7 @@ export interface Order {
     createdAt: string;
     reviews: any[]; // You can specify the correct type for reviews
     qty: number;
+    color?: string; 
     // ... other properties
   }
   

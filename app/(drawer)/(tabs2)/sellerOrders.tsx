@@ -52,7 +52,9 @@ const sellerOrders = () => {
 
   useEffect(() => {
     handleGetOrders();
-  }, [seller])
+  }, [seller]);
+
+  console.log(allOrders[0]);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container} >

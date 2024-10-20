@@ -173,7 +173,7 @@ const sellerAddProduct = () => {
         shopId: shopId,
         colorList: colorVariation,
       };
-  
+
       setProductUploadPayload(payload);
       router.push('/sellerAddProductScreen/addProducts')
     }
@@ -264,7 +264,7 @@ const sellerAddProduct = () => {
                   style={{ left: 13, width: 302, height: 45, fontSize: 12 }}
                   placeholder="Enter amount of product in stock"
                   keyboardType='number-pad'
-                  value={stock !== null ? stock.toString() : '' }
+                  value={stock !== null ? stock.toString() : ''}
                   onChangeText={(value) => setStock(value ? parseInt(value) : null)}
                 />
               </View>
@@ -276,7 +276,7 @@ const sellerAddProduct = () => {
                 <Text style={styles.colorVariationText2}>{colorVariation.length === 3 ? "You have reached the limit of 3 color variants" : "Upload pictures based on the colors and amount of stock available for your product, you can only add 3 color variants"}</Text>
               </View>
               {colorVariation.length === 3 ? (
-                <TouchableOpacity style={styles.colorVariationIcon}  onPress={() => setColorVariation([])}>
+                <TouchableOpacity style={styles.colorVariationIcon} onPress={() => setColorVariation([])}>
                   <AntDesign name='delete' size={18} color='#FF0000' />
                 </TouchableOpacity>
               ) : (
@@ -316,24 +316,23 @@ const sellerAddProduct = () => {
                       </TouchableOpacity>
                       <View style={variationData.images.length > 0 ? { flex: 1 } : {}}>
                         {variationData.images.length > 0 ? (
-                          <View style={{ flexDirection: 'row', flexWrap: 'wrap', }}>
+                          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 5, position: "relative" }}>
                             {variationData.images.map((uri, index) => (
-                              <View key={index} style={{ width: '50%', paddingRight: 5, paddingBottom: 5 }}>
+                              <View key={index} style={{ width: '45%', paddingRight: 5, paddingBottom: 5, borderWidth: 1, borderColor: '#0000001A', borderRadius: 5 }}>
                                 <Image
                                   source={{ uri }}
                                   style={{ width: '100%', aspectRatio: 10 / 10, borderRadius: 10 }}
                                 />
                               </View>
                             ))}
+                            <TouchableOpacity onPress={clearSelectedImages} style={{ position: "absolute", right: 5, bottom: -25 }} >
+                              <AntDesign name='delete' size={18} color='#FF0000' />
+                            </TouchableOpacity>
                           </View>
                         ) : (
                           <Image source={require('../../../assets/images/watchcat.png')} style={{ width: 114, height: 79, borderRadius: 10 }} />
                         )}
-                        {variationData.images.length > 0 && (
-                          <TouchableOpacity onPress={clearSelectedImages} style={{ alignSelf: "flex-end", marginTop: 20 }} >
-                            <AntDesign name='delete' size={18} color='#FF0000' />
-                          </TouchableOpacity>
-                        )}
+
                       </View>
                     </View>
                   </View>
