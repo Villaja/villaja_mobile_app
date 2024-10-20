@@ -25,14 +25,14 @@ interface ColorVariation {
 }
 
 const categoriesData = [
-  { id: 1, name: 'Mobile Phones', image: require('../../../assets/images/phonecat.png') },
-  { id: 2, name: 'Smart Watches and Trackers', image: require('../../../assets/images/sm-w.png') },
+  { id: 1, name: 'Phones', image: require('../../../assets/images/phonecat.png') },
+  { id: 2, name: 'Smart Watches', image: require('../../../assets/images/sm-w.png') },
   { id: 3, name: 'Tablets', image: require('../../../assets/images/tabcat.png') },
   { id: 4, name: 'Accessories', image: require('../../../assets/images/phoneacc.png') },
   { id: 5, name: 'Stands and lights', image: require('../../../assets/images/stands.png') },
   { id: 6, name: 'Laptop Bags', image: require('../../../assets/images/bags.png') },
   { id: 7, name: 'Earphones and Headphones', image: require('../../../assets/images/headphonescat.png') },
-  { id: 8, name: 'Laptops', image: require('../../../assets/images/laptopcat.png') },
+  { id: 8, name: 'Computers', image: require('../../../assets/images/laptopcat.png') },
   { id: 9, name: 'Cases and Covers', image: require('../../../assets/images/cases.png') },
   { id: 10, name: 'Stylus and tablets', image: require('../../../assets/images/stylus.png') },
   { id: 11, name: 'Microphones', image: require('../../../assets/images/microphone.png') },
