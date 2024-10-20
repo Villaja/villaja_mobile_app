@@ -15,7 +15,6 @@ import { QuickSwapProvider } from '../context/QuickSwapContext';
 import { PaperProvider } from 'react-native-paper';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ProductUploadProvider } from "../context/ProductUpload";
-import { usePushNotifications } from "./usePushNotifications";
 
 
 
@@ -69,13 +68,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const router = useRouter();
-  const {expoPushToken, notification} = usePushNotifications();
-  const data = JSON.stringify(notification, undefined, 2);
-  console.log("setting up notifications");
-  console.log(data);
-  console.log(expoPushToken?.data ?? "")
-
-  const [isSeller, setIsSeller] = useState<boolean>(true);
 
 
   return (

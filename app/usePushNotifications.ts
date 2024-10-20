@@ -13,7 +13,7 @@ export interface pushNotificationState {
 };
 
 
-export const usePushNotifications = () : pushNotificationState => { 
+export const usePushNotifications = (isNotificationEnabled: boolean) : pushNotificationState => { 
     Notifications.setNotificationHandler({
         handleNotification: async () => ({
             shouldPlaySound: true,
@@ -21,6 +21,8 @@ export const usePushNotifications = () : pushNotificationState => {
             shouldSetBadge: true,
         }),
     });
+
+    console.log(isNotificationEnabled)
 
     const [expoPushToken, setExpoPushToken] = useState<Notifications.ExpoPushToken | undefined>();
     const [notification, setNotification] = useState<Notifications.Notification | undefined>();
@@ -70,18 +72,25 @@ export const usePushNotifications = () : pushNotificationState => {
     };
 
     useEffect(() => {
-        registerForPushNotifications().then((token) => {
-            setExpoPushToken(token);
-        });
-
-        notificationListener.current = Notifications.addNotificationReceivedListener(async (notification) => {
-            setNotification(notification);
-            await storeNotification(notification)
-        });
-
-        responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
-            redirect(response.notification);
-        });
+        if (isNotificationEnabled) {
+            registerForPushNotifications().then((token) => {
+                setExpoPushToken(token);
+            });
+    
+            notificationListener.current = Notifications.addNotificationReceivedListener(async (notification) => {
+                setNotification(notification);
+                await storeNotification(notification)
+            });
+    
+            responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+                redirect(response.notification);
+            });
+    
+        } else {
+            registerForPushNotifications().then((token) => {
+                setExpoPushToken({} as Notifications.ExpoPushToken);
+            });
+        };
 
         return () => {
             Notifications.removeNotificationSubscription(
@@ -91,8 +100,9 @@ export const usePushNotifications = () : pushNotificationState => {
             Notifications.removeNotificationSubscription(
                 responseListener.current!
             )
-        }
-    }, []);
+        };
+        
+    }, [isNotificationEnabled]);
 
     function redirect(notification: Notifications.Notification) {
         const url = notification.request.content.data?.url;

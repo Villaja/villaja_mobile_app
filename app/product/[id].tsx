@@ -27,15 +27,17 @@ const Page: React.FC = () => {
 
 
   const scrollRef = useRef<ScrollView>(null);
-  const {user} = useAuth();
+  const { user } = useAuth();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [productDetails, setProductDetails] = useState<Product | null>(null);
+  const [addToCartDetails, setAddToCartDetails] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [triggerCartModal, setTriggerCartModal] = useState(false);
   const [wishListCartModal, setWishListCartModal] = useState(false);
-  const [modalInfo, setModalInfo] = useState<{ icon: string, message: string, iconColor: string,  } | undefined>();
+  const [modalInfo, setModalInfo] = useState<{ icon: string, message: string, iconColor: string, } | undefined>();
   const [wishListInfo, setWishListInfo] = useState<{ message2: string, iconColor2: string, icon2: string } | undefined>();
   const [descriptionLength, setDescriptionLength] = useState(3);
+  const [colorSelector, setColorSelector] = useState({ colorPosition: "firstColor", index: 0 })
   const router = useRouter()
 
   // Add to cart and save to wishlist logic 
@@ -56,19 +58,19 @@ const Page: React.FC = () => {
 
       if (itemExists) {
         // alert("This item is already in your cart")
-        setModalInfo({icon: 'exclamationcircle', message: 'This Item is Already In Your Cart', iconColor: 'red' })
+        setModalInfo({ icon: 'exclamationcircle', message: 'This Item is Already In Your Cart', iconColor: 'red' })
         setTriggerCartModal(true)
 
 
       }
       else if (cart && cart.length > 0 && !itemExists) {
         await AsyncStorage.setItem('cart', JSON.stringify([...cart, productDetails]))
-        setModalInfo({icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
+        setModalInfo({ icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
         setTriggerCartModal(true)
       }
       else {
         await AsyncStorage.setItem('cart', JSON.stringify([productDetails]))
-        setModalInfo({icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
+        setModalInfo({ icon: 'shoppingcart', message: 'Item Added To The Shopping Cart', iconColor: Colors.primary })
         setTriggerCartModal(true)
       }
 
@@ -78,7 +80,7 @@ const Page: React.FC = () => {
     }
   }
 
-  const handleSaveToWishList = async() => {
+  const handleSaveToWishList = async () => {
     var wishList = [] as Product[]
 
     try {
@@ -90,7 +92,7 @@ const Page: React.FC = () => {
         wishList = JSON.parse(result!)
       })
 
-      const productExists = wishList && wishList?.length > 0 && wishList.find((item : Product) => item._id === productDetails?._id )
+      const productExists = wishList && wishList?.length > 0 && wishList.find((item: Product) => item._id === productDetails?._id)
 
       if (productExists) {
         // alert("This item is already in your cart")
@@ -147,7 +149,7 @@ const Page: React.FC = () => {
         const groupTitle = productDetails?._id + user?.user._id;
         const userId = user?.user._id;
         const sellerId = productDetails?.shop._id;
-        const response = await axios.post(`${base_url}/conversation/create-new-conversation`, 
+        const response = await axios.post(`${base_url}/conversation/create-new-conversation`,
           {
             groupTitle,
             userId,
@@ -156,7 +158,7 @@ const Page: React.FC = () => {
         )
 
         if (response.data.success) {
-          router.push({pathname:`/userNotificationsTabs/${response.data.conversation._id}`});
+          router.push({ pathname: `/userNotificationsTabs/${response.data.conversation._id}` });
           console.log('conversation created');
         } else {
           console.log('an error occurred')
@@ -169,45 +171,62 @@ const Page: React.FC = () => {
       if (axios.isAxiosError(error)) {
         console.log('Error response:', error.response);
         if (error.response?.status === 500) {
-            Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
+          Alert.alert('Server Error', 'An error occurred on the server. Please try again later.');
         } else if (error.response?.status === 401) {
-            Alert.alert('Unauthorized', 'Please check your token and try again.');
+          Alert.alert('Unauthorized', 'Please check your token and try again.');
         } else {
-            Alert.alert('Error', `an error occurred`);
-            console.log('user password not found', error.message)
+          Alert.alert('Error', `an error occurred`);
+          console.log('user password not found', error.message)
         }
-    } else {
+      } else {
         Alert.alert('Error', 'An unexpected error occurred');
+      }
     }
+  };
+
+  console.log(productDetails?.colorList.length);
+
+  //get all 3 color variations
+  const [firstColor, secondColor, thirdColor] = productDetails?.colorList || [];
+
+  //display current color variation
+  const displayCurrentColor = () => {
+    if (colorSelector.colorPosition === "firstColor") {
+      return firstColor?.color
+    } else if (colorSelector.colorPosition === "secondColor") {
+      return secondColor?.color
+    } else {
+      return thirdColor?.color
     }
   }
 
 
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: '#ffffff', paddingTop: 15 }}  >
-        <View>
-          <PopUpModal icon={modalInfo?.icon!} message={modalInfo?.message!} iconColor={modalInfo?.iconColor!} triggerCartModal={triggerCartModal} setTriggerCartModal={setTriggerCartModal} />
-          <PopUpModal2 icon2={wishListInfo?.icon2!} message2={wishListInfo?.message2!} iconColor2={wishListInfo?.iconColor2!} wishListCartModal={wishListCartModal} setWishListCartModal={setWishListCartModal} />
-        </View>
-        <View style={{ width: width, paddingHorizontal: 20, paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#ffffff' }} >
-          <TouchableOpacity onPress={() => router.back()}>
-            <Ionicons name="arrow-back" size={22} color={"#000"} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={handleSaveToWishList} >
-            <FontAwesome5 name="bookmark" size={20} color="rgba(0,0,0,0.40)" />
-          </TouchableOpacity>
-        </View>
-      <ScrollView style={{backgroundColor: Colors.primaryUltraTransparent}} showsVerticalScrollIndicator={false}>
-        
+      <View>
+        <PopUpModal icon={modalInfo?.icon!} message={modalInfo?.message!} iconColor={modalInfo?.iconColor!} triggerCartModal={triggerCartModal} setTriggerCartModal={setTriggerCartModal} />
+        <PopUpModal2 icon2={wishListInfo?.icon2!} message2={wishListInfo?.message2!} iconColor2={wishListInfo?.iconColor2!} wishListCartModal={wishListCartModal} setWishListCartModal={setWishListCartModal} />
+      </View>
+      <View style={{ width: width, paddingHorizontal: 20, paddingBottom: 10, flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#ffffff' }} >
+        <TouchableOpacity onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={22} color={"#000"} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleSaveToWishList} >
+          <FontAwesome5 name="bookmark" size={20} color="rgba(0,0,0,0.40)" />
+        </TouchableOpacity>
+      </View>
+      <ScrollView style={{ backgroundColor: Colors.primaryUltraTransparent }} showsVerticalScrollIndicator={false}>
+
         {loading ? (
           <ActivityIndicator size="small" color={Colors.primary} style={styles.loadingIndicator} />
         ) : (
           <>
-              {productDetails && (
-                <>
-                  
-                  <Carousel
-                  data={productDetails?.images}
+            {productDetails && (
+              <>
+
+                <Carousel
+                  data={productDetails?.colorList[colorSelector.index]?.images}
                   renderItem={({ item, index }) => <Image key={index} style={styles.image} source={{ uri: item.url }} />
                   }
                   itemWidth={width}
@@ -267,6 +286,33 @@ const Page: React.FC = () => {
                     </View>
                   </View>
 
+                  <View style={{ marginTop: 10, paddingVertical: 20, paddingHorizontal: 20, backgroundColor: '#fff' }} >
+                    <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: "rgba(0,0,0,0.70)", marginBottom: 12, fontWeight: "700" }} >Color Variation - {displayCurrentColor()}</Text>
+                    <View style={{ flexDirection: 'row', gap: 12, marginTop: 6 }} >
+                      {productDetails.colorList.length >= 1 && (
+                        <TouchableOpacity onPress={() => setColorSelector({ ...colorSelector, colorPosition: "firstColor", index: 0 })} style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }} >
+                          <Image source={{ uri: firstColor?.images[0]?.url }} style={{ width: 71, height: 71, borderRadius: 50, borderWidth: 1.5, borderColor: colorSelector.colorPosition === "firstColor" ? Colors.primary : "#00000050" }} />
+                          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 12, color: colorSelector.colorPosition === "firstColor" ? Colors.primary : "rgba(0,0,0,0.30)" }} >{firstColor?.color}</Text>
+                        </TouchableOpacity>
+                      )}
+                      {
+                        productDetails.colorList.length >= 2 && (
+                          <TouchableOpacity onPress={() => setColorSelector({ ...colorSelector, colorPosition: "secondColor", index: 1 })} style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }} >
+                            <Image source={{ uri: secondColor?.images[0]?.url }} style={{ width: 71, height: 71, borderRadius: 50, borderWidth: 1.5, borderColor: colorSelector.colorPosition === "secondColor" ? Colors.primary : "#00000050" }} />
+                            <Text style={{ fontFamily: 'roboto-condensed', fontSize: 12, color: colorSelector.colorPosition === "secondColor" ? Colors.primary : "rgba(0,0,0,0.30)" }} >{secondColor?.color}</Text>
+                          </TouchableOpacity>
+                        )
+                      }
+                      {
+                        productDetails.colorList.length >= 3 && (
+                          <TouchableOpacity onPress={() => setColorSelector({ ...colorSelector, colorPosition: "thirdColor", index: 2 })} style={{ justifyContent: 'center', alignItems: 'center', gap: 5 }} >
+                            <Image source={{ uri: thirdColor?.images[0]?.url }} style={{ width: 71, height: 71, borderRadius: 50, borderWidth: 1.5, borderColor: colorSelector.colorPosition === "thirdColor" ? Colors.primary : "#00000050" }} />
+                            <Text style={{ fontFamily: 'roboto-condensed', fontSize: 12, color: colorSelector.colorPosition === "thirdColor" ? Colors.primary : "rgba(0,0,0,0.30)" }} >{thirdColor?.color}</Text>
+                          </TouchableOpacity>
+                        )
+                      }
+                    </View>
+                  </View>
 
                   <View style={{ marginTop: 10, paddingVertical: 20, paddingHorizontal: 20, backgroundColor: '#fff' }}>
                     <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: "rgba(0,0,0,0.70)", marginBottom: 12, fontWeight: "700" }}>Specs</Text>
@@ -292,7 +338,7 @@ const Page: React.FC = () => {
                         </View>
                       </View>
                       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <View style={{ gap: 4, flexBasis: '49%' }}>
+                        <View style={{ gap: 4, flexBasis: '49%' }}>
                           <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2 }}>MEMORY SIZE</Text>
                           <Text style={{ fontFamily: 'roboto-condensed', textTransform: 'capitalize', fontSize: 15 }}>{productDetails?.memorySize || 'N/A'}</Text>
                         </View>
@@ -332,7 +378,7 @@ const Page: React.FC = () => {
                         </View>
                       </View>
                       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <View style={{ gap: 4, flexBasis: '49%' }}>
+                        <View style={{ gap: 4, flexBasis: '49%' }}>
                           <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.40)', fontSize: 12, lineHeight: 15.2 }}>WEIGHT</Text>
                           <Text style={{ fontFamily: 'roboto-condensed', textTransform: 'capitalize', fontSize: 15 }}>{productDetails?.weight || 'N/A'}</Text>
                         </View>
@@ -368,14 +414,25 @@ const Page: React.FC = () => {
                       </TouchableOpacity>
                     </View>
 
-                    <View style={{ flexDirection: 'row', gap: 10}}>
-                      <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }} >
+                    <View style={{ flexDirection: 'row', gap: 20 }}>
+                      <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", position: "relative", width: 60, height: 60, }} >
                         <Image source={{ uri: productDetails?.shop.avatar.url }} style={{ width: 60, height: 60, borderRadius: 58, resizeMode: 'contain' }} />
-                        <MaterialIcons name="verified" size={18} color="green" style={{ alignSelf: "flex-end", right: 20 }} />
+                        <MaterialIcons name="verified" size={18} color="green" style={{ position: "absolute", right: 2, bottom: 0 }} />
                       </View>
-                      <View style={{ gap: 4, justifyContent: "center", alignItems: "center"}}>
-                        <Text style={{ flexDirection: 'row', alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 12, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> {timeAgo(productDetails?.shop.createdAt)} on Villaja</Text>
+                      <View style={{ gap: 4, width: "100%", flexWrap: "wrap" }}>
                         <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 14 }}>{productDetails?.shop.name}</Text>
+                        <Text style={{ flexDirection: 'row', alignItems: 'center', fontFamily: 'roboto-condensed', fontSize: 12, color: 'rgba(0,0,0,0.50)' }}><MaterialCommunityIcons name='clock-outline' size={15} color={"rgba(0,0,0,0.50)"} /> {timeAgo(productDetails?.shop.createdAt)} on Villaja</Text>
+                        <View style={{ flexDirection: "row", gap: 8, flexWrap: "wrap", width: "100%", marginTop: 8 }} >
+                          <View style={{ width: 53, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
+                            <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Phones</Text>
+                          </View>
+                          <View style={{ width: 55, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
+                            <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Tablets</Text>
+                          </View>
+                          <View style={{ width: 55, height: 23, justifyContent: "center", alignItems: "center", backgroundColor: "#02549210", borderRadius: 2 }} >
+                            <Text style={{ fontSize: 10, color: "#025492", lineHeight: 14.2, letterSpacing: -0.17 }} >Laptops</Text>
+                          </View>
+                        </View>
                       </View>
                     </View>
                   </View>

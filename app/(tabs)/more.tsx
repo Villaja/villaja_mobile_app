@@ -6,6 +6,7 @@ import { router } from 'expo-router'
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from "../../context/AuthContext";
+import { usePushNotifications } from "../../app/usePushNotifications";
 
 
 const {width} = Dimensions.get('window')
@@ -13,7 +14,9 @@ const {width} = Dimensions.get('window')
 function more() {
     const router = useRouter()
     const {logout} = useAuth()
-    const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
+    const [isNotificationEnabled, setIsNotificationEnabled] = useState(true);
+    const {  expoPushToken } = usePushNotifications(isNotificationEnabled);
+    console.log(expoPushToken)
 
     const handleToggleSwitch = () => {
         // logic to handle enabling/disabling notifications here, an API call or update a state in Redux or however you want to do it bolu
