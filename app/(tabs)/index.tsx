@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, Image, Dimensions, ScrollView, ActivityIndicator, SafeAreaView, Platform, TouchableOpacity } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons'
 import Colors from '../../constants/Colors'
 import { Carousel } from 'react-native-basic-carousel'
@@ -14,7 +15,7 @@ import { useAuth } from '../../context/AuthContext'
 import { useRouter } from 'expo-router'
 import { Skeleton } from '@rneui/themed'
 import * as Notifications from "expo-notifications";
-import { registerBackgroundTask } from "../backgroundTask";
+//import { registerBackgroundTask } from "../backgroundTask";
 import VoucherAds from "../../components/VoucherPopup";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -242,26 +243,35 @@ const index = () => {
 
 
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response: AxiosResponse<{ products: Product[] }> = await axios.get(
-          `${base_url}/product/get-all-products`
-        );
+  useFocusEffect(
+    React.useCallback(() => {
+      const controller = new AbortController();
+      const signal = controller.signal;
 
-        // Get the first 10 products
-        const first10Products = response.data.products.slice(0, 50);
+      const fetchData = async () => {
+        try {
+          const response: AxiosResponse<{ products: Product[] }> = await axios.get(
+            `${base_url}/product/get-all-products`, { signal }
+          );
+  
+          // Get the first 10 products
+          const first10Products = response.data.products.slice(0, 50);
+  
+          setData(first10Products);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-        setData(first10Products);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      } finally {
-        setLoading(false);
+      fetchData();
+
+      return () => {
+        controller.abort();
       }
-    };
-
-    fetchData();
-  }, []);
+    }, [])
+  )
 
 
   const renderSkeletonLoader = (start: number, end: number) => {
@@ -397,7 +407,7 @@ const index = () => {
       });
       await Notifications.scheduleNotificationAsync({
         content: {
-          title: "Sell and Swap Your Used Devices in Less Time",
+          title: "Buy and sell gadgets in Less Time",
           body: "List your products now!!!",
           sound: true,
           priority: "max",
@@ -446,10 +456,21 @@ const index = () => {
           seconds: 2400,
         }
       })
+      await Notifications.scheduleNotificationAsync({
+        content: {
+          title: "List products for sale with ease",
+          body: "List your products without having to worry about exchange rate fluctuations",
+          sound: true,
+          priority: "max",
+          vibrate: [250, 250],
+        },
+        trigger: {
+          seconds: 3000,
+        }
+      })
     };
 
     handleSellAndSwapNotificationScheduleAndLogin();
-    registerBackgroundTask();
   }, [])
 
 
@@ -540,7 +561,7 @@ const index = () => {
               <Image source={item.image} style={{ height: 211, width: "100%", }} resizeMode='cover' />
               <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100, fontSize: 12 }}>{item.store}</Text>
               <Text style={{ fontSize: 17, fontFamily: 'roboto-condensed', position: 'absolute', fontWeight: '400', left: 20, top: 25, color: '#fff', zIndex: 100 }}>{item.device}</Text>
-              <TouchableOpacity style={styles.buyNowBtn} onPress={() => router.push({ pathname: item.link, params: { minPrice: "1", maxPrice: "5000000" } })}>
+              <TouchableOpacity style={styles.buyNowBtn} onPress={() => router.push({ pathname: item.link, params: { minPrice: "1", maxPrice: "250000000" } })}>
                 <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 9.92 }}>View Offers</Text>
                 <AntDesign name="arrowright" size={11} color={"#ffffff"} />
               </TouchableOpacity>
@@ -566,7 +587,7 @@ const index = () => {
 
           {
             categoryData.map((cat, index) => (
-              <TouchableOpacity key={index} style={{ alignItems: 'center' }} onPress={() => router.push({ pathname: cat.link, params: { minPrice: "1", maxPrice: "5000000" } })}>
+              <TouchableOpacity key={index} style={{ alignItems: 'center' }} onPress={() => router.push({ pathname: cat.link, params: { minPrice: "1", maxPrice: "250000000" } })}>
                 <Image source={cat.image} style={{ width: 47, height: 47, borderRadius: 40 }} />
                 <Text style={{ fontFamily: 'roboto-condensed', color: "#00000060", fontSize: 10, fontWeight: "700" }}>{cat.name}</Text>
               </TouchableOpacity>
@@ -603,7 +624,7 @@ const index = () => {
                   <Image source={cat.image} style={{ width: 302, height: 406.02, borderRadius: 5 }} />
                   <Text style={{ fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 10, fontWeight: '500', color: 'rgba(255, 255, 255, 0.50)', zIndex: 100 }}>{cat.store}</Text>
                   <Text style={{ fontSize: 18.9, fontWeight: "500", fontFamily: 'roboto-condensed', position: 'absolute', left: 20, top: 30, color: '#fff', zIndex: 100 }}>{cat.device}</Text>
-                  <TouchableOpacity style={styles.buyNowBtn2} onPress={() => router.push({ pathname: cat.link, params: { minPrice: "1", maxPrice: "5000000" } })}>
+                  <TouchableOpacity style={styles.buyNowBtn2} onPress={() => router.push({ pathname: cat.link, params: { minPrice: "1", maxPrice: "250000000" } })}>
                     <Text style={{ fontFamily: 'roboto-condensed', color: '#fff', fontSize: 9.92 }}>View Offers</Text>
                     <AntDesign name="arrowright" size={11} color={"#ffffff"} />
                   </TouchableOpacity>

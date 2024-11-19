@@ -76,30 +76,36 @@ export const usePushNotifications = (isNotificationEnabled: boolean) : pushNotif
             registerForPushNotifications().then((token) => {
                 setExpoPushToken(token);
             });
-    
-            notificationListener.current = Notifications.addNotificationReceivedListener(async (notification) => {
+
+            notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
                 setNotification(notification);
-                await storeNotification(notification)
+                storeNotification(notification);
             });
-    
-            responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+
+            responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
                 redirect(response.notification);
             });
-    
         } else {
-            registerForPushNotifications().then((token) => {
-                setExpoPushToken({} as Notifications.ExpoPushToken);
-            });
-        };
+            // Clear the token and remove listeners if notifications are disabled
+            setExpoPushToken(undefined);
+            if (notificationListener.current) {
+                Notifications.removeNotificationSubscription(notificationListener.current);
+                notificationListener.current = undefined;
+            }
+            if (responseListener.current) {
+                Notifications.removeNotificationSubscription(responseListener.current);
+                responseListener.current = undefined;
+            }
+        }
 
         return () => {
-            Notifications.removeNotificationSubscription(
-                notificationListener.current!
-            );
-
-            Notifications.removeNotificationSubscription(
-                responseListener.current!
-            )
+            // Cleanup listeners when the component unmounts or isNotificationEnabled changes
+            if (notificationListener.current) {
+                Notifications.removeNotificationSubscription(notificationListener.current);
+            }
+            if (responseListener.current) {
+                Notifications.removeNotificationSubscription(responseListener.current);
+            }
         };
         
     }, [isNotificationEnabled]);

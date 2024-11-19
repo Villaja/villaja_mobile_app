@@ -26,11 +26,15 @@ const SellerProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         </TouchableOpacity>
       </Link>
-      <Text style={styles.discountPercentage}>
-        {
-          product.discountPrice && (((product.originalPrice - product.discountPrice) / product.originalPrice) * 100).toFixed()
-        }%
-      </Text>
+      {
+        product.discountPrice && (
+          <Text style={styles.discountPercentage}>
+            {
+              (((product.originalPrice - product.discountPrice) / product.originalPrice) * 100).toFixed()
+            }%
+          </Text>
+        )
+      }
 
 
     </View>

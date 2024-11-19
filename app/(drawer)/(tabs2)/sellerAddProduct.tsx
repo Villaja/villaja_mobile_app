@@ -119,9 +119,9 @@ const sellerAddProduct = () => {
     } else if (colorVariation.length === 1) {
       return { marginBottom: 290 }
     } else if (colorVariation.length === 2) {
-      return { marginBottom: 320 }
+      return { marginBottom: 390 }
     } else if (colorVariation.length === 3) {
-      return { marginBottom: 490 }
+      return { marginBottom: 430 }
     }
   }
 
@@ -275,7 +275,7 @@ const sellerAddProduct = () => {
                 <Text style={styles.colorVariationText}>{colorVariation.length === 3 ? "Color Variant Limit Reached" : "Add a Color Variant"}</Text>
                 <Text style={styles.colorVariationText2}>{colorVariation.length === 3 ? "You have reached the limit of 3 color variants" : "Upload pictures based on the colors and amount of stock available for your product, you can only add 3 color variants"}</Text>
               </View>
-              {colorVariation.length === 3 ? (
+              {colorVariation.length > 0 ? (
                 <TouchableOpacity style={styles.colorVariationIcon} onPress={() => setColorVariation([])}>
                   <AntDesign name='delete' size={18} color='#FF0000' />
                 </TouchableOpacity>
@@ -289,8 +289,8 @@ const sellerAddProduct = () => {
                   <View style={{ marginTop: 20, marginBottom: 15, flexDirection: "row", justifyContent: "space-between", backgroundColor: Colors.primaryTransparent, borderWidth: 2, borderColor: Colors.primaryTransparent, borderRadius: 10 }} key={index} >
                     <Image source={{ uri: item.images[0] }} style={{ width: 114, height: 85, borderRadius: 10 }} />
                     <View style={{ width: width - 130, paddingHorizontal: 20, paddingVertical: 10 }}>
-                      <Text style={{ fontSize: 14, lineHeight: 15.2, letterSpacing: -0.18, color: item.color.toLowerCase(), fontWeight: "500" }}>{`${item.color} ${"Color"}`}</Text>
-                      <Text style={{ fontSize: 12, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000070", fontWeight: "400" }}>{`${item.stock} product(s) in stock for this color`}</Text>
+                      <Text style={{ fontSize: 14, lineHeight: 15.2, letterSpacing: -0.18, color: item.color.toLowerCase(), fontWeight: "500", width: "95%" }}>{item.color? item.color + 'color' : "No color found"}</Text>
+                      <Text style={{ fontSize: 12, lineHeight: 15.2, letterSpacing: -0.18, color: "#00000070", fontWeight: "400", width: "95%" }}>{`${item.stock || 0} product(s) in stock for this color`}</Text>
                     </View>
                   </View>
                 ))
@@ -379,9 +379,15 @@ const sellerAddProduct = () => {
                     </View>
                     <TouchableOpacity
                       onPress={() => {
-                        setVariationModal(prev => !prev)
-                        setColorVariation((prev) => [...prev, variationData])
-                        setVariationData({ color: "", stock: null, images: [] })
+                        if (variationData.color === "") {
+                          Alert.alert("Incomplete Fields", "Please enter the product's color")
+                        } else if (variationData.stock === null) {
+                          Alert.alert("Incomplete Fields", "Please enter the product's stock")
+                        } else {
+                          setVariationModal(prev => !prev)
+                          setColorVariation((prev) => [...prev, variationData])
+                          setVariationData({ color: "", stock: null, images: [] })
+                        }
                       }}
                       style={{ justifyContent: "center", alignItems: "center", backgroundColor: "#025492", paddingVertical: 15, borderRadius: 5, marginTop: 20 }} >
                       <Text style={{ color: "#fff", fontSize: 13, fontWeight: "500" }}>Add Color Variant</Text>

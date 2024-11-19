@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import * as Notifications from "expo-notifications";
 import * as TaskManager from "expo-task-manager";
 import * as BackgroundFetch from 'expo-background-fetch';
@@ -65,4 +65,4 @@ export const registerBackgroundTask = async () => {
     } catch (error) {
         console.error('Failed to register background task', error)
     }
-};
+};*/

@@ -60,7 +60,8 @@ const account = () => {
     const [address2, setAddress2] = useState("");
     const [address1, setAddress1] = useState("");
     const [zipCode, setZipCode] = useState('');
-    const [addressType, setAddressType] = useState("")
+    const [addressType, setAddressType] = useState("");
+    const [checkUpdateSuccess, setCheckUpdateSuccess] = useState(false);
 
 
     const openPasswordModalVisible = () => {
@@ -113,7 +114,7 @@ const account = () => {
         };
 
         fetchData();
-    }, [user]);
+    }, [user, checkUpdateSuccess]);
 
     const handleUpdate = async () => {
         if (!user) {
@@ -142,8 +143,10 @@ const account = () => {
             if (response.data && response.data.success) {
                 Alert.alert('Update Successful', 'Your profile has been successfully updated!!')
                 console.log('profile update successful!!!')
+                setCheckUpdateSuccess(true);
             } else {
                 Alert.alert('Error', 'Something went wrong, please try again')
+                setCheckUpdateSuccess(false);
             }
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -155,10 +158,13 @@ const account = () => {
                 } else {
                     Alert.alert('Error', `Please Enter your password to confirm change`);
                     console.log('user password not found', error.message)
+                    setCheckUpdateSuccess(false);
                 }
             } else {
                 Alert.alert('Error', 'An unexpected error occurred');
             }
+        } finally {
+            setCheckUpdateSuccess(false);
         }
     };
 

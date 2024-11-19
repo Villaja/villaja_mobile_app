@@ -112,8 +112,8 @@ const Layout = () => {
           headerTitle:"",
           headerShown: false,
           headerTitleAlign:'center',
-          tabBarLabel: 'Notifications',
-          tabBarIcon: ({ size, color }) => <Ionicons name="notifications-outline" size={20} color={color} />,
+          tabBarLabel: 'Messages',
+          tabBarIcon: ({ size, color }) => <AntDesign name="message1" size={20} color={color} />
         }}
       />
     </Tabs>
