@@ -56,6 +56,8 @@ const Page = () => {
     fetchOrderDetails();
   }, [id]);
 
+  console.log(orderDetails)
+
   {/*const previousScreen = () => {
     return (
       <View>
@@ -88,7 +90,7 @@ const Page = () => {
                     <Image source={require('../../assets/images/track-order.png')} resizeMode='contain' style={{ height: 209, width: width }} />
                     <View style={{ justifyContent: "center", alignItems: 'center', position: 'absolute', top: 20, gap: 10 }} >
                       <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500' }}>{orderDetails.cart[0].name}</Text>
-                      <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[0].originalPrice.toLocaleString()}</Text>
+                      <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[0].originalPrice?.toLocaleString()}</Text>
                     </View>
                   </View>
                   <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }} >

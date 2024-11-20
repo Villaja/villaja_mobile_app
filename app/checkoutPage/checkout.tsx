@@ -72,20 +72,19 @@ const checkout = () => {
           const cart = JSON.parse(result!).filter((item:any) => !item.isSavedForLater);
           setSavedCart(JSON.parse(result!).filter((item:any) => item.isSavedForLater))
           const total = cart.reduce((a: number, b: Product) => {
-            return a + (b.discountPrice > 0 ? b.discountPrice : b.originalPrice);
+            return a + (
+              b.discountPrice == 0 || b.discountPrice === null ? b.originalPrice : b.discountPrice
+            );
           }, 0);
           
           setCart(cart);
           setNewPromoPrice(total);
-
         });
     };
     
       useEffect(() => {
         handleGetCart();
       }, []);
-
-      console.log(cart);
 
   //Product Promo functionality
   const validPromoCode = 'VJPR1024';
@@ -104,7 +103,6 @@ const checkout = () => {
   const applyPromoCode = () => {
     if (promoCode === validPromoCode) {
       if (Date.now() < promoExpiry!) {
-        {/** subtract product price from promo price and add delivery fees of 2650 */ }
         setNewPromoPrice(newPromoPrice! - promoAmount + 2650);
         setPromoApplied(true);
         setPromoInputModal(false);
@@ -127,12 +125,9 @@ const checkout = () => {
     }
   };
 
-  console.log(user?.user.firstname)
-  console.log(newPromoPrice)
-
   const onPaystackSuccess = async (response: any) => {
-    // Handle successful payment
     setShowPaystack(false);
+    console.log(`total price: ${newPromoPrice}`)
 
     const order = {
       cart: cart,
@@ -140,52 +135,46 @@ const checkout = () => {
         address: address1,
         city: state,
         country: country
-      }, // Replace with actual address
+      },
       user: user && user?.user,
-      totalPrice: promoApplied? newPromoPrice! : newPromoPrice! + 2650  ,
+      totalPrice: promoApplied ? newPromoPrice! : newPromoPrice! + 2650,
     };
+    console.log(`order total price: ${order.totalPrice}`);
 
-        // Add paymentInfo dynamically
-        (order as any)['paymentInfo'] = {
-            id: response.reference,
-            status: 'succeeded',
-            type: 'Paystack',
-          };
-    
-        // Make a POST request to create the order
-        try {
-          const config = {
-            headers: {
-              'Content-Type': 'application/json',
-              
-            },
-          };
-
-          setCheckoutModal(true)
-    
-          // Make a POST request to create the order
-          const createOrderResponse = await axios.post(`${base_url}/order/create-order`, order, config);
-    
-          if (createOrderResponse.data.success) {
-            // Order created successfully
-            setCheckoutModal(false);
-            setOrderSuccessModal(true);
-            // toast.success('Order successful!');
-            console.log("order succeeded")
-            await AsyncStorage.setItem('cart',JSON.stringify(savedCart));
-          } else {
-            console.error('Failed to create order');
-          }
-        } catch (error) {
-          console.error('Error creating order:', error);
-        }
+    (order as any)['paymentInfo'] = {
+        id: response.data.transactionRef.reference,
+        status: 'succeeded',
+        type: 'Paystack',
       };
     
-      const onPaystackClose = () => {
-        // Handle when Paystack modal is closed
-        setShowPaystack(false);
-        Alert.alert('Payment Cancelled', 'Your progress would be lost.');
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          
+        },
       };
+
+      setCheckoutModal(true)
+    
+      const createOrderResponse = await axios.post(`${base_url}/order/create-order`, order, config);
+    
+      if (createOrderResponse.data.success) {
+        setCheckoutModal(false);
+        setOrderSuccessModal(true);
+        await AsyncStorage.setItem('cart',JSON.stringify(savedCart));
+      } else {
+        console.error('Failed to create order');
+      }
+    } catch (error) {
+      console.error('Error creating order:', error);
+    }
+  };
+    
+  const onPaystackClose = () => {
+    setShowPaystack(false);
+    Alert.alert('Payment Cancelled', 'Your progress would be lost.');
+  };
     
 
 
@@ -416,7 +405,7 @@ const checkout = () => {
 
      {showPaystack && (
         <Paystack  
-        paystackKey="pk_live_f5d8cd9c059579b4592ba6b28e9090d9bd887438"
+        paystackKey="pk_test_ba3974730a50a8f120783a5c097a2b9603129aa7"
         amount={promoApplied? newPromoPrice! : newPromoPrice! + 2650} 
         billingEmail={user?.user.email}
         billingName={`${user?.user.firstname} ${user?.user.lastname}`}
@@ -424,7 +413,7 @@ const checkout = () => {
         onCancel={onPaystackClose}
         activityIndicatorColor="green"
         autoStart={true}
-        channels={['bank', 'card', 'mobile_money', 'qr', 'ussd']}
+
       />
       )}
     </View>

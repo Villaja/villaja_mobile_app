@@ -21,8 +21,8 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
         <Image source={{ uri: order.cart[0].images[0].url }} style={styles.image} />
         <View style={{ paddingVertical: 12.5 }}>
           <Text numberOfLines={2} style={styles.name}>{order.cart[0].name}</Text>
-          <Text style={styles.price}>₦{order.totalPrice.toLocaleString()}</Text>
-          <Text style={styles.discount}>₦{order.cart[0].discountPrice.toLocaleString()}</Text>
+          <Text style={styles.price}>₦{order.totalPrice?.toLocaleString()}</Text>
+          <Text style={styles.discount}>{order.cart[0].discountPrice && '₦' + order.cart[0].discountPrice?.toLocaleString()}</Text>
         </View>
       </View>
         <TouchableOpacity style={[defaultStyles.btn,{width:'100%',flexGrow:1,flexBasis:'100%',backgroundColor:Colors.primaryTransparent}]} onPress={() => router.push(`/order/${order._id}`)}>
