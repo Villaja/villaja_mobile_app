@@ -12,8 +12,20 @@ interface OrderCardProps {
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
-  const router = useRouter()
-  
+  const router = useRouter();
+
+  const handleOrderStatusTextColor = () => {
+    if (order.status === "Processing") {
+      return { color: "#FAFF00", fontSize: 9 }
+    } else if (order.status === "Delivered") {
+      return { color: "#00FF00", fontSize: 9 }
+    } else if (order.status === "Ready To Ship") {
+      return { color: "#FC8B00", fontSize: 9 }
+    } else {
+      return { color: "#FF0000", fontSize: 9 }
+    }
+  }
+
 
   return (
     <View style={styles.container}>
@@ -23,14 +35,22 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
           <Text numberOfLines={2} style={styles.name}>{order.cart[0].name}</Text>
           <Text style={styles.price}>₦{order.totalPrice?.toLocaleString()}</Text>
           <Text style={styles.discount}>{order.cart[0].discountPrice && '₦' + order.cart[0].discountPrice?.toLocaleString()}</Text>
+          <View style={styles.statusContainer} >
+            <View style={[styles.ellipse, { backgroundColor: handleOrderStatusTextColor().color }]}></View>
+            <Text style={styles.status}>{order.status}</Text>
+          </View>
         </View>
       </View>
-        <TouchableOpacity style={[defaultStyles.btn,{width:'100%',flexGrow:1,flexBasis:'100%',backgroundColor:Colors.primaryTransparent}]} onPress={() => router.push(`/order/${order._id}`)}>
-        <Text style={[defaultStyles.btnText, { color: Colors.primary }]}>Track Order</Text>
-        </TouchableOpacity>
-      <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.redTransparent }]}>
-        <Text style={[defaultStyles.btnText, { color: Colors.red }]}>Cancel</Text>
+      <TouchableOpacity style={[defaultStyles.btn, { width: '100%', flexGrow: 1, flexBasis: '100%', backgroundColor: Colors.primaryTransparent }]} onPress={() => router.push(`/order/${order._id}`)}>
+        <Text style={[defaultStyles.btnText, { color: Colors.primary }]}>{order.status === "Delivered" || order.status === "Cancelled" ? order.status === "Delivered" ? "Review Order" : "Check Details" : "Track Order"}</Text>
       </TouchableOpacity>
+      {
+        order.status === "Processing" && (
+          <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.redTransparent }]}>
+            <Text style={[defaultStyles.btnText, { color: Colors.red }]}>Cancel</Text>
+          </TouchableOpacity>
+        )
+      }
     </View>
   );
 };
@@ -62,7 +82,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: 'rgba(0,0,0,0.50)',
     marginBottom: 6,
-    maxWidth: 180,  
+    maxWidth: 180,
   },
   price: {
     fontFamily: 'roboto-condensed',
@@ -76,7 +96,22 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,0.30)',
     fontWeight: '500',
     textDecorationLine: 'line-through',
+    marginBottom: 12.5
   },
+  statusContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  ellipse: {
+    width: 10,
+    height: 10,
+    borderRadius: 50,
+  },
+  status: {
+    fontSize: 12,
+    color: 'rgba(0,0,0,0.80)',
+  }
 });
 
 export default OrderCard;

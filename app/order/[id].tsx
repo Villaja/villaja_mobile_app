@@ -23,6 +23,7 @@ const Page = () => {
   const router = useRouter();
   const [orderDetails, setOrderDetails] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  
 
   const userid = user?.user._id
 
@@ -75,7 +76,7 @@ const Page = () => {
 
   return (
 
-    <View style={styles.container}>
+    <View style={styles.parentContainer}>
       {loading ? (
         <ActivityIndicator size="large" color="#3498db" />
       ) : (
@@ -109,7 +110,26 @@ const Page = () => {
                         <Text style={{ fontSize: 13, color: '#00000080' }} >Quantity</Text>
                         <Text style={{ fontSize: 14, fontWeight: '700', color: '#00000099' }} >{orderDetails.cart[0].stock}</Text>
                       </View>*/}
-                      <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >You would receive an email progress alert once it is on its way</Text>
+                      {
+                        orderDetails.status === "Processing" && (
+                          <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >You would receive an email progress alert once it is on its way</Text>
+                        )
+                      }
+                      {
+                        orderDetails.status === "Ready To Ship" && (
+                          <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >Your order has been packed and is on its way</Text>
+                        )
+                      }
+                      {
+                        orderDetails.status === "Delivered" && (
+                          <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >Your order has been delivered</Text>
+                        )
+                      }
+                      {
+                        orderDetails.status === "Cancelled" && (
+                          <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >Your order has been cancelled</Text>
+                        )
+                      }
                     </View>
                   </View>
                 </View>
@@ -135,6 +155,12 @@ const Page = () => {
 };
 
 const styles = StyleSheet.create({
+  parentContainer: {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   container: {
     flex: 1,
     backgroundColor: "#ffffff",

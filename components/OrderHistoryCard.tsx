@@ -3,34 +3,30 @@ import React from 'react'
 import { defaultStyles } from '../constants/Styles';
 import Colors from '../constants/Colors';
 import { AntDesign } from '@expo/vector-icons';
+import { Order } from '../types/Order';
 
-interface Props {
-  id: number;
-  name: string;
-  originalPrice: number;
-  discountPrice: number;
-  image: string;
+interface OrderHistoryCardProps {
+  order: Order;
 }
 
 
 
-const CartCard = (item: Props) => {
+const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({ order }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
         <View style={styles.imageContainer}>
-          <Image source={{ uri: item.image }} style={[styles.image, { tintColor: Colors.grey }]} />
-          <Image source={{ uri: item.image }} style={styles.image} />
+          <Image source={{ uri: order.cart[0].images[0].url }} style={styles.image} />
         </View>
         <View style={{ paddingVertical: 12.5 }}>
-          <Text style={styles.name}>{item.name}</Text>
-          <Text style={styles.price}>₦{item.originalPrice.toLocaleString()}</Text>
-          {/* NOT NECESSARY <Text style={styles.discount}>₦{item.discountPrice}</Text>*/}
+          <Text numberOfLines={2} style={styles.name}>{order.cart[0].name}</Text>
+          <Text style={styles.price}>₦{order.totalPrice.toLocaleString()}</Text>
+          <Text style={styles.discount}>{order.cart[0].discountPrice !== 0 && order.cart[0].discountPrice !== null && '₦' + order.cart[0].discountPrice?.toLocaleString()}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.closeBtn}>
+      {/* NOT NECESSARY <TouchableOpacity style={styles.closeBtn}>
         <AntDesign name='closecircle' size={18} color={'#000'} />
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
     </View>
   )
 }
@@ -51,7 +47,7 @@ const styles = StyleSheet.create({
   },
   topSection: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 38,
 
   },
   imageContainer: {
@@ -60,8 +56,8 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   image: {
-    width: 83,
-    height: 83,
+    width: 103,
+    height: 96,
     resizeMode: 'contain',
     borderRadius: 3,
     borderWidth: StyleSheet.hairlineWidth,
@@ -71,16 +67,16 @@ const styles = StyleSheet.create({
 
   },
   name: {
-    fontFamily: 'roboto-condensed',
-    fontWeight: '600',
+    fontFamily: 'roboto-condensed-sb',
     color: 'rgba(0,0,0,0.50)',
-    marginBottom: 6
+    fontSize: 13,
+    marginBottom: 6,
+    maxWidth: 150
   },
   price: {
-    fontFamily: 'roboto-condensed',
-    fontSize: 18,
+    fontFamily: 'roboto-condensed-sb',
+    fontSize: 16,
     color: 'rgba(0,0,0,0.50)',
-
     fontWeight: '500'
   },
   discount: {
@@ -98,4 +94,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default CartCard
+export default OrderHistoryCard
