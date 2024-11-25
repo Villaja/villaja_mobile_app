@@ -12,6 +12,8 @@ const initialState = {
   order: null, // Initial state for a single order
   loading: true,
   error: null,
+  message: "",
+  success: null
 };
 
 const ordersReducer = (state, action) => {
@@ -36,6 +38,12 @@ const ordersReducer = (state, action) => {
       return { ...state, error: action.payload, loading: false };
     case 'CLEAR_ORDER':
       return { ...state, order: null }; // Clear order
+    case 'REVIEW_SUCCESS':
+      return { ...state, message: action.payload, loading: false, success: 1 }
+    case 'REVIEW_ERROR':
+      return { ...state, message: action.payload, loading: false, success: 0 }
+    case "CLEAR_MESSAGE":
+      return { ...state, message: "", success: null }
     default:
       return state;
   }
@@ -74,7 +82,7 @@ const OrdersProvider = ({ children }) => {
   
       // Fetch token from AsyncStorage
       const token = await AsyncStorage.getItem('token');
-      const response = await axios.get(`${server}/orders/${id}`, {
+      const response = await axios.get(`${base_url}/order/get-order/${id}`, {
         headers: {
           Authorization: token,
         },
@@ -97,7 +105,7 @@ const OrdersProvider = ({ children }) => {
       // Fetch token from AsyncStorage
       const token = await AsyncStorage.getItem('token');
 
-      const response = await axios.post(`${server}/orders`, orderData, {
+      const response = await axios.post(`${base_url}/order/create-order`, orderData, {
         headers: {
           Authorization: token,
         },
@@ -117,7 +125,7 @@ const OrdersProvider = ({ children }) => {
       // Fetch token from AsyncStorage
       const token = await AsyncStorage.getItem('token');
   
-      const response = await axios.put(`${server}/orders/${id}`, orderData, {
+      const response = await axios.put(`${base_url}/order/update-order/${id}`, orderData, {
         headers: {
           Authorization: token,
         },
@@ -141,7 +149,7 @@ const OrdersProvider = ({ children }) => {
       // Fetch token from AsyncStorage
       const token = await AsyncStorage.getItem('token');
 
-      await axios.delete(`${base_url}/orders/${id}`, {
+      await axios.delete(`${base_url}/order/delete-order/${id}`, {
         headers: {
           Authorization: token,
         },
@@ -154,6 +162,28 @@ const OrdersProvider = ({ children }) => {
     }
   };
 
+  const submitOrderApproval = async (orderId, productId, approvalStatus, rating, comment) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      // fetch token from AsyncStorage
+      const token = await AsyncStorage.getItem('token');
+      const response = await axios.put(`${base_url}/order/update-product-approval/${orderId}/${productId}`, { approvalStatus: approvalStatus, rating: rating, comment: comment}, {
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      if (response.data.success) {
+        dispatch({ type: 'REVIEW_SUCCESS', payload: response.data.message });
+      } else {
+        dispatch({ type: 'REVIEW_ERROR', payload: response.data.message });
+      }
+    } catch (AxiosError) {
+      dispatch({ type: 'REVIEW_ERROR', payload: AxiosError.response.data.message });
+      console.log(AxiosError)
+    }
+  }
+
   return (
     <OrdersContext.Provider
       value={{
@@ -163,6 +193,12 @@ const OrdersProvider = ({ children }) => {
         addOrder,
         updateOrder,
         deleteOrder,
+        singleOrder: state.order,
+        submitOrderApproval,
+        message: state.message,
+        loading: state.loading,
+        success: state.success,
+        clearMessage: () => dispatch({ type: 'CLEAR_MESSAGE' })
       }}
     >
       {children}

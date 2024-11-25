@@ -15,7 +15,7 @@ function more() {
     const router = useRouter()
     const {logout} = useAuth()
     const [isNotificationEnabled, setIsNotificationEnabled] = useState(true);
-    const {  expoPushToken } = usePushNotifications(isNotificationEnabled);
+    const {  expoPushToken } = usePushNotifications();
     console.log(expoPushToken)
 
     const handleToggleSwitch = () => {

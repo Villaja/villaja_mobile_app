@@ -24,13 +24,41 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
     } else {
       return { color: "#FF0000", fontSize: 9 }
     }
-  }
+  };
+  console.log(`status0`, order.status)
 
 
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
-        <Image source={{ uri: order.cart[0].images[0].url }} style={styles.image} />
+        {
+          order.cart.length > 1 ? (
+            <View style={styles.groupImageContainer}>
+              {
+                order.cart[0] && (
+                  <Image source={{ uri: order.cart[0].images[0].url }} style={styles.groupImage} />
+                )
+              }
+              {
+                order.cart[1] && (
+                  <Image source={{ uri: order.cart[1].images[0].url }} style={styles.groupImage} />
+                )
+              }
+              {
+                order.cart[2] && (
+                  <Image source={{ uri: order.cart[2].images[0].url }} style={styles.groupImage} />
+                )
+              }
+              {
+                order.cart[3] && (
+                  <Image source={{ uri: order.cart[3].images[0].url }} style={styles.groupImage} />
+                )
+              }
+            </View>
+          ) : (
+            <Image source={{ uri: order.cart[0].images[0].url }} style={styles.image} />
+          )
+        }
         <View style={{ paddingVertical: 12.5 }}>
           <Text numberOfLines={2} style={styles.name}>{order.cart[0].name}</Text>
           <Text style={styles.price}>₦{order.totalPrice?.toLocaleString()}</Text>
@@ -41,9 +69,22 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
           </View>
         </View>
       </View>
-      <TouchableOpacity style={[defaultStyles.btn, { width: '100%', flexGrow: 1, flexBasis: '100%', backgroundColor: Colors.primaryTransparent }]} onPress={() => router.push(`/order/${order._id}`)}>
-        <Text style={[defaultStyles.btnText, { color: Colors.primary }]}>{order.status === "Delivered" || order.status === "Cancelled" ? order.status === "Delivered" ? "Review Order" : "Check Details" : "Track Order"}</Text>
-      </TouchableOpacity>
+      {
+        order.cart.length > 1 ? (
+          <Link
+            href={{
+              pathname: `/orderList/${order._id}`,
+            }}
+            style={styles.trackButton}
+          >
+            {order.cart.length > 1 ? order.status === "Delivered" || order.status === "Cancelled" ? order.status === "Delivered" ? "Review Orders" : "Check Details" : "Track Orders" : order.status === "Delivered" || order.status === "Cancelled" ? order.status === "Delivered" ? "Review Order" : "Check Details" : "Track Order"}
+          </Link>
+        ) : (
+          <TouchableOpacity onPress={() => router.push(`/order/${order._id}`)} style={[defaultStyles.btn, { flexGrow: 1, flexBasis: '100%', backgroundColor: Colors.primaryTransparent }]}>
+            <Text style={[defaultStyles.btnText, { color: Colors.primary }]}>{order.cart.length > 1 ? order.status === "Delivered" || order.status === "Cancelled" ? order.status === "Delivered" ? "Review Orders" : "Check Details" : "Track Orders" : order.status === "Delivered" || order.status === "Cancelled" ? order.status === "Delivered" ? "Review Order" : "Check Details" : "Track Order"}</Text>
+          </TouchableOpacity>
+        )
+      }
       {
         order.status === "Processing" && (
           <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.redTransparent }]}>
@@ -67,6 +108,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 8,
     marginBottom: 16,
+  },
+  groupImageContainer: {
+    maxWidth: 100,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'center',
+    gap: 2,
+  },
+  groupImage: {
+    width: 43,
+    height: 43,
+    resizeMode: 'contain',
   },
   topSection: {
     flexDirection: 'row',
@@ -111,6 +164,18 @@ const styles = StyleSheet.create({
   status: {
     fontSize: 12,
     color: 'rgba(0,0,0,0.80)',
+  },
+  trackButton: {
+    backgroundColor: Colors.primaryTransparent,
+    color: Colors.primary,
+    fontSize: 13,
+    fontFamily: "roboto-condensed-sb",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 15,
+    display: 'flex',
+    textAlign: 'center',
+    borderRadius: 10,
   }
 });
 

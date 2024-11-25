@@ -1,37 +1,36 @@
 export interface Order {
     _id: string;
     cart: CartItem[];
-    // ... other properties
-    paymentInfo: {
-      type: string;
-      // ... other payment properties
-    };
     shippingAddress: {
-      address1: string;
-      address2: string;
-      zipCode: string;
-      country: string;
-      city: string;
-      // ... other shipping address properties
+        address: string;
+        city: string;
+        country: string;
     };
     user: {
-      _id: string;
-      firstname: string;
-      lastname: string;
-      email: string;
-      phoneNumber: number;
-      role: string;
-      isEmailVerified: boolean;
-      createdAt: string;
-      addresses: string[];
-      // ... other user properties
+        _id: string;
+        firstname: string;
+        lastname: string;
+        email: string;
+        phoneNumber: string;
+        role: string;
+        isEmailVerified: boolean;
+        pushNotificationToken?: string;
+        createdAt: string;
+        addresses: string[];
+        __v: number;
     };
     totalPrice: number;
     status: string;
-    paidAt: string;
-    createdAt: string;
-    // ... other properties
-  }
+    paymentInfo: {
+        id: string;
+        status: string;
+        type: string;
+    };
+    paidAt: Date;
+    createdAt: Date;
+    deliveredAt?: Date;
+    __v: number;
+}
   
   export interface CartItem {
     _id: string;
@@ -40,38 +39,59 @@ export interface Order {
     category: string;
     tags: string;
     originalPrice: number;
-    discountPrice: number;
+    discountPrice: number | null;
     stock: number;
     condition: string;
-    aboutProduct: string;
     brand: string;
     model: string;
+    displaySize: string;
+    color: string;
+    os: string;
     memorySize: string;
-    // ... other properties
-    images: Array<{ public_id: string; url: string; _id: string }>;
-    shopId: string;
-    shop: {
-      avatar: {
+    internalMemory: string;
+    cellularTechnology: string;
+    connectivityTechnology: string;
+    serialNumber: string;
+    weight: string;
+    inTheBox: string;
+    colorList: Array<{
+        color: string;
+        stock: number;
+        images: Array<{
+            public_id: string;
+            url: string;
+            _id: string;
+        }>;
+        _id: string;
+    }>;
+    images: Array<{
         public_id: string;
         url: string;
-      };
-      _id: string;
-      name: string;
-      email: string;
-      address: string;
-      phoneNumber: number;
-      role: string;
-      isEmailVerified: boolean;
-      zipCode: number;
-      availableBalance: number;
-      createdAt: string;
-      // ... other shop properties
+        _id: string;
+    }>;
+    ratings: number;
+    shopId: string;
+    shop: {
+        avatar: {
+            public_id: string;
+            url: string;
+        };
+        _id: string;
+        name: string;
+        email: string;
+        address: string;
+        phoneNumber: number;
+        role: string;
+        isEmailVerified: boolean;
+        zipCode: number;
+        availableBalance: number;
+        createdAt: string;
+        // ... other shop properties
     };
     sold_out: number;
     createdAt: string;
-    reviews: any[]; // You can specify the correct type for reviews
-    qty: number;
-    color?: string; 
-    // ... other properties
+    reviews: any[];
+    isSavedForLater?: boolean;
+    approvalStatus: string;
   }
   

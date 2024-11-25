@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet, Alert, SafeAreaView, Image, Dimensions } from 'react-native';
-import axios from 'axios';
+import { View, Text, ActivityIndicator, StyleSheet, Alert, SafeAreaView, Image, Dimensions, TouchableOpacity, TextInput } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
 import { useAuth } from '../../context/AuthContext';
 import { useRouter } from 'expo-router'
 import { ScrollView } from 'react-native-gesture-handler';
 import { base_url } from '../../constants/server';
+import { usePushNotifications } from "../usePushNotifications";
+import { defaultStyles } from '../../constants/Styles';
+import { useOrders } from "../../context/OrderContext"
+import axios from 'axios';
 import LottieView from "lottie-react-native";
+import Colors from '../../constants/Colors';
+import StarRating from '../../components/StarRating';
 
 const statusColor = new Map([
   ['delivered', 'green'],
@@ -17,13 +22,19 @@ const statusColor = new Map([
 
 
 const Page = () => {
-  const {width} = Dimensions.get('window')
-  const { id } = useLocalSearchParams<{ id: string }>();
-  const { user } = useAuth();
   const router = useRouter();
+  const { width } = Dimensions.get('window')
+  const { id, index } = useLocalSearchParams<{ id: string; index: string }>();
+  const { user } = useAuth();
+  const { submitOrderApproval, message, loading, success, clearMessage } = useOrders()
   const [orderDetails, setOrderDetails] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  
+  const [pageLoading, setPageLoading] = useState(true);
+  const { notification } = usePushNotifications();
+  const [approvalStatus, setApprovalStatus] = useState("Pending");
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
+  console.log(notification)
+
 
   const userid = user?.user._id
 
@@ -50,102 +61,150 @@ const Page = () => {
       } catch (error) {
         console.error('Error fetching orders:', error);
       } finally {
-        setLoading(false);
+        setPageLoading(false);
       }
     };
 
     fetchOrderDetails();
-  }, [id]);
+  }, [id, success]);
 
-  console.log(orderDetails)
+  useEffect(() => {
+    if (success === 1) {
+      setRating(1);
+      setApprovalStatus("Pending");
+      setComment("");
+      Alert.alert("Success", message);
+      clearMessage();
+    } else if (success === 0) {
+      Alert.alert("Error", message);
+      clearMessage();
+    }
+  }, [success])
 
-  {/*const previousScreen = () => {
-    return (
-      <View>
-        <Image source={{ uri: orderDetails.cart[0].images[0].url }} />
-        <Text>Product: {orderDetails.cart[0].name}</Text>
-        <Text>Description: {orderDetails.cart[0].description}</Text>
-        <Text>Category: {orderDetails.cart[0].category}</Text>
-        <Text>Price: {orderDetails.cart[0].originalPrice}</Text>
-        <Text>Quantity: {orderDetails.cart[0].stock}</Text>
-        <Text>Status: {orderDetails.paymentInfo.status}</Text>
-        <Text style={styles.header}>Order Details for Order ID: {id}</Text>
-      </View>
-    )
-  } */}
+  console.log(orderDetails);
+
+  const orderId = orderDetails?._id;
+  const productId = orderDetails?.cart[parseInt(index) || 0]?._id;
+  console.log(orderId);
+  console.log(productId);
+
+
+  const submitReview = () => {
+    if (rating === 0) {
+      Alert.alert("Please rate the product");
+    } else if (approvalStatus === "Pending") {
+      Alert.alert("Please approve or reject the product");
+    } else if (comment === "") {
+      Alert.alert("Please leave a comment");
+    } else {
+      submitOrderApproval(orderId, productId, approvalStatus, rating, comment);
+    }
+  }
+
+
 
   return (
 
     <View style={styles.parentContainer}>
-      {loading ? (
-        <ActivityIndicator size="large" color="#3498db" />
+      {pageLoading ? (
+        <ActivityIndicator size="large" color="#025492" />
       ) : (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
           <View style={{ paddingHorizontal: 20 }} >
             <Image source={require('../../assets/images/amico.png')} style={{ height: 240, width: 290, marginTop: 65, alignSelf: "center", marginBottom: 23 }} />
-            </View>
-            {
-              orderDetails ? (
-                <View>
-                  <View style={{ alignItems: 'center', marginBottom: 10 }} >
-                    <Image source={require('../../assets/images/track-order.png')} resizeMode='contain' style={{ height: 209, width: width }} />
-                    <View style={{ justifyContent: "center", alignItems: 'center', position: 'absolute', top: 20, gap: 10 }} >
-                      <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500' }}>{orderDetails.cart[0].name}</Text>
-                      <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[0].originalPrice?.toLocaleString()}</Text>
-                    </View>
+          </View>
+          {
+            orderDetails ? (
+              <View>
+                <View style={{ alignItems: 'center', marginBottom: 10 }} >
+                  <Image source={require('../../assets/images/track-order.png')} resizeMode='contain' style={{ height: 209, width: width }} />
+                  <View style={{ justifyContent: "center", alignItems: 'center', position: 'absolute', top: 20, gap: 10 }} >
+                    <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500' }}>{orderDetails.cart[parseInt(index) || 0].name}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[parseInt(index) || 0].originalPrice?.toLocaleString()}</Text>
                   </View>
-                  <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }} >
-                    <View>
-                      <Text style={{fontSize: 13, color: '#00000080'}} >Order Id</Text>
-                      <Text style={{fontSize: 14, fontWeight: '700', color: '#00000099', width: 110}} >{id}</Text>
-                    </View>
-                    <View>
-                      <Text style={{fontSize: 13, color: '#00000080'}} >Order Status</Text>
-                      <Text style={{ fontSize: 14, fontWeight: '700', color: statusColor.get(orderDetails.status.toLowerCase()) }} >{orderDetails.status}</Text>
-                    </View>
+                </View>
+                <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }} >
+                  <View>
+                    <Text style={{ fontSize: 13, color: '#00000080' }} >Order Id</Text>
+                    <Text style={{ fontSize: 14, fontWeight: '700', color: '#00000099', width: 110 }} >{id}</Text>
                   </View>
-                  <View style={{ paddingHorizontal: 20 }} >
-                    <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
-                      {/* THIS FEATURE IS ONLY NEEDED FOR THE SELLER OF THE PRODUCT <View style={{justifyContent: 'center', alignItems: 'center'}} >
+                  <View>
+                    <Text style={{ fontSize: 13, color: '#00000080' }} >Order Status</Text>
+                    <Text style={{ fontSize: 14, fontWeight: '700', color: statusColor.get(orderDetails.status.toLowerCase()) }} >{orderDetails.status}</Text>
+                  </View>
+                </View>
+                <View style={{ paddingHorizontal: 20 }} >
+                  <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
+                    {/* THIS FEATURE IS ONLY NEEDED FOR THE SELLER OF THE PRODUCT <View style={{justifyContent: 'center', alignItems: 'center'}} >
                         <Text style={{ fontSize: 13, color: '#00000080' }} >Quantity</Text>
                         <Text style={{ fontSize: 14, fontWeight: '700', color: '#00000099' }} >{orderDetails.cart[0].stock}</Text>
                       </View>*/}
-                      {
-                        orderDetails.status === "Processing" && (
-                          <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >You would receive an email progress alert once it is on its way</Text>
-                        )
-                      }
-                      {
-                        orderDetails.status === "Ready To Ship" && (
-                          <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >Your order has been packed and is on its way</Text>
-                        )
-                      }
-                      {
-                        orderDetails.status === "Delivered" && (
-                          <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >Your order has been delivered</Text>
-                        )
-                      }
-                      {
-                        orderDetails.status === "Cancelled" && (
-                          <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >Your order has been cancelled</Text>
-                        )
-                      }
-                    </View>
+                    {
+                      orderDetails.status === "Processing" && (
+                        <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >You would receive an email progress alert once it is on its way</Text>
+                      )
+                    }
+                    {
+                      orderDetails.status === "Ready To Ship" && (
+                        <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >Your order has been packed and is on its way</Text>
+                      )
+                    }
+                    {
+                      orderDetails.status === "Cancelled" && (
+                        <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >Your order has been cancelled</Text>
+                      )
+                    }
                   </View>
+                  {
+                    orderDetails.cart[parseInt(index) || 0].approvalStatus === "Approved" ? (
+                      <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.grey, width: "100%", marginBottom: 40 }]} >
+                        <Text style={[defaultStyles.btnText, { color: "#fff" }]} >Product Reviewed</Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <View style={styles.reviewTextContainer} >
+                        <Text style={styles.reviewTitle} >Approve Product Delivery</Text>
+                        <Text style={styles.reviewText} >Please confirm that what you ordered is what you got. This is needed to give final approval of the delivery.</Text>
+                        <View style={styles.reviewButtonContainer} >
+                          <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: approvalStatus === "Approved" ? Colors.primary : "transparent", borderColor: Colors.primary, borderWidth: 1, width: "45%" }]} onPress={() => setApprovalStatus("Approved")}>
+                            <Text style={[defaultStyles.btnText, { color: approvalStatus === "Approved" ? "#fff" : Colors.primary }]} >Approve</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: approvalStatus === "Declined" ? Colors.red : "transparent", borderColor: Colors.red, borderWidth: 1, width: "45%" }]} onPress={() => setApprovalStatus("Declined")}>
+                            <Text style={[defaultStyles.btnText, { color: approvalStatus === "Declined" ? "#fff" : Colors.red }]} >Reject</Text>
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.reviewProductContainer} >
+                          <Text style={styles.reviewProductText} >Rate Product</Text>
+                          <View style={{ marginTop: 10 }} >
+                            <StarRating starLength={5} color="gold" size={26} disabled={false} starStyle={{ flexDirection: "row", alignItems: "center", gap: 2 }} starTextStyle={{ color: "#000000" }} messages={["Terrible", "Bad", "Okay", "Good", "Amazing"]} defaultRating={rating} newRating={(rating) => setRating(rating)} />
+                          </View>
+                        </View>
+                        <View style={{ marginTop: 20, marginBottom: 25 }} >
+                          <Text style={styles.reviewCommentText} >Comment</Text>
+                          <View style={styles.reviewCommentInput} >
+                            <TextInput multiline={true} style={{ marginTop: 3, paddingHorizontal: 9, fontSize: 12 }} placeholder='Leave a comment' value={comment} onChangeText={(text) => setComment(text)} />
+                          </View>
+                        </View>
+                        <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.primary, width: "100%", marginBottom: 40 }]} onPress={submitReview} >
+                          <Text style={[defaultStyles.btnText, { color: "#fff" }]} >{loading ? "Submitting..." : "Submit"}</Text>
+                        </TouchableOpacity>
+                      </View>
+                    )
+                  }
                 </View>
-              ) : (
-                <View>
-                  <View style={{ justifyContent: "center", alignItems: "center"}} >
+              </View>
+            ) : (
+              <View>
+                <View style={{ justifyContent: "center", alignItems: "center" }} >
                   <LottieView
                     source={require('../../assets/images/no-result.json')}
                     autoPlay
                     loop
-                    style={{ height: 200, width: 200}}
+                    style={{ height: 200, width: 200 }}
                   />
-                <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 20, color: "#02549296", textAlign: 'center' }}>No Orders Found</Text>
+                  <Text style={{ fontFamily: 'roboto-condensed-sb', fontSize: 20, color: "#02549296", textAlign: 'center' }}>No Orders Found</Text>
                 </View>
-                </View>
-              )
+              </View>
+            )
           }
         </ScrollView>
       )}
@@ -169,6 +228,46 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
+  },
+  reviewTextContainer: {
+    width: "100%"
+  },
+  reviewTitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: "#000000",
+  },
+  reviewText: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: "#00000050",
+  },
+  reviewButtonContainer: {
+    marginTop: 20,
+    flexDirection: "row",
+    gap: 10,
+    justifyContent: "space-between"
+  },
+  reviewProductContainer: {
+    marginTop: 20,
+  },
+  reviewProductText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: "#000000",
+  },
+  reviewCommentText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: "#000000",
+  },
+  reviewCommentInput: {
+    borderWidth: 1,
+    height: 115,
+    top: 5,
+    borderColor: "#0000001A",
+    borderRadius: 5,
+    backgroundColor: "#00000005",
   },
 });
 

@@ -1,134 +1,92 @@
 import { useState, useEffect, useRef } from 'react';
 import * as Device from 'expo-device';
-import * as Notifications from "expo-notifications";
-import Constants from "expo-constants";
-import { Alert, Platform  } from "react-native";
-import { useRouter } from "expo-router";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+import { Platform, Alert } from 'react-native';
+import { useRouter } from 'expo-router';
 
 
-export interface pushNotificationState {
+export interface PushNotificationState {
     notification?: Notifications.Notification;
     expoPushToken?: Notifications.ExpoPushToken;
 };
 
-
-export const usePushNotifications = (isNotificationEnabled: boolean) : pushNotificationState => { 
+export const usePushNotifications = (): PushNotificationState => {
     Notifications.setNotificationHandler({
         handleNotification: async () => ({
-            shouldPlaySound: true,
             shouldShowAlert: true,
+            shouldPlaySound: true,
             shouldSetBadge: true,
         }),
     });
-
-    console.log(isNotificationEnabled)
 
     const [expoPushToken, setExpoPushToken] = useState<Notifications.ExpoPushToken | undefined>();
     const [notification, setNotification] = useState<Notifications.Notification | undefined>();
     const notificationListener = useRef<Notifications.Subscription>();
     const responseListener = useRef<Notifications.Subscription>();
     const router = useRouter();
-    
-    const registerForPushNotifications = async() => {
+
+    const registerForPushNotification = async () => {
         let token;
 
         if (Device.isDevice) {
-            const {status: existingStatus} = await Notifications.getPermissionsAsync();
-            
+            const { status: existingStatus } = await Notifications.getPermissionsAsync();
             let finalStatus = existingStatus;
 
-            if (existingStatus !== "granted") {
-                const {status} = await Notifications.requestPermissionsAsync();
+            if (existingStatus !== 'granted') {
+                const { status } = await Notifications.requestPermissionsAsync();
                 finalStatus = status;
-            }
+            };
 
-            if (finalStatus !== "granted") {
-                Alert.alert("Notification Failed", "failed to get push token")
-            }
+            if (finalStatus !== 'granted') {
+                Alert.alert( 'Notification failed', 'Permission for notification was denied');
+            };
 
             token = await Notifications.getExpoPushTokenAsync({
-                projectId: Constants.expoConfig?.extra?.eas?.projectId,
+                projectId: Constants.expoConfig?.extra?.eas.projectId
             });
 
-            if (Platform.OS === "android") {
+            if (Platform.OS === 'android') {
                 Notifications.setNotificationChannelAsync("default", {
-                    name: "default",
+                    name: 'default',
                     importance: Notifications.AndroidImportance.MAX,
                     vibrationPattern: [0, 250, 250, 0, 250, 250],
+                    enableVibrate: true,
                     lightColor: "#025492",
                     bypassDnd: true,
                     lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
                     sound: "default",
                     enableLights: true,
-                    enableVibrate: true,
                 });
             };
 
-            return token
-        } else { 
-            console.log("Error: Please test on a physical phone")
-        }
-    };
-
-    useEffect(() => {
-        if (isNotificationEnabled) {
-            registerForPushNotifications().then((token) => {
-                setExpoPushToken(token);
-            });
-
-            notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-                setNotification(notification);
-                storeNotification(notification);
-            });
-
-            responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-                redirect(response.notification);
-            });
+            return token;
         } else {
-            // Clear the token and remove listeners if notifications are disabled
-            setExpoPushToken(undefined);
-            if (notificationListener.current) {
-                Notifications.removeNotificationSubscription(notificationListener.current);
-                notificationListener.current = undefined;
-            }
-            if (responseListener.current) {
-                Notifications.removeNotificationSubscription(responseListener.current);
-                responseListener.current = undefined;
-            }
-        }
-
-        return () => {
-            // Cleanup listeners when the component unmounts or isNotificationEnabled changes
-            if (notificationListener.current) {
-                Notifications.removeNotificationSubscription(notificationListener.current);
-            }
-            if (responseListener.current) {
-                Notifications.removeNotificationSubscription(responseListener.current);
-            }
-        };
-        
-    }, [isNotificationEnabled]);
-
-    function redirect(notification: Notifications.Notification) {
-        const url = notification.request.content.data?.url;
-        if (url) {
-          router.push(url);
-        }
-      }
-
-
-
-    const storeNotification = async(notification: Notifications.Notification) => {
-        try {
-            await AsyncStorage.setItem(`@notification_${notification?.request.identifier}`, JSON.stringify(notification));
-        } catch (error) {
-            console.log('Error storing notification', error)
+            console.log('Error, please run on an actual physical device')
         }
     }
 
+    useEffect(() => {
+        registerForPushNotification().then((token) => setExpoPushToken(token));
+        notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+            setNotification(notification);
+        });
+
+        responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
+            setNotification(response.notification);
+            router.push(response.notification.request.content.data.url);
+        });
+
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener.current!);
+            Notifications.removeNotificationSubscription(responseListener.current!);
+        }
+    }, []);
+
+    console.log(expoPushToken);
+
     return {
         expoPushToken,
-        notification,
+        notification
     }
 }

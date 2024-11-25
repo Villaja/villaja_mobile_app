@@ -10,11 +10,13 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import TermsAndCondition from "../../components/TermsAndCondition";
+import { usePushNotifications } from '../../app/usePushNotifications';
 
 
 
 const Page = () => {
   useWarmUpBrowser();
+  const { expoPushToken } = usePushNotifications();
   const [toggleCheckBox, setToggleCheckBox] = useState<boolean>(false)
   const { register, isLoading, error, user } = useAuth();
   const [firstname, setFirstname] = useState('');
@@ -22,7 +24,10 @@ const Page = () => {
   const [phoneNumber, setPhonenumber] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [termsModal, setTermsModal] = useState(true)
+  const [termsModal, setTermsModal] = useState(true);
+  console.log(`register screen token: ${expoPushToken?.data}`);
+
+  const token = expoPushToken?.data;
 
 
   const [passwordVisible, setPasswordVisisble] = useState<boolean>(true)
@@ -30,7 +35,7 @@ const Page = () => {
 
   const handleRegister = async () => {
     try {
-      await register(firstname, lastname, phoneNumber, email, password);
+      await register(firstname, lastname, phoneNumber, email, password, token);
       Alert.alert('Verify Your Account', 'please check your email to activate your account with the verification code, possibly check your spam folder', [{ text: 'OK' }]);
       router.replace('/(modals)/login')
       // Navigate to the home screen or handle it based on your navigation structure
@@ -110,11 +115,8 @@ const Page = () => {
             textStyle={{ fontFamily: "roboto-condensed", fontSize: 9, }}
             onPress={(isChecked: boolean) => { setToggleCheckBox(isChecked) }}
           />
-          <TouchableOpacity onPress={activateTermsAndConditions} >
-            <Text style={{ color: "#025492", fontFamily: 'roboto-condensed-sb', fontWeight: "500" }} >Read</Text>
-          </TouchableOpacity>
         </View>
-        {termsModal && toggleCheckBox && (
+        { toggleCheckBox && (
           <TermsAndCondition visible={termsModal} onClose={() => setTermsModal(false)}/>
         )}
         <View style={{ marginTop: 15, marginBottom: 45, gap: 13 }}>

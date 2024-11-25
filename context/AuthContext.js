@@ -85,11 +85,12 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (firstname, lastname, phoneNumber, email, password) => {
+  const register = async (firstname, lastname, phoneNumber, email, password, token) => {
+    console.log(`submit token: ${token}`)
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
 
-      const response = await axios.post(`${base_url}/user/register`, { firstname, lastname, email, phoneNumber, password });
+      const response = await axios.post(`${base_url}/user/register`, { firstname, lastname, email, phoneNumber, password, pushNotificationToken: token });
 
 
       dispatch({ type: 'SET_TOKEN', payload: response.data.token });

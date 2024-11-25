@@ -16,6 +16,7 @@ import LottieView from "lottie-react-native";
 
 import axios from 'axios'
 import { base_url } from '../../constants/server'
+import { useFocusEffect } from '@react-navigation/native';
 
 const sampleCartItems = [
   {
@@ -48,28 +49,30 @@ const cart = () => {
 
   const { height } = Dimensions.get('window');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (user) {
-          const response = await axios.get(`${base_url}/order/get-all-orders/${id}`);
-          if (response.data.success) {
-            setOrders(response.data.orders);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          if (user) {
+            const response = await axios.get(`${base_url}/order/get-all-orders/${id}`);
+            if (response.data.success) {
+              setOrders(response.data.orders);
+            } else {
+              console.error('Failed to fetch orders');
+            }
           } else {
-            console.error('Failed to fetch orders');
+            router.replace('/(modals)/login')
           }
-        } else {
-          router.replace('/(modals)/login')
+        } catch (error) {
+          console.error('Error fetching orders:', error);
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error('Error fetching orders:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      };
 
-    fetchData();
-  }, [id, user, router, orderActiveTab]);
+      fetchData();
+    }, [id, user, router, orderActiveTab])
+  );
 
   const pendingOrders = orders.filter((item) => item.status === "Processing");
   const completedOrders = orders.filter((item) => item.status === "Delivered");
