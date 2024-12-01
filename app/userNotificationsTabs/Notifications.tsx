@@ -1,85 +1,72 @@
-import { Image, ScrollView, StyleSheet, Text, View, Dimensions } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View, Dimensions, ActivityIndicator } from 'react-native'
 import React, { useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Notification from "expo-notifications";
+import { base_url } from '../../constants/server';
+import { usePushNotifications } from '../usePushNotifications';
+import axios, { AxiosError } from 'axios';
 import LottieView from "lottie-react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const mockNotifications = [
-    {
-        id: 1,
-        title: `The IPhone 15 pro max your GGBBCY tech is now available to buy`,
-        image: "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-hero-230912_Full-Bleed-Image.jpg.large.jpg",
-        date: "1:25 PM"
-    },
-    {
-        id: 2,
-        title: 'The IPhone 15 pro max your GGBBCY tech is now available to buy',
-        image: "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-hero-230912_Full-Bleed-Image.jpg.large.jpg",
-        date: "1:25 PM"
-    },
-    {
-        id: 3,
-        title: 'The IPhone 15 pro max your GGBBCY tech is now available to buy',
-        image: "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-hero-230912_Full-Bleed-Image.jpg.large.jpg",
-        date: "1:25 PM"
-    },
-    {
-        id: 4,
-        title: 'The IPhone 15 pro max your GGBBCY tech is now available to buy',
-        image: "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-hero-230912_Full-Bleed-Image.jpg.large.jpg",
-        date: "1:25 PM"
-    },
-    {
-        id: 5,
-        title: 'The IPhone 15 pro max your GGBBCY tech is now available to buy',
-        image: "https://www.apple.com/newsroom/images/2023/09/apple-unveils-iphone-15-pro-and-iphone-15-pro-max/article/Apple-iPhone-15-Pro-lineup-hero-230912_Full-Bleed-Image.jpg.large.jpg",
-        date: "1:25 PM"
-    },
-];
+
+
 
 
 const Notifications = () => {
-    const [notificationList, setNotificationList] = useState<Notification.Notification[]>([]);
-    const { height } = Dimensions.get("window")
-
+    const { height } = Dimensions.get("window");
+    const { notification } = usePushNotifications();
+    const [notificationList, setNotificationList] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const getStoredNotifications = async () => {
+        const fetchNotifications = async () => {
+            setIsLoading(true);
             try {
-                const keys = await AsyncStorage.getAllKeys();
-                const notificationKeys = keys.filter(key => key.startsWith('@notification_'));
-                const notifications = await AsyncStorage.multiGet(notificationKeys);
-                const parsedNotifications = notifications.map(([key, value]) => (value ? JSON.parse(value) : null));
-                setNotificationList(parsedNotifications)
+                const token = await AsyncStorage.getItem("token");
+                const response = await axios.get(`${base_url}/user/notifications`, {
+                    headers: {
+                        Authorization: token
+                    }
+                })
+                if (response.status === 200) {
+                    setNotificationList(response.data.notifications);
+                }
             } catch (error) {
-                console.log("Error fetching notifications: ", error);
+                if (error instanceof AxiosError) {
+                    console.log(error.response?.data)
+                }
+            } finally {
+                setIsLoading(false);
             }
         }
-
-        getStoredNotifications();
-    }, [])
+        fetchNotifications();
+    }, [notification])
 
 
     return (
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={[notificationList.length > 0 ? { gap: 5 } : { gap: 5, justifyContent: "center", alignItems: "center", marginTop: height / 1 / 60 }]}>
                 {
-                    notificationList.length > 0 ? (
-                        notificationList.slice().reverse().map((notification, index) => (
-                            <View key={index} style={styles.notificationContainer}>
-                                <Image source={require('../../assets/images/play_store_512.png')} style={styles.notificationImage} resizeMode='cover' />
-                                <View style={{ flexShrink: 1, gap: 5 }}>
-                                    <Text numberOfLines={1} style={styles.notificationTitle}>{notification.request.content.title}</Text>
-                                    <Text numberOfLines={1} style={styles.notificationBody}>{notification.request.content.body}</Text>
-                                </View>
-                            </View>
-                        ))
-                    ) : (
-                        <View style={{ justifyContent: "center", alignItems: "center" }} >
-                            <LottieView source={require('../../assets/images/Animation - 1722072178194.json')} loop={false} autoPlay style={{ width: 400, height: 400 }} />
-                            <Text style={{ fontSize: 16, fontWeight: "500", color: "#00000080" }} >You have no notification</Text>
+                    isLoading ? (
+                        <View style={{ justifyContent: "center", alignItems: "center", marginTop: height / 1 / 60 }}>
+                            <ActivityIndicator size="small" color="#025492" />
                         </View>
+                    ) : (
+                        notificationList.length > 0 ? (
+                            notificationList.map((notification, index) => (
+                                <View key={index} style={styles.notificationContainer}>
+                                    <Image source={require('../../assets/images/play_store_512.png')} style={styles.notificationImage} resizeMode='cover' />
+                                    <View style={{ flexShrink: 1, gap: 5 }}>
+                                        <Text numberOfLines={1} style={styles.notificationTitle}>{notification.title}</Text>
+                                        <Text numberOfLines={3} style={styles.notificationBody}>{notification.body}</Text>
+                                    </View>
+                                </View>
+                            ))
+                        ) : (
+                            <View style={{ justifyContent: "center", alignItems: "center" }} >
+                                <LottieView source={require('../../assets/images/Animation - 1722072178194.json')} loop={false} autoPlay style={{ width: 400, height: 400 }} />
+                                <Text style={{ fontSize: 16, fontWeight: "500", color: "#00000080" }} >You have no notification</Text>
+                            </View>
+                        )
                     )
                 }
             </ScrollView>

@@ -8,14 +8,15 @@ import { useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
 import Colors from "../../../constants/Colors";
 import index from '../../(tabs)';
+import { useFocusEffect } from '@react-navigation/native';
 
-const sellerOrders = () => {
+const SellerOrders = () => {
   const [seller, setSeller] = useState<any>([]);
   const [token, setToken] = useState<string>();
   const [loading, setLoading] = useState<boolean>(true);
   const [allOrders, setAllOrders] = useState<any>([]);
   const router = useRouter();
-  const {height} = Dimensions.get('window')
+  const { height } = Dimensions.get('window')
 
 
   useEffect(() => {
@@ -29,12 +30,12 @@ const sellerOrders = () => {
     }
 
     checkToken()
-  }, []);
+  }, [router]);
 
 
   const handleGetOrders = async () => {
     try {
-
+      setLoading(true);
       const response = await axios.get(`${base_url}/order/get-seller-all-orders/${seller._id}`);
       if (response.data.success) {
         setAllOrders(response.data.orders);
@@ -50,17 +51,19 @@ const sellerOrders = () => {
     }
   };
 
-  useEffect(() => {
-    handleGetOrders();
-  }, [seller]);
-
-  console.log(allOrders[0]);
+  useFocusEffect(
+    React.useCallback(() => {
+      if (seller._id) {
+        handleGetOrders();
+      }
+    }, [seller._id])
+  )
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container} >
       {
-        loading ? (<ActivityIndicator size="small" color={Colors.primary} style={{ marginTop: height/1/3 }} />) : (
-          allOrders.length > 1 ?
+        loading ? (<ActivityIndicator size="small" color={Colors.primary} style={{ marginTop: height / 3 }} />) : (
+          allOrders.length > 0 ?
             (
               allOrders.map((order: any) => (
                 <View key={order._id}>
@@ -68,7 +71,7 @@ const sellerOrders = () => {
                 </View>
               ))
             ) : (
-              <View style={{ marginTop: height/1/3, padding: 20, gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+              <View style={{ marginTop: height / 3, padding: 20, gap: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                 <LottieView source={require('../../../assets/images/not-available.json')} autoPlay loop={true} style={{ width: 50, height: 50 }} />
                 <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15 }}>No Order Found</Text>
               </View>
@@ -86,4 +89,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default sellerOrders
+export default SellerOrders

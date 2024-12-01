@@ -10,7 +10,7 @@ const OrdersContext = createContext();
 const initialState = {
   orders: [],
   order: null, // Initial state for a single order
-  loading: true,
+  loading: false,
   error: null,
   message: "",
   success: null

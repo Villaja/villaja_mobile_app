@@ -118,7 +118,7 @@ const cart = () => {
 
 
   return (
-    <View style={[styles.container, { paddingBottom: 100 }]}>
+    <View style={[styles.container, { paddingBottom: activeTab === 'Cart' || activeTab === 'Orders' ? 100 : 0  }]}>
       <View style={styles.headerContainer}>
         <TouchableOpacity style={styles.headerBtn} onPress={() => setActiveTab('Cart')}>
           <Text style={activeTab === "Cart" ? styles.activeTextHeader : styles.textHeader}>Cart</Text>
@@ -261,12 +261,8 @@ const cart = () => {
             </View>
             :
             <ScrollView showsVerticalScrollIndicator={false} style={{ padding: 20, gap: 16 }}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 7 }}>
-                <Text style={{ fontFamily: 'roboto-condensed', color: 'rgba(0,0,0,0.35)' }}>History</Text>
-                {/* POSTPONED TILL V2.1 <TouchableOpacity><Text style={{fontFamily:'roboto-condensed',color:Colors.primary}}>Clear History</Text></TouchableOpacity>*/}
-              </View>
               {
-                orders && orders.map((order) => (
+                completedOrders && completedOrders.map((order) => (
                   <OrderHistoryCard key={order._id} order={order} />
                 ))
               }

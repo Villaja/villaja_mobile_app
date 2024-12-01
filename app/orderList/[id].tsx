@@ -1,5 +1,4 @@
 import { View, ScrollView, Text, Modal, StyleSheet, Image, Dimensions, TouchableOpacity, TextInput, Alert, ActivityIndicator } from 'react-native';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import { useLocalSearchParams } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import { useOrders } from '../../context/OrderContext';
@@ -80,7 +79,7 @@ const Page: React.FC = () => {
         loading ? (
           <ActivityIndicator size="large" color={Colors.primary} />
         ) : (
-          <>
+          <ScrollView showsVerticalScrollIndicator={false} >
 
             {cart?.map((item: any, index: number) => (
               <OrderedProductsCard key={index} item={item} index={index} orderId={id as string} status={displayableStatus} sendOrderApprovalAndReview={sendOrderApprovalAndReview} />
@@ -140,7 +139,7 @@ const Page: React.FC = () => {
                 </View>
               </Modal>
             </View>
-          </>
+          </ScrollView>
         )
       }
     </ScrollView>

@@ -14,14 +14,33 @@ interface OrderHistoryCardProps {
 const OrderHistoryCard: React.FC<OrderHistoryCardProps> = ({ order }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.topSection}>
-        <View style={styles.imageContainer}>
-          <Image source={{ uri: order.cart[0].images[0].url }} style={styles.image} />
-        </View>
+      <View style={[styles.topSection, { gap: order.cart.length > 1 ? 38 : 68 }]}>
+        {
+          order.cart.length > 1 ? (
+            <View style={styles.imageContainer2}>
+              {
+                order.cart[0] && (
+                  <Image source={{ uri: order.cart[0]?.images[0]?.url }} style={styles.image2} />
+                )
+              }
+              {
+                order.cart[1] && (
+                  <Image source={{ uri: order.cart[1]?.images[0]?.url }} style={styles.image2} />
+                )
+              }
+              <Image source={{ uri: order.cart[2]?.images[0]?.url }} style={styles.image2} />
+              <Image source={{ uri: order.cart[3]?.images[0]?.url }} style={styles.image2} />
+            </View>
+          ) : (
+            <View style={styles.imageContainer}>
+              <Image source={{ uri: order.cart[0]?.images[0]?.url }} style={styles.image} />
+            </View>
+          )
+        }
         <View style={{ paddingVertical: 12.5 }}>
-          <Text numberOfLines={2} style={styles.name}>{order.cart[0].name}</Text>
+          <Text numberOfLines={2} style={styles.name}>{order.cart[0]?.name}</Text>
           <Text style={styles.price}>₦{order.totalPrice.toLocaleString()}</Text>
-          <Text style={styles.discount}>{order.cart[0].discountPrice !== 0 && order.cart[0].discountPrice !== null && '₦' + order.cart[0].discountPrice?.toLocaleString()}</Text>
+          <Text style={styles.discount}>{order.cart[0]?.discountPrice !== 0 && order.cart[0]?.discountPrice !== null && '₦' + order.cart[0]?.discountPrice?.toLocaleString()}</Text>
         </View>
       </View>
       {/* NOT NECESSARY <TouchableOpacity style={styles.closeBtn}>
@@ -47,13 +66,19 @@ const styles = StyleSheet.create({
   },
   topSection: {
     flexDirection: 'row',
-    gap: 38,
-
   },
   imageContainer: {
     width: 83,
     height: 83,
     borderRadius: 3,
+  },
+  imageContainer2: {
+    maxWidth: 113,
+    borderRadius: 3,
+    flexDirection: "row",
+    flexWrap: "wrap",
+ 
+    alignItems: "center",
   },
   image: {
     width: 103,
@@ -65,6 +90,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     opacity: 0.3
 
+  },
+  image2: {
+    width: 53,
+    height: 53,
+    resizeMode: 'contain',
+    borderRadius: 3,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(0,0,0,0.05)',
+    opacity: 0.3
   },
   name: {
     fontFamily: 'roboto-condensed-sb',

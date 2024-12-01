@@ -31,8 +31,8 @@ const OrderedProductsCard: React.FC<OrderedProductsCardProps> = ({ item, index, 
                 <Image source={{ uri: item.images[0].url }} style={styles.image} />
                 <View style={{ paddingVertical: 12.5 }} >
                     <Text numberOfLines={2} style={styles.name} >{item.name}</Text>
-                    <Text style={styles.price} >₦{item.originalPrice?.toLocaleString()}</Text>
-                    <Text style={styles.discount} > {item.discountPrice && '₦' + item.discountPrice?.toLocaleString()}</Text>
+                    <Text style={styles.price} >{'₦' + (item.discountPrice === 0 || item.discountPrice === null ? item.originalPrice?.toLocaleString() : item.discountPrice?.toLocaleString())}</Text>
+                    <Text style={styles.discount} > {item.discountPrice !== 0 && item.discountPrice !== null ? '₦' + (item.originalPrice?.toLocaleString() || '') : null}</Text>
                     <View style={styles.statusContainer} >
                         <View style={[styles.ellipse, { backgroundColor: handleOrderStatusTextColor(item.approvalStatus)?.color }]}></View>
                         <Text style={styles.status}>{item.approvalStatus}</Text>
@@ -42,18 +42,27 @@ const OrderedProductsCard: React.FC<OrderedProductsCardProps> = ({ item, index, 
             {
                 item.approvalStatus === "Approved" ? (
                     <TouchableOpacity disabled style={[styles.trackButton, { backgroundColor: Colors.grey }]} >
-                        <Text style={[styles.trackButtonText, { color: "#fff" }]} >Product Reviewed</Text>
+                        <Text style={[styles.trackButtonText, { color: "#fff" }]} >Product Review Approved</Text>
                     </TouchableOpacity>
                 ) : (
                     <>
-                        {
+                        {/*
                             status === "Delivered" && (
                                 <TouchableOpacity style={styles.trackButton2} onPress={() => sendOrderApprovalAndReview(item._id)} >
                                     <Text style={styles.trackButtonText}>Review Product Delivery</Text>
                                 </TouchableOpacity>
                             )
+                        */}
+                        {
+                            item.approvalStatus === "Pending" && (
+                                <Link style={styles.trackButton} href={{ pathname: `/order/${orderId}`, params: { index: index }, query: { status: status } }}>Review Product</Link>
+                            )
                         }
-                        <Link style={styles.trackButton} href={{ pathname: `/order/${orderId}`, params: { index: index }, query: { status: status } }}>View Product</Link>
+                        {
+                            item.approvalStatus === "Declined" && (
+                                <Link style={[styles.trackButton, { color: Colors.red, backgroundColor: Colors.redTransparent }]} href={{ pathname: `/order/${orderId}`, params: { index: index } }}>Message Seller</Link>
+                            )
+                        }
                     </>
                 )
             }

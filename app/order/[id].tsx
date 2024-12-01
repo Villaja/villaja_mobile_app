@@ -91,16 +91,99 @@ const Page = () => {
 
   const submitReview = () => {
     if (rating === 0) {
-      Alert.alert("Please rate the product");
+      Alert.alert("Error", "Please rate the product");
     } else if (approvalStatus === "Pending") {
-      Alert.alert("Please approve or reject the product");
+      Alert.alert("Error", "Please approve or reject the product");
     } else if (comment === "") {
-      Alert.alert("Please leave a comment");
+      Alert.alert("Error", "Please leave a comment");
     } else {
       submitOrderApproval(orderId, productId, approvalStatus, rating, comment);
     }
-  }
+  };
 
+  const handleOrderStatusImage = () => {
+    if (orderDetails.status === "Processing") {
+      return require('../../assets/images/track-order.png')
+    } else if (orderDetails.status === "Ready To Ship") {
+      return require('../../assets/images/track-order2.png')
+    } else if (orderDetails.status === "Delivered") {
+      return require('../../assets/images/track-order3.png')
+    }
+  };
+
+  const sendMessage = async() => {
+    try {
+      if (orderDetails.cart[parseInt(index) || 0].approvalStatus === "Declined") {
+        const groupTitle = orderDetails.cart[parseInt(index) || 0]._id + userid;
+        const userId = userid;
+        const sellerId = orderDetails.cart[parseInt(index) || 0].shop._id;
+        const response = await axios.post(`${base_url}/conversation/create-new-conversation`,
+          {
+            groupTitle,
+            userId,
+            sellerId,
+          }
+        );
+        if (response.data.success) {
+          router.push({ pathname: `/userNotificationsTabs/${response.data.conversation._id}` });
+          console.log('conversation created');
+        } else {
+          console.log('an error occurred')
+        }
+      } 
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  const handleReviewDisplayLogic = () => {
+    if (orderDetails.cart[parseInt(index) || 0].approvalStatus === "Pending") {
+      return (
+        <View style={styles.reviewTextContainer} >
+          <Text style={styles.reviewTitle} >Approve Product Delivery</Text>
+          <Text style={styles.reviewText} >Please confirm that what you ordered is what you got. This is needed to give final approval of the delivery.</Text>
+          <View style={styles.reviewButtonContainer} >
+            <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: approvalStatus === "Approved" ? Colors.primary : "transparent", borderColor: Colors.primary, borderWidth: 1, width: "45%" }]} onPress={() => setApprovalStatus("Approved")}>
+              <Text style={[defaultStyles.btnText, { color: approvalStatus === "Approved" ? "#fff" : Colors.primary }]} >Approve</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: approvalStatus === "Declined" ? Colors.red : "transparent", borderColor: Colors.red, borderWidth: 1, width: "45%" }]} onPress={() => setApprovalStatus("Declined")}>
+              <Text style={[defaultStyles.btnText, { color: approvalStatus === "Declined" ? "#fff" : Colors.red }]} >Reject</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.reviewProductContainer} >
+            <Text style={styles.reviewProductText} >Rate Product</Text>
+            <View style={{ marginTop: 10 }} >
+              <StarRating starLength={5} color="gold" size={26} disabled={false} starStyle={{ flexDirection: "row", alignItems: "center", gap: 2 }} starTextStyle={{ color: "#000000" }} messages={["Terrible", "Bad", "Okay", "Good", "Amazing"]} defaultRating={rating} newRating={(rating) => setRating(rating)} />
+            </View>
+          </View>
+          <View style={{ marginTop: 20, marginBottom: 25 }} >
+            <Text style={styles.reviewCommentText} >Comment</Text>
+            <View style={styles.reviewCommentInput} >
+              <TextInput multiline={true} style={{ marginTop: 3, paddingHorizontal: 9, fontSize: 12 }} placeholder='Leave a comment' value={comment} onChangeText={(text) => setComment(text)} />
+            </View>
+          </View>
+          <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.primary, width: "100%", marginBottom: 40 }]} onPress={submitReview} >
+            <Text style={[defaultStyles.btnText, { color: "#fff" }]} >{loading ? "Submitting..." : "Submit"}</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    } else if (orderDetails.cart[parseInt(index) || 0].approvalStatus === "Approved") {
+      return (
+        <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.grey, width: "100%", marginBottom: 40 }]} >
+          <Text style={[defaultStyles.btnText, { color: "#fff" }]} >Product Reviewed</Text>
+        </TouchableOpacity>
+      )
+    } else if (orderDetails.cart[parseInt(index) || 0].approvalStatus === "Declined") {
+      return (
+        <View>
+          <Text style={{ fontSize: 13, fontWeight: '500', color: "#00000050",  maxWidth: "100%" }} >You have rejected this product and an order issue ticket has been raised, the seller has been informed of this order issue and will be in touch shortly or you can message them directly. Our order fulfillment team will also be in touch shortly to resolve this issue.</Text>
+          <TouchableOpacity onPress={sendMessage} style={[defaultStyles.btn, { backgroundColor: Colors.red, width: "100%", marginBottom: 20, marginTop: 20 }]} >
+            <Text style={[defaultStyles.btnText, { color: "#fff" }]} >Message Seller</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
+  }
 
 
   return (
@@ -117,10 +200,10 @@ const Page = () => {
             orderDetails ? (
               <View>
                 <View style={{ alignItems: 'center', marginBottom: 10 }} >
-                  <Image source={require('../../assets/images/track-order.png')} resizeMode='contain' style={{ height: 209, width: width }} />
+                  <Image source={handleOrderStatusImage()} resizeMode='contain' style={{ height: 209, width: width }} />
                   <View style={{ justifyContent: "center", alignItems: 'center', position: 'absolute', top: 20, gap: 10 }} >
                     <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500' }}>{orderDetails.cart[parseInt(index) || 0].name}</Text>
-                    <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[parseInt(index) || 0].originalPrice?.toLocaleString()}</Text>
+                    <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[parseInt(index) || 0].discountPrice === 0 || orderDetails.cart[parseInt(index) || 0].discountPrice === null ? orderDetails.cart[parseInt(index) || 0].originalPrice?.toLocaleString() : orderDetails.cart[parseInt(index) || 0].discountPrice?.toLocaleString()}</Text>
                   </View>
                 </View>
                 <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }} >
@@ -135,10 +218,6 @@ const Page = () => {
                 </View>
                 <View style={{ paddingHorizontal: 20 }} >
                   <View style={{ justifyContent: 'center', alignItems: 'center', marginVertical: 10 }}>
-                    {/* THIS FEATURE IS ONLY NEEDED FOR THE SELLER OF THE PRODUCT <View style={{justifyContent: 'center', alignItems: 'center'}} >
-                        <Text style={{ fontSize: 13, color: '#00000080' }} >Quantity</Text>
-                        <Text style={{ fontSize: 14, fontWeight: '700', color: '#00000099' }} >{orderDetails.cart[0].stock}</Text>
-                      </View>*/}
                     {
                       orderDetails.status === "Processing" && (
                         <Text style={{ fontSize: 12, fontWeight: '700', color: '#00000099', textAlign: 'center', maxWidth: 200 }} >You would receive an email progress alert once it is on its way</Text>
@@ -156,38 +235,8 @@ const Page = () => {
                     }
                   </View>
                   {
-                    orderDetails.cart[parseInt(index) || 0].approvalStatus === "Approved" ? (
-                      <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.grey, width: "100%", marginBottom: 40 }]} >
-                        <Text style={[defaultStyles.btnText, { color: "#fff" }]} >Product Reviewed</Text>
-                      </TouchableOpacity>
-                    ) : (
-                      <View style={styles.reviewTextContainer} >
-                        <Text style={styles.reviewTitle} >Approve Product Delivery</Text>
-                        <Text style={styles.reviewText} >Please confirm that what you ordered is what you got. This is needed to give final approval of the delivery.</Text>
-                        <View style={styles.reviewButtonContainer} >
-                          <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: approvalStatus === "Approved" ? Colors.primary : "transparent", borderColor: Colors.primary, borderWidth: 1, width: "45%" }]} onPress={() => setApprovalStatus("Approved")}>
-                            <Text style={[defaultStyles.btnText, { color: approvalStatus === "Approved" ? "#fff" : Colors.primary }]} >Approve</Text>
-                          </TouchableOpacity>
-                          <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: approvalStatus === "Declined" ? Colors.red : "transparent", borderColor: Colors.red, borderWidth: 1, width: "45%" }]} onPress={() => setApprovalStatus("Declined")}>
-                            <Text style={[defaultStyles.btnText, { color: approvalStatus === "Declined" ? "#fff" : Colors.red }]} >Reject</Text>
-                          </TouchableOpacity>
-                        </View>
-                        <View style={styles.reviewProductContainer} >
-                          <Text style={styles.reviewProductText} >Rate Product</Text>
-                          <View style={{ marginTop: 10 }} >
-                            <StarRating starLength={5} color="gold" size={26} disabled={false} starStyle={{ flexDirection: "row", alignItems: "center", gap: 2 }} starTextStyle={{ color: "#000000" }} messages={["Terrible", "Bad", "Okay", "Good", "Amazing"]} defaultRating={rating} newRating={(rating) => setRating(rating)} />
-                          </View>
-                        </View>
-                        <View style={{ marginTop: 20, marginBottom: 25 }} >
-                          <Text style={styles.reviewCommentText} >Comment</Text>
-                          <View style={styles.reviewCommentInput} >
-                            <TextInput multiline={true} style={{ marginTop: 3, paddingHorizontal: 9, fontSize: 12 }} placeholder='Leave a comment' value={comment} onChangeText={(text) => setComment(text)} />
-                          </View>
-                        </View>
-                        <TouchableOpacity style={[defaultStyles.btn, { backgroundColor: Colors.primary, width: "100%", marginBottom: 40 }]} onPress={submitReview} >
-                          <Text style={[defaultStyles.btnText, { color: "#fff" }]} >{loading ? "Submitting..." : "Submit"}</Text>
-                        </TouchableOpacity>
-                      </View>
+                    orderDetails.status === "Delivered" && (
+                      handleReviewDisplayLogic()
                     )
                   }
                 </View>
@@ -206,9 +255,9 @@ const Page = () => {
               </View>
             )
           }
-        </ScrollView>
+        </ScrollView >
       )}
-    </View>
+    </View >
 
   );
 };

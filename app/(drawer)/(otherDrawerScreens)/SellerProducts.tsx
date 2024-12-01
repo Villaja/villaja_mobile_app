@@ -66,7 +66,7 @@ const sellerProducts = () => {
 
   // Fetch seller product after token and sellerId confirmation
   useFocusEffect(
-    useCallback(() => {
+    React.useCallback(() => {
       if (seller && token) {
         fetchProducts();
       }

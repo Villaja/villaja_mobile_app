@@ -101,6 +101,7 @@ const Page: React.FC = () => {
     isSavedForLater: productDetails?.isSavedForLater,
     __v: productDetails?.__v,
   };
+
   const wishListData = {
     _id: productDetails?._id,
     name: productDetails?.name,
@@ -115,7 +116,7 @@ const Page: React.FC = () => {
     brand: productDetails?.brand,
     model: productDetails?.model,
     displaySize: productDetails?.displaySize,
-    color: productDetails?.color,
+    color: productDetails?.colorList[colorSelector.index]?.color,
     os: productDetails?.os,
     memorySize: productDetails?.memorySize,
     internalMemory: productDetails?.internalMemory,
@@ -129,7 +130,7 @@ const Page: React.FC = () => {
     minDelivery: productDetails?.minDelivery,
     maxDelivery: productDetails?.maxDelivery,
     colorList: productDetails?.colorList,
-    images: productDetails?.images,
+    images: productDetails?.colorList[colorSelector.index]?.images,
     ratings: productDetails?.ratings,
     shopId: productDetails?.shopId,
     shop: productDetails?.shop,
@@ -596,13 +597,13 @@ const Reviews = ({ rating, comment, createdAt, author }: reviewProps) => {
               ))
           }
         </View>
-        <Text>{createdAt.slice(0, 10)}</Text>
+        <Text style={{color: "rgba(0,0,0,0.70)"}} >{createdAt.slice(0, 10)}</Text>
       </View>
       <View>
-        <Text style={{ fontFamily: 'roboto-condensed' }}>{comment}</Text>
+        <Text style={{ fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)" }}>{comment}</Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ fontFamily: 'roboto-condensed' }}>By {author}</Text>
+        <Text style={{ fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)"}}>By {author}</Text>
         <View>
           <Svg width="60" height="10" viewBox="0 0 60 10" fill="none">
             <Path d="M9.00813 5.5554C8.68783 7.15697 7.48027 8.66502 5.78584 9.00199C4.95945 9.16657 4.10219 9.06622 3.33614 8.71524C2.57009 8.36425 1.93429 7.78052 1.51929 7.04716C1.10428 6.31381 0.931218 5.4682 1.02474 4.63077C1.11827 3.79333 1.47361 3.00674 2.04017 2.38301C3.20225 1.10303 5.16445 0.750683 6.76598 1.39131" stroke="#55B30C" stroke-width="0.960932" stroke-linecap="round" stroke-linejoin="round" />

@@ -4,7 +4,9 @@ import * as Notifications from 'expo-notifications';
 import Constants from 'expo-constants';
 import { Platform, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
-
+import { base_url } from '../constants/server';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface PushNotificationState {
     notification?: Notifications.Notification;
@@ -66,10 +68,35 @@ export const usePushNotifications = (): PushNotificationState => {
         }
     }
 
+    const storeNotification = async (notificationMessage: Notifications.Notification) => {
+        try {
+            const token = await AsyncStorage.getItem("token");
+
+                const response = await axios.post(`${base_url}/user/add-notification`, {
+                    title: notificationMessage.request.content.title,
+                    body: notificationMessage.request.content.body,
+                }, {
+                    headers: {
+                        Authorization: token
+                    }
+                });
+
+                if (response.status === 201) {
+                    console.log("Notification stored successfully");
+                } else {
+                    console.log("Notification not stored");
+                }
+        } catch (error) {
+            console.log('Failed to store notification:', error);
+        }
+    };
+
     useEffect(() => {
         registerForPushNotification().then((token) => setExpoPushToken(token));
+        
         notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
             setNotification(notification);
+            storeNotification(notification);
         });
 
         responseListener.current = Notifications.addNotificationResponseReceivedListener((response) => {
@@ -83,7 +110,10 @@ export const usePushNotifications = (): PushNotificationState => {
         }
     }, []);
 
+
+
     console.log(expoPushToken);
+    console.log(notification)
 
     return {
         expoPushToken,

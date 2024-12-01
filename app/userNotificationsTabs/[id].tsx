@@ -242,6 +242,7 @@ const Chat = () => {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.select({ ios: 40, android: 0 })}
         >
+          <Text style={{ fontSize: 11, color: "#00000050", maxWidth: "100%", paddingHorizontal: 20 }} >Warning: If you proceed to continue any transaction outside of the villaja app, our escrow insurance would not apply to any order, transaction or negotiations made afterwards, i.e. we would not be responsible for any fraudulent activity that occurs outside of the villaja app</Text>
           <View style={styles.messageInputBox}>
             <TextInput
               style={styles.messageInput}
@@ -379,7 +380,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 12,
     textAlign: "justify",
-    padding: 9,
+    padding: 10,
     paddingVertical: 5,
     color: '#111',
     fontFamily: 'roboto-condensed',

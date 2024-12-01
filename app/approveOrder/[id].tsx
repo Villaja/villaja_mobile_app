@@ -7,10 +7,11 @@ import { useRouter } from 'expo-router';
 import { base_url } from '../../constants/server';
 import LottieView from "lottie-react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Colors from '../../constants/Colors';
 
 const Page = () => {
     const { width } = Dimensions.get('window');
-    const { id } = useLocalSearchParams<{ id: string }>();
+    const { id, productPosition } = useLocalSearchParams<{ id: string, productPosition: number }>();
     const { seller } = useAuth();
     const router = useRouter();
     const [orderDetails, setOrderDetails] = useState<any>(null);
@@ -21,17 +22,9 @@ const Page = () => {
     const sellerId = seller?.seller._id;
 
     useEffect(() => {
-        const checkButtonStatus = async () => {
-            const status = await AsyncStorage.getItem(`order_${id}_status`);
-            if (status === 'accepted') {
-                setButtonText('Order Accepted');
-                setButtonDisabled(true);
-            }
-        };
 
         const fetchOrderDetails = async () => {
             const token = await AsyncStorage.getItem('sellerToken');
-            await checkButtonStatus(); // Check button status before fetching order details
 
             try {
                 if (seller) {
@@ -61,17 +54,17 @@ const Page = () => {
         };
 
         fetchOrderDetails();
-    }, [id]);
+    }, [id, buttonDisabled]);
 
     const updateOrderStatus = async () => {
         const token = await AsyncStorage.getItem('sellerToken');
         setLoading(true);
 
         try {
-            const response = await axios.put(`${base_url}/order/update-order-status/${id}`, 
+            const response = await axios.put(`${base_url}/order/update-order-status/${id}`,
                 {
                     status: 'Ready To Ship',
-                }, 
+                },
                 {
                     headers: {
                         Authorization: token
@@ -79,7 +72,6 @@ const Page = () => {
                 }
             );
             if (response.data.success) {
-                await AsyncStorage.setItem(`order_${id}_status`, 'accepted');
                 Alert.alert('Success', 'You have successfully accepted this order, the dispatch rider will come to pick it up from your location, please be online till you have handed it over');
                 setButtonText('Order Accepted');
                 setButtonDisabled(true);
@@ -101,7 +93,7 @@ const Page = () => {
             ) : (
                 <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
                     <View>
-                        <Image source={{uri: orderDetails?.cart[0]?.images[0].url}} style={{ height: 190, width: 150, marginTop: 65, alignSelf: "center", marginBottom: 23 }} />
+                        <Image source={{ uri: orderDetails?.cart[productPosition || 0]?.images[0].url }} style={{ height: 190, width: 150, marginTop: 65, alignSelf: "center", marginBottom: 23 }} />
                     </View>
                     {
                         orderDetails ? (
@@ -109,8 +101,8 @@ const Page = () => {
                                 <View style={{ alignItems: 'center', marginBottom: 10 }} >
                                     <Image source={require('../../assets/images/track-order.png')} resizeMode='contain' style={{ height: 209, width: width }} />
                                     <View style={{ justifyContent: "center", alignItems: 'center', position: 'absolute', top: 20, gap: 10 }} >
-                                        <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500' }}>{orderDetails.cart[0].name}</Text>
-                                        <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[0].originalPrice.toLocaleString()}</Text>
+                                        <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500' }}>{orderDetails.cart[productPosition || 0].name}</Text>
+                                        <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[productPosition || 0].originalPrice.toLocaleString()}</Text>
                                     </View>
                                 </View>
                                 <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }} >
@@ -126,18 +118,32 @@ const Page = () => {
                                 <View style={{ paddingHorizontal: 20, justifyContent: 'center', alignItems: 'center' }} >
                                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                                         <Text style={{ fontSize: 13, color: '#00000080' }} >Product Color</Text>
-                                        <Text style={{ fontSize: 14, fontWeight: '700', color: "#00000099" }} >{orderDetails.cart[0].color || "unavailable"}</Text>
+                                        <Text style={{ fontSize: 14, fontWeight: '700', color: "#00000099" }} >{orderDetails.cart[productPosition || 0].color || "unavailable"}</Text>
                                     </View>
                                 </View>
-                                <TouchableOpacity 
-                                    onPress={updateOrderStatus} 
-                                    style={{backgroundColor: buttonDisabled ? '#888' : '#025492', borderRadius: 10, marginVertical: 15, marginHorizontal: 20, paddingVertical: 15, paddingHorizontal: 30, justifyContent: 'center', alignItems: 'center'}}
-                                    disabled={buttonDisabled}
-                                >
-                                    <Text style={{color: '#ffffff', fontFamily: 'roboto-condensed-sb'}} >
-                                        {loading ? <ActivityIndicator size="small" color="#025492" /> : buttonText}
-                                    </Text>
-                                </TouchableOpacity>
+                                {
+                                    orderDetails.status !== 'Processing' ? (
+                                        <TouchableOpacity
+                                            onPress={updateOrderStatus}
+                                            style={{ backgroundColor: Colors.grey, borderRadius: 10, marginVertical: 15, marginHorizontal: 20, paddingVertical: 15, paddingHorizontal: 30, justifyContent: 'center', alignItems: 'center' }}
+                                            disabled={true}
+                                        >
+                                            <Text style={{ color: '#ffffff', fontFamily: 'roboto-condensed-sb' }} >
+                                                {loading ? <ActivityIndicator size="small" color="#025492" /> : orderDetails.status}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    ) : (
+                                        <TouchableOpacity
+                                            onPress={updateOrderStatus}
+                                            style={{ backgroundColor: '#025492', borderRadius: 10, marginVertical: 15, marginHorizontal: 20, paddingVertical: 15, paddingHorizontal: 30, justifyContent: 'center', alignItems: 'center' }}
+                                            disabled={buttonDisabled}
+                                        >
+                                            <Text style={{ color: '#ffffff', fontFamily: 'roboto-condensed-sb' }} >
+                                                {loading ? <ActivityIndicator size="small" color="#025492" /> : buttonText}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    )
+                                }
                             </View>
                         ) : (
                             <View>
