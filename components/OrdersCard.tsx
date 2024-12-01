@@ -66,6 +66,9 @@ const OrderCard: React.FC<OrderCardProps> = ({ order }) => {
           <View style={styles.statusContainer} >
             <View style={[styles.ellipse, { backgroundColor: handleOrderStatusTextColor().color }]}></View>
             <Text style={styles.status}>{order.status}</Text>
+            {order.cart.length === 1 && (
+              <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: 'rgba(0,0,0,0.50)' }}>Quantity : {order.cart[0].stock}</Text>
+            )}
           </View>
         </View>
       </View>
@@ -149,12 +152,11 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,0.30)',
     fontWeight: '500',
     textDecorationLine: 'line-through',
-    marginBottom: 12.5
   },
   statusContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 5,
+    gap: 10,
   },
   ellipse: {
     width: 10,

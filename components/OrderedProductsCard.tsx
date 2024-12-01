@@ -36,6 +36,7 @@ const OrderedProductsCard: React.FC<OrderedProductsCardProps> = ({ item, index, 
                     <View style={styles.statusContainer} >
                         <View style={[styles.ellipse, { backgroundColor: handleOrderStatusTextColor(item.approvalStatus)?.color }]}></View>
                         <Text style={styles.status}>{item.approvalStatus}</Text>
+                        <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: 'rgba(0,0,0,0.50)' }}>Quantity : {item.stock}</Text>
                     </View>
                 </View>
             </View>

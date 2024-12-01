@@ -111,7 +111,7 @@ const Page = () => {
     }
   };
 
-  const sendMessage = async() => {
+  const sendMessage = async () => {
     try {
       if (orderDetails.cart[parseInt(index) || 0].approvalStatus === "Declined") {
         const groupTitle = orderDetails.cart[parseInt(index) || 0]._id + userid;
@@ -130,7 +130,7 @@ const Page = () => {
         } else {
           console.log('an error occurred')
         }
-      } 
+      }
     } catch (error) {
       console.log(error)
     }
@@ -176,7 +176,7 @@ const Page = () => {
     } else if (orderDetails.cart[parseInt(index) || 0].approvalStatus === "Declined") {
       return (
         <View>
-          <Text style={{ fontSize: 13, fontWeight: '500', color: "#00000050",  maxWidth: "100%" }} >You have rejected this product and an order issue ticket has been raised, the seller has been informed of this order issue and will be in touch shortly or you can message them directly. Our order fulfillment team will also be in touch shortly to resolve this issue.</Text>
+          <Text style={{ fontSize: 13, fontWeight: '500', color: "#00000050", maxWidth: "100%" }} >You have rejected this product and an order issue ticket has been raised, the seller has been informed of this order issue and will be in touch shortly or you can message them directly. Our order fulfillment team will also be in touch shortly to resolve this issue.</Text>
           <TouchableOpacity onPress={sendMessage} style={[defaultStyles.btn, { backgroundColor: Colors.red, width: "100%", marginBottom: 20, marginTop: 20 }]} >
             <Text style={[defaultStyles.btnText, { color: "#fff" }]} >Message Seller</Text>
           </TouchableOpacity>
@@ -205,6 +205,7 @@ const Page = () => {
                     <Text numberOfLines={1} style={{ fontSize: 13, color: '#00000080', fontWeight: '500' }}>{orderDetails.cart[parseInt(index) || 0].name}</Text>
                     <Text style={{ fontSize: 16, fontWeight: '500' }} >₦{orderDetails.cart[parseInt(index) || 0].discountPrice === 0 || orderDetails.cart[parseInt(index) || 0].discountPrice === null ? orderDetails.cart[parseInt(index) || 0].originalPrice?.toLocaleString() : orderDetails.cart[parseInt(index) || 0].discountPrice?.toLocaleString()}</Text>
                   </View>
+                  <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: 'rgba(0,0,0,0.50)', marginVertical: 10 }}>Quantity : {orderDetails?.cart[parseInt(index) || 0]?.stock}</Text>
                 </View>
                 <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-between', marginBottom: 20 }} >
                   <View>

@@ -37,7 +37,8 @@ const Page: React.FC = () => {
   const [modalInfo, setModalInfo] = useState<{ icon: string, message: string, iconColor: string, } | undefined>();
   const [wishListInfo, setWishListInfo] = useState<{ message2: string, iconColor2: string, icon2: string } | undefined>();
   const [descriptionLength, setDescriptionLength] = useState(3);
-  const [colorSelector, setColorSelector] = useState({ colorPosition: "firstColor", index: 0 })
+  const [colorSelector, setColorSelector] = useState({ colorPosition: "firstColor", index: 0 });
+  const [productQuantity, setProductQuantity] = useState(1);
   const router = useRouter();
 
 
@@ -59,8 +60,38 @@ const Page: React.FC = () => {
     fetchProductDetails();
   }, [id]);
 
+  useEffect(() => {
+    setProductQuantity(1)
+  }, [colorSelector])
+
   //get all 3 color variations
   const [firstColor, secondColor, thirdColor] = productDetails?.colorList || [];
+
+  //handle product quantity change
+  const handleProductQuantityIncrease = () => {
+    if (colorSelector.colorPosition === "firstColor" && productQuantity < firstColor?.stock) {
+      setProductQuantity(prev => prev + 1)
+    } else if (colorSelector.colorPosition === "secondColor" && productQuantity < secondColor?.stock) {
+      setProductQuantity(prev => prev + 1)
+    } else if (colorSelector.colorPosition === "thirdColor" && productQuantity < thirdColor?.stock) {
+      setProductQuantity(prev => prev + 1)
+    } else {
+      Alert.alert('Stock Error', 'This item is out of stock')
+    }
+  };
+
+  //handle product quantity decrease
+  const handleProductQuantityDecrease = () => {
+    if (colorSelector.colorPosition === "firstColor" && productQuantity > 1 && productQuantity <= firstColor?.stock) {
+      setProductQuantity(prev => prev - 1)
+    } else if (colorSelector.colorPosition === "secondColor" && productQuantity > 1 && productQuantity <= secondColor?.stock) {
+      setProductQuantity(prev => prev - 1)
+    } else if (colorSelector.colorPosition === "thirdColor" && productQuantity > 1 && productQuantity <= thirdColor?.stock) {
+      setProductQuantity(prev => prev - 1)
+    } else {
+      Alert.alert('Stock Error', 'You cannot have less than 1 item')
+    }
+  }
 
   // Add to cart and save to wishlist logic 
   const cartData = {
@@ -69,9 +100,9 @@ const Page: React.FC = () => {
     description: productDetails?.description,
     category: productDetails?.category,
     tags: productDetails?.tags,
-    originalPrice: productDetails?.originalPrice,
-    discountPrice: productDetails?.discountPrice,
-    stock: productDetails?.stock,
+    originalPrice: productDetails?.originalPrice && productDetails?.originalPrice * productQuantity,
+    discountPrice: productDetails?.discountPrice && productDetails?.discountPrice * productQuantity,
+    stock: productQuantity,
     condition: productDetails?.condition,
     aboutProduct: productDetails?.aboutProduct,
     brand: productDetails?.brand,
@@ -367,6 +398,15 @@ const Page: React.FC = () => {
                       }
                       <Text style={{ color: "#025492" }}>({productDetails?.ratings} ratings)</Text>
                     </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginVertical: 12 }} >
+                      <TouchableOpacity onPress={handleProductQuantityDecrease}>
+                        <AntDesign name="leftcircleo" size={24} color="#025492" />
+                      </TouchableOpacity>
+                      <Text style={{ fontFamily: 'roboto-condensed', fontSize: 14, color: "#025492", fontWeight: "700" }}>{productQuantity}</Text>
+                      <TouchableOpacity onPress={handleProductQuantityIncrease}>
+                        <AntDesign name="rightcircleo" size={24} color="#025492" />
+                      </TouchableOpacity>
+                    </View>
 
                     <View style={{ flexDirection: 'row', gap: 8, paddingVertical: 16 }}>
                       <TouchableOpacity style={[defaultStyles.btn, { flexBasis: '49%' }]} onPress={() => handleAddToCart()}><Text style={[defaultStyles.btnText, { fontSize: 16, fontFamily: 'roboto-condensed' }]}>Add To Cart</Text></TouchableOpacity>
@@ -597,13 +637,13 @@ const Reviews = ({ rating, comment, createdAt, author }: reviewProps) => {
               ))
           }
         </View>
-        <Text style={{color: "rgba(0,0,0,0.70)"}} >{createdAt.slice(0, 10)}</Text>
+        <Text style={{ color: "rgba(0,0,0,0.70)" }} >{createdAt.slice(0, 10)}</Text>
       </View>
       <View>
         <Text style={{ fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)" }}>{comment}</Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Text style={{ fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)"}}>By {author}</Text>
+        <Text style={{ fontFamily: 'roboto-condensed', color: "rgba(0,0,0,0.70)" }}>By {author}</Text>
         <View>
           <Svg width="60" height="10" viewBox="0 0 60 10" fill="none">
             <Path d="M9.00813 5.5554C8.68783 7.15697 7.48027 8.66502 5.78584 9.00199C4.95945 9.16657 4.10219 9.06622 3.33614 8.71524C2.57009 8.36425 1.93429 7.78052 1.51929 7.04716C1.10428 6.31381 0.931218 5.4682 1.02474 4.63077C1.11827 3.79333 1.47361 3.00674 2.04017 2.38301C3.20225 1.10303 5.16445 0.750683 6.76598 1.39131" stroke="#55B30C" stroke-width="0.960932" stroke-linecap="round" stroke-linejoin="round" />

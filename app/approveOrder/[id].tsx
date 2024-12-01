@@ -115,11 +115,12 @@ const Page = () => {
                                         <Text style={{ fontSize: 14, fontWeight: '700', color: 'green' }} >{orderDetails.paymentInfo.status}</Text>
                                     </View>
                                 </View>
-                                <View style={{ paddingHorizontal: 20, justifyContent: 'center', alignItems: 'center' }} >
-                                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <View style={{ flexDirection: 'row', paddingHorizontal: 20, justifyContent: 'space-between', alignItems: 'center' }} >
+                                    <View>
                                         <Text style={{ fontSize: 13, color: '#00000080' }} >Product Color</Text>
                                         <Text style={{ fontSize: 14, fontWeight: '700', color: "#00000099" }} >{orderDetails.cart[productPosition || 0].color || "unavailable"}</Text>
                                     </View>
+                                    <Text style={{ fontFamily: 'roboto-condensed', fontSize: 13, color: 'rgba(0,0,0,0.50)', marginVertical: 10 }}>Order Quantity : {orderDetails?.cart[productPosition || 0]?.stock}</Text>
                                 </View>
                                 {
                                     orderDetails.status !== 'Processing' ? (
