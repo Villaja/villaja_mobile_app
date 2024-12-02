@@ -11,6 +11,7 @@ const initialState = {
   user: null,
   isLoading: true,
   error: null,
+  message: null,
 };
 
 const authReducer = (state, action) => {
@@ -22,7 +23,11 @@ const authReducer = (state, action) => {
     case 'SET_LOADING':
       return { ...state, isLoading: action.payload };
     case 'SET_ERROR':
-      return { ...state, error: action.payload };
+      return { ...state, error: action.payload, message: null };
+    case "SET_SUCCESS":
+      return { ...state, message: action.payload, error: null };
+    case "CLEAR_MESSAGE":
+      return { ...state, message: null, error: null };
     default:
       return state;
   }
@@ -122,6 +127,30 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const deleteUser = async (password) => {
+    try {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      dispatch({ type: 'CLEAR_MESSAGE' });  
+      
+      const token = await AsyncStorage.getItem('token');
+      const response = await axios.delete(`${base_url}/user/delete-account`, {
+        headers: {
+          Authorization: token,
+        },
+        data: { password },
+      });
+
+      if (response.data.success) {
+        await logout();
+        dispatch({ type: 'SET_SUCCESS', payload: response.data.message });
+      }
+    } catch (error) {
+      dispatch({ type: 'SET_ERROR', payload: error.response.data.message });
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  }
+
   const logout = async () => {
     try {
       await AsyncStorage.removeItem('token');
@@ -140,6 +169,7 @@ const AuthProvider = ({ children }) => {
         login,
         register,
         logout,
+        deleteUser,
       }}
     >
       {children}

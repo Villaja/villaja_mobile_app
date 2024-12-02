@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, TextInput, Button, Alert, Modal, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../../context/AuthContext';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { defaultStyles } from '../../constants/Styles'
 import { base_url } from '../../constants/server';
 
 
@@ -28,11 +26,13 @@ const deleteAccount = () => {
         image: require("../../assets/images/user2.png")
     }
 
-    const { user } = useAuth();
+    const { user, isLoading, error, message, deleteUser } = useAuth();
     const [loading, setLoading] = useState(true);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordVisible, setPasswordVisible] = useState<boolean>(true)
     const [passwordModalVisible, setPasswordModalVisible] = useState(false)
     const [token, setToken] = useState('');
     const [userImage, setUserImage] = useState('')
@@ -57,6 +57,7 @@ const deleteAccount = () => {
                         const userData = response.data.user;
                         setFirstName(userData.firstname);
                         setLastName(userData.lastname);
+                        setEmail(userData.email);
                         setLoading(false);
                     })
                     .catch(error => {
@@ -72,6 +73,26 @@ const deleteAccount = () => {
     useEffect(() => {
         fetchUserImage();
     }, []);
+
+
+    useEffect(() => {
+        if (message) {
+            Alert.alert( "Success", message)
+            router.push('/')
+        } else if (error) {
+            Alert.alert(error)
+        }
+    }, [message, error]);
+
+
+
+    const handleDeleteButton = async () => {
+        if (password.length > 0) {
+            await deleteUser(password);
+        } else {
+            Alert.alert( 'Error', "Please enter your password")
+        }
+    };
 
 
     const fetchUserImage = async () => {
@@ -110,7 +131,6 @@ const deleteAccount = () => {
                             style={{ top: 8, left: 13, }}
                             value={firstName}
                             onChangeText={text => setFirstName(text)}
-                            autoFocus
                             placeholder="First Name"
                         />
                     </View>
@@ -123,8 +143,19 @@ const deleteAccount = () => {
                             style={{ top: 8, left: 13, }}
                             value={lastName}
                             onChangeText={text => setLastName(text)}
-                            autoFocus
                             placeholder="Last Name"
+                        />
+                    </View>
+                </View>
+                <View style={styles.inputContainer}>
+                    {/*E-mail input*/}
+                    <Text style={styles.text}>Email</Text>
+                    <View style={styles.textInput}>
+                        <TextInput
+                            style={{ top: 8, left: 13, }}
+                            value={email}
+                            onChangeText={text => setEmail(text)}
+                            placeholder="Email"
                         />
                     </View>
                 </View>
@@ -137,14 +168,17 @@ const deleteAccount = () => {
                                 style={{ top: 8, left: 13, }}
                                 value={password}
                                 onChangeText={text => setPassword(text)}
-                                autoFocus
                                 placeholder="Enter Password"
+                                secureTextEntry={passwordVisible}
+                                autoFocus
                             />
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity style={{ backgroundColor: "#D40606", left: 20, height: 50, width: 320, borderRadius: 10, justifyContent: "center", alignItems: "center", marginTop: 52 }}>
-                    <Text style={{ color: "#fff", fontSize: 15, fontFamily: "roboto-condensed-sb" }}>Delete Account</Text>
+                <TouchableOpacity onPress={handleDeleteButton} style={{ backgroundColor: "#D40606", left: 20, height: 50, width: 320, borderRadius: 10, justifyContent: "center", alignItems: "center", marginTop: 52 }}>
+                    {
+                        isLoading ? <ActivityIndicator size="small" color="#fff" /> : <Text style={{ color: "#fff", fontSize: 15, fontFamily: "roboto-condensed-sb" }}>Delete Account</Text>
+                    }
                 </TouchableOpacity>
             </View>
 

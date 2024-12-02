@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, ScrollView, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, Alert, FlatList, Image } from "react-native";
+import { View, ScrollView, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, Alert, FlatList, Image, ActivityIndicator } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { EvilIcons } from '@expo/vector-icons';
@@ -7,48 +7,50 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from "../../context/SellerAuthContext";
 import { Link, useRouter } from 'expo-router';
+import axios, { AxiosError } from 'axios';
 import Colors from '../../constants/Colors';
+import { usePushNotifications } from '../usePushNotifications';
 
 
 const { width } = Dimensions.get('window')
 
 const data = [
-  { label: 'Abia State', value: '1' },
-  { label: 'Adamawa State', value: '2' },
-  { label: 'Akwa Ibom State', value: '3' },
-  { label: 'Anambra State', value: '4' },
-  { label: 'Bauchi State', value: '5' },
-  { label: 'Bayelsa State', value: '6' },
-  { label: 'Benue State', value: '7' },
-  { label: 'Borno State', value: '8' },
-  { label: 'Cross River State', value: '9' },
-  { label: 'Delta State', value: '10' },
-  { label: 'Ebonyi State', value: '11' },
-  { label: 'Edo State', value: '12' },
-  { label: 'Ekiti State', value: '13' },
-  { label: 'Enugu State', value: '14' },
-  { label: 'Gombe State', value: '15' },
-  { label: 'Imo State', value: '16' },
-  { label: 'Jigawa State', value: '17' },
-  { label: 'Kaduna State', value: '18' },
-  { label: 'Kano State', value: '19' },
-  { label: 'Katsina State', value: '20' },
-  { label: 'Kebbi State', value: '21' },
-  { label: 'Kogi State', value: '22' },
-  { label: 'Kwara State', value: '23' },
-  { label: 'Lagos State', value: '24' },
-  { label: 'Nasarawa State', value: '25' },
-  { label: 'Niger State', value: '26' },
-  { label: 'Ogun State', value: '27' },
-  { label: 'Ondo State', value: '28' },
-  { label: 'Osun State', value: '29' },
-  { label: 'Oyo State', value: '30' },
-  { label: 'Plateau State', value: '31' },
-  { label: 'Rivers State', value: '32' },
-  { label: 'Sokoto State', value: '33' },
-  { label: 'Taraba State', value: '34' },
-  { label: 'Yobe State', value: '35' },
-  { label: 'Zamfara State', value: '36' },
+  { label: 'Abia State', value: 'Abia State' },
+  { label: 'Adamawa State', value: 'Adamawa State' },
+  { label: 'Akwa Ibom State', value: 'Akwa Ibom State' },
+  { label: 'Anambra State', value: 'Anambra State' },
+  { label: 'Bauchi State', value: 'Bauchi State' },
+  { label: 'Bayelsa State', value: 'Bayelsa State' },
+  { label: 'Benue State', value: 'Benue State' },
+  { label: 'Borno State', value: 'Borno State' },
+  { label: 'Cross River State', value: 'Cross River State' },
+  { label: 'Delta State', value: 'Delta State' },
+  { label: 'Ebonyi State', value: 'Ebonyi State' },
+  { label: 'Edo State', value: 'Edo State' },
+  { label: 'Ekiti State', value: 'Ekiti State' },
+  { label: 'Enugu State', value: 'Enugu State' },
+  { label: 'Gombe State', value: 'Gombe State' },
+  { label: 'Imo State', value: 'Imo State' },
+  { label: 'Jigawa State', value: 'Jigawa State' },
+  { label: 'Kaduna State', value: 'Kaduna State' },
+  { label: 'Kano State', value: 'Kano State' },
+  { label: 'Katsina State', value: 'Katsina State' },
+  { label: 'Kebbi State', value: 'Kebbi State' },
+  { label: 'Kogi State', value: 'Kogi State' },
+  { label: 'Kwara State', value: 'Kwara State' },
+  { label: 'Lagos State', value: 'Lagos State' },
+  { label: 'Nasarawa State', value: 'Nasarawa State' },
+  { label: 'Niger State', value: 'Niger State' },
+  { label: 'Ogun State', value: 'Ogun State' },
+  { label: 'Ondo State', value: 'Ondo State' },
+  { label: 'Osun State', value: 'Osun State' },
+  { label: 'Oyo State', value: 'Oyo State' },
+  { label: 'Plateau State', value: 'Plateau State' },
+  { label: 'Rivers State', value: 'Rivers State' },
+  { label: 'Sokoto State', value: 'Sokoto State' },
+  { label: 'Taraba State', value: 'Taraba State' },
+  { label: 'Yobe State', value: 'Yobe State' },
+  { label: 'Zamfara State', value: 'Zamfara State' },
 ];
 
 const sellerRegister = () => {
@@ -57,21 +59,21 @@ const sellerRegister = () => {
   const [handlerPhoneNumber, setHandlerPhoneNumber] = useState("");
   const [shopEmailAddress, setShopEmailAddress] = useState("");
   const [shopAddress, setShopAddress] = useState("")
-  const [addressState, setAddressState] = useState('');
+  const [addressState, setAddressState] = useState<string | null>(null);
   const [zipCode, setZipCode] = useState("");
   const [phonesNiche, setPhonesNiche] = useState<boolean>(false);
   const [laptopNiche, setLaptopNiche] = useState<boolean>(false);
   const [tabletsNiche, setTabletsNiche] = useState<boolean>(false);
   const [accessoriesNiche, setAccessoriesNiche] = useState<boolean>(false);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
-  const [backgroundImage, setBackgroundImage] = useState("");
+  const [selectedImages, setSelectedImages] = useState<string>("");
   const [password, setPassword] = useState('');
-
-
-  const [passwordVisible, setPasswordVisisble] = useState<boolean>(true)
-  const [confirmPasswordVisible, setConfirmPasswordVisisble] = useState<boolean>(true)
-  const {register, isLoading, error, seller} = useAuth()
-  const router = useRouter()
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(true)
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState<boolean>(true)
+  const { register, isLoading, error, message } = useAuth();
+  const [description, setDescription] = useState("");
+  const router = useRouter();
+  const { expoPushToken } = usePushNotifications();
 
   const renderStates = (item: any) => {
     return (
@@ -94,27 +96,42 @@ const sellerRegister = () => {
     if (!result.canceled && result.assets.length > 0) {
       const asset = result.assets[0];
       const newImage = `data:image/${asset.mimeType?.split('/')[1]};base64,${asset.base64}`;
-      setSelectedImages([newImage]); // Reset and store the new image
+      setSelectedImages(newImage); // Reset and store the new image
     }
   };
 
 
-    const handleGetStartedButton = async () => {
-      try {
-        // await submit(shopName, handler, handlerPhoneNumber, shopEmailAddress, shopAddress,
-        //   addressState, zipCode, phonesNiche, laptopNiche, tabletsNiche, accessoriesNiche,
-        //   profileImage, backgroundImage
-        // )
-        // the backend endpoint does not store most of these values
-        await register(shopName, shopEmailAddress, password, shopAddress, selectedImages, handlerPhoneNumber, zipCode)
-        Alert.alert('Verify Your Account', 'Please check your e-mail to activate your account with the verification code', [{text: "OK"}]);
-        router.replace('/sellerAuthScreens/SellerLogin')
-      } catch (error) {
-        Alert.alert('Registration Failed', 'Unable to register, please try again', [{text: "OK"}]); 
-        console.log(error)
+  
+  const handleGetStartedButton = async () => {
+    try {
+      // await submit(shopName, handler, handlerPhoneNumber, shopEmailAddress, shopAddress,
+      //   addressState, zipCode, phonesNiche, laptopNiche, tabletsNiche, accessoriesNiche,
+      //   profileImage, backgroundImage
+      // )
+      // the backend endpoint does not store most of these values
+      if (shopName === "" || handler === "" || handlerPhoneNumber === "" || shopEmailAddress === "" || shopAddress === "" || addressState === "" || zipCode === "") {
+        Alert.alert('Registration Failed', 'Please fill in all fields', [{ text: "OK" }]);
+      } else if (password !== confirmPassword) {
+        Alert.alert('Registration Failed', 'Password and Confirm Password do not match', [{ text: "OK" }]);
+      } else if (selectedImages.length === 0) {
+        Alert.alert('Registration Failed', 'Please upload your shop logo as your profile picture', [{ text: "OK" }]);
+      } else {
+        await register(shopName, shopEmailAddress, password, shopAddress, selectedImages, handlerPhoneNumber, zipCode, expoPushToken?.data, description);
       }
-    }; 
-
+    } catch (error) {
+      Alert.alert('Registration Failed', `${error}`);
+      console.log(error)
+    }
+  };
+  
+  useEffect(() => {
+    if (message) {
+      Alert.alert('Verify Your Account', message, [{ text: "OK" }]);
+      router.replace('/sellerAuthScreens/SellerLogin')
+    } else if (error) {
+      Alert.alert('Registration Failed', error, [{ text: "OK" }]);
+    }
+  }, [message, error])
 
   return (
     <ScrollView style={styles.container}>
@@ -169,24 +186,25 @@ const sellerRegister = () => {
           </View>
         </View>
         <View style={styles.inputContainer}>
-            <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15, color: 'rgba(0,0,0,0.70)' }}>Password</Text>
-            <View style={styles.textInput}>
+          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15, color: 'rgba(0,0,0,0.70)' }}>Password</Text>
+          <View style={styles.textInput}>
             <TextInput style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }} secureTextEntry={passwordVisible} placeholder='Enter Your Password' value={password} returnKeyType="done"
               onChangeText={(text) => setPassword(text)} placeholderTextColor={'rgba(0,0,0,0.20)'} />
-            <TouchableOpacity style={{ position: 'absolute', right: 6, top: 36 }} onPress={() => setPasswordVisisble(oldvalue => !oldvalue)}>
+            <TouchableOpacity style={{ position: 'absolute', right: 6, top: "35%" }} onPress={() => setPasswordVisible(oldvalue => !oldvalue)}>
               <AntDesign name="eye" size={18} color={Colors.grey} />
             </TouchableOpacity>
-            </View>
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15, color: 'rgba(0,0,0,0.70)' }}>Confirm Password</Text>
-            <View style={styles.textInput}>
-            <TextInput style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }} returnKeyType="done" secureTextEntry={confirmPasswordVisible} placeholder='Confirm Your Password' placeholderTextColor={'rgba(0,0,0,0.20)'} />
-            <TouchableOpacity style={{ position: 'absolute', right: 6, top: 36 }} onPress={() => setConfirmPasswordVisisble(oldvalue => !oldvalue)}>
+        </View>
+        <View style={styles.inputContainer}>
+          <Text style={{ fontFamily: 'roboto-condensed', fontSize: 15, color: 'rgba(0,0,0,0.70)' }}>Confirm Password</Text>
+          <View style={styles.textInput}>
+            <TextInput style={{ top: 5, left: 13, width: width - 59, height: 45, fontSize: 12 }} returnKeyType="done" secureTextEntry={confirmPasswordVisible} placeholder='Confirm Your Password' value={confirmPassword} placeholderTextColor={'rgba(0,0,0,0.20)'}
+              onChangeText={(text) => setConfirmPassword(text)} />
+            <TouchableOpacity style={{ position: 'absolute', right: 6, top: "35%" }} onPress={() => setConfirmPasswordVisible(oldvalue => !oldvalue)}>
               <AntDesign name="eye" size={18} color={Colors.grey} />
             </TouchableOpacity>
-            </View>
           </View>
+        </View>
         <View style={styles.inputContainer}>
           {/*shop address input*/}
           <Text style={styles.text}>Shop Address</Text>
@@ -216,7 +234,7 @@ const sellerRegister = () => {
             searchPlaceholder="Search..."
             value={addressState}
             onChange={item => {
-              setAddressState(item.label);
+              setAddressState(item.value);
             }}
             renderItem={renderStates}
           />
@@ -241,6 +259,8 @@ const sellerRegister = () => {
               multiline={true}
               style={{ top: 3, left: 13, width: width - 61, fontSize: 12 }}
               placeholder="Enter your shop details, what does your shop sell...."
+              onChangeText={(value) => setDescription(value)}
+              value={description}
             />
           </View>
         </View>
@@ -305,10 +325,10 @@ const sellerRegister = () => {
         </View>
       </View>
       <View style={{ marginTop: 20, marginHorizontal: 20, marginBottom: 11 }} >
-        <Text style={{ fontSize: 18, fontWeight: "500", marginBottom: 5 }} >Logo & Background Image</Text>
-        <Text style={{ fontSize: 13, color: "#00000050" }} >Upload your shop logo as your profile picture and background image</Text>
+        <Text style={{ fontSize: 18, fontWeight: "500", marginBottom: 5, color: "#00000090" }} >Logo & Background Image</Text>
+        <Text style={{ fontSize: 13, color: "#00000050" }} >Upload your shop logo as your profile picture</Text>
       </View>
-      <View style={{ flexDirection: "row"}} >
+      <View style={{ flexDirection: "row" }} >
         <View style={{ marginHorizontal: 20, marginBottom: 11.69 }} >
           <Text style={{ fontSize: 13, color: "#00000090", fontWeight: "500", marginBottom: 5 }} >Profile Picture</Text>
           <TouchableOpacity style={{
@@ -320,11 +340,19 @@ const sellerRegister = () => {
             <Text style={{ fontSize: 8.79, color: "#00000040", textAlign: "center", marginTop: 5 }} >Click to upload profile picture</Text>
           </TouchableOpacity>
         </View>
-        {selectedImages && <Image source={{ uri: selectedImages[0] }} style={{ width: 200, height: 200, marginBottom: 50 }} />}
+        {selectedImages && <Image source={{ uri: selectedImages }} style={{ width: 200, height: 200, marginBottom: 50 }} />}
       </View>
       <TouchableOpacity style={styles.button} onPress={handleGetStartedButton} >
-        <Text style={styles.buttonText1}>Get Started</Text>
-        <AntDesign name="arrowright" size={12} color="#ffffff" />
+        {
+          isLoading ? (
+            <ActivityIndicator size="small" color="#fff" />
+          ) : (
+            <>
+              <Text style={styles.buttonText1}>Get Started</Text>
+              <AntDesign name="arrowright" size={12} color="#ffffff" />
+            </>
+          )
+        }
       </TouchableOpacity>
     </ScrollView>
   )
@@ -348,7 +376,7 @@ const styles = StyleSheet.create({
     marginBottom: 12
   },
   nicheContainer: {
-    top: 23,
+    marginTop: 180,
     marginHorizontal: 20,
   },
   text: {
@@ -368,7 +396,7 @@ const styles = StyleSheet.create({
   textInput2: {
     borderWidth: 0.5,
     width: width - 40,
-    height: 220,
+    height: 180,
     top: 5,
     borderColor: "#0000001A",
     borderRadius: 5,

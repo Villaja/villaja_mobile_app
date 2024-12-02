@@ -3,6 +3,7 @@ import React, { createContext, useContext, useReducer, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { base_url } from '../constants/server';
+import { useRouter } from 'expo-router';
 
 const SellerAuthContext = createContext();
 
@@ -11,6 +12,7 @@ const initialState = {
   seller: null,
   isLoading: true,
   error: null,
+  message: null,
 };
 
 const authReducer = (state, action) => {
@@ -20,15 +22,18 @@ const authReducer = (state, action) => {
     case 'SET_SELLER':
       return { ...state, seller: action.payload };
     case 'SET_LOADING':
-      return { ...state, isLoading: action.payload };
+      return { ...state, isLoading: action.payload, message: null };
     case 'SET_ERROR':
-      return { ...state, error: action.payload };
+      return { ...state, error: action.payload, message: null };
+    case 'SET_SUCCESS':
+      return { ...state, message: action.payload, error: null }
     default:
       return state;
   }
 };
 
 const SellerAuthProvider = ({ children }) => {
+  const router = useRouter();
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   useEffect(() => {
@@ -55,22 +60,20 @@ const SellerAuthProvider = ({ children }) => {
       dispatch({ type: 'SET_LOADING', payload: true });
 
       const response = await axios.post(`${base_url}/shop/login-shop`, { email, password });
-      
-      if(response.data.success)
-        {
-          await AsyncStorage.setItem('sellerToken', response.data.token);
-          dispatch({ type: 'SET_TOKEN', payload: response.data.token });
-          await getSellerDetails(response.data.token);
+
+      if (response.data.success) {
+        await AsyncStorage.setItem('sellerToken', response.data.token);
+        dispatch({ type: 'SET_TOKEN', payload: response.data.token });
+        await getSellerDetails(response.data.token);
 
 
-        }
-        else
-        {
-          dispatch({ type: 'SET_ERROR', payload: response.data.message });
-        }
-     
+      }
+      else {
+        dispatch({ type: 'SET_ERROR', payload: response.data.message });
+      }
 
-     
+
+
     } catch (error) {
       console.log('Request Details:', error);
       dispatch({ type: 'SET_ERROR', payload: 'Login failed' });
@@ -81,26 +84,25 @@ const SellerAuthProvider = ({ children }) => {
 
 
 
-  const register = async (name, email, password, address, avatar, phoneNumber, zipCode) => {
+  const register = async (name, email, password, address, avatar, phoneNumber, zipCode, token, description) => {
     try {
       dispatch({ type: 'SET_LOADING', payload: true });
 
-      const response = await axios.post(`${base_url}/shop/create-shop`, { name, email, password, address, avatar, phoneNumber, zipCode });
+      const response = await axios.post(`${base_url}/shop/create-shop`, { name, email, password, address, avatar, phoneNumber, zipCode, pushNotificationToken: token, description });
 
-      if(response.data.success)
-      {
+      if (response.data.success) {
         dispatch({ type: 'SET_TOKEN', payload: response.data.token });
+        dispatch({ type: 'SET_SUCCESS', payload: "Please check your e-mail to activate your account with the verification code" });
         await AsyncStorage.setItem('token', response.data.token);
         console.log("register success")
       }
-      else
-      {
-      dispatch({ type: 'SET_ERROR', payload: response.data.message });
+      else {
+        dispatch({ type: 'SET_ERROR', payload: response.data.message });
 
       }
     } catch (error) {
       console.error('Registration failed:', error.response.data);
-      dispatch({ type: 'SET_ERROR', payload: 'Registration failed' });
+      dispatch({ type: 'SET_ERROR', payload: error.response.data.message });
     } finally {
       dispatch({ type: 'SET_LOADING', payload: false });
     }
@@ -113,7 +115,7 @@ const SellerAuthProvider = ({ children }) => {
           Authorization: token,
         },
       });
-      
+
       await AsyncStorage.setItem('seller', JSON.stringify(response.data));
       dispatch({ type: 'SET_SELLER', payload: response.data });
     } catch (error) {

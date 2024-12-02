@@ -924,27 +924,6 @@ function RootLayoutNav() {
                             </View>
                           ),
                         }} />
-                      <Stack.Screen
-                        name="orderApproval/[id]"
-                        options={{
-                          // presentation: 'modal',
-                          title: "Approve Product Delivery",
-                          headerShadowVisible: false,
-                          headerStyle: {
-                            backgroundColor: 'transparent'
-                          },
-                          headerTitleStyle: {
-                            fontSize: 18,
-                            fontWeight: "500"
-                          },
-                          headerLeft: () => (
-                            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20, marginRight: 20 }}>
-                              <TouchableOpacity onPress={() => router.back()}>
-                                <Ionicons name="arrow-back" size={22} color={"#000"} />
-                              </TouchableOpacity>
-                            </View>
-                          ),
-                        }} />
                       {/* SUSPENDED <Stack.Screen
                       name="orderSuccess/orderSuccess"
                       options={{

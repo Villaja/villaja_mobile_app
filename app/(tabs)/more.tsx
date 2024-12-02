@@ -1,21 +1,20 @@
-import React, { useState } from "react";
-import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Switch, Dimensions } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, TextInput, TouchableOpacity, ScrollView, StyleSheet, Switch, Dimensions, Alert } from "react-native";
 import { Svg, SvgXml, Path } from "react-native-svg";
 import { useRouter } from "expo-router";
 import { router } from 'expo-router'
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from "../../context/AuthContext";
 import { usePushNotifications } from "../../app/usePushNotifications";
 
 
-const {width} = Dimensions.get('window')
+const { width } = Dimensions.get('window')
 
 function more() {
     const router = useRouter()
-    const {logout} = useAuth()
+    const { logout, user } = useAuth()
     const [isNotificationEnabled, setIsNotificationEnabled] = useState(true);
-    const {  expoPushToken } = usePushNotifications();
+    const { expoPushToken } = usePushNotifications();
     console.log(expoPushToken)
 
     const handleToggleSwitch = () => {
@@ -27,21 +26,22 @@ function more() {
         await logout();
         router.replace('/');
     };
+    
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={styles.mainContainer}>
-            <View 
+            <View
             // style={styles.topContainer}
             >
                 <View style={styles.imgContainer}>
-          <Image source={require('../../assets/images/villaja-seller.png')} style={{ width: width - 10, height: 129 }} />
-          <View style={styles.imageText} >
-            <Text style={styles.text1}> BECOME A VERIFIED</Text>
-            <Text style={styles.text2}>Merchant On Villaja</Text>
-            <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/sellerAuthScreens/SellerLogin') } >
-              <Text style={styles.gtText} >Get Started</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+                    <Image source={require('../../assets/images/villaja-seller.png')} style={{ width: width - 10, height: 129 }} />
+                    <View style={styles.imageText} >
+                        <Text style={styles.text1}> BECOME A VERIFIED</Text>
+                        <Text style={styles.text2}>Merchant On Villaja</Text>
+                        <TouchableOpacity style={styles.getStarted} onPress={() => router.push('/sellerAuthScreens/SellerLogin')} >
+                            <Text style={styles.gtText} >Get Started</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 <View style={styles.headers}>
                     <Text style={styles.headerText}>Manage</Text>
                 </View>
@@ -73,7 +73,7 @@ function more() {
                 <TouchableOpacity onPress={() => router.push(`/savedProductScreen/saves`)} style={styles.content}>
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Svg style={styles.Icon}>
-                            <Path d="M0.166687 15.5V2.16667C0.166687 1.70833 0.33002 1.31611 0.656687 0.99C0.983353 0.663889 1.37558 0.500556 1.83335 0.5H10.1667C10.625 0.5 11.0175 0.663333 11.3442 0.99C11.6709 1.31667 11.8339 1.70889 11.8334 2.16667V15.5L6.00002 13L0.166687 15.5ZM1.83335 12.9583L6.00002 11.1667L10.1667 12.9583V2.16667H1.83335V12.9583Z" fill="black" fillOpacity="0.4"  />
+                            <Path d="M0.166687 15.5V2.16667C0.166687 1.70833 0.33002 1.31611 0.656687 0.99C0.983353 0.663889 1.37558 0.500556 1.83335 0.5H10.1667C10.625 0.5 11.0175 0.663333 11.3442 0.99C11.6709 1.31667 11.8339 1.70889 11.8334 2.16667V15.5L6.00002 13L0.166687 15.5ZM1.83335 12.9583L6.00002 11.1667L10.1667 12.9583V2.16667H1.83335V12.9583Z" fill="black" fillOpacity="0.4" />
                         </Svg>
                         <Text style={styles.contentText} >Saves</Text>
                     </View>
@@ -162,18 +162,22 @@ function more() {
                         <Path fillRule="evenodd" clipRule="evenodd" d="M15.707 11.2932C15.8945 11.4807 15.9998 11.735 15.9998 12.0002C15.9998 12.2653 15.8945 12.5197 15.707 12.7072L10.05 18.3642C9.95776 18.4597 9.84742 18.5359 9.72541 18.5883C9.60341 18.6407 9.47219 18.6683 9.33941 18.6694C9.20663 18.6706 9.07495 18.6453 8.95205 18.595C8.82916 18.5447 8.7175 18.4705 8.62361 18.3766C8.52972 18.2827 8.45547 18.171 8.40519 18.0481C8.3549 17.9252 8.3296 17.7936 8.33076 17.6608C8.33191 17.528 8.3595 17.3968 8.41191 17.2748C8.46431 17.1528 8.5405 17.0424 8.63601 16.9502L13.586 12.0002L8.63601 7.05018C8.45385 6.86158 8.35305 6.60898 8.35533 6.34678C8.35761 6.08458 8.46278 5.83377 8.64819 5.64836C8.8336 5.46295 9.08441 5.35778 9.34661 5.35551C9.6088 5.35323 9.86141 5.45402 10.05 5.63618L15.707 11.2932Z" fill="black" fillOpacity="0.3" />
                     </Svg>
                 </TouchableOpacity>
-                {/* POSTPONED TILL V2.1 <TouchableOpacity onPress={() => router.push(`/accountScreen/deleteAccount`)} style={styles.contentOut}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                {
+                    user && (
+                        <TouchableOpacity onPress={() => router.push(`/accountScreen/deleteAccount`)} style={styles.contentOut}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
 
-                        <Svg style={styles.Icon}>
-                            <Path d="M2.93 17.0698C1.9749 16.1474 1.21308 15.0439 0.688985 13.8239C0.164895 12.6038 -0.110967 11.2916 -0.122505 9.96385C-0.134043 8.63605 0.118974 7.31926 0.621782 6.09029C1.12459 4.86133 1.86712 3.74481 2.80605 2.80589C3.74498 1.86696 4.8615 1.12443 6.09046 0.621618C7.31942 0.11881 8.63622 -0.134207 9.96401 -0.122669C11.2918 -0.111131 12.604 0.164731 13.824 0.688821C15.0441 1.21291 16.1475 1.97473 17.07 2.92984C18.8916 4.81586 19.8995 7.34188 19.8767 9.96385C19.854 12.5858 18.8023 15.0939 16.9482 16.948C15.0941 18.8021 12.586 19.8538 9.96401 19.8766C7.34204 19.8994 4.81602 18.8914 2.93 17.0698ZM11.4 9.99984L14.23 7.16984L12.82 5.75984L10 8.58984L7.17 5.75984L5.76 7.16984L8.59 9.99984L5.76 12.8298L7.17 14.2398L10 11.4098L12.83 14.2398L14.24 12.8298L11.41 9.99984H11.4Z" fill="#FF2D2D" />
-                        </Svg>
-                        <Text style={styles.contentTextOut} >Close Account</Text>
-                    </View>
-                    <Svg style={styles.arrowIcon8}>
-                        <Path fillRule="evenodd" clipRule="evenodd" d="M15.707 11.2932C15.8945 11.4807 15.9998 11.735 15.9998 12.0002C15.9998 12.2653 15.8945 12.5197 15.707 12.7072L10.05 18.3642C9.95776 18.4597 9.84742 18.5359 9.72541 18.5883C9.60341 18.6407 9.47219 18.6683 9.33941 18.6694C9.20663 18.6706 9.07495 18.6453 8.95205 18.595C8.82916 18.5447 8.7175 18.4705 8.62361 18.3766C8.52972 18.2827 8.45547 18.171 8.40519 18.0481C8.3549 17.9252 8.3296 17.7936 8.33076 17.6608C8.33191 17.528 8.3595 17.3968 8.41191 17.2748C8.46431 17.1528 8.5405 17.0424 8.63601 16.9502L13.586 12.0002L8.63601 7.05018C8.45385 6.86158 8.35305 6.60898 8.35533 6.34678C8.35761 6.08458 8.46278 5.83377 8.64819 5.64836C8.8336 5.46295 9.08441 5.35778 9.34661 5.35551C9.6088 5.35323 9.86141 5.45402 10.05 5.63618L15.707 11.2932Z" fill="black" fillOpacity="0.3" />
-                    </Svg>
-                </TouchableOpacity>*/}
+                                <Svg style={styles.Icon}>
+                                    <Path d="M2.93 17.0698C1.9749 16.1474 1.21308 15.0439 0.688985 13.8239C0.164895 12.6038 -0.110967 11.2916 -0.122505 9.96385C-0.134043 8.63605 0.118974 7.31926 0.621782 6.09029C1.12459 4.86133 1.86712 3.74481 2.80605 2.80589C3.74498 1.86696 4.8615 1.12443 6.09046 0.621618C7.31942 0.11881 8.63622 -0.134207 9.96401 -0.122669C11.2918 -0.111131 12.604 0.164731 13.824 0.688821C15.0441 1.21291 16.1475 1.97473 17.07 2.92984C18.8916 4.81586 19.8995 7.34188 19.8767 9.96385C19.854 12.5858 18.8023 15.0939 16.9482 16.948C15.0941 18.8021 12.586 19.8538 9.96401 19.8766C7.34204 19.8994 4.81602 18.8914 2.93 17.0698ZM11.4 9.99984L14.23 7.16984L12.82 5.75984L10 8.58984L7.17 5.75984L5.76 7.16984L8.59 9.99984L5.76 12.8298L7.17 14.2398L10 11.4098L12.83 14.2398L14.24 12.8298L11.41 9.99984H11.4Z" fill="#FF2D2D" />
+                                </Svg>
+                                <Text style={styles.contentTextOut} >Delete Account</Text>
+                            </View>
+                            <Svg style={styles.arrowIcon8}>
+                                <Path fillRule="evenodd" clipRule="evenodd" d="M15.707 11.2932C15.8945 11.4807 15.9998 11.735 15.9998 12.0002C15.9998 12.2653 15.8945 12.5197 15.707 12.7072L10.05 18.3642C9.95776 18.4597 9.84742 18.5359 9.72541 18.5883C9.60341 18.6407 9.47219 18.6683 9.33941 18.6694C9.20663 18.6706 9.07495 18.6453 8.95205 18.595C8.82916 18.5447 8.7175 18.4705 8.62361 18.3766C8.52972 18.2827 8.45547 18.171 8.40519 18.0481C8.3549 17.9252 8.3296 17.7936 8.33076 17.6608C8.33191 17.528 8.3595 17.3968 8.41191 17.2748C8.46431 17.1528 8.5405 17.0424 8.63601 16.9502L13.586 12.0002L8.63601 7.05018C8.45385 6.86158 8.35305 6.60898 8.35533 6.34678C8.35761 6.08458 8.46278 5.83377 8.64819 5.64836C8.8336 5.46295 9.08441 5.35778 9.34661 5.35551C9.6088 5.35323 9.86141 5.45402 10.05 5.63618L15.707 11.2932Z" fill="black" fillOpacity="0.3" />
+                            </Svg>
+                        </TouchableOpacity>
+                    )
+                }
                 <View style={styles.contentOut}></View>
             </View>
         </ScrollView>
@@ -205,27 +209,27 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // backgroundColor: 'red',
         // left:14,
-      },
-    
-      imageText: {
+    },
+
+    imageText: {
         color: '#FFFFFF99',
         height: 87,
         left: 23,
         position: 'absolute',
-      },
-      text1: {
+    },
+    text1: {
         color: "#FFFFFF99",
         fontSize: 10,
         fontWeight: '500',
         lineHeight: 11.72,
-      },
-      text2: {
+    },
+    text2: {
         fontSize: 18,
         color: "#FFFFFF",
         fontWeight: '500',
         lineHeight: 29.3,
-      },
-      getStarted: {
+    },
+    getStarted: {
         borderWidth: 1,
         borderColor: '#ffffff',
         width: 91,
@@ -233,13 +237,13 @@ const styles = StyleSheet.create({
         top: 10,
         alignItems: 'center',
         justifyContent: 'center'
-      },
-      gtText: {
+    },
+    gtText: {
         color: '#FFFFFF',
         fontSize: 12,
         fontWeight: '500',
         lineHeight: 14.06
-      },
+    },
 
     headers: {
         backgroundColor: "#FAFBFD",
